@@ -6,6 +6,8 @@ plugins {
     id("io.spring.dependency-management")
     kotlin("jvm") // org.jetbrains.kotlin:kotlin-gradle-plugin
     kotlin("plugin.spring") // org.jetbrains.kotlin:kotlin-allopen
+    kotlin("kapt")
+    // id("com.google.devtools.ksp")
 }
 
 // repos for dependencies of the module in which this plugin is used

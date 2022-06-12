@@ -25,6 +25,7 @@ dependencies {
     implementation("io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
     implementation("org.jetbrains.kotlin:kotlin-allopen:1.6.21")
+    // implementation("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.6.21-1.0.6")
     // webjar and node plugin code for angular modules
     implementation("com.coditory.gradle:webjar-plugin:1.3.0")
     implementation("com.github.node-gradle:gradle-node-plugin:3.3.0")
