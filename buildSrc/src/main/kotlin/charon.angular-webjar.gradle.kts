@@ -13,9 +13,9 @@ node {
 }
 
 webjar {
-    cache {
-        enabled = false
-    }
+ //   cache {
+ //       enabled = false
+ //   }
 }
 
 tasks.findByName("webjarTest")?.enabled = false

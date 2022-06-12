@@ -9,4 +9,4 @@
  */
 
 rootProject.name = "charon"
-include("frontend", "backend", "auth-service")
+include("frontend", "backend", "authService")

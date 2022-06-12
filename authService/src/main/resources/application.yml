@@ -1,5 +1,10 @@
 server:
-  port: 9000
+  port: 8081
+
+net:
+  wohlfart:
+    auth-service:
+      data-dir: test
 
 logging:
   level:
@@ -8,3 +13,4 @@ logging:
     org.springframework.security: INFO
     org.springframework.security.oauth2: INFO
 #    org.springframework.boot.autoconfigure: DEBUG
+
