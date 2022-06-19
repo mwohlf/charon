@@ -23,6 +23,8 @@ Angular Frontend
 setup:
 
   ng update @angular/core @angular/cli
+  ng generate component components/home
+  ng generate component components/main
   ng generate component components/error
   ng add @angular/material
   ng add @angular/cdk

@@ -12,12 +12,16 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ErrorComponent } from './components/error/error.component';
+import { HomeComponent } from './components/home/home.component';
+import { MainComponent } from './components/main/main.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
-    ErrorComponent
+    ErrorComponent,
+    HomeComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
