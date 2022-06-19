@@ -1,0 +1,36 @@
+== authService
+
+This module implements an OAuth Service with with the spring-security-oauth2-authorization-server SpringBood module.
+
+
+
+=== info endpoint
+
+http://localhost:8081/.well-known/openid-configuration
+
+
+== backend
+
+SpringBoot endpoints in Kotlin and hosting the webjar at
+
+http://localhost:8080/charon/index.html
+
+
+== frontend
+
+Angular Frontend
+
+setup:
+
+  ng update @angular/core @angular/cli
+  ng generate component components/error
+  ng add @angular/material
+  ng add @angular/cdk
+  ng generate @angular/material:navigation navigation
+
+for debugging:
+
+  ng serve
+
+
+

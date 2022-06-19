@@ -35,38 +35,34 @@ fun generateEc(): ECKey {
     val keyPair: KeyPair = generateEcKey()
     val publicKey = keyPair.public as ECPublicKey
     val privateKey = keyPair.private as ECPrivateKey
-    val curve = Curve.forECParameterSpec(publicKey.params)
-    return ECKey.Builder(curve, publicKey)
+    return ECKey.Builder(Curve.forECParameterSpec(publicKey.params), publicKey)
         .privateKey(privateKey)
         .keyID(UUID.randomUUID().toString())
         .build()
 }
 
 fun generateSecret(): OctetSequenceKey {
-    val secretKey: SecretKey = generateSecretKey()
-    return OctetSequenceKey.Builder(secretKey)
+    return OctetSequenceKey.Builder(generateSecretKey())
         .keyID(UUID.randomUUID().toString())
         .build()
 }
 
 fun generateSecretKey(): SecretKey {
-    val hmacKey: SecretKey = try {
+    return try {
         KeyGenerator.getInstance("HmacSha256").generateKey()
     } catch (ex: Exception) {
         throw IllegalStateException(ex)
     }
-    return hmacKey
 }
 
 fun generateRsaKey(): KeyPair {
-    val keyPair: KeyPair = try {
+    return try {
         val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
         keyPairGenerator.initialize(2048)
         keyPairGenerator.generateKeyPair()
     } catch (ex: java.lang.Exception) {
         throw IllegalStateException(ex)
     }
-    return keyPair
 }
 
 fun generateEcKey(): KeyPair {
@@ -87,13 +83,12 @@ fun generateEcKey(): KeyPair {
         BigInteger("115792089210356248762697446949407573529996955224135760342422259061068512044369"),
         1
     )
-    val keyPair: KeyPair = try {
+    return try {
         val keyPairGenerator = KeyPairGenerator.getInstance("EC")
         keyPairGenerator.initialize(ecParameterSpec)
         keyPairGenerator.generateKeyPair()
     } catch (ex: java.lang.Exception) {
         throw IllegalStateException(ex)
     }
-    return keyPair
 }
 
