@@ -1,0 +1,15 @@
+{
+    "apiPackage": "net.wohlfart.charon.api",
+    "modelPackage": "net.wohlfart.charon.model",
+    "dateLibrary": "java8",
+    "useBeanValidation": true,
+    "interfaceOnly": true,
+    "hideGenerationTimestamp": true,
+    "serviceInterface": true,
+    "openApiNullable": false,
+    "gradleBuildFile": false,
+    "serializationLibrary": "jackson",
+    "sortModelPropertiesByRequiredFlag": true,
+    "sourceFolder": "source/openApi/kotlin",
+    "useTags": true
+}

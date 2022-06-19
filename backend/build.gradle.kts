@@ -2,7 +2,8 @@
 
 plugins {
 	id("charon.kotlin-spring")
-    id("org.openapi.generator") version "5.1.1"
+    // see: https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html
+    id("org.openapi.generator") version "6.0.0"
 }
 
 dependencies {
@@ -18,3 +19,14 @@ dependencies {
     // pickup the webjar
     implementation(project(":frontend"))
 }
+
+openApiGenerate {
+    // see: https://openapi-generator.tech/docs/generators
+    generatorName.set("kotlin-spring")
+    inputSpec.set("${rootProject.projectDir.absolutePath}/etc/api/backend/api-docs.yml")
+    outputDir.set("$buildDir/generated")
+    // see: https://openapi-generator.tech/docs/generators/kotlin-spring
+    configFile.set("${rootProject.projectDir.absolutePath}/etc/api/backend/api-config.json")
+}
+
+java.sourceSets["main"].java.srcDir("$buildDir/generated/source/openApi/kotlin")
