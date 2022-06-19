@@ -2,6 +2,7 @@
 
 plugins {
 	id("charon.kotlin-spring")
+    id("org.openapi.generator") version "5.1.1"
 }
 
 dependencies {

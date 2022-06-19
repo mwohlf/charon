@@ -1,0 +1,319 @@
+openapi: 3.0.1
+info:
+  title: 'MIPS Aoop Data Capture Od45 '
+  description: 'This service provides a REST API for MIPS Aoop Data Capture Od45 '
+  license:
+    name: Schott AG - Licence
+    url: https://www.schott.com/english/company/legal.html
+  version: v1
+externalDocs:
+  description: Schott AG - MIPS Confluence
+  url: https://schott-ot.atlassian.net/wiki/spaces/MIPS/overview
+servers:
+  - url: http://localhost:8246
+    description: Generated server url
+paths:
+  /aoop-data-capture/{plantId}/v1/processForm/{entityId}:
+    get:
+      tags:
+        - process-form-controller
+      operationId: readProcessForm
+      parameters:
+        - name: plantId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: entityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessFormEntity'
+    put:
+      tags:
+        - process-form-controller
+      operationId: updateProcessForm
+      parameters:
+        - name: plantId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: entityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unit'
+    delete:
+      tags:
+        - process-form-controller
+      operationId: deleteProcessForm
+      parameters:
+        - name: plantId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: entityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unit'
+  /aoop-data-capture/{plantId}/v1/processForms/{formCode}:
+    get:
+      tags:
+        - process-form-controller
+      operationId: readProcessForms
+      parameters:
+        - name: plantId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: formCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProcessForm'
+    post:
+      tags:
+        - process-form-controller
+      operationId: createProcessForm
+      parameters:
+        - name: plantId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: formCode
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessFormInfo'
+  /aoop-data-capture/{plantId}/v1/processData/{processId}:
+    post:
+      tags:
+        - process-data-controller
+      operationId: createProcessData
+      parameters:
+        - name: plantId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: processId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unit'
+  /aoop-data-capture/{plantId}/v1/processFormInfos:
+    get:
+      tags:
+        - process-form-controller
+      operationId: readProcessFormInfos
+      parameters:
+        - name: plantId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: entityId
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: formCode
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProcessFormInfo'
+  /aoop-data-capture/{plantId}/v1/processData:
+    get:
+      tags:
+        - process-data-controller
+      operationId: readProcessData
+      parameters:
+        - name: plantId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProcessDataEntity'
+  /aoop-data-capture/{plantId}/v1/processData/{entityId}:
+    delete:
+      tags:
+        - process-data-controller
+      operationId: deleteProcessData
+      parameters:
+        - name: plantId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: entityId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unit'
+components:
+  schemas:
+    Unit:
+      type: object
+    ProcessFormInfo:
+      required:
+        - category
+        - formCode
+        - id
+        - timestamp
+        - username
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        formCode:
+          type: string
+        category:
+          type: string
+        username:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+    ProcessForm:
+      type: object
+    ProcessFormEntity:
+      required:
+        - category
+        - formCode
+        - processFormDetails
+        - timestamp
+        - username
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        plantId:
+          type: string
+        formCode:
+          type: string
+        category:
+          type: string
+        processFormDetails:
+          type: object
+        timestamp:
+          type: string
+          format: date-time
+        username:
+          type: string
+    ProcessDataEntity:
+      required:
+        - processDataDetails
+        - timestamp
+        - username
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        processDataDetails:
+          type: object
+        mipResponse:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        username:
+          type: string
