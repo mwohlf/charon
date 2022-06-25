@@ -1,6 +1,7 @@
 // import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    id("charon.mrproper")
 	id("charon.kotlin-spring")
 }
 

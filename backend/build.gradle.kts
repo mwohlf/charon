@@ -1,6 +1,7 @@
 // import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    id("charon.mrproper")
 	id("charon.kotlin-spring")
     // see: https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html
     id("org.openapi.generator") version "6.0.0"

@@ -6,6 +6,10 @@ object Versions {
     const val NPM = "7.19.1"
 
     // dependencies
+
+
     const val SPRING_OAUTH2_SERVER = "0.3.0"
 
+
+    // TODO: move all versions into a single file
 }

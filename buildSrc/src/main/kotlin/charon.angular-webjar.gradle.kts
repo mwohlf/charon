@@ -18,6 +18,11 @@ webjar {
  //   }
 }
 
+tasks.npmSetup {
+    // to override the config in ~/.npmrc
+    args.addAll( "--registry", "https://registry.npmjs.org")
+}
+
 tasks.findByName("webjarTest")?.enabled = false
 tasks.findByName("webjarLint")?.enabled = false
 tasks.findByName("webjarClean")?.enabled = false

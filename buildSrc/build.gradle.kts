@@ -21,13 +21,19 @@ plugins {
 // this is the central point for managing plugin versions
 dependencies {
     // we need to declare dependencies for all the used plugins in the buildScripts...
-    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.0")
+
+    // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.1")
+    // https://plugins.gradle.org/plugin/io.spring.dependency-management
     implementation("io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
     implementation("org.jetbrains.kotlin:kotlin-allopen:1.6.21")
     // implementation("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.6.21-1.0.6")
     // webjar and node plugin code for angular modules
+
+    // https://plugins.gradle.org/plugin/com.coditory.webjar
     implementation("com.coditory.gradle:webjar-plugin:1.3.0")
+    // https://plugins.gradle.org/plugin/com.github.node-gradle.node
     implementation("com.github.node-gradle:gradle-node-plugin:3.3.0")
 }
 
