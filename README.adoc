@@ -26,6 +26,7 @@ setup:
   ng generate component components/home
   ng generate component components/main
   ng generate component components/error
+  ng generate component components/protected
   ng add @angular/material
   ng add @angular/cdk
   ng generate @angular/material:navigation navigation
@@ -34,5 +35,8 @@ for debugging:
 
   ng serve
 
-
+oauth from here:
+https://github.com/damienbod/angular-auth-oidc-client
+with:
+npm install angular-auth-oidc-client --registry https://registry.npmjs.org --legacy-peer-deps
 

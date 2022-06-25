@@ -3,8 +3,9 @@ server:
 
 net:
   wohlfart:
-    auth-service:
-      data-dir: test
+    charon:
+      oauth:
+        data-dir: test
 
 logging:
   level:

@@ -8,7 +8,7 @@ object Versions {
     // dependencies
 
 
-    const val SPRING_OAUTH2_SERVER = "0.3.0"
+    const val SPRING_OAUTH2_SERVER = "0.3.1"
 
 
     // TODO: move all versions into a single file

@@ -27,7 +27,6 @@ import org.springframework.security.oauth2.server.authorization.client.JdbcRegis
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.config.ClientSettings
-import org.springframework.security.oauth2.server.authorization.config.ProviderSettings
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
 import java.util.*
@@ -44,14 +43,12 @@ class AuthorizationServerConfig {
     )
     fun authorizationServerSecurityFilterChain(http: HttpSecurity): SecurityFilterChain? {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
-        // @formatter:off
         http
             .exceptionHandling { exceptions: ExceptionHandlingConfigurer<HttpSecurity?> ->
                 exceptions.authenticationEntryPoint(
                     LoginUrlAuthenticationEntryPoint("/login")
                 )
             }
-        // @formatter:on
         return http.build()
     }
 
@@ -107,10 +104,6 @@ class AuthorizationServerConfig {
         }
     }
 
-    @Bean
-    fun providerSettings(): ProviderSettings? {
-        return ProviderSettings.builder().issuer("http://localhost:9000").build()
-    }
 
     @Bean
     fun embeddedDatabase(): EmbeddedDatabase? {

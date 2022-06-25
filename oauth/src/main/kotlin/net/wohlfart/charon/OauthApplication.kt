@@ -8,9 +8,9 @@ import org.springframework.boot.runApplication
 // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/overview.html#feature-list
 
 @SpringBootApplication
-@EnableConfigurationProperties(AuthServiceProperties::class)
-class AuthServiceApplication
+@EnableConfigurationProperties(OauthProperties::class)
+class OauthApplication
 
 fun main(args: Array<String>) {
-    runApplication<AuthServiceApplication>(*args)
+    runApplication<OauthApplication>(*args)
 }
