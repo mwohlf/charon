@@ -16,7 +16,21 @@ class ProviderConfig(
     @Bean
     fun providerSettings(): ProviderSettings {
         val serverPort = serverProperties.port
-        return ProviderSettings.builder().issuer("http://localhost:${serverPort}/authority" ).build()
+        return ProviderSettings.builder()
+            // this will show up in the issuer field, but will also be prefix for
+            // - authorization_endpoint
+            // - token_endpoint
+            // - jwks_uri
+            // - userinfo_endpoint
+            // for issues info see: https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
+            // .issuer("issuer1") // issuer must be a valid URL
+            // .issuer("http://localhost:${serverPort}/issuers/issuer1/" )
+            .issuer("http://localhost:${serverPort}" )
+            .build()
     }
 
+
+
+    // OidcProviderConfigurationEndpointFilter implements the url for the
+    //   http://localhost:8081/.well-known/openid-configuration endpoint
 }

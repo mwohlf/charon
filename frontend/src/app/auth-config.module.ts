@@ -7,7 +7,8 @@ import {of} from "rxjs";
 const OAUTH_CLIENT_CONFIG_URL = "http://localhost:4200/api/client-config-todo"; // TODO: implement a service in the backend module
 
 const DEFAULT_CONFIG = {
-  authority: "http://localhost:8081/authority",
+  // authority: "http://localhost:8081",  // this must match to the /.well-known/openid-configuration endpoint
+  authority: "http://localhost:4200",  // this must match to the /.well-known/openid-configuration endpoint
   redirectUrl: window.location.origin,
   clientId: "messaging-client",
   responseType: 'code',

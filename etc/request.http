@@ -3,6 +3,9 @@
 GET http://localhost:8081/.well-known/openid-configuration
 
 ###
+GET http://localhost:8081/.well-known/oauth-authorization-server
+
+###
 GET http://localhost:8081/login
 
 > {%

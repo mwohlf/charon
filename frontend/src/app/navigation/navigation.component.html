@@ -8,6 +8,7 @@
       <a mat-list-item routerLink="{{homeComponentPath}}">Home</a>
       <a mat-list-item routerLink="{{mainComponentPath}}">Main</a>
       <a mat-list-item routerLink="{{errorComponentPath}}">Error</a>
+      <a mat-list-item routerLink="{{protectedComponentPath}}">Protected</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -20,7 +21,7 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>charon</span>
+      <app-toolbar></app-toolbar>
     </mat-toolbar>
 
       <router-outlet></router-outlet>

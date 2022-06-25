@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
   title = 'charon';
 
   constructor(
-    public oidcSecurityService: OidcSecurityService,
+    private oidcSecurityService: OidcSecurityService,
     private eventService: PublicEventsService,
   ) {
     //

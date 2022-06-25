@@ -5,6 +5,7 @@ import {map, shareReplay} from 'rxjs/operators';
 import {ErrorComponent} from "../components/error/error.component";
 import {HomeComponent} from "../components/home/home.component";
 import {MainComponent} from "../components/main/main.component";
+import {ProtectedComponent} from "../components/protected/protected.component";
 
 
 @Component({
@@ -18,6 +19,7 @@ export class NavigationComponent {
   errorComponentPath = this.prefix + ErrorComponent.ROUTER_PATH;
   homeComponentPath = this.prefix + HomeComponent.ROUTER_PATH;
   mainComponentPath = this.prefix + MainComponent.ROUTER_PATH;
+  protectedComponentPath = this.prefix + ProtectedComponent.ROUTER_PATH;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(

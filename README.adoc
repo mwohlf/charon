@@ -1,8 +1,9 @@
 == authService
 
-This module implements an OAuth Service with with the spring-security-oauth2-authorization-server SpringBood module.
+This module implements an OAuth Service with with the spring-security-oauth2-authorization-server SpringBoot module.
 
-
+see: https://github.com/spring-projects/spring-authorization-server/blob/main/samples/federated-identity-authorizationserver/src/main/resources/application.yml
+for provider config
 
 === info endpoint
 
@@ -39,4 +40,8 @@ oauth from here:
 https://github.com/damienbod/angular-auth-oidc-client
 with:
 npm install angular-auth-oidc-client --registry https://registry.npmjs.org --legacy-peer-deps
+
+to update angular:
+ng update @angular/core @angular/cli
+
 

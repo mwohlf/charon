@@ -14,6 +14,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {NavigationComponent} from './navigation/navigation.component';
 import {NgModule} from '@angular/core';
+import {ProtectedComponent} from "./components/protected/protected.component";
+import {ToolbarComponent} from "./navigation/toolbar/toolbar.component";
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import {NgModule} from '@angular/core';
     HomeComponent,
     MainComponent,
     NavigationComponent,
+    ProtectedComponent,
+    ToolbarComponent,
   ],
   imports: [
     AppRoutingModule,
