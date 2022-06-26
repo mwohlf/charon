@@ -20,5 +20,5 @@ jobs:
         run: ./gradlew build --no-daemon
         # jib probably depends on build anyways
       - name: Run gradle jib to create the image
-        run: ./gradlew build --no-daemon
+        run: ./gradlew jib --no-daemon
 

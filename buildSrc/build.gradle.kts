@@ -38,6 +38,10 @@ dependencies {
     // https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
     // https://plugins.gradle.org/m2/com/google/cloud/tools/jib/com.google.cloud.tools.jib.gradle.plugin/3.2.1/
     implementation("com.google.cloud.tools.jib:com.google.cloud.tools.jib.gradle.plugin:3.2.1")
+    // see: https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html
+    implementation("org.openapitools:openapi-generator-gradle-plugin:6.0.0")
+    // org/openapi/generator/org.openapi.generator.gradle.plugin/
+    implementation("org.openapi.generator:org.openapi.generator.gradle.plugin:6.0.0")
 }
 
 repositories {

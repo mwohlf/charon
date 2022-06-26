@@ -1,16 +1,22 @@
-import java.util.*
-
-// customized plugin
+import java.util.UUID
+//
+// this is a meta plugin, combining some tasks from multiple plugins
+//  source is configured in ../build.gradle.kts
+//  configs are here
+//
 // see: https://docs.gradle.org/current/userguide/custom_plugins.html#sec:precompiled_plugins
 
 plugins {
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("com.google.cloud.tools.jib") // TODO: make this work with docker inside WSL2
+    // id("org.openapitools")
+    id("org.openapi.generator")
     kotlin("jvm") // org.jetbrains.kotlin:kotlin-gradle-plugin
     kotlin("plugin.spring") // org.jetbrains.kotlin:kotlin-allopen
     kotlin("kapt")
     // id("com.google.devtools.ksp")
+    // see: https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html
 }
 
 // repos for dependencies of the module in which this plugin is used
@@ -23,6 +29,10 @@ repositories {
     maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
+//////////////////////
+//
+// configure the image creation for spring-boot modules
+//
 // see https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md for the Docker template
 jib {
     val imagePrefix = "ttl.sh"
@@ -46,3 +56,19 @@ jib {
         // $ docker push ttl.sh/${IMAGE_NAME}:1h
     }
 }
+
+//////////////////////
+//
+// configure the api generation for a spring-boot application
+// lookup for the api definition is hardcoded to .../etc/api/<module-name>/api-docs.yml
+// some more config at .../etc/api/api-config.json
+openApiGenerate {
+    val module = project.name
+    // see: https://openapi-generator.tech/docs/generators
+    generatorName.set("kotlin-spring")
+    inputSpec.set("${rootProject.projectDir.absolutePath}/etc/api/${module}/api-docs.yml")
+    outputDir.set("$buildDir/generated")
+    // see: https://openapi-generator.tech/docs/generators/kotlin-spring
+    configFile.set("${rootProject.projectDir.absolutePath}/etc/api/api-config.json")
+}
+

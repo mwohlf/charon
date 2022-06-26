@@ -5,8 +5,6 @@ import java.util.UUID
 plugins {
     id("charon.mrproper")
 	id("charon.kotlin-spring")  // this includes jib, spring-boot, kotlin, ...
-    // see: https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html
-    id("org.openapi.generator") version "6.0.0"
 }
 
 dependencies {
@@ -23,15 +21,5 @@ dependencies {
     implementation(project(":frontend"))
 }
 
-openApiGenerate {
-    val uuid: UUID = UUID.randomUUID()
-
-    // see: https://openapi-generator.tech/docs/generators
-    generatorName.set("kotlin-spring")
-    inputSpec.set("${rootProject.projectDir.absolutePath}/etc/api/backend/api-docs.yml")
-    outputDir.set("$buildDir/generated")
-    // see: https://openapi-generator.tech/docs/generators/kotlin-spring
-    configFile.set("${rootProject.projectDir.absolutePath}/etc/api/backend/api-config.json")
-}
-
+// TODO: heck if we can pull thi sup into buildSrc
 java.sourceSets["main"].java.srcDir("$buildDir/generated/source/openApi/kotlin")
