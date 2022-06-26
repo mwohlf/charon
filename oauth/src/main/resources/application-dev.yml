@@ -1,0 +1,9 @@
+server:
+  servlet:
+    context-path: "/issuer"
+
+net:
+  wohlfart:
+    charon:
+      oauth:
+        issuer: "http://localhost:4200/issuer"

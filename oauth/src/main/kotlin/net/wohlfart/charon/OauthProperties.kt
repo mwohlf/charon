@@ -11,5 +11,6 @@ class OauthProperties(
 
     val dataDir: String,
 
+    val issuer: String,
 
 )

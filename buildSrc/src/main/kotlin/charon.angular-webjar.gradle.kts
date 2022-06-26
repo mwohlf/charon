@@ -26,3 +26,4 @@ tasks.npmSetup {
 tasks.findByName("webjarTest")?.enabled = false
 tasks.findByName("webjarLint")?.enabled = false
 tasks.findByName("webjarClean")?.enabled = false
+tasks.findByName("compileJava")?.enabled = false

@@ -16,8 +16,8 @@ class DefaultSecurityConfig {
             .authorizeRequests { authorizeRequests: ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry ->
                 authorizeRequests
                     .anyRequest()
-                    // .authenticated()  // allowed by any authenticated user
-                    .permitAll()
+                    .authenticated()  // allowed by any authenticated user
+                    //.permitAll()
             }
             .formLogin(withDefaults())
         return http.build()

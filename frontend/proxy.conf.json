@@ -1,8 +1,8 @@
 {
-    "/.well-known/openid-configuration": {
+    "/issuer": {
         "target": "http://localhost:8081",
         "secure": false,
         "logLevel": "debug"
     }
 }
-/Pro
+
