@@ -15,6 +15,10 @@ jobs:
           java-version: 17
           distribution: 'adopt'
           cache: gradle
-      - name: Build with Gradle
+        # for historical reasons
+      - name: Run gradle build to compile the applications
+        run: ./gradlew build --no-daemon
+        # jib probably depends on build anyways
+      - name: Run gradle jib to create the image
         run: ./gradlew build --no-daemon
 

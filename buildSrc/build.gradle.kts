@@ -35,6 +35,9 @@ dependencies {
     implementation("com.coditory.gradle:webjar-plugin:1.3.0")
     // https://plugins.gradle.org/plugin/com.github.node-gradle.node
     implementation("com.github.node-gradle:gradle-node-plugin:3.3.0")
+    // https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
+    // https://plugins.gradle.org/m2/com/google/cloud/tools/jib/com.google.cloud.tools.jib.gradle.plugin/3.2.1/
+    implementation("com.google.cloud.tools.jib:com.google.cloud.tools.jib.gradle.plugin:3.2.1")
 }
 
 repositories {

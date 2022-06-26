@@ -6,16 +6,20 @@ image::https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml/badge
 
 == intro
 
-This is a POC for implementing an OAuth Server and an Angular UI, in Kotlin/Typescript, basically a showcase for:
+This is a POC for implementing an OAuth Server and an Angular UI using it, in mostly  Kotlin/Typescript, basically showing off:
 
- - buildSrc with re-usable custom plugins
- - webjar to integrate the UI with the Spring boot service
- - Kotlin for backend
- - Angular for frontend
- - OpenAPI for "API-first" code generation for the backend (controllers) and the frontend (services)
+ - a fancy buildSrc with re-usable custom plugins
+ - using webjars to integrate the UI with the Spring boot service
+ - using Kotlin for implementing spring-boot backends
+ - material Angular with theme switching and OAuth for authentication
+ - using OpenAPI for "API-first" code generation for
+    ** the backend (controllers)
+    ** the frontend (services)
+ - using github's actions and build pipeline
+ - using
 
-I think this id the best approach and state-of-the-art web application development.
-
+I think this is today's state-of-the-art web application development
+and the best approach
 
 
 == oauth module
@@ -38,6 +42,7 @@ https://github.com/spring-projects/spring-authorization-server/blob/main/samples
 | http://localhost:8081/.well-known/oauth-authorization-server
 | server config endpoint
 |===
+
 
 == frontend module
 
@@ -64,3 +69,23 @@ https://github.com/damienbod/angular-auth-oidc-client +
 SpringBoot endpoints in Kotlin and hosting the webjar at
 
 http://localhost:8080/charon/index.html
+
+
+
+== buildSrc module
+
+This contais the custom, re-usable buil scripts for koting & spring-boot,
+angular, docker etc.
+
+The only requirement is having git, java and docker in the build environment,
+for ubuntu this means:
+
+  sudo apt-get install \
+    git \
+    openjdk-17-jdk \
+    docker \
+
+We also use ttl.sh an ephemeral docker image registry for deployment
+
+see:
+https://ttl.sh/

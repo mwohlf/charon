@@ -5,6 +5,9 @@ plugins {
 	id("charon.kotlin-spring")
 }
 
+// disable jit for now...
+tasks.findByName("jib")?.enabled = false
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-security")

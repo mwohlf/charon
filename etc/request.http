@@ -18,3 +18,22 @@ POST http://localhost:8081/login
 Content-Type: application/x-www-form-urlencoded
 
 username=user1&password=s3cr37&_csrf=45e0170d-5840-42c9-b1a3-abf794f948b7
+
+
+
+------------------
+
+request/log sequence:
+
+*** Navigated to http://localhost:4200/charon/index.html
+// dummy config endpoint:
+zone.js:2680 XHR failed loading: GET "http://localhost:4200/api/client-config-todo".
+
+not working:
+Received [GET /.well-known/openid-configuration HTTP/1.1
+
+
+*** Navigated to http://localhost:8081/oauth2/authorize?client_id=messaging-client&redirect_uri=http%3A%2F%2Flocalhost%3A4200&response_type=code&scope=message.read&nonce=98d71f406a75d8148012dbb062b0a4cf04TPgMH8v&state=bc56c51092672cb35097d4b8d9e0d60932qME5xzJ&code_challenge=MtNr2wT1UJvNzkVHDx0AGAWEU9-361gbGitCFpEjbuE&code_challenge_method=S256
+
+http://localhost:8081/oauth2/authorize?client_id=messaging-client&redirect_uri=http://localhost:4200&response_type=code&scope=message.read&nonce=1c623a6ed19714832d118b3727d0fa6389LDAdLth&state=bc56c51092672cb35097d4b8d9e0d60932qME5xzJ&code_challenge=xoAvvY080Etirb0U1BqF_IGz9nN3XPxGP1t0nFbN57k&code_challenge_method=S256
+

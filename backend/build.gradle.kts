@@ -1,8 +1,10 @@
 // import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.google.cloud.tools.jib.gradle.JibExtension
+import java.util.UUID
 
 plugins {
     id("charon.mrproper")
-	id("charon.kotlin-spring")
+	id("charon.kotlin-spring")  // this includes jib, spring-boot, kotlin, ...
     // see: https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html
     id("org.openapi.generator") version "6.0.0"
 }
@@ -22,6 +24,8 @@ dependencies {
 }
 
 openApiGenerate {
+    val uuid: UUID = UUID.randomUUID()
+
     // see: https://openapi-generator.tech/docs/generators
     generatorName.set("kotlin-spring")
     inputSpec.set("${rootProject.projectDir.absolutePath}/etc/api/backend/api-docs.yml")
