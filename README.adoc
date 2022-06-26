@@ -1,31 +1,48 @@
 
+= Charon
+:toc:
+
 image::https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml/badge.svg?branch=master[https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml]
 
+== intro
 
-== authService
+This is a POC for implementing an OAuth Server and an Angular UI, in Kotlin/Typescript, basically a showcase for:
 
-This module implements an OAuth Service with the spring-security-oauth2-authorization-server SpringBoot module.
+ - buildSrc with re-usable custom plugins
+ - webjar to integrate the UI with the Spring boot service
+ - Kotlin for backend
+ - Angular for frontend
+ - OpenAPI for "API-first" code generation for the backend (controllers) and the frontend (services)
 
-see: https://github.com/spring-projects/spring-authorization-server/blob/main/samples/federated-identity-authorizationserver/src/main/resources/application.yml
-for provider config
-
-=== info endpoint
-
-http://localhost:8081/.well-known/openid-configuration
-
-
-== backend
-
-SpringBoot endpoints in Kotlin and hosting the webjar at
-
-http://localhost:8080/charon/index.html
+I think this id the best approach and state-of-the-art web application development.
 
 
-== frontend
 
-Angular Frontend
+== oauth module
 
-setup:
+This module implements an OAuth Service and is based on the
+  spring-security-oauth2-authorization-server
+SpringBoot module.
+
+docs: https://docs.spring.io/spring-authorization-server/docs/current/reference/html/getting-started.html +
+repo: https://github.com/spring-projects/spring-authorization-server +
+config example:
+https://github.com/spring-projects/spring-authorization-server/blob/main/samples/federated-identity-authorizationserver/src/main/resources/application.yml +
+
+|===
+|URL | service
+
+| http://localhost:8081/.well-known/openid-configuration
+| issuer config endpoint
+
+| http://localhost:8081/.well-known/oauth-authorization-server
+| server config endpoint
+|===
+
+== frontend module
+
+This module implements a simple UI using the OAuth backend for authentication. +
+Setup steps: +
 
   ng update @angular/core @angular/cli
   ng generate component components/home
@@ -35,17 +52,15 @@ setup:
   ng add @angular/material
   ng add @angular/cdk
   ng generate @angular/material:navigation navigation
-
-for debugging:
-
-  ng serve
+  npm install angular-auth-oidc-client --registry https://registry.npmjs.org --legacy-peer-deps
 
 oauth from here:
-https://github.com/damienbod/angular-auth-oidc-client
-with:
-npm install angular-auth-oidc-client --registry https://registry.npmjs.org --legacy-peer-deps
-
-to update angular:
-ng update @angular/core @angular/cli
+https://github.com/damienbod/angular-auth-oidc-client +
 
 
+
+== backend module
+
+SpringBoot endpoints in Kotlin and hosting the webjar at
+
+http://localhost:8080/charon/index.html
