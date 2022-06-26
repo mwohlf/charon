@@ -1,6 +1,8 @@
 name: CI
 on: [push]
 
+# see: https://tomgregory.com/build-gradle-projects-with-github-actions/#:~:text=If%20you%20have%20a%20Gradle,entirely%20hosted%20on%20their%20infrastructure
+
 jobs:
 
   build:
@@ -12,6 +14,7 @@ jobs:
         with:
           java-version: 17
           distribution: 'adopt'
+          cache: gradle
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build --no-daemon
 
