@@ -1,10 +1,10 @@
 
-[![CI](https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml/badge.svg?branch=master)](https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml)
+image::https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml/badge.svg?branch=master[https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml]
 
 
 == authService
 
-This module implements an OAuth Service with with the spring-security-oauth2-authorization-server SpringBoot module.
+This module implements an OAuth Service with the spring-security-oauth2-authorization-server SpringBoot module.
 
 see: https://github.com/spring-projects/spring-authorization-server/blob/main/samples/federated-identity-authorizationserver/src/main/resources/application.yml
 for provider config
