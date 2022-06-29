@@ -8,6 +8,10 @@ plugins {
 // disable jit for now...
 tasks.findByName("jib")?.enabled = false
 
+tasks.test {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-security")
@@ -26,4 +30,14 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	// Align versions of all Kotlin components
 	implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("junit:junit")
+    testImplementation("net.sourceforge.htmlunit:htmlunit")
+
+}
+repositories {
+    mavenCentral()
 }
