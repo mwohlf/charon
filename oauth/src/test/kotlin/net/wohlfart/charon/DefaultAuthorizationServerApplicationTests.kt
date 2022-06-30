@@ -47,7 +47,7 @@ fun assertLoginPage(page: HtmlPage) {
 }
 
 
-fun doSignIn(page: HtmlPage, username: String, password: String): Page {
+fun <P : Page> doSignIn(page: HtmlPage, username: String, password: String):  P {
     val usernameInput: HtmlInput = page.querySelector("input[name=\"username\"]")
     val passwordInput: HtmlInput = page.querySelector("input[name=\"password\"]")
     val signInButton: HtmlButton = page.querySelector("button")
@@ -75,7 +75,7 @@ class DefaultAuthorizationServerApplicationTests {
     }
 
     @Test
-    fun whenLoginSuccessfulThenDisplayNotFoundError() {
+    fun `when login successful then display not found error`() {
         // there is redirect to login page happening here
         val loginPage: HtmlPage = this.webClient.getPage("/")
 
@@ -88,7 +88,7 @@ class DefaultAuthorizationServerApplicationTests {
     }
 
     @Test
-    fun whenLoginFailsThenDisplayBadCredentials() {
+    fun `when login fails then display bad credentials`() {
         // there is redirect to login page happening here
         val loginPage: HtmlPage = this.webClient.getPage("/");
 
@@ -101,25 +101,24 @@ class DefaultAuthorizationServerApplicationTests {
     }
 
     @Test
-    fun whenLoggingInAndRequestingTokenThenRedirectsToClientApplication() {
+    fun `when logging in and requesting token then redirects to client application`() {
         // Log in
         this.webClient.options.isThrowExceptionOnFailingStatusCode = false
         this.webClient.options.isRedirectEnabled = false
 
+        // call login page
         val loginPage = this.webClient.getPage<Page?>("/login")
         assertThat(loginPage.isHtmlPage).isTrue
         assertThat(loginPage.webResponse.statusCode).isEqualTo(200)
-
-        val postLoginRedirect = doSignIn(loginPage as HtmlPage, USERNAME, PASSWORD)
-        assertThat(postLoginRedirect.webResponse.statusCode).isEqualTo(301)
+        // post login action
+        val postLoginRedirect: Page = doSignIn(loginPage as HtmlPage, USERNAME, PASSWORD)
+        assertThat(postLoginRedirect.webResponse.statusCode).isEqualTo(HttpStatus.MOVED_PERMANENTLY.value())
         assertThat(postLoginRedirect.webResponse.getResponseHeaderValue("Location")).isEqualTo("/")
 
         // Request token as any proper oauth client would do
-        val requestPage: HtmlPage = this.webClient.getPage(AUTHORIZATION_REQUEST)
-        val response = requestPage.webResponse
-
-        assertThat(response.statusCode).isEqualTo(HttpStatus.MOVED_PERMANENTLY.value())
-        val location: String = response.getResponseHeaderValue("location")
+        val requestPage: Page = this.webClient.getPage(AUTHORIZATION_REQUEST)
+        assertThat(postLoginRedirect.webResponse.statusCode).isEqualTo(HttpStatus.MOVED_PERMANENTLY.value())
+        val location: String = postLoginRedirect.webResponse.getResponseHeaderValue("location")
         assertThat(location).startsWith(REDIRECT_URI)
         assertThat(location).contains("code=")
 
