@@ -14,8 +14,8 @@ class OauthUserDetailsService: UserDetailsService {
 
     init {
         delegate.createUser(User.withDefaultPasswordEncoder()
-            .username("user1")
-            .password("s3cr37")
+            .username("user")
+            .password("pass")
             .roles("USER")
             .build())
     }
