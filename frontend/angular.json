@@ -72,7 +72,8 @@
               "browserTarget": "charon:build:production"
             },
             "development": {
-              "browserTarget": "charon:build:development"
+              "browserTarget": "charon:build:development",
+                "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

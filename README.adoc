@@ -28,6 +28,53 @@ This module implements an OAuth Service and is based on the
   spring-security-oauth2-authorization-server
 SpringBoot module.
 
+We want to use the OAuth Code Flow for authentication.
+Documentation can be found here:
+
+https://developer.okta.com/blog/2018/04/10/oauth-authorization-code-grant-type
+
+=== Requests
+
+GET: +
+http://localhost:4200/issuer/.well-known/openid-configuration
+
+GET: +
+http://localhost:4200/issuer/oauth2/authorize
+?client_id=messaging-client
+&redirect_uri=http%3A%2F%2Flocalhost%3A4200
+&response_type=code
+&scope=read
+&nonce=91b7886792dbd7422a7e23b9efd13a7605oZVDuuW&state=471baa54212a1c1638821f836337e90378kDszeOw
+&code_challenge=tF9X_76O9L0Ifz9xQ-MgPbF3vt4qYzLLWDHsgaYCOZg
+&code_challenge_method=S256
+
+returns redirect +
+ -> http://localhost:4200/issuer/login
+
+POST:
+http://localhost:4200/issuer/login
+username=user
+&password=pass
+&_csrf=52ee8c60-4e9e-4d7c-8292-179a17901065
+
+returns redirect +
+-> http://localhost:4200/issuer/error
+?client_id=messaging-client
+&redirect_uri=http%3A%2F%2Flocalhost%3A4200
+&response_type=code
+&scope=read
+&nonce=91b7886792dbd7422a7e23b9efd13a7605oZVDuuW&state=471baa54212a1c1638821f836337e90378kDszeOw
+&code_challenge=tF9X_76O9L0Ifz9xQ-MgPbF3vt4qYzLLWDHsgaYCOZg
+&code_challenge_method=S256
+
+
+
+
+
+
+
+---
+
 docs: https://docs.spring.io/spring-authorization-server/docs/current/reference/html/getting-started.html +
 repo: https://github.com/spring-projects/spring-authorization-server +
 config example:
@@ -61,6 +108,9 @@ Setup steps: +
 
 oauth from here:
 https://github.com/damienbod/angular-auth-oidc-client +
+
+proxy service:
+https://angular.io/guide/build#proxying-to-a-backend-server
 
 
 

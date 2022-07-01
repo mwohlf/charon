@@ -1,6 +1,6 @@
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {AuthConfigModule} from './auth-config.module';
+import {AppAuthModule} from './app-auth.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {ErrorComponent} from './components/error/error.component';
@@ -29,7 +29,7 @@ import {ToolbarComponent} from "./navigation/toolbar/toolbar.component";
   ],
   imports: [
     AppRoutingModule,
-    AuthConfigModule,
+    AppAuthModule,
     BrowserAnimationsModule,
     BrowserModule,
     LayoutModule,

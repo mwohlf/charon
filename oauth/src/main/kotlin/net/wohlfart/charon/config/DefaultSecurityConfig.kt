@@ -17,7 +17,6 @@ class DefaultSecurityConfig {
                 authorizeRequests
                     .anyRequest()
                     .authenticated()  // allowed by any authenticated user
-                    //.permitAll()
             }
             .formLogin(withDefaults())
         return http.build()

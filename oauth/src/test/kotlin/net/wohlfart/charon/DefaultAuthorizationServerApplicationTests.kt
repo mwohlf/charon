@@ -22,15 +22,17 @@ import org.springframework.web.util.UriComponentsBuilder
 
 private const val USERNAME = "user"
 private const val PASSWORD = "pass"
+
 private const val REDIRECT_URI: String = "http://127.0.0.1:8080/authorized"
 
+// see: https://developer.okta.com/blog/2018/04/10/oauth-authorization-code-grant-type
 val AUTHORIZATION_REQUEST: String = UriComponentsBuilder
-    .fromPath("/oauth2/authorize")
+    .fromPath("/authorize")
     .queryParam("response_type", "code")
     .queryParam("client_id", "messaging-client")
+    .queryParam("redirect_uri", REDIRECT_URI)
     .queryParam("scope", "openid")
     .queryParam("state", "some-state")
-    .queryParam("redirect_uri", REDIRECT_URI)
     .toUriString()
 
 

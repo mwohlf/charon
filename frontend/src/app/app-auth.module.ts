@@ -9,19 +9,22 @@ const OAUTH_CLIENT_CONFIG_URL = "http://localhost:4200/api/client-config-todo"; 
 const AUTHORITY = "http://localhost:4200/issuer"; // TODO: read this from the client config url
 
 const DEFAULT_CONFIG = {
+  triggerAuthorizationResultEvent: true,
+  postLoginRoute: '/home',
+
   // authority: "http://localhost:8081",  // this must match to the /.well-known/openid-configuration endpoint
   authority: AUTHORITY,  // this must match the prefix to the ..../.well-known/openid-configuration endpoint
-  redirectUrl: window.location.origin,
+  redirectUrl: "http://localhost:4200/",
   clientId: "messaging-client",
   responseType: 'code',
-  scope: "message.read",
-  postLogoutRedirectUri: "customConfig.post_logout_redirect_uri",
-  startCheckSession: true,
+  scope: 'openid profile email offline_access',
+  postLogoutRedirectUri: "http://localhost:4200/",
+  // startCheckSession: true,
   silentRenew: true,
   silentRenewUrl: '/silent-renew.html',
-  postLoginRoute: "/home",
-  forbiddenRoute: "/forbiddenRoute",
-  unauthorizedRoute: "/unauthorizedRoute",
+  // postLoginRoute: "/home",
+  // forbiddenRoute: "/forbiddenRoute",
+  // unauthorizedRoute: "/unauthorizedRoute",
   logLevel: LogLevel.Debug,
   // maxIdTokenIatOffsetAllowedInSeconds: customConfig.max_id_token_iat_offset_allowed_in_seconds,
   historyCleanupOff: true,
@@ -62,5 +65,5 @@ export const httpLoaderFactory = (httpClient: HttpClient) => {
   ],
   exports: [AuthModule],
 })
-export class AuthConfigModule {
+export class AppAuthModule {
 }

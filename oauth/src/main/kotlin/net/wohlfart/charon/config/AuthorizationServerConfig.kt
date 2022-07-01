@@ -41,7 +41,7 @@ class AuthorizationServerConfig {
     @Throws(
         Exception::class
     )
-    fun authorizationServerSecurityFilterChain(http: HttpSecurity): SecurityFilterChain? {
+    fun authorizationServerSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
         http
             .exceptionHandling { exceptions: ExceptionHandlingConfigurer<HttpSecurity?> ->
@@ -56,19 +56,23 @@ class AuthorizationServerConfig {
     fun registeredClientRepository(
         jdbcTemplate: JdbcTemplate,
     ): RegisteredClientRepository? {
-        val registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+        val registeredClient = RegisteredClient
+            .withId(UUID.randomUUID().toString())
             .clientId("messaging-client")
-            .clientSecret("{noop}secret")
-            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+            // .clientSecret("{noop}secret")
+            // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/overview.html#feature-list
+            // .clientAuthenticationMethod(ClientAuthenticationMethod.)
+            .clientName("messaging-client")
+            .clientAuthenticationMethod(ClientAuthenticationMethod.NONE) // for public clients
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
             .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-            .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client")
-            .redirectUri("http://127.0.0.1:8080/authorized")
+            .redirectUri("http://localhost:4200/")
             .scope(OidcScopes.OPENID)
-            .scope("message.read")
-            .scope("message.write")
-            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+            .scope("read")
+            .scope("write")
+            .scope("openid")
+            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(false).build())
             .build()
 
         // Save registered client in db as if in-memory
@@ -81,20 +85,20 @@ class AuthorizationServerConfig {
     fun authorizationService(
         jdbcTemplate: JdbcTemplate,
         registeredClientRepository: RegisteredClientRepository?
-    ): OAuth2AuthorizationService? {
+    ): OAuth2AuthorizationService {
         return JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository)
     }
 
     @Bean
     fun authorizationConsentService(
         jdbcTemplate: JdbcTemplate,
-        registeredClientRepository: RegisteredClientRepository?
-    ): OAuth2AuthorizationConsentService? {
+        registeredClientRepository: RegisteredClientRepository
+    ): OAuth2AuthorizationConsentService {
         return JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository)
     }
 
     @Bean
-    fun jwkSource(): JWKSource<SecurityContext?>? {
+    fun jwkSource(): JWKSource<SecurityContext?> {
         val rsaKey: RSAKey = generateRsa()
         val jwkSet = JWKSet(rsaKey)
         return JWKSource<SecurityContext?> { jwkSelector: JWKSelector, securityContext: SecurityContext? ->
