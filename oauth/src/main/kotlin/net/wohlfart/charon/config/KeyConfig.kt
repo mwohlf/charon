@@ -1,24 +1,42 @@
 @file:Suppress("unused")
+
 package net.wohlfart.charon.config
 
-import com.nimbusds.jose.jwk.Curve
-import com.nimbusds.jose.jwk.ECKey
-import com.nimbusds.jose.jwk.OctetSequenceKey
-import com.nimbusds.jose.jwk.RSAKey
+import com.nimbusds.jose.jwk.*
+import com.nimbusds.jose.jwk.source.JWKSource
+import com.nimbusds.jose.proc.SecurityContext
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import java.math.BigInteger
 import java.security.KeyPair
 import java.security.KeyPairGenerator
-import java.security.spec.ECFieldFp
-import java.security.spec.EllipticCurve
-import javax.crypto.KeyGenerator
-import javax.crypto.SecretKey
-import java.math.BigInteger
 import java.security.interfaces.ECPrivateKey
 import java.security.interfaces.ECPublicKey
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
+import java.security.spec.ECFieldFp
 import java.security.spec.ECParameterSpec
 import java.security.spec.ECPoint
+import java.security.spec.EllipticCurve
 import java.util.*
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
+
+
+@Configuration
+class KeyConfig {
+
+    @Bean
+    fun jwkSource(): JWKSource<SecurityContext> {
+        val rsaKey: RSAKey = generateRsa()
+        val jwkSet = JWKSet(rsaKey)
+        return JWKSource<SecurityContext> { jwkSelector: JWKSelector, securityContext: SecurityContext ->
+            jwkSelector.select(
+                jwkSet
+            )
+        }
+    }
+}
 
 
 fun generateRsa(): RSAKey {
@@ -91,4 +109,3 @@ fun generateEcKey(): KeyPair {
         throw IllegalStateException(ex)
     }
 }
-

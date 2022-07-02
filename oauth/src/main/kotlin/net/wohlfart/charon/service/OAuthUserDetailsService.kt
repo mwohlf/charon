@@ -1,6 +1,5 @@
 package net.wohlfart.charon.service
 
-import org.springframework.context.annotation.Bean
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -8,7 +7,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.stereotype.Service
 
 @Service
-class OauthUserDetailsService: UserDetailsService {
+class OAuthUserDetailsService: UserDetailsService {
 
     private final val delegate = InMemoryUserDetailsManager()
 

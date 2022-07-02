@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "net.wohlfart.charon.oauth")
-class OauthProperties(
+class OAuthProperties(
 
     val dataDir: String,
 
