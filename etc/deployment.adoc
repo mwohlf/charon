@@ -1,0 +1,21 @@
+
+= Deployment
+
+pick a Azure CLI from here:
+https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
+
+== Setup Kubernetes
+
+see: +
+https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-prepare-acr?tabs=azure-cli[deploy a docker registry] +
+https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-cluster?tabs=azure-cli[deploy a k8s cluster] +
+
+  # create resource group:
+  az group create --name charonResourceGroup --location germanywestcentral
+  # create container registry in resource group:
+  az acr create --resource-group charonResourceGroup --name charonContainerRegistry --sku Basic
+
+
+
+
+

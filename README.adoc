@@ -28,65 +28,25 @@ This module implements an OAuth Service and is based on the
   spring-security-oauth2-authorization-server
 SpringBoot module.
 
-We want to use the OAuth Code Flow for authentication.
-Documentation can be found here:
+We want to use the OAuth Code Flow for authentication. +
 
-https://developer.okta.com/blog/2018/04/10/oauth-authorization-code-grant-type
+Documentation can be found here: +
 
-=== Requests
+https://developer.okta.com/blog/2018/04/10/oauth-authorization-code-grant-type[Okta Code GRant Docu] +
+https://docs.spring.io/spring-authorization-server/docs/current/reference/html/getting-started.html[Spring OAuth Server Howto] +
+https://github.com/spring-projects/spring-authorization-server[GitHub Spring AOuth Server] +
+https://github.com/spring-projects/spring-authorization-server/blob/main/samples/federated-identity-authorizationserver/src/main/resources/application.yml[Federated OAuth Server Config] +
+https://stackoverflow.com/questions/71479250/spring-security-oauth2-authorization-server-angular-auth-oidc-client[Stackoverflow Spring OAuth Server] +
+https://github.com/sjohnr/spring-authorization-server/tree/bff-demo/samples/default-authorizationserver/src[GitHub OAuth Server POC] +
 
-GET: +
-http://localhost:4200/issuer/.well-known/openid-configuration
-
-GET: +
-http://localhost:4200/issuer/oauth2/authorize
-?client_id=messaging-client
-&redirect_uri=http%3A%2F%2Flocalhost%3A4200
-&response_type=code
-&scope=read
-&nonce=91b7886792dbd7422a7e23b9efd13a7605oZVDuuW&state=471baa54212a1c1638821f836337e90378kDszeOw
-&code_challenge=tF9X_76O9L0Ifz9xQ-MgPbF3vt4qYzLLWDHsgaYCOZg
-&code_challenge_method=S256
-
-returns redirect +
- -> http://localhost:4200/issuer/login
-
-POST:
-http://localhost:4200/issuer/login
-username=user
-&password=pass
-&_csrf=52ee8c60-4e9e-4d7c-8292-179a17901065
-
-returns redirect +
--> http://localhost:4200/issuer/error
-?client_id=messaging-client
-&redirect_uri=http%3A%2F%2Flocalhost%3A4200
-&response_type=code
-&scope=read
-&nonce=91b7886792dbd7422a7e23b9efd13a7605oZVDuuW&state=471baa54212a1c1638821f836337e90378kDszeOw
-&code_challenge=tF9X_76O9L0Ifz9xQ-MgPbF3vt4qYzLLWDHsgaYCOZg
-&code_challenge_method=S256
-
-
-
-
-
-
-
----
-
-docs: https://docs.spring.io/spring-authorization-server/docs/current/reference/html/getting-started.html +
-repo: https://github.com/spring-projects/spring-authorization-server +
-config example:
-https://github.com/spring-projects/spring-authorization-server/blob/main/samples/federated-identity-authorizationserver/src/main/resources/application.yml +
-
+Some OAuth Endpoints provided by the Server
 |===
 |URL | service
 
-| http://localhost:8081/.well-known/openid-configuration
+| http://localhost:9000/.well-known/openid-configuration
 | issuer config endpoint
 
-| http://localhost:8081/.well-known/oauth-authorization-server
+| http://localhost:9000/.well-known/oauth-authorization-server
 | server config endpoint
 |===
 
@@ -106,10 +66,10 @@ Setup steps: +
   ng generate @angular/material:navigation navigation
   npm install angular-auth-oidc-client --registry https://registry.npmjs.org --legacy-peer-deps
 
-oauth from here:
+oauth module from here:
 https://github.com/damienbod/angular-auth-oidc-client +
 
-proxy service:
+proxy service config:
 https://angular.io/guide/build#proxying-to-a-backend-server
 
 
@@ -124,8 +84,8 @@ http://localhost:8080/charon/index.html
 
 == buildSrc module
 
-This contais the custom, re-usable buil scripts for koting & spring-boot,
-angular, docker etc.
+This contains the custom, re-usable build scripts for
+kotlin & spring-boot, angular, docker etc.
 
 The only requirement is having git, java and docker in the build environment,
 for ubuntu this means:
@@ -135,7 +95,15 @@ for ubuntu this means:
     openjdk-17-jdk \
     docker \
 
-We also use ttl.sh an ephemeral docker image registry for deployment
+
+
+== etc
+
+contains deployment descriptions,
+API definition, scripts
+
+
+For now we are pushing the images to an ephemeral docker image registry.
 
 see:
 https://ttl.sh/
