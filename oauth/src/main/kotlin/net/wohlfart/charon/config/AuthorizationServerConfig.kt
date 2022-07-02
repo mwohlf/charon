@@ -55,23 +55,9 @@ class AuthorizationServerConfig {
     @Bean
     fun registeredClientRepository(
         jdbcTemplate: JdbcTemplate,
-    ): RegisteredClientRepository? {
+    ): RegisteredClientRepository {
 
-        val confidentialClient = RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId("messaging-client")
-            .clientSecret("{noop}secret")
-            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-            .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-            .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
-            .redirectUri("http://127.0.0.1:8080/authorized")
-            .scope(OidcScopes.OPENID)
-            .scope("message.read")
-            .scope("message.write")
-            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-            .build()
-
+        // see:
         val publicClient = RegisteredClient.withId(UUID.randomUUID().toString())
             .clientId("public-client")
             .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
@@ -87,7 +73,6 @@ class AuthorizationServerConfig {
 
         // Save registered client in db as if in-memory
         val registeredClientRepository = JdbcRegisteredClientRepository(jdbcTemplate)
-        registeredClientRepository.save(confidentialClient)
         registeredClientRepository.save(publicClient)
         return registeredClientRepository
     }
