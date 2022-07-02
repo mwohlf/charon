@@ -4,66 +4,22 @@ import {AuthModule, LogLevel, StsConfigHttpLoader, StsConfigLoader} from 'angula
 import {catchError, map} from 'rxjs/operators';
 import {of} from "rxjs";
 
-const OAUTH_CLIENT_CONFIG_URL = "http://localhost:4200/api/client-config-todo"; // TODO: implement a service in the backend module
-// the net.wohlfart.charon.oauth.issuer value here:
-const AUTHORITY = "http://localhost:4200/issuer"; // TODO: read this from the client config url
-
-const DEFAULT_CONFIG = {
-  triggerAuthorizationResultEvent: true,
-  postLoginRoute: '/home',
-
-  // authority: "http://localhost:8081",  // this must match to the /.well-known/openid-configuration endpoint
-  authority: AUTHORITY,  // this must match the prefix to the ..../.well-known/openid-configuration endpoint
-  redirectUrl: "http://localhost:4200/",
-  clientId: "messaging-client",
-  responseType: 'code',
-  scope: 'openid profile email offline_access',
-  postLogoutRedirectUri: "http://localhost:4200/",
-  // startCheckSession: true,
-  silentRenew: true,
-  silentRenewUrl: '/silent-renew.html',
-  // postLoginRoute: "/home",
-  // forbiddenRoute: "/forbiddenRoute",
-  // unauthorizedRoute: "/unauthorizedRoute",
-  logLevel: LogLevel.Debug,
-  // maxIdTokenIatOffsetAllowedInSeconds: customConfig.max_id_token_iat_offset_allowed_in_seconds,
-  historyCleanupOff: true,
-  // autoUserInfo: false,
-  // see: https://github.com/damienbod/angular-auth-oidc-client/blob/main/projects/sample-code-flow-auto-login/src/app/auth-config.module.ts
-}
-
-
-const config_mapper = (customConfig: any) => {
-  return DEFAULT_CONFIG; // TODO
-};
-
-
-const error_config_mapper = (err: any, caught: any) => {
-  console.warn(`I caught: ${err}, ${caught}, using default config for now`)
-  return of(DEFAULT_CONFIG)
-};
-
-// TODO: we need an endpoint and a datatype for this
-export const httpLoaderFactory = (httpClient: HttpClient) => {
-  const config$ = httpClient.get<any>(OAUTH_CLIENT_CONFIG_URL).pipe(
-    map(config_mapper),
-    catchError(error_config_mapper)
-  );
-
-  return new StsConfigHttpLoader(config$);
-};
-
 @NgModule({
-  imports: [
-    AuthModule.forRoot({
-      loader: {
-        provide: StsConfigLoader,
-        useFactory: httpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
-  ],
+  imports: [AuthModule.forRoot({
+    config: {
+      authority: 'http://localhost:9000/issuer',
+      redirectUrl: window.location.origin,
+      postLogoutRedirectUri: window.location.origin,
+      clientId: 'public-client',
+      scope: 'openid message.read message.write', // 'openid profile ' + your scopes
+      responseType: 'code',
+      silentRenew: true,
+      silentRenewUrl: window.location.origin + '/silent-renew.html',
+      renewTimeBeforeTokenExpiresInSeconds: 10,
+      autoUserInfo: false
+    }
+  })],
   exports: [AuthModule],
 })
-export class AppAuthModule {
+export class AuthConfigModule {
 }

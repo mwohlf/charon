@@ -6,4 +6,4 @@ net:
   wohlfart:
     charon:
       oauth:
-        issuer: "http://localhost:4200/issuer"
+        issuer: "http://localhost:9000/issuer"

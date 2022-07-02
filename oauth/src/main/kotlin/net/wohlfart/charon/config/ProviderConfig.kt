@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings
 
 @Configuration
-
 class ProviderConfig(
     val oauthProperties: OauthProperties,
     // val serverProperties: ServerProperties,
