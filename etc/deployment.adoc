@@ -33,3 +33,9 @@ https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-cluster?ta
     --name charonCluster \
 
 
+see:
+https://hands-on.cloud/quick-and-simple-introduction-to-kubernetes-helm-charts-in-10-minutes/#helm-chart-structure
+https://medium.com/swlh/deploying-to-kubernetes-with-helm-and-github-actions-14825e6df1f2
+https://github.com/deliverybot/example-helm
+
+

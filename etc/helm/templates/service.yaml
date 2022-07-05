@@ -1,15 +1,19 @@
 apiVersion: v1
 kind: Service
+
+# the service description
+
 metadata:
-  name: {{ include "buildachart.fullname" . }}
+  name: charon-backend
   labels:
-    {{- include "buildachart.labels" . | nindent 4 }}
+    app: charon-backend
+
 spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+  type: { { .Values.service.type } }
   selector:
-    {{- include "buildachart.selectorLabels" . | nindent 4 }}
+    app: charon-backend
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8888
+      nodePort: 30036

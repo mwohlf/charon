@@ -15,11 +15,11 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	// Align versions of all Kotlin components
+	// align versions of all Kotlin components
 	implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     // pickup the webjar
     implementation(project(":frontend"))
 }
 
-// TODO: heck if we can pull thi sup into buildSrc
+// TODO: check if we can pull this up into buildSrc
 java.sourceSets["main"].java.srcDir("$buildDir/generated/source/openApi/kotlin")
