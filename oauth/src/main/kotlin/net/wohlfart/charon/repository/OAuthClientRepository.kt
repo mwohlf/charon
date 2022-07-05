@@ -21,13 +21,17 @@ class OAuthClientRepository(
             .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .redirectUri("http://127.0.0.1:4200")
-            .redirectUri("http://localhost:4200")
             .redirectUri("http://127.0.0.1:4200/silent-renew.html")
+            .redirectUri("http://localhost:4200/home")
             .scope(OidcScopes.OPENID)
             .scope("message.read")
             .scope("message.write")
             // consent to true causes another step during authorization...
-            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(false).requireProofKey(true).build())
+            .clientSettings(
+                ClientSettings.builder()
+                    .requireAuthorizationConsent(false)
+                    .requireProofKey(true)
+                    .build())
             .build()
         this.save(publicClient)
     }

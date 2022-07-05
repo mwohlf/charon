@@ -12,12 +12,14 @@ plugins {
     id("com.google.cloud.tools.jib") // TODO: make this work with docker inside WSL2
     // id("org.openapitools")
     id("org.openapi.generator")
+    id("com.palantir.git-version")
     kotlin("jvm") // org.jetbrains.kotlin:kotlin-gradle-plugin
     kotlin("plugin.spring") // org.jetbrains.kotlin:kotlin-allopen
     kotlin("kapt")
     // id("com.google.devtools.ksp")
     // see: https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html
 }
+
 
 // repos for dependencies of the module in which this plugin is used
 repositories {
@@ -29,6 +31,8 @@ repositories {
     maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
+// val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
+
 //////////////////////
 //
 // configure the image creation for spring-boot modules
@@ -36,11 +40,19 @@ repositories {
 // see https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md for the Docker template
 jib {
     val imagePrefix = "ttl.sh"
-    val uuid = UUID.randomUUID()
+    // see: https://github.com/palantir/gradle-git-version
+    //
+    val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
+    val details = versionDetails()
+    // details.lastTag
+    // details.commitDistance
+    // details.gitHash
+    // val uuid = UUID.randomUUID()
     val module = project.name
     from.image = "openjdk:17-alpine"
     to {
-        image = "${imagePrefix}/${uuid}-${module}:1h"
+        image = "${imagePrefix}/${details.gitHash}-${module}:1h"
+        // image = "${imagePrefix}/${uuid}-${module}:1h"
     }
     container {
         creationTime = "USE_CURRENT_TIMESTAMP"

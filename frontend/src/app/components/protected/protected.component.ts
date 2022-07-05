@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-protected',
@@ -9,7 +9,8 @@ export class ProtectedComponent implements OnInit {
 
   static ROUTER_PATH: string = "protected";
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

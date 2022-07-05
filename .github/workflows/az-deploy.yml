@@ -1,24 +1,26 @@
-name: gradle-build
+name: az-deploy
 on:
   push:
     branches:
-      - develop
+      - main
 
 # see: https://tomgregory.com/build-gradle-projects-with-github-actions/#:~:text=If%20you%20have%20a%20Gradle,entirely%20hosted%20on%20their%20infrastructure
 
 jobs:
 
-  gradle-build:
+  az-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: checkout sources
+        uses: actions/checkout@v2
+
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           java-version: 17
           distribution: 'adopt'
           cache: gradle
-        # for historical reasons
-      - name: Run gradle build to compile the applications
-        run: ./gradlew build --no-daemon
+
+      - name: Run gradle jib to create the image
+        run: ./gradlew jib --no-daemon
 

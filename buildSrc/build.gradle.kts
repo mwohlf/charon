@@ -9,25 +9,29 @@
 
 // plugins for the build src
 plugins {
-    val kotlinPluginVersion = "2.1.7"
+    // val kotlinPluginVersion = "2.1.7"
+    val kotlinDslPluginVersion = "2.1.7"
     // id("org.jetbrains.kotlin.jvm") version "1.7.0"
     // `kotlin-dsl`
-    id("org.gradle.kotlin.kotlin-dsl") version kotlinPluginVersion  // `kotlin-dsl`
-    id("org.gradle.kotlin.kotlin-dsl.base") version kotlinPluginVersion
-    id("org.gradle.kotlin.kotlin-dsl.compiler-settings") version kotlinPluginVersion
-    id("org.gradle.kotlin.kotlin-dsl.precompiled-script-plugins") version kotlinPluginVersion
+    id("org.gradle.kotlin.kotlin-dsl") version kotlinDslPluginVersion  // `kotlin-dsl`
+    id("org.gradle.kotlin.kotlin-dsl.base") version kotlinDslPluginVersion
+    id("org.gradle.kotlin.kotlin-dsl.compiler-settings") version kotlinDslPluginVersion
+    id("org.gradle.kotlin.kotlin-dsl.precompiled-script-plugins") version kotlinDslPluginVersion
 }
 
 // this is the central point for managing plugin versions
+// it also contains all the base plugins we aggregate into out custom plugins
 dependencies {
+    val jetbrainKotlinVersion = "1.6.21"
+
     // we need to declare dependencies for all the used plugins in the buildScripts...
 
     // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/
     implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.1")
     // https://plugins.gradle.org/plugin/io.spring.dependency-management
-    implementation("io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
-    implementation("org.jetbrains.kotlin:kotlin-allopen:1.6.21")
+    implementation("io.spring.gradle:dependency-management-plugin:1.0.12.RELEASE")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${jetbrainKotlinVersion}")
+    implementation("org.jetbrains.kotlin:kotlin-allopen:${jetbrainKotlinVersion}")
     // implementation("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.6.21-1.0.6")
     // webjar and node plugin code for angular modules
 
@@ -42,6 +46,8 @@ dependencies {
     implementation("org.openapitools:openapi-generator-gradle-plugin:6.0.0")
     // org/openapi/generator/org.openapi.generator.gradle.plugin/
     implementation("org.openapi.generator:org.openapi.generator.gradle.plugin:6.0.0")
+    // https://mvnrepository.com/artifact/com.palantir.gradle.gitversion/gradle-git-version
+    implementation("com.palantir.gradle.gitversion:gradle-git-version:0.15.0")
 }
 
 repositories {

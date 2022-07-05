@@ -1,14 +1,12 @@
-import {HttpClient} from '@angular/common/http';
 import {NgModule} from '@angular/core';
-import {AuthModule, LogLevel, StsConfigHttpLoader, StsConfigLoader} from 'angular-auth-oidc-client';
-import {catchError, map} from 'rxjs/operators';
-import {of} from "rxjs";
+import {AuthModule} from 'angular-auth-oidc-client';
 
 @NgModule({
   imports: [AuthModule.forRoot({
     config: {
       authority: 'http://localhost:9000/issuer',
-      redirectUrl: window.location.origin,
+      // localhost is not allowed here
+      redirectUrl: 'http://127.0.0.1:4200/home',
       postLogoutRedirectUri: window.location.origin,
       clientId: 'public-client',
       scope: 'openid message.read message.write', // 'openid profile ' + your scopes
