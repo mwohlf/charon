@@ -2,9 +2,7 @@ name: gradle-build
 on:
   push:
     branches:
-      - develop
-
-# see: https://tomgregory.com/build-gradle-projects-with-github-actions/#:~:text=If%20you%20have%20a%20Gradle,entirely%20hosted%20on%20their%20infrastructure
+      - 'develop'
 
 jobs:
 

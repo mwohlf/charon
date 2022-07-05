@@ -32,3 +32,4 @@ tasks.register<Delete>("mrproper") {
         """
     delete = DELETE_LIST
 }
+

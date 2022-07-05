@@ -46,12 +46,14 @@ jib {
     val details = versionDetails()
     // details.lastTag
     // details.commitDistance
-    // details.gitHash
+    // details.gitHash // 10 digit git hash
     // val uuid = UUID.randomUUID()
     val module = project.name
+    val root = rootProject.name
     from.image = "openjdk:17-alpine"
     to {
-        image = "${imagePrefix}/${details.gitHash}-${module}:1h"
+        // this is the syntax that we need in the deployment description
+        image = "${imagePrefix}/${root}-${module}-${details.gitHash}:1h"
         // image = "${imagePrefix}/${uuid}-${module}:1h"
     }
     container {

@@ -99,11 +99,17 @@ for ubuntu this means:
 
 == etc
 
-contains deployment descriptions,
-API definition, scripts
+contains API definition, scripts
 
 
 For now we are pushing the images to an ephemeral docker image registry.
 
 see:
 https://ttl.sh/
+
+
+== deployment
+
+contains deployment descriptions,
+
+see: https://azure.github.io/kube-labs/1-github-actions.html#objective-of-the-lab

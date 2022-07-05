@@ -2,7 +2,7 @@ name: az-deploy
 on:
   push:
     branches:
-      - main
+      - 'main'
 
 # see: https://tomgregory.com/build-gradle-projects-with-github-actions/#:~:text=If%20you%20have%20a%20Gradle,entirely%20hosted%20on%20their%20infrastructure
 
@@ -21,6 +21,21 @@ jobs:
           distribution: 'adopt'
           cache: gradle
 
-      - name: Run gradle jib to create the image
+      - name: Run gradle jib to create and push the image to ttl
         run: ./gradlew jib --no-daemon
 
+      - name: Setup k8s namespace
+        uses: azure/k8s-set-context@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          resource-group: charonResourceGroup
+          cluster-name: charonCluster
+
+      - name: Deploy the image
+        uses: Azure/k8s-deploy@v1
+        with:
+          manifests: |
+            manifests/deployment.yaml
+            manifests/service.yaml
+          images: |
+            cloudlifeacr.azurecr.io/k8sflask:${{ github.sha }}
