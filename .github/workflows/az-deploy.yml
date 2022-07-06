@@ -21,15 +21,24 @@ jobs:
           distribution: 'adopt'
           cache: gradle
 
+        #
+        # this creates the docker images we need for the services
       - name: Run gradle jib to create and push the image to ttl
         run: ./gradlew jib --no-daemon
 
+        #
+        # setup the k8s access
+        #
+        # k8s-url:     kubectl config view --minify -o 'jsonpath={.clusters[0].cluster.server}'
+        # k8s-secret:  kubectl get serviceAccounts <service-account-name> -n <namespace> -o 'jsonpath={.secrets[*].name}'
+        #
+        #
       - name: Setup k8s namespace
         uses: azure/k8s-set-context@v1
         with:
-          creds: '${{ secrets.AZURE_CREDENTIALS }}'
-          resource-group: charonResourceGroup
-          cluster-name: charonCluster
+          method: service-account
+          k8s-url: https://charonclus-charonresourcegr-af0e33-d2cf865c.hcp.germanywestcentral.azmk8s.io:443
+          k8s-secret: <secret associated with the service account>
 
       - name: Deploy the image
         uses: Azure/k8s-deploy@v1

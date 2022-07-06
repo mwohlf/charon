@@ -9,10 +9,17 @@ https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
 see: +
 https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-prepare-acr?tabs=azure-cli[deploy a docker registry] +
 https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-cluster?tabs=azure-cli[deploy a k8s cluster] +
+https://docs.microsoft.com/en-us/azure/aks/kubernetes-service-principal?tabs=azure-cli[create a service principal]
+https://docs.dapr.io/operations/hosting/kubernetes/cluster/setup-aks/[create a service principal]
+https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli[create a service principal]
+
+  # the values
+  export RESOURCE_GROUP=charonResourceGroup
+  export CLUSTER=charonCluster
 
   # create resource group:
   az group create \
-     --name charonResourceGroup \
+     --name ${RESOURCE_GROUP} \
      --location germanywestcentral \
 
   # create container registry in resource group:
@@ -20,17 +27,48 @@ https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-cluster?ta
 
   # create the azure cluster
   az aks create \
-    --resource-group charonResourceGroup \
-    --name charonCluster \
+    --resource-group ${RESOURCE_GROUP} \
+    --name ${CLUSTER} \
     --node-count 2 \
+    --enable-addons http_application_routing \
     --generate-ssh-keys \
 
-  # install kubectl
+  # install kubectl (already installed in azure cloud shell)
   # az aks install-cli
 
+  # merging the cluster credential as current context into /home/michael/.kube/config
   az aks get-credentials \
-    --resource-group charonResourceGroup \
-    --name charonCluster \
+    --resource-group ${RESOURCE_GROUP} \
+    --name ${CLUSTER} \
+
+
+  # query for the service principal appId
+  az aks show \
+    --resource-group ${RESOURCE_GROUP} \
+    --name ${CLUSTER} \
+    --query servicePrincipalProfile.clientId \
+    -o tsv \
+
+  export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+  export SERVICE_PRINCIPAL=deployer
+
+
+  # create a service principal
+  az ad sp create-for-rbac \
+    --name ${SERVICE_PRINCIPAL} \
+    --role Contributor \
+    --scopes /subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP} \
+    --query password \
+    --output tsv \
+
+
+SP_PASSWD=$(az ad sp create-for-rbac --name http://$SERVICE_PRINCIPAL_NAME --scopes $ACR_REGISTRY_ID --role acrpull --query password --output tsv)
+SP_APP_ID=$(az ad sp show --id http://$SERVICE_PRINCIPAL_NAME --query appId --output tsv)
+
+
+
+  # delete the resource group
+  az group delete --name ${RESOURCE_GROUP}
 
 
 see:
