@@ -4,7 +4,6 @@ on:
     branches:
       - 'main'
 
-# see: https://tomgregory.com/build-gradle-projects-with-github-actions/#:~:text=If%20you%20have%20a%20Gradle,entirely%20hosted%20on%20their%20infrastructure
 
 jobs:
 
@@ -21,30 +20,26 @@ jobs:
           distribution: 'adopt'
           cache: gradle
 
-        #
-        # this creates the docker images we need for the services
+      #
+      # this creates the docker images we need for the services
       - name: Run gradle jib to create and push the image to ttl
-        run: ./gradlew jib --no-daemon
+        run: ${{ github.workspace }}/gradlew jib --no-daemon
 
-        #
-        # setup the k8s access
-        #
-        # k8s-url:     kubectl config view --minify -o 'jsonpath={.clusters[0].cluster.server}'
-        # k8s-secret:  kubectl get serviceAccounts <service-account-name> -n <namespace> -o 'jsonpath={.secrets[*].name}'
-        #
-        #
-      - name: Setup k8s namespace
-        uses: azure/k8s-set-context@v1
+      # set and authorize to the target Azure Kubernetes Service (AKS) cluster.
+      - name: Setup Azure Context
+        # env:
+        #  SERVICE_PRINCIPAL: ${{ secrets.AZURE_SP_CREDENTIALS }}
+        uses: azure/aks-set-context@v1
         with:
-          method: service-account
-          k8s-url: https://charonclus-charonresourcegr-af0e33-d2cf865c.hcp.germanywestcentral.azmk8s.io:443
-          k8s-secret: <secret associated with the service account>
+          creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
+          cluster-name: charonCluster
+          resource-group: charonResourceGroup
 
-      - name: Deploy the image
+      - name: Deploy the image setup as helm chart
         uses: Azure/k8s-deploy@v1
         with:
           manifests: |
-            manifests/deployment.yaml
-            manifests/service.yaml
+            ${{ github.workspace }}/etc/manifests/deployment.yaml
+            ${{ github.workspace }}/etc/manifests/service.yaml
           images: |
             cloudlifeacr.azurecr.io/k8sflask:${{ github.sha }}
