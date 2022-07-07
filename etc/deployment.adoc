@@ -12,6 +12,12 @@ https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-cluster?ta
 https://docs.microsoft.com/en-us/azure/aks/kubernetes-service-principal?tabs=azure-cli[create a service principal]
 https://docs.dapr.io/operations/hosting/kubernetes/cluster/setup-aks/[create a service principal]
 https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli[create a service principal]
+https://markheath.net/post/create-service-principal-azure-cli[create a service principal]
+https://docs.microsoft.com/en-us/azure/aks/kubernetes-action?tabs=userlevel#create-a-service-principal[create a service principal]
+https://hands-on.cloud/quick-and-simple-introduction-to-kubernetes-helm-charts-in-10-minutes/#helm-chart-structure
+https://medium.com/swlh/deploying-to-kubernetes-with-helm-and-github-actions-14825e6df1f2
+https://github.com/deliverybot/example-helm
+
 
   # the values
   export RESOURCE_GROUP=charonResourceGroup
@@ -25,7 +31,7 @@ https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azu
   # create container registry in resource group:
   # az acr create --resource-group charonResourceGroup --name charonContainerRegistry --sku Basic
 
-  # create the azure cluster
+  # create the azure cluster inside the resource group
   az aks create \
     --resource-group ${RESOURCE_GROUP} \
     --name ${CLUSTER} \
@@ -34,13 +40,14 @@ https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azu
     --generate-ssh-keys \
 
   # install kubectl (already installed in azure cloud shell)
+  # it is even better to use the azure shell in the browser
   # az aks install-cli
 
+  # for local shell
   # merging the cluster credential as current context into /home/michael/.kube/config
   az aks get-credentials \
     --resource-group ${RESOURCE_GROUP} \
     --name ${CLUSTER} \
-
 
   # query for the service principal appId
   az aks show \
@@ -49,31 +56,14 @@ https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azu
     --query servicePrincipalProfile.clientId \
     -o tsv \
 
+  # creating the service principal for github to access azure and k8s
   export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-  export SERVICE_PRINCIPAL=deployer
-
-
-  # create a service principal
   az ad sp create-for-rbac \
-    --name ${SERVICE_PRINCIPAL} \
-    --role Contributor \
+    --name "charonApp" \
+    --role contributor \
     --scopes /subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP} \
-    --query password \
-    --output tsv \
-
-
-SP_PASSWD=$(az ad sp create-for-rbac --name http://$SERVICE_PRINCIPAL_NAME --scopes $ACR_REGISTRY_ID --role acrpull --query password --output tsv)
-SP_APP_ID=$(az ad sp show --id http://$SERVICE_PRINCIPAL_NAME --query appId --output tsv)
-
-
-
-  # delete the resource group
-  az group delete --name ${RESOURCE_GROUP}
-
-
-see:
-https://hands-on.cloud/quick-and-simple-introduction-to-kubernetes-helm-charts-in-10-minutes/#helm-chart-structure
-https://medium.com/swlh/deploying-to-kubernetes-with-helm-and-github-actions-14825e6df1f2
-https://github.com/deliverybot/example-helm
-
+    --sdk-auth
+  #
+  # setup the secret in the gibhub repo as "AZURE_SP_CREDENTIALS"
+  # the github deploy action will pick u the secret as secrets.AZURE_SP_CREDENTIALS
 
