@@ -17,3 +17,6 @@ services:
 #  create initial chart:
 #    helm create charon
 #
+#  see: https://jhooq.com/building-first-helm-chart-with-spring-boot/
+#    for helm deployment
+#
