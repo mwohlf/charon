@@ -31,9 +31,11 @@ jobs:
         #  SERVICE_PRINCIPAL: ${{ secrets.AZURE_SP_CREDENTIALS }}
         uses: azure/aks-set-context@v1
         with:
+          # set in GitHub -> Repo -> Secrets -> Actions -> New Repository secret -> insert Name, Value
           creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
           cluster-name: charonCluster
           resource-group: charonResourceGroup
+          # results in a "KUBECONFIG environment variable is set"
 
       - name: Deploy the image setup as helm chart
         uses: Azure/k8s-deploy@v1
