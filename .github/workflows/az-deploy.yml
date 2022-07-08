@@ -52,5 +52,6 @@ jobs:
         uses: Azure/k8s-deploy@v1
         timeout-minutes: 5
         with:
+          namespace: go-template
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
           kubectl-version: 'latest'
