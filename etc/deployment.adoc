@@ -67,3 +67,8 @@ https://github.com/deliverybot/example-helm
   # setup the secret in the gibhub repo as "AZURE_SP_CREDENTIALS"
   # the github deploy action will pick u the secret as secrets.AZURE_SP_CREDENTIALS
 
+
+
+  # cleanup
+  az group delete \
+     --name ${RESOURCE_GROUP} \
