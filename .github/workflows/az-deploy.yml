@@ -50,6 +50,7 @@ jobs:
       # see: https://blog.baeke.info/2021/01/11/kubernetes-canary-deployments-with-github-actions/
       - name: Deploy the image setup as helm chart
         uses: Azure/k8s-deploy@v1
+        timeout-minutes: 5
         with:
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
           kubectl-version: 'latest'
