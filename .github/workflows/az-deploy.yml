@@ -43,7 +43,7 @@ jobs:
         with:
           renderEngine: 'helm'
           helmChart: ${{ github.workspace }}/etc/helm/charon/
-          overrides: image.tag:ttl.sh/charon-backend-${{ github.sha }}:1h"
+          overrides: image.tag:ttl.sh/charon-backend-${{ github.sha }}:1h
           helm-version: 'latest'
 
       # see: https://blog.baeke.info/2021/01/11/kubernetes-canary-deployments-with-github-actions/
