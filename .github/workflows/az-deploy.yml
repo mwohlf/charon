@@ -37,12 +37,12 @@ jobs:
           resource-group: charonResourceGroup
           # results in a "KUBECONFIG environment variable is set"
 
-      - name: Process helm chart
+      - name: Process helm chart # we can also use compose here: https://github.com/Azure/k8s-bake
         id: bake  # gives us ${{ steps.bake.outputs.manifestsBundle }}
         uses: azure/k8s-bake@v1
         with:
-          renderEngine: kustomize
-          kustomizationPath: ${{ github.workspace }}/etc/helm/charon
+          renderEngine: 'helm'
+          helmChart: ${{ github.workspace }}/etc/helm/charon
 
       # see: https://blog.baeke.info/2021/01/11/kubernetes-canary-deployments-with-github-actions/
       - name: Deploy the image setup as helm chart
