@@ -36,11 +36,12 @@ jobs:
           kubectl create namespace ${{ env.NAMESPACE }} --dry-run -o json | kubectl apply -f -
 
       # Baking the helm chart to generate the manifests to deploy
-      - uses: azure/k8s-bake@v1
+      - uses: azure/k8s-bake@v2.2
         with:
+          silent: 'false' # set this to get more verbose helm command logs
           renderEngine: 'helm2'
           helmChart: '${{ github.workspace }}/etc/helm/'
-          helm-version: 'latest'
+          # helm-version: 'latest'
         id: bake
 
       - name: Authenticate to the docker registry
