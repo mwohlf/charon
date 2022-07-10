@@ -1,4 +1,6 @@
+import com.google.cloud.tools.jib.api.Jib
 import java.util.UUID
+
 //
 // this is a meta plugin, combining some tasks from multiple plugins
 //  source is configured in ../build.gradle.kts
@@ -36,12 +38,26 @@ repositories {
 //////////////////////
 //
 // configure the image creation for spring-boot modules
+//  to run the service in a non-systemd setting: sudo service docker start
 //
 // see https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md for the Docker template
 jib {
+    from {
+        image = "openjdk:17-alpine"
+    }
+    to {
+        // val imagePrefix = "ttl.sh"
+        val imagePrefix = "ghcr.io/mwohlf"   // github repo
+        val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
+        val details = versionDetails()
+        val module = project.name
+        val root = rootProject.name
+        image = "${imagePrefix}/${root}-${module}-${details.gitHash}:1h"
+    }
+
+    /*
     val imagePrefix = "ttl.sh"
     // see: https://github.com/palantir/gradle-git-version
-    //
     val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
     val details = versionDetails()
     // details.lastTag
@@ -50,12 +66,16 @@ jib {
     // val uuid = UUID.randomUUID()
     val module = project.name
     val root = rootProject.name
-    from.image = "openjdk:17-alpine"
     to {
         // this is the syntax that we need in the deployment description
         image = "${imagePrefix}/${root}-${module}-${details.gitHash}:1h"
         // image = "${imagePrefix}/${uuid}-${module}:1h"
+        auth {
+            username = ""
+            password = ""
+        }
     }
+    */
     container {
         creationTime = "USE_CURRENT_TIMESTAMP"
         ports = listOf("8080")
@@ -85,4 +105,3 @@ openApiGenerate {
     // see: https://openapi-generator.tech/docs/generators/kotlin-spring
     configFile.set("${rootProject.projectDir.absolutePath}/etc/api/api-config.json")
 }
-
