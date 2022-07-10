@@ -50,9 +50,15 @@ jib {
         val imagePrefix = "ghcr.io/mwohlf"   // github repo
         val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
         val details = versionDetails()
-        val module = project.name
-        val root = rootProject.name
-        image = "${imagePrefix}/${root}-${module}-${details.gitHash}:1h"
+        val first = rootProject.name
+        val second = project.name
+        // image = "${imagePrefix}/${root}-${module}-${details.gitHash}:1h"
+        image = "${imagePrefix}/${first}-${second}:${details.gitHash}"
+        tags = setOf(
+            "${imagePrefix}/${first}-${second}:latest",
+            "${imagePrefix}/${first}-${second}:${details.branchName}",
+            "${imagePrefix}/${first}-${second}:${project.version}",
+        )
     }
 
     /*
