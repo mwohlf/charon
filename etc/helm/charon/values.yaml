@@ -9,7 +9,7 @@ image:
 service:
   name: nginx
   type: NodePort
-  externalPort: 8080
+  externalPort: 80
   internalPort: 8080
 
 ingress:
@@ -18,10 +18,10 @@ ingress:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
   hosts:
-    - chart-example.local
+    - host: chart-example.local
       paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              serviceName: springboot-starterkit-svc
-              servicePort: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          serviceName: springboot-starterkit-svc
+          servicePort: 80
