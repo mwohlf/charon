@@ -30,7 +30,8 @@ jobs:
         with:
           # registry: registry.gitlab.com
           registry: ghcr.io
-          username: ${{ secrets.GHCR_TOKEN }}
+          username: mwohlf
+          password: ${{ secrets.GHCR_TOKEN }}
 
       # this creates and pushes the docker images we need for the services
       - name: Run gradle jib to create and push the image
