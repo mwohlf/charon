@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@master # we need the helm charts
+      - uses: actions/checkout@main # we need the helm charts
 
       - uses: azure/login@v1
         with:
