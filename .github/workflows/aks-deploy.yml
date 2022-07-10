@@ -8,7 +8,7 @@ on:
 env:
   CLUSTER: charonCluster
   RESOURCE_GROUP: charonResourceGroup
-  NAMESPACE: charonNamespace
+  NAMESPACE: test
 
 jobs:
   deploy:
