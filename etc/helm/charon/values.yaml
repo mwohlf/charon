@@ -4,8 +4,9 @@
 
 replicaCount: 1
 
+# https://github.com/binblee/springboot-helm-chart
 image:
-  repository: ghcr.io/mwohlf
+  repository: mwohlf
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "charon-backend:latest"
