@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@master # we need the helm charts
+      - uses: actions/checkout@main # we need the helm charts
 
       - uses: azure/login@v1
         with:
@@ -42,8 +42,8 @@ jobs:
         with:
           silent: 'false' # set this to get more verbose helm command logs
           renderEngine: 'helm2'
-          helmChart: '${{ github.workspace }}/etc/helm/'
-          # helm-version: 'latest'
+          helmChart: '${{ github.workspace }}/etc/helm/charon/'
+          helm-version: 'latest'
         id: bake
 
       - name: Authenticate to the docker registry
