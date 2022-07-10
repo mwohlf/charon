@@ -111,3 +111,6 @@ https://azure.github.io/kube-labs/1-github-actions.html#objective-of-the-lab
 
 == TODO
 deployment according to https://www.koslib.com/posts/deploy-k8s-apps-helm-complete/
+
+
+https://github.com/Azure/actions-workflow-samples

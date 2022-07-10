@@ -1,0 +1,62 @@
+name: aks-deploy
+
+# see: https://github.com/Azure/actions-workflow-samples/blob/master/Kubernetes/build-and-deploy-docker-image-to-aks-using-helm.yml
+
+on:
+  workflow_dispatch:
+
+env:
+  CLUSTER_NAME: charonCluster
+  RESOURCE_GROUP_NAME: charonResourceGroup
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Container build and push to a Azure Container registry (ACR)
+      - run: |
+          docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/myimage:${{ github.sha }}
+          docker push ${{ env.REGISTRY_NAME }}.azurecr.io/myimage:${{ github.sha }}
+
+      # Set the target Azure Kubernetes Service (AKS) cluster.
+      - uses: azure/aks-set-context@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          cluster-name: ${{ env.CLUSTER_NAME }}
+          resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+
+      # Create namespace if doesn't exist
+      - run: |
+          kubectl create namespace ${{ env.NAMESPACE }} --dry-run -o json | kubectl apply -f -
+
+      # Create imagepullsecret for Azure Container registry (ACR)
+      - uses: azure/k8s-create-secret@v1
+        with:
+          container-registry-url: ${{ env.REGISTRY_NAME }}.azurecr.io
+          container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          secret-name: ${{ env.REGISTRY_NAME }}-registry-connection
+          namespace: ${{ env.NAMESPACE }}
+
+      # Baking the helm chart to generate the manifests to deploy
+      - uses: azure/k8s-bake@v1
+        with:
+          renderEngine: 'helm2'
+          helmChart: './my-helm-chart/'
+          helm-version: 'latest'
+        id: bake
+
+      # Deploy app to AKS
+      - uses: azure/k8s-deploy@v1
+        with:
+          manifests: ${{ steps.bake.outputs.manifestsBundle }}
+          images: |
+            ${{ env.REGISTRY_NAME }}.azurecr.io/myimage:${{ github.sha }}
+          imagepullsecrets: |
+            ${{ env.REGISTRY_NAME }}-registry-connection
+          namespace: ${{ env.NAMESPACE }}
