@@ -3,7 +3,7 @@ services:
 
   tools:
     build:
-      context: ../tools-host
+      context: .
       dockerfile: Dockerfile
     volumes:
       - .:/app
@@ -12,7 +12,7 @@ services:
 #    docker-compose up --build
 #
 #  log on:
-#    docker exec -it tools-host_tools_1 /bin/bash
+#    docker exec -it helm_tools_1 /bin/bash
 #
 #  create initial chart:
 #    helm create charon
