@@ -6,8 +6,9 @@ on:
   workflow_dispatch:
 
 env:
-  CLUSTER_NAME: charonCluster
-  RESOURCE_GROUP_NAME: charonResourceGroup
+  CLUSTER: charonCluster
+  RESOURCE_GROUP: charonResourceGroup
+  NAMESPACE: charonNamespace
 
 jobs:
   deploy:
@@ -16,19 +17,19 @@ jobs:
     steps:
       - uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_SP_CREDENTIALS}}
 
-      # Container build and push to a Azure Container registry (ACR)
-      - run: |
-          docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/myimage:${{ github.sha }}
-          docker push ${{ env.REGISTRY_NAME }}.azurecr.io/myimage:${{ github.sha }}
+#      # Container build and push to a Azure Container registry (ACR)
+#      - run: |
+#          docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/myimage:${{ github.sha }}
+#          docker push ${{ env.REGISTRY_NAME }}.azurecr.io/myimage:${{ github.sha }}
 
       # Set the target Azure Kubernetes Service (AKS) cluster.
       - uses: azure/aks-set-context@v1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
-          cluster-name: ${{ env.CLUSTER_NAME }}
-          resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+          cluster-name: ${{ env.CLUSTER }}
+          resource-group: ${{ env.RESOURCE_GROUP }}
 
       # Create namespace if doesn't exist
       - run: |
@@ -47,7 +48,7 @@ jobs:
       - uses: azure/k8s-bake@v1
         with:
           renderEngine: 'helm2'
-          helmChart: './my-helm-chart/'
+          helmChart: '${{ github.workspace }}/etc/helm/'
           helm-version: 'latest'
         id: bake
 

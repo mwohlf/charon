@@ -55,9 +55,9 @@ jib {
         // image = "${imagePrefix}/${root}-${module}-${details.gitHash}:1h"
         image = "${imagePrefix}/${first}-${second}:${details.gitHash}"
         tags = setOf(
-            "${imagePrefix}/${first}-${second}:latest",
-            "${imagePrefix}/${first}-${second}:${details.branchName}",
-            "${imagePrefix}/${first}-${second}:${project.version}",
+            "${first}-${second}:latest",
+            "${first}-${second}:${details.branchName}",
+            "${first}-${second}:${project.version}",
         )
     }
 

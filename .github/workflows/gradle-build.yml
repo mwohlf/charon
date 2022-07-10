@@ -1,9 +1,11 @@
 name: gradle-build
 on:
-  push:
-    branches:
-      - 'develop'
-      - 'main'
+  workflow_dispatch:
+
+#  push:
+#    branches:
+#      - 'develop'
+#      - 'main'
 
 jobs:
 
