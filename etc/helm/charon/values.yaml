@@ -5,11 +5,11 @@
 replicaCount: 1
 
 # https://github.com/binblee/springboot-helm-chart
+# https://tanzu.vmware.com/developer/guides/deploy-spring-boot-application-production-helm/
 image:
-  repository: mwohlf
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "charon-backend:latest"
+  registry: ghcr.io
+  repository: mwohlf/charon-backend
+  tag: latest
 
 imagePullSecrets: []
 nameOverride: ""

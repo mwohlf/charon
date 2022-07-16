@@ -1,5 +1,7 @@
 name: aks-deploy
 
+# using the images from the registry and pushing a deployment into k8s
+
 # see: https://github.com/Azure/actions-workflow-samples/blob/master/Kubernetes/build-and-deploy-docker-image-to-aks-using-helm.yml
 
 on:
@@ -58,6 +60,4 @@ jobs:
       - uses: azure/k8s-deploy@v1
         with:
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
-          images: |
-            ghcr.io/charon-backend:latest
           namespace: ${{ env.NAMESPACE }}

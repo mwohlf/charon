@@ -1,4 +1,7 @@
 name: gradle-build
+
+# creating the images and pushing them into the repository
+
 on:
   workflow_dispatch:
 
@@ -23,7 +26,6 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-        # for historical reasons
       - name: Run gradle build to compile the applications
         run: ${{ github.workspace }}/gradlew build --no-daemon
 
