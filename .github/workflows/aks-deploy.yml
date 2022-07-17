@@ -23,7 +23,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_SP_CREDENTIALS}}
 
-#      # Container build and push to a Azure Container registry (ACR)
+#      # Container build and push to an Azure Container registry (ACR)
 #      - run: |
 #          docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/myimage:${{ github.sha }}
 #          docker push ${{ env.REGISTRY_NAME }}.azurecr.io/myimage:${{ github.sha }}

@@ -12,6 +12,7 @@ node {
     npmVersion.set(Versions.NPM)
 }
 
+// see: https://github.com/coditory/gradle-webjar-plugin/blob/master/README.md
 webjar {
  //   cache {
  //       enabled = false

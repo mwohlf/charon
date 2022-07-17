@@ -4,13 +4,11 @@
 
 replicaCount: 1
 
-# https://github.com/binblee/springboot-helm-chart
-# https://tanzu.vmware.com/developer/guides/deploy-spring-boot-application-production-helm/
 image:
-  registry: ghcr.io
-  repository: mwohlf/charon-backend
-  tag: latest
-  pullPolicy: Always
+  repository: nginx
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
@@ -40,8 +38,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  externalPort: 80
-  internalPort: 8080
+  port: 80
 
 ingress:
   enabled: false

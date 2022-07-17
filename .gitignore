@@ -11,4 +11,5 @@ build
 /frontend/dist
 
 
-/etc/credentials.txt
+/etc/setup/credentials.txt
+

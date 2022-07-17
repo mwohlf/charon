@@ -1,1 +1,1 @@
-// empty to stop lookup
+// empty to stop lookup traversal

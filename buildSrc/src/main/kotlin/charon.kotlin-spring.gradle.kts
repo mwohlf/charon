@@ -46,18 +46,19 @@ jib {
         image = "openjdk:17-alpine"
     }
     to {
-        // val imagePrefix = "ttl.sh"
-        val imagePrefix = "ghcr.io/mwohlf"   // github repo
         val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
         val details = versionDetails()
-        val first = rootProject.name
-        val second = project.name
-        // image = "${imagePrefix}/${root}-${module}-${details.gitHash}:1h"
-        image = "${imagePrefix}/${first}-${second}:${details.gitHash}"
+
+        // val registry = "ghcr.io"
+        val registry = "ttl.sh"
+        val repository = "mwohlf/${rootProject.name}-${project.name}"
+        val tag = "latest"
+
+        image = "${registry}/${repository}:${details.gitHash}"
         tags = setOf(
-            "latest",
+            "${tag}",
             "${details.branchName}",
-            "${project.version}",
+           // always unspecified:  "${project.version}",
         )
     }
 
