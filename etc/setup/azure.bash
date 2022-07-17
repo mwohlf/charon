@@ -18,12 +18,11 @@ export LOCATION="germanywestcentral"
 function create_container_registry() {
     # this creates acr charon.azurecr.io
     az acr create \
-        --resource-group ${RESOURCE_GROUP} \
+        --resource-group ${RESOURCE_GROUP:=charonResourceGroup} \
         --location ${LOCATION:=germanywestcentral} \
         --name charon \
         --sku Basic
 }
-
 
 function get_pods() {
     az aks command invoke \
@@ -38,8 +37,34 @@ function get_pods() {
 # create a chart:
 #   helm create azure-vote-front
 #
+# deploy the chart:
+#   helm install charon ../helm/charon/
+#
+# info:
+#   kubectl cluster-info
+#
+# deploy and view the dashboard:
+#   see: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+#
+#   kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.6.0/aio/deploy/recommended.yaml
+#   kubectl proxy
+#
+#
+#
 function deploy_chart() {
     helm install charon ../helm/charon/
+
+    POD_NAME=$(kubectl get pods \
+        --namespace default \
+        -l "app.kubernetes.io/name=charon,app.kubernetes.io/instance=charon" \
+        -o jsonpath="{.items[0].metadata.name}")
+    export POD_NAME
+
+    CONTAINER_PORT=$(kubectl get pod \
+        --namespace default "${POD_NAME}" \
+        -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+    export CONTAINER_PORT
+
 }
 
 ########## credentials ###########
@@ -62,7 +87,6 @@ EOF
     # setup the secret in the github repo as "AZURE_SP_CREDENTIALS"
     # the github deploy action will pick up the secret as secrets.AZURE_SP_CREDENTIALS
 }
-
 
 ########## cluster ###########
 
