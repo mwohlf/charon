@@ -31,6 +31,21 @@ function get_pods() {
         --command "kubectl get pods -n kube-system"
 }
 
+#
+# see: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+#      https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
+#
+function deploy_dashboard() {
+    kubectl apply -f ./dashboard-setup.yaml
+    kubectl proxy &
+    SECRET_NAME=$(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}{'\n'}")
+    kubectl -n kubernetes-dashboard get secret "${SECRET_NAME}" -o go-template="{{.data.token | base64decode}}" > token.txt
+    cat <<EOF
+copy the token from token.txt to login at
+http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/node?namespace=default
+EOF
+}
+
 ########## helm ###########
 
 #
@@ -42,13 +57,6 @@ function get_pods() {
 #
 # info:
 #   kubectl cluster-info
-#
-# deploy and view the dashboard:
-#   see: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
-#
-#   kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.6.0/aio/deploy/recommended.yaml
-#   kubectl proxy
-#
 #
 #
 function deploy_chart() {
@@ -64,7 +72,10 @@ function deploy_chart() {
         --namespace default "${POD_NAME}" \
         -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
     export CONTAINER_PORT
+}
 
+function remove_chart() {
+    helm delete charon
 }
 
 ########## credentials ###########
@@ -225,6 +236,9 @@ for i in "$@"; do
         create_cluster
         create_credentials
         install_chart
+        ;;
+    dashboard)
+        deploy_dashboard
         ;;
     deploy)
         install_chart
