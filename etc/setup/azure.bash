@@ -9,13 +9,23 @@
 #  - kubelogin
 #
 
+set -e
+
+CURRENT_DIR="${PWD}"
+function cleanup {
+  echo "finishing the script... ${?}"
+  # back to where we came from
+  cd "${CURRENT_DIR}"
+}
+trap cleanup EXIT
+
+
 # config values
 export RESOURCE_GROUP="charonResourceGroup"
 export CLUSTER="charonCluster"
 export LOCATION="germanywestcentral"
 export CREDENTIALS_FILE="credentials.txt"
 export TOKEN_FILE="token.txt"
-
 
 function create_container_registry() {
     # this creates acr charon.azurecr.io
@@ -41,7 +51,7 @@ function deploy_dashboard() {
     kubectl apply -f ./dashboard-setup.yaml
     kubectl proxy &
     SECRET_NAME=$(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}{'\n'}")
-    kubectl -n kubernetes-dashboard get secret "${SECRET_NAME}" -o go-template="{{.data.token | base64decode}}" > ${TOKEN_FILE}
+    kubectl -n kubernetes-dashboard get secret "${SECRET_NAME}" -o go-template="{{.data.token | base64decode}}" >${TOKEN_FILE}
     cat <<EOF
 copy the token from ${TOKEN_FILE} to login at
 http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/node?namespace=default
@@ -254,6 +264,7 @@ for i in "$@"; do
         ;;
     delete)
         delete_resource_group
+        logout_azure
         ;;
     connect)
         login_azure

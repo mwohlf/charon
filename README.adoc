@@ -28,10 +28,9 @@ This module implements an OAuth Service and is based on the
   spring-security-oauth2-authorization-server
 SpringBoot module.
 
-We want to use the OAuth Code Flow for authentication. +
+We want to use the OAuth Code Flow for authentication.
 
 Documentation can be found here: +
-
 https://developer.okta.com/blog/2018/04/10/oauth-authorization-code-grant-type[Okta Code GRant Docu] +
 https://docs.spring.io/spring-authorization-server/docs/current/reference/html/getting-started.html[Spring OAuth Server Howto] +
 https://github.com/spring-projects/spring-authorization-server[GitHub Spring AOuth Server] +
@@ -66,10 +65,10 @@ Setup steps: +
   ng generate @angular/material:navigation navigation
   npm install angular-auth-oidc-client --registry https://registry.npmjs.org --legacy-peer-deps
 
-oauth module from here:
+oauth module from here: +
 https://github.com/damienbod/angular-auth-oidc-client +
 
-proxy service config:
+proxy service config: +
 https://angular.io/guide/build#proxying-to-a-backend-server
 
 
@@ -95,29 +94,46 @@ for ubuntu this means:
     openjdk-17-jdk \
     docker \
 
+== .github
 
+the github pipelines or workflows
+
+* aks-deploy.yml +
+  trigger a helm chart deploy from the etc/helm directory
+
+* gradle-build.yml +
+  trigger the gradle jib build for creating the images configured the buildSrc
 
 == etc
 
-contains API definition, scripts, deployment descriptions,
+contains API definition, scripts, deployment descriptions, helm charts
 
+'''
 
-For now we are pushing the images to an ephemeral docker image registry.
+For now we are pushing the images to an ephemeral docker image registry at:
+https://ttl.sh/ +
 
-see:
-https://ttl.sh/
-https://azure.github.io/kube-labs/1-github-actions.html#objective-of-the-lab
-
-
-
-bootup:
+Simple bootup the backend image:
 
   docker run -p 8080:8080 ttl.sh/mwohlf/charon-backend
 
+Deployment is outlined here: +
+https://www.koslib.com/posts/deploy-k8s-apps-helm-complete/ +
+https://github.com/Azure/actions-workflow-samples +
 
+The `etc/setup/azure.bash` script can be used to perform:
 
-== TODO
-deployment according to https://www.koslib.com/posts/deploy-k8s-apps-helm-complete/
+[source]
+----
+  # delete the resource group and logout from az:
+  azure.bash delete
 
+  # setup the k8s cluster
+  azure.bash create
 
-https://github.com/Azure/actions-workflow-samples
+  # bootup the k8s dashboard
+  azure.bash dashboard
+
+  # deploy the chart
+  azure.bash deploy
+----
