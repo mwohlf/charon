@@ -12,8 +12,10 @@
 # config values
 export RESOURCE_GROUP="charonResourceGroup"
 export CLUSTER="charonCluster"
-export CREDENTIALS_FILE="credentials.txt"
 export LOCATION="germanywestcentral"
+export CREDENTIALS_FILE="credentials.txt"
+export TOKEN_FILE="token.txt"
+
 
 function create_container_registry() {
     # this creates acr charon.azurecr.io
@@ -39,9 +41,9 @@ function deploy_dashboard() {
     kubectl apply -f ./dashboard-setup.yaml
     kubectl proxy &
     SECRET_NAME=$(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}{'\n'}")
-    kubectl -n kubernetes-dashboard get secret "${SECRET_NAME}" -o go-template="{{.data.token | base64decode}}" > token.txt
+    kubectl -n kubernetes-dashboard get secret "${SECRET_NAME}" -o go-template="{{.data.token | base64decode}}" > ${TOKEN_FILE}
     cat <<EOF
-copy the token from token.txt to login at
+copy the token from ${TOKEN_FILE} to login at
 http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/node?namespace=default
 EOF
 }
@@ -98,15 +100,19 @@ EOF
         --sdk-auth >>${CREDENTIALS_FILE}
     # setup the secret in the github repo as "AZURE_SP_CREDENTIALS"
     # the github deploy action will pick up the secret as secrets.AZURE_SP_CREDENTIALS
+
+    echo "credentials have been stored in ${CREDENTIALS_FILE}"
 }
 
 ########## cluster ###########
 
 function has_cluster() {
-    if [ -n "$(az aks show -n ${CLUSTER} -g ${RESOURCE_GROUP} -o json --query id 2>/dev/null)" ]; then
-        return 1
+    # az aks show -n charonCluster -g charonResourceGroup -o json --query id 2>/dev/null
+    # -n: check for non-empty
+    if [[ -n "$(az aks show -n ${CLUSTER} -g ${RESOURCE_GROUP} -o json --query id 2>/dev/null)" ]]; then
+        return 0 # true
     else
-        return 0
+        return 1 # false
     fi
 }
 
@@ -126,17 +132,19 @@ function create_cluster() {
         --generate-ssh-keys >/dev/null
     az aks get-credentials \
         --resource-group ${RESOURCE_GROUP} \
-        --name ${CLUSTER}
+        --name ${CLUSTER} \
+        --overwrite-existing
     echo "... finished creating ${CLUSTER}"
 }
 
 ########## resource group ###########
 
 function has_resource_group() {
-    if [ "$(az group exists --name ${RESOURCE_GROUP})" = true ]; then
-        return 1
+    # az group exists --name charonResourceGroup
+    if [[ "$(az group exists --name ${RESOURCE_GROUP})" == "true" ]]; then
+        return 0 # true
     else
-        return 0
+        return 1 # false
     fi
 }
 
@@ -166,7 +174,7 @@ function delete_resource_group() {
 ########## authentication ###########
 
 function is_authenticated() {
-    if [ -n "$(az account show 2>/dev/null)" ]; then
+    if [[ -n "$(az account show 2>/dev/null)" ]]; then
         return 0
     else
         return 1
