@@ -9,7 +9,22 @@ metadata:
 spec:
   containers:
     - name: wget
-      image: busybox
-      command: ['wget']
-      args: ['{{ include "charon.fullname" . }}:{{ .Values.service.port }}']
+      image: busybox:latest
+      command: [ 'wget' ]
+      args: [ '{{ include "charon.fullname" . }}:{{ .Values.service.port }}' ]
+      livenessProbe:
+        exec:
+          command:
+            - file /dev/null
+        initialDelaySeconds: 5
+        periodSeconds: 15
+        failureThreshold: 1
+      readinessProbe:
+        exec:
+          command:
+            - file /dev/null
+        initialDelaySeconds: 5
+        periodSeconds: 15
+        failureThreshold: 1
+
   restartPolicy: Never
