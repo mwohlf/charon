@@ -1,6 +1,7 @@
 package net.wohlfart.charon.config
 
 import org.springframework.stereotype.Component
+import java.util.logging.Logger
 
 import javax.servlet.Filter
 import javax.servlet.FilterChain
@@ -10,6 +11,8 @@ import javax.servlet.ServletResponse
 
 @Component
 class AngularRoutesFilter : Filter {
+    var logger = Logger.getLogger(this.javaClass.name)
+
 
     val API_PATH = "/api"
     val SWAGGER_CONFIG_PATH = "/v3/api-docs"
@@ -26,9 +29,9 @@ class AngularRoutesFilter : Filter {
             && !path.startsWith(API_PATH)
             && !path.startsWith(SWAGGER_CONFIG_PATH))
         if (result) {
-            println("re-routing: '$path' to the $INDEX_HTML resource")
+            logger.info("re-routing: '$path' to the $INDEX_HTML resource")
         } else {
-            println("serving: '$path'")
+            logger.info("serving: '$path'")
         }
         return result
     }

@@ -109,6 +109,13 @@ https://ttl.sh/
 https://azure.github.io/kube-labs/1-github-actions.html#objective-of-the-lab
 
 
+
+bootup:
+
+  docker run -p 8080:8080 ttl.sh/mwohlf/charon-backend
+
+
+
 == TODO
 deployment according to https://www.koslib.com/posts/deploy-k8s-apps-helm-complete/
 

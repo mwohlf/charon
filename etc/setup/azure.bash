@@ -54,6 +54,7 @@ EOF
 #
 # deploy the chart:
 #   helm install charon ../helm/charon/
+#   helm uninstall charon
 #
 # info:
 #   kubectl cluster-info
@@ -235,13 +236,13 @@ for i in "$@"; do
         create_resource_group
         create_cluster
         create_credentials
-        install_chart
+        deploy_chart
         ;;
     dashboard)
         deploy_dashboard
         ;;
     deploy)
-        install_chart
+        deploy_chart
         ;;
     delete)
         delete_resource_group

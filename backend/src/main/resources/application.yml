@@ -1,7 +1,12 @@
 
 
-
 net:
   wohlfart:
     charon:
       dataDir: test
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true

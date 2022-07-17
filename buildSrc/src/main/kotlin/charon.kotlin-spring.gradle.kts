@@ -49,17 +49,21 @@ jib {
         val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
         val details = versionDetails()
 
+        //github registry:
         // val registry = "ghcr.io"
+        // val repository = "mwohlf/${rootProject.name}-${project.name}"
+        // image = "${registry}/${repository}"
+        // tags = setOf(
+        //    "latest",
+        //    "${details.gitHash}",
+        //    "${details.branchName}",
+        //    // always unspecified:  "${project.version}",
+        //)
+
         val registry = "ttl.sh"
         val repository = "mwohlf/${rootProject.name}-${project.name}"
-        val tag = "latest"
-
-        image = "${registry}/${repository}:${details.gitHash}"
-        tags = setOf(
-            "${tag}",
-            "${details.branchName}",
-           // always unspecified:  "${project.version}",
-        )
+        image = "${registry}/${repository}"
+        tags = setOf("1h")
     }
 
     /*
