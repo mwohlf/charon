@@ -35,7 +35,7 @@ jobs:
           cluster-name: ${{ env.CLUSTER }}
           resource-group: ${{ env.RESOURCE_GROUP }}
 
-      # Create namespace if doesn't exist
+      # Create namespace if it doesn't exist
       - run: |
           kubectl create namespace ${{ env.NAMESPACE }} --dry-run -o json | kubectl apply -f -
 
@@ -43,7 +43,7 @@ jobs:
       - uses: azure/k8s-bake@v2.2
         with:
           silent: 'false' # set this to get more verbose helm command logs
-          renderEngine: 'helm2'
+          renderEngine: 'helm3'
           helmChart: '${{ github.workspace }}/etc/helm/charon/'
           helm-version: 'latest'
         id: bake
@@ -57,7 +57,7 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
       # Deploy app to AKS
-      - uses: azure/k8s-deploy@v1
+      - uses: azure/k8s-deploy@v4.2
         with:
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
           namespace: ${{ env.NAMESPACE }}
