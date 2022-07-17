@@ -137,3 +137,7 @@ The `etc/setup/azure.bash` script can be used to perform:
   # deploy the chart
   azure.bash deploy
 ----
+
+
+todo:
+https://bhuwanupadhyay.github.io/2020/06/expose-spring-boot-microservice-with-ingress-using-helm/
