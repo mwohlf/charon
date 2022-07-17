@@ -43,7 +43,7 @@ jobs:
       - uses: azure/k8s-bake@v2.2
         with:
           silent: 'false' # set this to get more verbose helm command logs
-          renderEngine: 'helm3'
+          renderEngine: 'helm'
           helmChart: '${{ github.workspace }}/etc/helm/charon/'
           helm-version: 'latest'
         id: bake
