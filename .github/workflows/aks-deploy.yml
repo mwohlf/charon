@@ -10,7 +10,7 @@ on:
 env:
   CLUSTER: charonCluster
   RESOURCE_GROUP: charonResourceGroup
-  NAMESPACE: test
+  NAMESPACE: default
 
 jobs:
   deploy:
