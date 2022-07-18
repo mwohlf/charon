@@ -1,42 +1,38 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ include "charon.fullname" . }}
-  labels:
-    {{- include "charon.labels" . | nindent 4 }}
-spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
-  selector:
-    matchLabels:
-      {{- include "charon.selectorLabels" . | nindent 6 }}
-  template:
-    metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      labels:
-        {{- include "charon.selectorLabels" . | nindent 8 }}
-    spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "charon.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      containers:
-        - name: {{ .Chart.Name }}
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    labels:
+      app: {{ template "fullname" . }}
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+      release: {{ .Release.Name | quote }}
+      heritage: {{ .Release.Service | quote }}
+      version: {{ .Chart.Version }}
+    name: charon
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: {{ template "fullname" . }}
+    template:
+      metadata:
+        labels:
+          provider: fabric8
+          app: {{ template "fullname" . }}
+          chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+          release: {{ .Release.Name | quote }}
+          heritage: {{ .Release.Service | quote }}
+          version: 1.0.0
+      spec:
+        containers:
+        - image: "{{ .Values.charon.image.registry }}/{{ .Values.charon.image.repository }}:{{ .Values.charon.image.tag | default .Chart.AppVersion }}"
+          name: charon
+          imagePullPolicy: {{ .Values.charon.image.pullPolicy }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
+            privileged: false
           livenessProbe:
             initialDelaySeconds: 15
             periodSeconds: 30
@@ -49,17 +45,3 @@ spec:
             httpGet:
               path: /actuator/health/readiness
               port: 8080
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
