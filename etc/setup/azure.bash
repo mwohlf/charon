@@ -13,12 +13,11 @@ set -e
 
 CURRENT_DIR="${PWD}"
 function cleanup {
-  echo "finishing the script... ${?}"
-  # back to where we came from
-  cd "${CURRENT_DIR}"
+    echo "finishing the script, error code is ${?}"
+    # back to where we came from
+    cd "${CURRENT_DIR}"
 }
 trap cleanup EXIT
-
 
 # config values
 export RESOURCE_GROUP="charonResourceGroup"
@@ -42,6 +41,24 @@ function get_pods() {
         --name ${CLUSTER:=charonCluster} \
         --command "kubectl get pods -n kube-system"
 }
+
+function create_public_ip_address() {
+    NODE_RESOURCE_GROUP=$(az aks show \
+        -g ${RESOURCE_GROUP} \
+        -n ${CLUSTER} \
+        --query 'nodeResourceGroup' -o tsv)
+    export NODE_RESOURCE_GROUP
+    PUBLIC_IP=$(az network public-ip create \
+        -g "${NODE_RESOURCE_GROUP}" \
+        -n applicationIp \
+        --sku Standard \
+        --allocation-method Static --query 'publicIp.ipAddress' \
+        -o tsv)
+    export PUBLIC_IP
+    echo "Your public IP address is ${PUBLIC_IP}."
+}
+
+
 
 #
 # see: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
@@ -70,7 +87,6 @@ EOF
 #
 # info:
 #   kubectl cluster-info
-#
 #
 function deploy_chart() {
     helm install charon ../helm/charon/
@@ -211,10 +227,12 @@ function show_usage() {
     cat <<EOF
 This script is intended to simplify setup and deployment in azure cli or azure cloud cli
 Arguments are:
- - connect: to login for local az, not needed in azure cloud cli
  - create: to setup up the cluster
+ - deploy_dashboard: to show the k8s dashboard
+ - deploy_chart: to deploy a helm chart
+ - login_azure: to login for local az, not needed in azure cloud cli
+ - create_public_ip_address: create an ip address
  - delete: to remove the cluster
- - deploy: to deploy a helm chart
 EOF
 }
 
@@ -247,30 +265,39 @@ EOF
 #  main
 ##################################################
 
-for i in "$@"; do
-    case $i in
+if [[ $# -eq 0 ]]; then
+    show_usage
+    exit 1
+fi
+
+for var in "$@"; do
+    case $var in
     create)
         login_azure
         create_resource_group
         create_cluster
         create_credentials
         deploy_chart
+        create_public_ip_address
         ;;
-    dashboard)
+    deploy_dashboard)
         deploy_dashboard
         ;;
-    deploy)
+    deploy_chart)
         deploy_chart
         ;;
     delete)
         delete_resource_group
         logout_azure
         ;;
-    connect)
+    login_azure)
         login_azure
         ;;
-    disconnect)
+    logout_azure)
         logout_azure
+        ;;
+    create_public_ip_address)
+        create_public_ip_address
         ;;
     help | h | --help | -h)
         show_usage

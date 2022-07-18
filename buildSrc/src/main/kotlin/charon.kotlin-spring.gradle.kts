@@ -63,7 +63,7 @@ jib {
         val registry = "ttl.sh"
         val repository = "mwohlf/${rootProject.name}-${project.name}"
         image = "${registry}/${repository}"
-        tags = setOf("1h")
+        tags = setOf("4h") // the ttl
     }
 
     /*
