@@ -12,6 +12,7 @@
 set -e
 
 CURRENT_DIR="${PWD}"
+SCRIPT_DIR="${0%/*}"
 function cleanup {
     echo "finishing the script, error code is ${?}"
     # back to where we came from
@@ -25,6 +26,8 @@ export CLUSTER="charonCluster"
 export LOCATION="germanywestcentral"
 export CREDENTIALS_FILE="credentials.txt"
 export TOKEN_FILE="token.txt"
+
+
 
 function create_container_registry() {
     # this creates acr charon.azurecr.io
@@ -52,13 +55,17 @@ function create_public_ip_address() {
         -g "${NODE_RESOURCE_GROUP}" \
         -n applicationIp \
         --sku Standard \
-        --allocation-method Static --query 'publicIp.ipAddress' \
+        --allocation-method Static \
+        --query 'publicIp.ipAddress' \
         -o tsv)
     export PUBLIC_IP
     echo "Your public IP address is ${PUBLIC_IP}."
 }
 
-
+function delete_secrets() {
+    rm "${SCRIPT_DIR}/${TOKEN_FILE}"
+    rm "${SCRIPT_DIR}/${CREDENTIALS_FILE}"
+}
 
 #
 # see: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
@@ -68,7 +75,7 @@ function deploy_dashboard() {
     kubectl apply -f ./dashboard-setup.yaml
     kubectl proxy &
     SECRET_NAME=$(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}{'\n'}")
-    kubectl -n kubernetes-dashboard get secret "${SECRET_NAME}" -o go-template="{{.data.token | base64decode}}" >${TOKEN_FILE}
+    kubectl -n kubernetes-dashboard get secret "${SECRET_NAME}" -o go-template="{{.data.token | base64decode}}" >"${SCRIPT_DIR}/${TOKEN_FILE}"
     cat <<EOF
 copy the token from ${TOKEN_FILE} to login at
 http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/node?namespace=default
@@ -89,7 +96,7 @@ EOF
 #   kubectl cluster-info
 #
 function deploy_chart() {
-    helm install charon ../helm/charon/
+    helm upgrade --install --wait --timeout 30s charon ../helm/charon/
 
     POD_NAME=$(kubectl get pods \
         --namespace default \
@@ -103,7 +110,7 @@ function deploy_chart() {
     export CONTAINER_PORT
 }
 
-function remove_chart() {
+function delete_chart() {
     helm delete charon
 }
 
@@ -115,7 +122,7 @@ function remove_chart() {
 function create_credentials() {
     SUBSCRIPTION_ID=$(az account show --query id -o tsv)
     export SUBSCRIPTION_ID
-    cat >${CREDENTIALS_FILE} <<EOF
+    cat >"${SCRIPT_DIR}/${CREDENTIALS_FILE}" <<EOF
 // stored as repository secret with name AZURE_SP_CREDENTIALS
 // GitHub -> Repo -> Secrets -> Actions -> New Repository secret -> insert Name, Value
 EOF
@@ -149,18 +156,19 @@ function create_cluster() {
         echo "cluster ${CLUSTER} already exists"
         return
     fi
-    echo "creating cluster ${CLUSTER} ..."
+    echo "creating cluster ${CLUSTER}..."
     az aks create \
         --resource-group ${RESOURCE_GROUP} \
         --name ${CLUSTER} \
         --node-count 2 \
         --enable-addons http_application_routing \
         --generate-ssh-keys >/dev/null
+    echo "getting credentials"
     az aks get-credentials \
         --resource-group ${RESOURCE_GROUP} \
         --name ${CLUSTER} \
         --overwrite-existing
-    echo "... finished creating ${CLUSTER}"
+    echo "...finished creating ${CLUSTER}"
 }
 
 ########## resource group ###########
@@ -229,7 +237,8 @@ This script is intended to simplify setup and deployment in azure cli or azure c
 Arguments are:
  - create: to setup up the cluster
  - deploy_dashboard: to show the k8s dashboard
- - deploy_chart: to deploy a helm chart
+ - deploy_chart: to deploy the helm chart
+ - delete_chart: to delete the helm chart
  - login_azure: to login for local az, not needed in azure cloud cli
  - create_public_ip_address: create an ip address
  - delete: to remove the cluster
@@ -286,9 +295,13 @@ for var in "$@"; do
     deploy_chart)
         deploy_chart
         ;;
+    delete_chart)
+        delete_chart
+        ;;
     delete)
         delete_resource_group
         logout_azure
+        delete_secrets
         ;;
     login_azure)
         login_azure

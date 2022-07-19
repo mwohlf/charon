@@ -1,30 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: release-name-hello-world
-  labels:
-    app.kubernetes.io/name: charon
-    helm.sh/chart: charon-0.1.0
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/managed-by: Tiller
+  name: charon-deployment
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: charon
-      app.kubernetes.io/instance: release-name
+      app: charon-backend
+  replicas: 2
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: charon
-        app.kubernetes.io/instance: release-name
+        app: charon-backend
     spec:
       containers:
-        - name: hello-world
+        - name: charon-backend
           image: "ttl.sh/mwohlf/charon-backend"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 8080
               protocol: TCP
-
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+          readinessProbe:
+            initialDelaySeconds: 3
+            periodSeconds: 2
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080

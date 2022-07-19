@@ -139,5 +139,7 @@ The `etc/setup/azure.bash` script can be used to perform:
 ----
 
 
-todo:
-https://bhuwanupadhyay.github.io/2020/06/expose-spring-boot-microservice-with-ingress-using-helm/
+todo: +
+https://bhuwanupadhyay.github.io/2020/06/expose-spring-boot-microservice-with-ingress-using-helm/ +
+https://unbroken-dome.github.io/projects/gradle-helm-plugin/latest/userguide/index.html +
+
