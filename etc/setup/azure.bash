@@ -26,6 +26,7 @@ export CLUSTER="charonCluster"
 export LOCATION="germanywestcentral"
 export CREDENTIALS_FILE="credentials.txt"
 export TOKEN_FILE="token.txt"
+export NAMESPACE="default"
 
 
 
@@ -98,15 +99,16 @@ EOF
 function deploy_chart() {
     helm upgrade --install --wait --timeout 30s charon ../helm/charon/
 
+    # seems broken:
+    # --selector "app.kubernetes.io/app=charon-backend" \
     POD_NAME=$(kubectl get pods \
-        --namespace default \
-        -l "app.kubernetes.io/name=charon,app.kubernetes.io/instance=charon" \
-        -o jsonpath="{.items[0].metadata.name}")
+        --namespace "${NAMESPACE}" \
+        --output jsonpath="{.items[0].metadata.name}")
     export POD_NAME
 
     CONTAINER_PORT=$(kubectl get pod \
-        --namespace default "${POD_NAME}" \
-        -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+        --namespace "${NAMESPACE}" "${POD_NAME}" \
+        --output jsonpath="{.spec.containers[0].ports[0].containerPort}")
     export CONTAINER_PORT
 }
 
