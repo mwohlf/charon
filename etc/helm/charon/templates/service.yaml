@@ -1,34 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: charon-backend-service
+  name: public-svc
 spec:
+  type: LoadBalancer
   selector:
     app: charon-backend
   ports:
-    - port: 1000
-      protocol: TCP
-      targetPort: 8080
-      name: access-port
-  type: NodePort
-
-#  https://kubernetes.io/docs/concepts/services-networking/service/
-#  targets TCP port 8080 on any Pod with the app=charon-backend label
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    service.beta.kubernetes.io/azure-dns-label-name: charon
-  name: charon-load-balancer
-spec:
-  type: LoadBalancer
-  ports:
     - port: 80
-      protocol: TCP
       targetPort: 8080
-      name: access-port
-  selector:
-    app: azure-load-balancer
+
+# see: https://kubernetes.io/docs/concepts/services-networking/_print/#defining-a-service
+#
+#
