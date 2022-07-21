@@ -10,4 +10,6 @@ import org.springframework.boot.context.properties.ConstructorBinding
 class CharonProperties(
 
     val dataDir: String,
+
+    val webjarBase: String,
 )

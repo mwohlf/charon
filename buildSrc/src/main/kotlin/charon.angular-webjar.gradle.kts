@@ -13,9 +13,9 @@ node {
 
 // see: https://github.com/coditory/gradle-webjar-plugin/blob/master/README.md
 webjar {
-//    cache {
-//        enabled = false
-//    }
+    cache {
+        enabled = false
+    }
 }
 
 tasks.npmSetup {

@@ -1,5 +1,6 @@
 package net.wohlfart.charon.config
 
+import net.wohlfart.charon.CharonProperties
 import org.springframework.stereotype.Component
 import java.util.logging.Logger
 
@@ -11,47 +12,38 @@ import javax.servlet.http.HttpServletRequest
 
 
 fun requestUrl(request: ServletRequest?): String? {
-    return if (request !is HttpServletRequest) null else (request as HttpServletRequest?)?.let {
-        getCurrentUrlFromRequest(
-            it
-        )
-    }
+    return if (request !is HttpServletRequest) null else (request as HttpServletRequest?)?.requestURL?.toString()
 }
 
-fun getCurrentUrlFromRequest(request: HttpServletRequest): String? {
-    val requestURL = request.requestURL
-    request
-    val queryString = request.queryString ?: return requestURL.toString()
-    return requestURL.append('?').append(queryString).toString()
-}
-
-// @Component
-class AngularRoutesFilter : Filter {
+@Component
+class AngularRoutesFilter(val charonProperties: CharonProperties) : Filter {
     var logger = Logger.getLogger(this.javaClass.name)
 
-
-    val CHARON_PATH = "/charon"
     val API_PATH = "/api"
     val SWAGGER_CONFIG_PATH = "/v3/api-docs"
     val INDEX_HTML = "/index.html"
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, filterchain: FilterChain) {
         return if (isAngularRoute(requestUrl(request))) {
-            request.getRequestDispatcher(INDEX_HTML).forward(request,response);
+            logger.info("re-routing: '" + requestUrl(request) + "' to " + charonProperties.webjarBase + INDEX_HTML)
+            request.getRequestDispatcher(charonProperties.webjarBase + INDEX_HTML).forward(request, response);
         } else filterchain.doFilter(request, response);
     }
 
     private fun isAngularRoute(path: String?): Boolean {
-        val result = (path != null)
-            && (!path.contains(".") // this indicates a html,jpg,js file we don't want to reroute that
-            && !path.startsWith(API_PATH)
-            && !path.startsWith(SWAGGER_CONFIG_PATH))
-        if (result) {
-            logger.info("re-routing: '$path' to the $INDEX_HTML resource")
-        } else {
-            logger.info("serving: '$path'")
+        if (path == null) {
+            return false
         }
-        return result
+        if (path.contains(".")) {
+            return false // this indicates a html,jpg,js file we don't want to reroute that
+        }
+        if (path.startsWith(API_PATH)) {
+            return false // we don't want to re-route api traffic
+        }
+        if (path.startsWith(SWAGGER_CONFIG_PATH)) {
+            return false // we don't want to re-route api traffic
+        }
+        return true;
     }
 
 }

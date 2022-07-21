@@ -13,4 +13,5 @@ management:
 net:
   wohlfart:
     charon:
-      dataDir: test
+      data-dir: "test"
+      webjar-base: "/charon"
