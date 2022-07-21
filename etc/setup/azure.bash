@@ -63,6 +63,19 @@ function create_public_ip_address() {
     echo "Your public IP address is ${PUBLIC_IP}."
 }
 
+function delete_public_ip_address() {
+    NODE_RESOURCE_GROUP=$(az aks show \
+        -g ${RESOURCE_GROUP} \
+        -n ${CLUSTER} \
+        --query 'nodeResourceGroup' -o tsv)
+    export NODE_RESOURCE_GROUP
+    az network public-ip delete \
+        -g "${NODE_RESOURCE_GROUP}" \
+        -n applicationIp
+    export PUBLIC_IP
+    echo "Your public IP address was deleted."
+}
+
 function delete_secrets() {
     rm "${SCRIPT_DIR}/${TOKEN_FILE}"
     rm "${SCRIPT_DIR}/${CREDENTIALS_FILE}"
@@ -73,7 +86,7 @@ function delete_secrets() {
 #      https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
 #
 function deploy_dashboard() {
-    kubectl apply -f ./dashboard-setup.yaml
+    kubectl apply -f "${SCRIPT_DIR}//dashboard-setup.yaml"
     kubectl proxy &
     SECRET_NAME=$(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}{'\n'}")
     kubectl -n kubernetes-dashboard get secret "${SECRET_NAME}" -o go-template="{{.data.token | base64decode}}" >"${SCRIPT_DIR}/${TOKEN_FILE}"
@@ -97,7 +110,7 @@ EOF
 #   kubectl cluster-info
 #
 function deploy_chart() {
-    helm upgrade --install --wait --timeout 30s charon ../helm/charon/
+    helm upgrade --install --wait --timeout 30s charon "${SCRIPT_DIR}/../helm/charon/"
 
     # seems broken:
     # --selector "app.kubernetes.io/app=charon-backend" \
@@ -131,12 +144,12 @@ EOF
     az ad sp create-for-rbac \
         --name "charonApp" \
         --role contributor \
-        --scopes /subscriptions/"${SUBSCRIPTION_ID}"/resourceGroups/${RESOURCE_GROUP} \
-        --sdk-auth >>${CREDENTIALS_FILE}
+        --scopes "/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP}" \
+        --sdk-auth >>"${SCRIPT_DIR}/${CREDENTIALS_FILE}"
     # setup the secret in the github repo as "AZURE_SP_CREDENTIALS"
     # the github deploy action will pick up the secret as secrets.AZURE_SP_CREDENTIALS
 
-    echo "credentials have been stored in ${CREDENTIALS_FILE}"
+    echo "credentials have been stored in ${SCRIPT_DIR}/${CREDENTIALS_FILE}"
 }
 
 ########## cluster ###########
@@ -289,7 +302,7 @@ for var in "$@"; do
         create_cluster
         create_credentials
         deploy_chart
-        create_public_ip_address
+        # create_public_ip_address
         ;;
     deploy_dashboard)
         deploy_dashboard
@@ -313,6 +326,9 @@ for var in "$@"; do
         ;;
     create_public_ip_address)
         create_public_ip_address
+        ;;
+    delete_public_ip_address)
+        delete_public_ip_address
         ;;
     help | h | --help | -h)
         show_usage

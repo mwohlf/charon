@@ -102,7 +102,7 @@ the github pipelines or workflows
   trigger a helm chart deploy from the etc/helm directory
 
 * gradle-build.yml +
-  trigger the gradle jib build for creating the images configured the buildSrc
+  trigger the gradle jib build for creating the images configured by the buildSrc
 
 == etc
 
@@ -111,7 +111,7 @@ contains API definition, scripts, deployment descriptions, helm charts
 '''
 
 For now we are pushing the images to an ephemeral docker image registry at:
-https://ttl.sh/ +
+https://ttl.sh/mwohlf/charon-backend +
 
 Simple bootup the backend image:
 
@@ -125,17 +125,13 @@ The `etc/setup/azure.bash` script can be used to perform:
 
 [source]
 ----
-  # delete the resource group and logout from az:
-  azure.bash delete
-
-  # setup the k8s cluster
-  azure.bash create
-
-  # bootup the k8s dashboard
-  azure.bash dashboard
-
-  # deploy the chart
-  azure.bash deploy
+ - create: to setup up the cluster
+ - deploy_dashboard: to show the k8s dashboard
+ - deploy_chart: to deploy the helm chart
+ - delete_chart: to delete the helm chart
+ - login_azure: to login for local az, not needed in azure cloud cli
+ - create_public_ip_address: create an ip address
+ - delete: to remove the cluster
 ----
 
 
