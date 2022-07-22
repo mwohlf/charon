@@ -55,7 +55,9 @@ Some OAuth Endpoints provided by the Server
 This module implements a simple UI using the OAuth backend for authentication. +
 Setup steps: +
 
-  ng update @angular/core @angular/cli
+  npm i
+  ng update @angular/core
+  ng update @angular/cli
   ng generate component components/home
   ng generate component components/main
   ng generate component components/error
