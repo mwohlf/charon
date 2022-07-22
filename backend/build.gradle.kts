@@ -1,6 +1,4 @@
-// import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import com.google.cloud.tools.jib.gradle.JibExtension
-import java.util.UUID
+description = "Charon Portal - Backend"
 
 plugins {
     id("charon.mrproper")

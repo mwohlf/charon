@@ -1,7 +1,10 @@
 package net.wohlfart.charon.config
 
 import net.wohlfart.charon.CharonProperties
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
+import org.springframework.web.bind.annotation.RequestMethod
 import java.util.logging.Logger
 
 import javax.servlet.Filter
@@ -10,10 +13,6 @@ import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 
-
-fun requestUrl(request: ServletRequest?): String? {
-    return if (request !is HttpServletRequest) null else (request as HttpServletRequest?)?.requestURL?.toString()
-}
 
 @Component
 class AngularRoutesFilter(val charonProperties: CharonProperties) : Filter {
@@ -24,10 +23,28 @@ class AngularRoutesFilter(val charonProperties: CharonProperties) : Filter {
     val INDEX_HTML = "/index.html"
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, filterchain: FilterChain) {
-        return if (isAngularRoute(requestUrl(request))) {
-            logger.info("re-routing: '" + requestUrl(request) + "' to " + charonProperties.webjarBase + INDEX_HTML)
-            request.getRequestDispatcher(charonProperties.webjarBase + INDEX_HTML).forward(request, response);
-        } else filterchain.doFilter(request, response);
+        if (request !is HttpServletRequest) {
+            filterchain.doFilter(request, response)
+            return
+        }
+        if (RequestMethod.GET.name != request.method) {
+            filterchain.doFilter(request, response)
+            return
+        }
+        // checking for
+        // Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+        val mediaTypes = MediaType.parseMediaTypes(request.getHeaders(HttpHeaders.ACCEPT).toList())
+        if (!mediaTypes.contains(MediaType.TEXT_HTML) && !mediaTypes.contains(MediaType.APPLICATION_XHTML_XML)) {
+            filterchain.doFilter(request, response)
+            return
+        }
+        val route = request.requestURL.toString()
+        if (!isAngularRoute(route)) {
+            filterchain.doFilter(request, response)
+            return
+        }
+        logger.info("re-routing: '$route' to ${charonProperties.webjarBase}$INDEX_HTML")
+        request.getRequestDispatcher(charonProperties.webjarBase + INDEX_HTML).forward(request, response)
     }
 
     private fun isAngularRoute(path: String?): Boolean {
@@ -43,7 +60,7 @@ class AngularRoutesFilter(val charonProperties: CharonProperties) : Filter {
         if (path.startsWith(SWAGGER_CONFIG_PATH)) {
             return false // we don't want to re-route api traffic
         }
-        return true;
+        return true
     }
 
 }

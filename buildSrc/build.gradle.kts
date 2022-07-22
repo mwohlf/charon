@@ -27,7 +27,7 @@ dependencies {
     // we need to declare dependencies for all the used plugins in the buildScripts...
 
     // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/
-    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.1")
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.2")
     // https://plugins.gradle.org/plugin/io.spring.dependency-management
     implementation("io.spring.gradle:dependency-management-plugin:1.0.12.RELEASE")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${jetbrainKotlinVersion}")

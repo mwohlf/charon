@@ -1,4 +1,4 @@
-// import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+description = "Charon Portal - OAuth"
 
 plugins {
     id("charon.mrproper")
