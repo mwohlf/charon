@@ -23,6 +23,7 @@ class AngularRoutesFilter(val charonProperties: CharonProperties) : Filter {
     val INDEX_HTML = "/index.html"
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, filterchain: FilterChain) {
+        logger.info("<doFilter> $request")
         if (request !is HttpServletRequest) {
             filterchain.doFilter(request, response)
             return
