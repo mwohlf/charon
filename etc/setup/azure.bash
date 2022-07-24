@@ -156,6 +156,7 @@ EOF
     # the github deploy action will pick up the secret as secrets.AZURE_SP_CREDENTIALS
 
     echo "credentials have been stored in ${SCRIPT_DIR}/${CREDENTIALS_FILE}"
+    echo "you need to copy them into github secrets to use for github actions"
 }
 
 ########## cluster ###########
@@ -188,7 +189,8 @@ function create_cluster() {
         --generate-ssh-keys >/dev/null
     # skipping:
     #    --enable-managed-identity
-    #    --enable-addons http_application_routing \
+    #  this creates a public ip
+    #    --enable-addons http_application_routing
     #    --enable-addons monitoring
     # see:
     # https://docs.microsoft.com/en-us/azure/aks/faq#why-are-two-resource-groups-created-with-aks
