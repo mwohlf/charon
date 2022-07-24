@@ -2,7 +2,7 @@
 = Charon
 :toc:
 
-image::https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml/badge.svg?https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml]
+image::https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml/badge.svg?[https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml]
 
 == intro
 
