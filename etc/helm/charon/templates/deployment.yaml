@@ -22,13 +22,13 @@ spec:
               protocol: TCP
           livenessProbe:
             initialDelaySeconds: 15
-            periodSeconds: 30
+            periodSeconds: 40
             httpGet:
               path: /actuator/health/liveness
               port: 8080
           readinessProbe:
-            initialDelaySeconds: 3
-            periodSeconds: 2
+            initialDelaySeconds: 20
+            periodSeconds: 30
             httpGet:
               path: /actuator/health/readiness
               port: 8080
