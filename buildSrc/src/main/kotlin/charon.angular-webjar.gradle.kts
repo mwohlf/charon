@@ -29,6 +29,6 @@ tasks.findByName("webjarClean")?.enabled = false
 tasks.findByName("compileJava")?.enabled = false
 
 // attach the webjarBuild to the build task
-tasks.findByName("build").apply {
-    this?.doLast { tasks.findByName("webjarBuild") }
+tasks.findByName("build")?.let {
+    it.doLast { tasks.findByName("webjarBuild") }
 }

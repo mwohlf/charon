@@ -123,6 +123,6 @@ openApiGenerate {
 }
 
 // re-create the API classes before ebuilding
-tasks.findByName("build").apply {
-    this?.doFirst { tasks.findByName("openApiGenerate") }
+tasks.findByName("build")?.let {
+    it.dependsOn("openApiGenerate")
 }
