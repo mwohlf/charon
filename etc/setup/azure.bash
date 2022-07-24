@@ -21,12 +21,14 @@ function cleanup {
 trap cleanup EXIT
 
 # config values
-export RESOURCE_GROUP="charonResourceGroup"
-export CLUSTER="charonCluster"
-export LOCATION="germanywestcentral"
+export NAMESPACE="charon"
+export RESOURCE_GROUP="${NAMESPACE}ResourceGroup"
+export CLUSTER="${NAMESPACE}Cluster"
+# export LOCATION="germanywestcentral"
+export LOCATION="eastus2"
 export CREDENTIALS_FILE="credentials.txt"
 export TOKEN_FILE="token.txt"
-export NAMESPACE="default"
+
 
 
 # we use a free cr from ttl.sh
@@ -79,8 +81,8 @@ function delete_public_ip_address() {
 }
 
 function delete_secrets() {
-    rm "${SCRIPT_DIR}/${TOKEN_FILE}"
-    rm "${SCRIPT_DIR}/${CREDENTIALS_FILE}"
+    rm -f "${SCRIPT_DIR}/${TOKEN_FILE}"
+    rm -f "${SCRIPT_DIR}/${CREDENTIALS_FILE}"
 }
 
 #
@@ -201,6 +203,7 @@ function has_resource_group() {
     fi
 }
 
+# azure resource groups don't cost anything
 function create_resource_group() {
     if has_resource_group; then
         echo "resource group ${RESOURCE_GROUP} already exists"
@@ -300,6 +303,7 @@ fi
 
 for var in "$@"; do
     case $var in
+
     create)
         login_azure
         create_resource_group
@@ -308,38 +312,49 @@ for var in "$@"; do
         deploy_chart
         # create_public_ip_address
         ;;
+
     deploy_dashboard)
         deploy_dashboard
         ;;
+
     deploy_chart)
         deploy_chart
         ;;
+
     delete_chart)
         delete_chart
         ;;
+
     delete)
         delete_resource_group
         logout_azure
         delete_secrets
         ;;
+
     login_azure)
         login_azure
         ;;
+
     logout_azure)
         logout_azure
         ;;
+
     create_public_ip_address)
         create_public_ip_address
         ;;
+
     delete_public_ip_address)
         delete_public_ip_address
         ;;
+
     help | h | --help | -h)
         show_usage
         ;;
+
     *)
         show_usage
         exit 1
         ;;
+
     esac
 done
