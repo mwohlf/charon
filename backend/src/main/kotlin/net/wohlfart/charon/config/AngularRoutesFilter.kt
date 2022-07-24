@@ -39,7 +39,7 @@ class AngularRoutesFilter(val charonProperties: CharonProperties) : Filter {
             filterchain.doFilter(request, response)
             return
         }
-        val route = request.requestURL.toString()
+        val route = request.requestURI
         logger.info("<doFilter> route $route")
         if (!isAngularRoute(route)) {
             filterchain.doFilter(request, response)
