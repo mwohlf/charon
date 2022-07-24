@@ -96,7 +96,7 @@ function deploy_dashboard() {
     kubectl -n kubernetes-dashboard get secret "${SECRET_NAME}" -o go-template="{{.data.token | base64decode}}" >"${SCRIPT_DIR}/${TOKEN_FILE}"
     cat <<EOF
 copy the token from ${TOKEN_FILE} to login at
-http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/node?namespace=default
+http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/node?namespace=charon
 EOF
 }
 
