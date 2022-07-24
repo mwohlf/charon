@@ -23,7 +23,6 @@ class AngularRoutesFilter(val charonProperties: CharonProperties) : Filter {
     val INDEX_HTML = "/index.html"
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, filterchain: FilterChain) {
-        logger.info("<doFilter> $request")
         if (request !is HttpServletRequest) {
             filterchain.doFilter(request, response)
             return
@@ -35,11 +34,13 @@ class AngularRoutesFilter(val charonProperties: CharonProperties) : Filter {
         // checking for
         // Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
         val mediaTypes = MediaType.parseMediaTypes(request.getHeaders(HttpHeaders.ACCEPT).toList())
+        logger.info("<doFilter> mediaTypes $mediaTypes")
         if (!mediaTypes.contains(MediaType.TEXT_HTML) && !mediaTypes.contains(MediaType.APPLICATION_XHTML_XML)) {
             filterchain.doFilter(request, response)
             return
         }
         val route = request.requestURL.toString()
+        logger.info("<doFilter> route $route")
         if (!isAngularRoute(route)) {
             filterchain.doFilter(request, response)
             return
