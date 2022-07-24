@@ -5,6 +5,10 @@ plugins {
 	id("charon.kotlin-spring")
 }
 
+repositories {
+    mavenCentral()
+}
+
 // disable jit for now...
 tasks.findByName("jib")?.enabled = false
 
@@ -37,7 +41,4 @@ dependencies {
     testImplementation("junit:junit")
     testImplementation("net.sourceforge.htmlunit:htmlunit")
 
-}
-repositories {
-    mavenCentral()
 }

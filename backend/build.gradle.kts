@@ -11,6 +11,11 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.1")
+    implementation("io.swagger.core.v3:swagger-models:2.2.1")
+    implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")

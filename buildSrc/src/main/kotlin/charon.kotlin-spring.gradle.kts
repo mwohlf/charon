@@ -33,6 +33,11 @@ repositories {
     maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
+
+springBoot {
+    buildInfo()  // to create the buildInfo object
+}
+
 // val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
 
 //////////////////////
@@ -115,4 +120,9 @@ openApiGenerate {
     outputDir.set("$buildDir/generated")
     // see: https://openapi-generator.tech/docs/generators/kotlin-spring
     configFile.set("${rootProject.projectDir.absolutePath}/etc/api/api-config.json")
+}
+
+// re-create the API classes before ebuilding
+tasks.findByName("build").apply {
+    this?.doFirst { tasks.findByName("openApiGenerate") }
 }
