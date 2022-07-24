@@ -114,7 +114,8 @@ EOF
 #   kubectl cluster-info
 #
 function deploy_chart() {
-    helm upgrade --install --wait --timeout 30s charon "${SCRIPT_DIR}/../helm/charon/"
+    echo "<deploy_chart>"
+    helm upgrade --install --wait --timeout 300s charon "${SCRIPT_DIR}/../helm/charon/"
 
     # seems broken:
     # --selector "app.kubernetes.io/app=charon-backend" \
@@ -139,6 +140,7 @@ function delete_chart() {
 # creating the service principal for github to access azure and k8s
 #
 function create_credentials() {
+    echo "<create_credentials>"
     SUBSCRIPTION_ID=$(az account show --query id -o tsv)
     export SUBSCRIPTION_ID
     cat >"${SCRIPT_DIR}/${CREDENTIALS_FILE}" <<EOF
@@ -171,6 +173,7 @@ function has_cluster() {
 #
 # create the azure k8s cluster inside the resource group
 function create_cluster() {
+    echo "<create_cluster>"
     if has_cluster; then
         echo "cluster ${CLUSTER} already exists"
         return
@@ -182,8 +185,13 @@ function create_cluster() {
         --node-count 1 \
         --location ${LOCATION:=eastus2} \
         --node-vm-size "Standard_B2s" \
-        --enable-addons http_application_routing \
         --generate-ssh-keys >/dev/null
+    # skipping:
+    #    --enable-managed-identity
+    #    --enable-addons http_application_routing \
+    #    --enable-addons monitoring
+    # see:
+    # https://docs.microsoft.com/en-us/azure/aks/faq#why-are-two-resource-groups-created-with-aks
     echo "getting credentials"
     az aks get-credentials \
         --resource-group ${RESOURCE_GROUP} \
@@ -205,6 +213,7 @@ function has_resource_group() {
 
 # azure resource groups don't cost anything
 function create_resource_group() {
+    echo "<create_resource_group>"
     if has_resource_group; then
         echo "resource group ${RESOURCE_GROUP} already exists"
         return
@@ -238,6 +247,7 @@ function is_authenticated() {
 }
 
 function login_azure() {
+    echo "<login_azure>"
     if is_authenticated; then
         echo "already authenticated, skipping login"
         return
@@ -304,13 +314,11 @@ fi
 for var in "$@"; do
     case $var in
 
-    create)
+    create_cluster)
         login_azure
         create_resource_group
         create_cluster
         create_credentials
-        deploy_chart
-        # create_public_ip_address
         ;;
 
     deploy_dashboard)
