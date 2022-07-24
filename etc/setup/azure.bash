@@ -29,12 +29,13 @@ export TOKEN_FILE="token.txt"
 export NAMESPACE="default"
 
 
-
+# we use a free cr from ttl.sh
+# we don't use the container registry in azure
 function create_container_registry() {
     # this creates acr charon.azurecr.io
     az acr create \
         --resource-group ${RESOURCE_GROUP:=charonResourceGroup} \
-        --location ${LOCATION:=germanywestcentral} \
+        --location ${LOCATION:=eastus2} \
         --name charon \
         --sku Basic
 }
@@ -46,6 +47,7 @@ function get_pods() {
         --command "kubectl get pods -n kube-system"
 }
 
+# this i not needed the service will get an IP
 function create_public_ip_address() {
     NODE_RESOURCE_GROUP=$(az aks show \
         -g ${RESOURCE_GROUP} \
@@ -175,7 +177,9 @@ function create_cluster() {
     az aks create \
         --resource-group ${RESOURCE_GROUP} \
         --name ${CLUSTER} \
-        --node-count 2 \
+        --node-count 1 \
+        --location ${LOCATION:=eastus2} \
+        --node-vm-size "Standard_B2s" \
         --enable-addons http_application_routing \
         --generate-ssh-keys >/dev/null
     echo "getting credentials"
@@ -205,7 +209,7 @@ function create_resource_group() {
     echo "creating resource group ${RESOURCE_GROUP}..."
     az group create \
         --name ${RESOURCE_GROUP} \
-        --location ${LOCATION:=germanywestcentral} >/dev/null
+        --location ${LOCATION:=eastus2} >/dev/null
     echo "...finished creating resource group ${RESOURCE_GROUP}"
     az configure --defaults group=${RESOURCE_GROUP} >/dev/null
 }

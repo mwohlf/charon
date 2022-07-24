@@ -10,6 +10,7 @@ spec:
     - port: 80
       targetPort: 8080
 
+#
 # see: https://kubernetes.io/docs/concepts/services-networking/_print/#defining-a-service
 #
 #

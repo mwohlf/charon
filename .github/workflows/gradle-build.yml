@@ -3,12 +3,11 @@ name: gradle-build
 # creating the images and pushing them into the repository
 
 on:
-  workflow_dispatch:
-
 #  push:
 #    branches:
 #      - 'develop'
 #      - 'main'
+  workflow_dispatch:
 
 jobs:
 
