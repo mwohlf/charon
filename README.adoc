@@ -4,6 +4,11 @@
 
 image::https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml/badge.svg?[https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml]
 
+== TL;DR
+```
+./gradlew jibDockerBuild
+docker run <imageid>
+```
 == intro
 
 This is a POC for implementing an OAuth Server and an Angular UI using it, in mostly  Kotlin/Typescript, basically showing off:
