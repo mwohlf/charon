@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import { ConfigService } from 'build/generated/api/api';
-import { ConfigurationDetails } from 'build/generated/model/models';
+import {ConfigService} from 'build/generated/api/api';
+import {ConfigurationDetails} from 'build/generated/model/models';
 import {Observable} from "rxjs";
 
 @Component({
