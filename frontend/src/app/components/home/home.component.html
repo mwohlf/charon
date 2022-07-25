@@ -1,1 +1,12 @@
-<p>home works!  ...hello world</p>
+<p>home works!</p>
+
+<div class="option-tab" *ngIf="buildProperties$ | async as buildProperties;">
+
+    <label class="k-form-field" [textContent]="buildProperties.date" >
+    </label>
+
+    <label class="k-form-field" [textContent]="buildProperties.version" >
+
+    </label>
+
+</div>
