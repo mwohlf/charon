@@ -1,7 +1,7 @@
 get:
   tags:
-    - build
-  operationId: readBuildProperties
+    - config
+  operationId: readConfigurationDetails
   description: ''
   responses:
     '200':
