@@ -11,5 +11,5 @@ tags:
     description: Build Infos
 paths:
 
-  /build-properties:
-    $ref: "./endpoints/build-properties.yaml"
+  /configuration-details:
+    $ref: "./endpoints/configuration-details.yaml"

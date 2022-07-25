@@ -1,5 +1,5 @@
 #
-# the build-properties data type
+# the ConfigurationDetails data type
 #
 type: object
 required:

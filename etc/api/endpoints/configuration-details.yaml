@@ -9,6 +9,6 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../model/BuildProperties.yaml"
+            $ref: "../model/ConfigurationDetails.yaml"
     '405':
       description: Invalid input

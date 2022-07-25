@@ -29,7 +29,7 @@ import {ApiModule, Configuration } from 'build/generated';
     ToolbarComponent,
   ],
   imports: [
-    ApiModule.forRoot(() => new Configuration({basePath: '/'})),
+    ApiModule.forRoot(() => new Configuration({basePath: ''})),
     AppRoutingModule,
     AuthConfigModule,
     BrowserAnimationsModule,
