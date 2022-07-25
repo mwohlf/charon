@@ -14,3 +14,4 @@ build
 /etc/setup/credentials.txt
 
 /etc/setup/token.txt
+/frontend/src/generated/

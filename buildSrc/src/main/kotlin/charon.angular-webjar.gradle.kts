@@ -1,6 +1,9 @@
+import gradle.kotlin.dsl.accessors._fcffe14232c178f32c3a5a66a4becfb6.openApiGenerate
+
 plugins {
     java  // for the jar task, also includes the build and clean task
     id("com.coditory.webjar")
+    id("org.openapi.generator")
     id("com.github.node-gradle.node")
 }
 
@@ -16,6 +19,26 @@ webjar {
 //    cache {
 //        enabled = false
 //    }
+}
+
+//////////////////////
+//
+// configure the api generation for a spring-boot application
+// lookup for the api definition is hardcoded to .../etc/api/<module-name>/api-docs.yml
+// some more config at .../etc/api/api-config.json
+openApiGenerate {
+    val module = project.name
+    // see: https://openapi-generator.tech/docs/generators
+    generatorName.set("typescript-angular")
+    inputSpec.set("${rootProject.projectDir.absolutePath}/etc/api/${module}.yaml")
+    outputDir.set("$buildDir/generated")
+    // see: https://openapi-generator.tech/docs/generators/typescript-angular
+    configFile.set("${rootProject.projectDir.absolutePath}/etc/api/config/${generatorName.get()}.json")
+}
+
+// re-create the API classes before ebuilding
+tasks.findByName("build")?.let {
+    it.dependsOn("openApiGenerate")
 }
 
 tasks.npmSetup {

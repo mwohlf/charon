@@ -116,10 +116,10 @@ openApiGenerate {
     val module = project.name
     // see: https://openapi-generator.tech/docs/generators
     generatorName.set("kotlin-spring")
-    inputSpec.set("${rootProject.projectDir.absolutePath}/etc/api/${module}/api-docs.yml")
+    inputSpec.set("${rootProject.projectDir.absolutePath}/etc/api/${module}.yaml")
     outputDir.set("$buildDir/generated")
     // see: https://openapi-generator.tech/docs/generators/kotlin-spring
-    configFile.set("${rootProject.projectDir.absolutePath}/etc/api/api-config.json")
+    configFile.set("${rootProject.projectDir.absolutePath}/etc/api/config/${generatorName.get()}.json")
 }
 
 // re-create the API classes before ebuilding

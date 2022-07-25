@@ -1,0 +1,15 @@
+openapi: 3.0.1
+info:
+  description: charon POC
+  version: 0.0.1
+  title: OpenAPI for Charon
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: build
+    description: Build Infos
+paths:
+
+  /build-properties:
+    $ref: "./endpoints/build-properties.yaml"

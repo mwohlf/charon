@@ -1,0 +1,14 @@
+get:
+  tags:
+    - build
+  operationId: readBuildProperties
+  description: ''
+  responses:
+    '200':
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "../model/BuildProperties.yaml"
+    '405':
+      description: Invalid input

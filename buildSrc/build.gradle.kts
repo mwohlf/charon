@@ -10,7 +10,7 @@
 // plugins for the build src
 plugins {
     // val kotlinPluginVersion = "2.1.7"
-    val kotlinDslPluginVersion = "2.1.7"
+    val kotlinDslPluginVersion = "2.3.3"
     // id("org.jetbrains.kotlin.jvm") version "1.7.0"
     // `kotlin-dsl`
     id("org.gradle.kotlin.kotlin-dsl") version kotlinDslPluginVersion  // `kotlin-dsl`

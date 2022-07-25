@@ -1,0 +1,12 @@
+#
+# the build-properties data type
+#
+type: object
+required:
+  - date
+  - version
+properties:
+  date:
+    type: string
+  version:
+    type: string
