@@ -16,6 +16,7 @@ import {NavigationComponent} from './navigation/navigation.component';
 import {NgModule} from '@angular/core';
 import {ProtectedComponent} from "./components/protected/protected.component";
 import {ToolbarComponent} from "./navigation/toolbar/toolbar.component";
+import {ApiModule, Configuration } from 'build/generated';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {ToolbarComponent} from "./navigation/toolbar/toolbar.component";
     ToolbarComponent,
   ],
   imports: [
+    ApiModule.forRoot(() => new Configuration({basePath: '/'})),
     AppRoutingModule,
     AuthConfigModule,
     BrowserAnimationsModule,

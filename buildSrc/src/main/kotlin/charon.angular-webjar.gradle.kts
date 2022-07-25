@@ -36,10 +36,6 @@ openApiGenerate {
     configFile.set("${rootProject.projectDir.absolutePath}/etc/api/config/${generatorName.get()}.json")
 }
 
-// re-create the API classes before ebuilding
-tasks.findByName("build")?.let {
-    it.dependsOn("openApiGenerate")
-}
 
 tasks.npmSetup {
     // to override the config in ~/.npmrc
@@ -50,6 +46,11 @@ tasks.findByName("webjarTest")?.enabled = false
 tasks.findByName("webjarLint")?.enabled = false
 tasks.findByName("webjarClean")?.enabled = false
 tasks.findByName("compileJava")?.enabled = false
+
+// re-create the API classes before building the webjar
+tasks.findByName("webjarBuild")?.let {
+    it.dependsOn("openApiGenerate")
+}
 
 // attach the webjarBuild to the build task
 tasks.findByName("build")?.let {
