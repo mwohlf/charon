@@ -10,8 +10,8 @@ on:
 env:
   CLUSTER: charonCluster
   RESOURCE_GROUP: charonResourceGroup
-  NAMESPACE: development
-  BACKEND_IMAGE: ttl.sh/mwohlf/charon-backend:${GITHUB_SHA::10}
+  NAMESPACE: charon
+  sha10: ${GITHUB_SHA::10}
 
 jobs:
   deploy:
@@ -70,4 +70,6 @@ jobs:
       - uses: azure/k8s-deploy@v4.2
         with:
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
+          images: |
+            ttl.sh/mwohlf/charon-backend:${{ env.SHA10 }}
           namespace: ${{ env.NAMESPACE }}

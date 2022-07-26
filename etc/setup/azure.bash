@@ -187,7 +187,7 @@ function create_cluster() {
     az aks create \
         --resource-group ${RESOURCE_GROUP} \
         --name ${CLUSTER} \
-        --node-resource-group "node_resource_group" \
+        --node-resource-group "_nodeResourceGroup" \
         --node-count 1 \
         --location ${LOCATION:=eastus2} \
         --node-vm-size "Standard_B2s" \
