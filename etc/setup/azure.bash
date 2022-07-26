@@ -115,7 +115,11 @@ EOF
 #
 function deploy_chart() {
     echo "<deploy_chart>"
-    helm upgrade --install --wait --timeout 300s charon "${SCRIPT_DIR}/../helm/charon/"
+    helm upgrade \
+         --install \
+         --wait \
+         --namespace "${NAMESPACE}" \
+         --timeout 300s charon "${SCRIPT_DIR}/../helm/charon/"
 
     # seems broken:
     # --selector "app.kubernetes.io/app=charon-backend" \
@@ -183,6 +187,7 @@ function create_cluster() {
     az aks create \
         --resource-group ${RESOURCE_GROUP} \
         --name ${CLUSTER} \
+        --node-resource-group "node_resource_group" \
         --node-count 1 \
         --location ${LOCATION:=eastus2} \
         --node-vm-size "Standard_B2s" \
