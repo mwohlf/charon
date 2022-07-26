@@ -36,6 +36,13 @@ jobs:
 #          docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/myimage:${{ github.sha }}
 #          docker push ${{ env.REGISTRY_NAME }}.azurecr.io/myimage:${{ github.sha }}
 
+      - run: |
+          echo "GITHUB_SHA: ${GITHUB_SHA}"
+          echo "SHA10: ${SHA10}"
+          env
+
+
+
       # Set the target Azure Kubernetes Service (AKS) cluster.
       - uses: azure/aks-set-context@v1
         with:
@@ -71,6 +78,6 @@ jobs:
       - uses: azure/k8s-deploy@v4.2
         with:
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
-          images: |
-            ttl.sh/mwohlf/charon-backend:${{ env.SHA10 }}
+          # images: |
+          #  ttl.sh/mwohlf/charon-backend:${{ env.SHA10 }}
           namespace: ${{ env.NAMESPACE }}
