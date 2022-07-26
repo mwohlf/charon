@@ -24,10 +24,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_SP_CREDENTIALS}}
 
-      # Create namespace if it doesn't exist
-      - run: |
-          kubectl create namespace ${{ env.NAMESPACE }}
-
 # the available images are:
 #  Built and pushed image as
 #    ttl.sh/mwohlf/charon-backend,
