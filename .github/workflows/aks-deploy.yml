@@ -11,7 +11,6 @@ env:
   CLUSTER: charonCluster
   RESOURCE_GROUP: charonResourceGroup
   NAMESPACE: default
-  SHA10: ${GITHUB_SHA}
 
 jobs:
   deploy:
@@ -39,8 +38,9 @@ jobs:
       - run: |
           echo "GITHUB_SHA: ${GITHUB_SHA}"
           echo "SHA10: ${SHA10}"
+          export SHA10=${GITHUB_SHA0:10}
+          echo "SHA10: ${SHA10}"
           env
-
 
 
       # Set the target Azure Kubernetes Service (AKS) cluster.
@@ -78,6 +78,6 @@ jobs:
       - uses: azure/k8s-deploy@v4.2
         with:
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
-          # images: |
-          #  ttl.sh/mwohlf/charon-backend:${{ env.SHA10 }}
+          images: |
+            ttl.sh/mwohlf/charon-backend:${{ env.SHA10 }}
           namespace: ${{ env.NAMESPACE }}
