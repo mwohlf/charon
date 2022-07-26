@@ -71,6 +71,7 @@ jib {
         tags = setOf(
             "4h",  // the ttl
             "${details.gitHash}",
+            "${details.gitHashFull}",
         )
     }
 
