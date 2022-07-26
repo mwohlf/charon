@@ -15,6 +15,7 @@ env:
   CLUSTER: charonCluster
   RESOURCE_GROUP: charonResourceGroup
   NAMESPACE: default
+  GITHUB_SHA: ${{ github.sha }}
 
 jobs:
   deploy:
