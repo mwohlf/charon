@@ -10,7 +10,7 @@ on:
 env:
   CLUSTER: charonCluster
   RESOURCE_GROUP: charonResourceGroup
-  NAMESPACE: default
+  NAMESPACE: development
 
 jobs:
   deploy:
@@ -35,9 +35,9 @@ jobs:
           cluster-name: ${{ env.CLUSTER }}
           resource-group: ${{ env.RESOURCE_GROUP }}
 
-      # Create namespace if it doesn't exist
+      # remove the current chart
       - run: |
-          kubectl create namespace ${{ env.NAMESPACE }} --dry-run -o json | kubectl apply -f -
+          helm delete charon
 
       # Baking the helm chart to generate the manifests to deploy
       - uses: azure/k8s-bake@v2.2
