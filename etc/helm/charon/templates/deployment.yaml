@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: charon-backend
-          image: "ttl.sh/mwohlf/charon-backend:latest"
+          image: ttl.sh/mwohlf/charon-backend
           imagePullPolicy: Always
           ports:
             - name: http
