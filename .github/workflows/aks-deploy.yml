@@ -10,7 +10,7 @@ on:
 env:
   CLUSTER: charonCluster
   RESOURCE_GROUP: charonResourceGroup
-  NAMESPACE: charon
+  NAMESPACE: default
   sha10: ${GITHUB_SHA::10}
 
 jobs:
@@ -43,9 +43,9 @@ jobs:
           cluster-name: ${{ env.CLUSTER }}
           resource-group: ${{ env.RESOURCE_GROUP }}
 
-      # remove the current chart
-      - run: |
-          helm list
+#      # remove the current chart
+#      - run: |
+#          helm list
 
       # Baking the helm chart to generate the manifests to deploy
       - uses: azure/k8s-bake@v2.2
@@ -67,6 +67,7 @@ jobs:
 #          password: ${{ secrets.GHCR_TOKEN }}
 
       # Deploy app to AKS
+      # see: https://github.com/Azure/k8s-deploy
       - uses: azure/k8s-deploy@v4.2
         with:
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
