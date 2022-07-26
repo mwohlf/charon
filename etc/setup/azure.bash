@@ -274,7 +274,7 @@ function show_usage() {
     cat <<EOF
 This script is intended to simplify setup and deployment in azure cli or azure cloud cli
 Arguments are:
- - create: to setup up the cluster
+ - create_cluster: to setup up the cluster
  - deploy_dashboard: to show the k8s dashboard
  - deploy_chart: to deploy the helm chart
  - delete_chart: to delete the helm chart
