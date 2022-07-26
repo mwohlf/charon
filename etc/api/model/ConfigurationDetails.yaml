@@ -3,10 +3,17 @@
 #
 type: object
 required:
-  - date
+  - name
   - version
+  - timestamp
 properties:
-  date:
+  name:
+    example: "charon"
     type: string
   version:
+    example: "0.0.1-SNAPSHOT"
+    type: string
+  timestamp:
+    example: "1995-09-07T10:40:52Z"
+    format: date-time
     type: string

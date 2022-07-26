@@ -16,7 +16,7 @@ import {NavigationComponent} from './navigation/navigation.component';
 import {NgModule} from '@angular/core';
 import {ProtectedComponent} from "./components/protected/protected.component";
 import {ToolbarComponent} from "./navigation/toolbar/toolbar.component";
-import {ApiModule, Configuration } from 'build/generated';
+import {ApiModule, Configuration } from '../../build/generated';
 
 @NgModule({
   declarations: [

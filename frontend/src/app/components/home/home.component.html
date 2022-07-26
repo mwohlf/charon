@@ -1,12 +1,15 @@
 <p>home works!</p>
 
-<div class="option-tab" *ngIf="buildProperties$ | async as buildProperties;">
+<div *ngIf="buildProperties$ | async as buildProperties; else loading">
 
-    <label class="k-form-field" [textContent]="buildProperties.date" >
-    </label>
-
-    <label class="k-form-field" [textContent]="buildProperties.version" >
-
-    </label>
+    <mat-list role="list">
+        <mat-list-item role="listitem">{{buildProperties.name}}</mat-list-item>
+        <mat-list-item role="listitem">{{buildProperties.version}}</mat-list-item>
+        <mat-list-item role="listitem">{{buildProperties.timestamp}}</mat-list-item>
+    </mat-list>
 
 </div>
+
+<ng-template #loading>
+    Loading stuff...
+</ng-template>
