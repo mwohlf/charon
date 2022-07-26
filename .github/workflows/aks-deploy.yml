@@ -37,7 +37,7 @@ jobs:
 
       # remove the current chart
       - run: |
-          helm delete charon
+          helm list
 
       # Baking the helm chart to generate the manifests to deploy
       - uses: azure/k8s-bake@v2.2
