@@ -1,15 +1,20 @@
-<p>home works!</p>
+<mat-card>
+    <mat-card-title>Home</mat-card-title>
+    <mat-card-content>
 
-<div *ngIf="buildProperties$ | async as buildProperties; else loading">
+        <div *ngIf="buildProperties$ | async as buildProperties; else loading">
 
-    <mat-list role="list">
-        <mat-list-item role="listitem">{{buildProperties.name}}</mat-list-item>
-        <mat-list-item role="listitem">{{buildProperties.version}}</mat-list-item>
-        <mat-list-item role="listitem">{{buildProperties.timestamp}}</mat-list-item>
-    </mat-list>
+            <mat-list role="list">
+                <mat-list-item role="listitem">{{buildProperties.name}}</mat-list-item>
+                <mat-list-item role="listitem">{{buildProperties.version}}</mat-list-item>
+                <mat-list-item role="listitem">{{buildProperties.timestamp}}</mat-list-item>
+            </mat-list>
 
-</div>
+        </div>
 
-<ng-template #loading>
-    Loading stuff...
-</ng-template>
+        <ng-template #loading>
+            Loading stuff...
+        </ng-template>
+
+    </mat-card-content>
+</mat-card>
