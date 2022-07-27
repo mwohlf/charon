@@ -17,6 +17,7 @@ import {NgModule} from '@angular/core';
 import {ProtectedComponent} from "./components/protected/protected.component";
 import {ToolbarComponent} from "./navigation/toolbar/toolbar.component";
 import {ApiModule, Configuration } from '../../build/generated';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {ApiModule, Configuration } from '../../build/generated';
     BrowserModule,
     LayoutModule,
     MatButtonModule,
+    MatCardModule,
     MatIconModule,
     MatListModule,
     MatSidenavModule,
