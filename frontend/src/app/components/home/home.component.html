@@ -5,9 +5,9 @@
         <div *ngIf="buildProperties$ | async as buildProperties; else loading">
 
             <mat-list role="list">
-                <mat-list-item role="listitem">{{buildProperties.name}}</mat-list-item>
-                <mat-list-item role="listitem">{{buildProperties.version}}</mat-list-item>
-                <mat-list-item role="listitem">{{buildProperties.timestamp}}</mat-list-item>
+                <mat-list-item role="listitem">{{buildProperties["name"]}}</mat-list-item>
+                <mat-list-item role="listitem">{{buildProperties["version"]}}</mat-list-item>
+                <mat-list-item role="listitem">{{buildProperties["timestamp"]}}</mat-list-item>
             </mat-list>
 
         </div>

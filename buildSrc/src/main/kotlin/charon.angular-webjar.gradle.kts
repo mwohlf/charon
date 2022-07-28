@@ -54,5 +54,5 @@ tasks.findByName("webjarBuild")?.let {
 
 // attach the webjarBuild to the build task
 tasks.findByName("build")?.let {
-    it.doLast { tasks.findByName("webjarBuild") }
+    it.dependsOn("webjarBuild")
 }
