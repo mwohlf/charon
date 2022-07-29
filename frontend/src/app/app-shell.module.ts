@@ -39,5 +39,5 @@ import {AppThemeModule} from "./app-theme.module";
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {
+export class AppShellModule {
 }
