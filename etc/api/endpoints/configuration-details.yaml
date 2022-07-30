@@ -1,6 +1,6 @@
 get:
   tags:
-    - config
+    - configurationDetails
   operationId: readConfigurationDetails
   description: ''
   responses:
