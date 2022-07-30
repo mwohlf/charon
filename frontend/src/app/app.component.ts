@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {
-  EventTypes,
+  EventTypes, LoginResponse,
   OidcSecurityService,
   PublicEventsService,
 } from 'angular-auth-oidc-client';
@@ -22,20 +22,18 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.oidcSecurityService.checkAuth().subscribe(({
-      isAuthenticated,
-      userData,
-      accessToken,
-      idToken,
-      configId,
-    }) => {
-      console.log('app authenticated', isAuthenticated);
-      console.log(`Current access token is '${accessToken}'`);
+    this.oidcSecurityService.checkAuth().subscribe((next: LoginResponse) => {
+      console.log('isAuthenticated: ', next.isAuthenticated);
+      console.log('userData: ', next.userData);
+      console.log('configId: ', next.configId);
+      console.log('errorMessage: ', next.errorMessage);
+      console.log(`Current accessToken: '${next.accessToken}'`);
+      console.log(`Current idToken: '${next.idToken}'`);
     });
 
     this.eventService
       .registerForEvents()
       .pipe(filter((notification) => notification.type === EventTypes.CheckSessionReceived))
-      .subscribe((value) => console.log('CheckSessionReceived with value from app', value));
+      .subscribe((value) => console.log('CheckSessionReceived with value from app ', value));
   }
 }

@@ -1,14 +1,7 @@
 import {createAction, props} from '@ngrx/store';
 
+export const OAUTH_INITIALIZED = "@app/oauth/initialization_success";
 
-// only create in the store
-export const loginAction = createAction(
-  '@app/oauth/login',
-  props<{ payload: { isAuthenticated: boolean } }>(),
-);
+export const authorizeAction = createAction('@app/oauth/login');
 
-// only delete in the store
-export const logoutAction = createAction(
-  '@app/oauth/logout',
-  props<{ payload: { isAuthenticated: boolean } }>(),
-);
+export const logoffAction = createAction('@app/oauth/logout');

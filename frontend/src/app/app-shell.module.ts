@@ -1,6 +1,5 @@
 import {AppComponent} from './app.component';
 import {RoutingModule} from './routing/routing.module';
-import {AuthConfigModule} from './app-auth.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {ErrorComponent} from './components/error/error.component';
@@ -26,7 +25,7 @@ import {ConfigModule} from './config/config.module';
 import {EffectsRootModule} from '@ngrx/effects';
 import {EffectsModule} from '@ngrx/effects';
 import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
-import {OauthModule} from './oauth/oauth.module';
+import {OAuthModule} from './oauth/oauth.module';
 
 export interface AppState {
 }
@@ -64,8 +63,7 @@ export const appMetaReducers: MetaReducer[] = !environment.production
       basePath: environment.apiBasePath
     })),
     AppThemeModule,
-    AuthConfigModule,
-    OauthModule, // TODO: merge them
+    OAuthModule,
     BrowserAnimationsModule,
     BrowserModule,
     ConfigModule,

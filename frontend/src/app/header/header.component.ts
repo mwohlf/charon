@@ -6,7 +6,7 @@ import {
 import {enableHeaderFlag} from './action';
 import {Store} from '@ngrx/store';
 import {AppState} from '../app-shell.module';
-import {loginAction, logoutAction} from '../oauth/action';
+import {authorizeAction, logoffAction} from '../oauth/action';
 import {Observable} from 'rxjs';
 import {isAuthenticated} from '../oauth/selector';
 
@@ -19,9 +19,7 @@ export class HeaderComponent implements OnInit {
   isAuthenticated$: Observable<boolean | undefined>;
 
   constructor(
-    private store: Store<AppState>,
-    private oidcSecurityService: OidcSecurityService,
-    private eventService: PublicEventsService,
+    public store: Store<AppState>,
   ) {
     this.isAuthenticated$ = this.store.select(isAuthenticated);
   }
@@ -30,14 +28,26 @@ export class HeaderComponent implements OnInit {
   }
 
   login() {
-    this.store.dispatch(loginAction({
-      payload: {isAuthenticated: true},
-    }));
+    this.store.dispatch(authorizeAction());
   }
 
   logout() {
-    this.store.dispatch(logoutAction({
-      payload: {isAuthenticated: false},
-    }));
+    this.store.dispatch(logoffAction());
   }
 }
+
+
+/*
+
+  login() {
+    this.oidcSecurityService.authorize();
+    this.store.dispatch(enableHeaderFlag({
+      payload: {isEnabled: true},
+    }));
+    // this.oidcSecurityService.authorize();
+    console.log('clicked');
+  }
+
+  logout() {
+    this.oidcSecurityService.logoff();
+ */

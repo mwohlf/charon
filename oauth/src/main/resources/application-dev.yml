@@ -1,9 +1,9 @@
-server:
-  servlet:
-    context-path: "/issuer"
 
-net:
-  wohlfart:
-    charon:
-      oauth:
-        issuer: "http://localhost:9000/issuer"
+logging:
+  level:
+    root: DEBUG
+#    org.springframework.web: INFO
+#    org.springframework.security: INFO
+#    org.springframework.security.oauth2: INFO
+#    org.springframework.boot.autoconfigure: DEBUG
+

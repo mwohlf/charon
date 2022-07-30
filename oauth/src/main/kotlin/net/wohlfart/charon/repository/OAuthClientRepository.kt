@@ -6,7 +6,7 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod
 import org.springframework.security.oauth2.core.oidc.OidcScopes
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient
-import org.springframework.security.oauth2.server.authorization.config.ClientSettings
+import org.springframework.security.oauth2.server.authorization.settings.ClientSettings
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -22,7 +22,10 @@ class OAuthClientRepository(
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .redirectUri("http://127.0.0.1:4200")
             .redirectUri("http://127.0.0.1:4200/silent-renew.html")
-            .redirectUri("http://localhost:4200/home")
+            .redirectUri("http://127.0.0.1:4200/home")
+            .redirectUri("http://127.0.0.1:8080")
+            .redirectUri("http://127.0.0.1:8080/silent-renew.html")
+            .redirectUri("http://127.0.0.1:8080/home")
             .scope(OidcScopes.OPENID)
             .scope("message.read")
             .scope("message.write")

@@ -1,6 +1,6 @@
 import * as fromActions from './action';
 import {Action, createReducer, on} from '@ngrx/store';
-import {loginAction, logoutAction} from './action';
+import {authorizeAction, logoffAction} from './action';
 
 export const featureKey = 'oAuthFeature';
 
@@ -14,19 +14,19 @@ export const initialState: OAuthState = {
 
 const featureReducer = createReducer(
   initialState,
-  on(fromActions.loginAction,
-    (state: OAuthState, {payload: {isAuthenticated: isAuthenticated}}) => {
+  on(fromActions.authorizeAction,
+    (state: OAuthState) => {
       return {
         ...state, // keep the old state in case we are updating...
-        isAuthenticated: isAuthenticated,
+        isAuthenticated: true,
       };
     },
   ),
-  on(fromActions.logoutAction,
-    (state: OAuthState, {payload: {isAuthenticated: isAuthenticated}}) => {
+  on(fromActions.logoffAction,
+    (state: OAuthState) => {
       return {
         ...state, // keep the old state in case we are updating...
-        isAuthenticated: isAuthenticated,
+        isAuthenticated: false,
       };
     },
   ),

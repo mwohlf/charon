@@ -7,6 +7,7 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 // disable jit for now...
