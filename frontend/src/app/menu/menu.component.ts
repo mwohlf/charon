@@ -1,19 +1,17 @@
-import {Component} from '@angular/core';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {Observable} from 'rxjs';
-import {map, shareReplay} from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
 import {ErrorComponent} from "../components/error/error.component";
 import {HomeComponent} from "../components/home/home.component";
 import {MainComponent} from "../components/main/main.component";
 import {ProtectedComponent} from "../components/protected/protected.component";
-
+import {Observable} from "rxjs";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {map, shareReplay} from "rxjs/operators";
 
 @Component({
-  selector: 'app-navigation',
-  templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss']
+  selector: 'app-menu',
+  templateUrl: './menu.component.html',
 })
-export class NavigationComponent {
+export class MenuComponent implements OnInit {
 
   prefix = '/';
   errorComponentPath = this.prefix + ErrorComponent.ROUTER_PATH;
@@ -28,6 +26,10 @@ export class NavigationComponent {
     );
 
   constructor(private breakpointObserver: BreakpointObserver) {
+  }
+
+
+  ngOnInit(): void {
   }
 
 }

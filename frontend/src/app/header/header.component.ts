@@ -2,11 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {OidcSecurityService, PublicEventsService} from "angular-auth-oidc-client";
 
 @Component({
-  selector: 'app-toolbar',
-  templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss']
+  selector: 'app-header',
+  templateUrl: './header.component.html',
 })
-export class ToolbarComponent implements OnInit {
+export class HeaderComponent implements OnInit {
 
   constructor(
     private oidcSecurityService: OidcSecurityService,

@@ -4,6 +4,7 @@ import {ErrorComponent} from "./components/error/error.component";
 import {HomeComponent} from "./components/home/home.component";
 import {MainComponent} from "./components/main/main.component";
 import {ProtectedComponent} from "./components/protected/protected.component";
+import {ShellComponent} from "./shell/shell.component";
 
 const routes: Routes = [
   {
@@ -22,7 +23,6 @@ const routes: Routes = [
     path: ProtectedComponent.ROUTER_PATH,
     component: ProtectedComponent,
   },
-
   {path: '', redirectTo: HomeComponent.ROUTER_PATH, pathMatch: 'full'},
   {path: '**', redirectTo: ErrorComponent.ROUTER_PATH},
 ];

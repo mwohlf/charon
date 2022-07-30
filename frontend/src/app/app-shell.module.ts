@@ -7,14 +7,17 @@ import {ErrorComponent} from './components/error/error.component';
 import {HomeComponent} from './components/home/home.component';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MainComponent} from './components/main/main.component';
-import {NavigationComponent} from './navigation/navigation.component';
 import {NgModule} from '@angular/core';
 import {ProtectedComponent} from "./components/protected/protected.component";
-import {ToolbarComponent} from "./navigation/toolbar/toolbar.component";
+import {HeaderComponent} from "./header/header.component";
 import {ApiModule, Configuration} from '../../build/generated';
 import {StoreModule} from '@ngrx/store';
 
 import {AppThemeModule} from "./app-theme.module";
+import {ShellComponent} from "./shell/shell.component";
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {FooterComponent} from "./footer/footer.component";
+import {MenuComponent} from "./menu/menu.component";
 
 @NgModule({
   declarations: [
@@ -22,9 +25,11 @@ import {AppThemeModule} from "./app-theme.module";
     ErrorComponent,
     HomeComponent,
     MainComponent,
-    NavigationComponent,
     ProtectedComponent,
-    ToolbarComponent,
+    FooterComponent,
+    HeaderComponent,
+    MenuComponent,
+    ShellComponent,
   ],
   imports: [
     ApiModule.forRoot(() => new Configuration({basePath: ''})),
@@ -35,6 +40,7 @@ import {AppThemeModule} from "./app-theme.module";
     BrowserModule,
     LayoutModule,
     StoreModule,
+    FlexLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
