@@ -26,4 +26,8 @@ class ApiConfig(
 
     val basePath: String,
 
+    val logging: String,
+
+    val oauth: String,
+
 )

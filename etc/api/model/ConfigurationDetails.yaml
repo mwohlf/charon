@@ -6,6 +6,8 @@ required:
   - name
   - version
   - timestamp
+  - logging
+  - oauth
 properties:
   name:
     example: "charon"
@@ -16,4 +18,10 @@ properties:
   timestamp:
     example: "1995-09-07T10:40:52Z"
     format: date-time
+    type: string
+  logging:
+    example: "some/where/to/find"
+    type: string
+  oauth:
+    example: "some/where/else/to/find"
     type: string

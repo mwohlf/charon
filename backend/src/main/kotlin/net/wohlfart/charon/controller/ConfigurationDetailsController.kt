@@ -1,7 +1,7 @@
 package net.wohlfart.charon.controller
 
 import net.wohlfart.charon.CharonProperties
-import net.wohlfart.charon.api.ConfigApi
+import net.wohlfart.charon.api.ConfigurationDetailsApi
 import net.wohlfart.charon.model.ConfigurationDetails
 import org.springframework.boot.info.BuildProperties
 import org.springframework.http.ResponseEntity
@@ -16,13 +16,15 @@ import java.time.ZoneId
 class ConfigurationDetailsController(
     private val buildProperties: BuildProperties,
     private val charonProperties: CharonProperties,
-) : ConfigApi {
+) : ConfigurationDetailsApi {
 
     override fun readConfigurationDetails(): ResponseEntity<ConfigurationDetails> {
         return ResponseEntity.ok(ConfigurationDetails(
             name = buildProperties.name,
             version = buildProperties.version,
             timestamp = OffsetDateTime.ofInstant(buildProperties.time, ZoneId.systemDefault()) ,
+            logging = charonProperties.api.logging ,
+            oauth = charonProperties.api.oauth ,
         ))
     }
 }
