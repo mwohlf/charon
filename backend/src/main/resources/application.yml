@@ -16,5 +16,4 @@ net:
       data-dir: "test"
       webjar-base: "/charon"
       api:
-        base-path:
-          "/aaapi"
+        base-path: "/api"

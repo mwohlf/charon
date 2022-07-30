@@ -25,6 +25,7 @@ class ApplicationStartupListener(
         logger.info { "buildProperties.version: ${buildProperties.version}" }
         logger.info { "charonProperties.webjarBase: ${charonProperties.webjarBase}" }
         logger.info { "buildProperties.dataDir: ${charonProperties.dataDir}" }
+        logger.info { "charonProperties.api.basePath: ${charonProperties.api.basePath}" }
         logger.info { "--------------------------------------------" }
     }
 
