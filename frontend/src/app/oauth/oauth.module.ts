@@ -11,6 +11,7 @@ import {AuthModule, LogLevel} from 'angular-auth-oidc-client';
 
 @NgModule({
   imports: [
+    // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/configuration
     // config from here: https://github.com/damienbod/angular-auth-oidc-client/issues/1318
     AuthModule.forRoot({
       config: {
@@ -26,16 +27,13 @@ import {AuthModule, LogLevel} from 'angular-auth-oidc-client';
         redirectUrl: 'http://127.0.0.1:4200/home',
         renewTimeBeforeTokenExpiresInSeconds: 10,
         responseType: 'code',
-        scope: 'openid profile email offline_access',
+        scope: 'openid',
         // scope: 'openid message.read message.write', // 'openid profile ' + your scopes
         useRefreshToken: true,
         issValidationOff: false,
         historyCleanupOff: false,
         startCheckSession: true,
         silentRenew: true,
-      },
-      storage: {
-
       }
     }),
     AppThemeModule,

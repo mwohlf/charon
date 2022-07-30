@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    /*
     this.oidcSecurityService.checkAuth().subscribe((next: LoginResponse) => {
       console.log('isAuthenticated: ', next.isAuthenticated);
       console.log('userData: ', next.userData);
@@ -30,6 +31,8 @@ export class AppComponent implements OnInit {
       console.log(`Current accessToken: '${next.accessToken}'`);
       console.log(`Current idToken: '${next.idToken}'`);
     });
+
+     */
 
     this.eventService
       .registerForEvents()
