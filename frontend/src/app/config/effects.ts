@@ -5,17 +5,16 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 
 import {NGXLogger, NgxLoggerLevel} from 'ngx-logger';
-import {ConfigurationDetails, ConfigurationDetailsService} from 'build/generated';
+import {
+  ConfigurationDetails,
+  ConfigurationDetailsService,
+} from 'build/generated';
 import {
   readConfigurationDetailsUsingGET, readConfigurationDetailsUsingGET_failure,
   readConfigurationDetailsUsingGET_success,
 } from './action';
-import {showError} from '../error/action';
-
-// public logging holder for static contexts
-export class LoggerHolder {
-  public static logger: any = console;
-}
+import {ErrorDetails, showError} from '../error/action';
+import {LoggerHolder} from '../app-shell.module';
 
 @Injectable()
 export class Effects {
@@ -31,6 +30,7 @@ export class Effects {
     return this.action$.pipe(
       ofType(ROOT_EFFECTS_INIT),
       tap(() => {
+        console.log('root effect');
         // just to get rid of the console logging as early as possible
         LoggerHolder.logger = this.logger;
       }),
@@ -47,12 +47,19 @@ export class Effects {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET),
       mergeMap(() => {
+        console.log('readConfigurationDetailsUsingGET');
         return this.configurationDetailsService.readConfigurationDetails().pipe(
           map((configurationDetails: ConfigurationDetails) => {
             return readConfigurationDetailsUsingGET_success({payload: configurationDetails});
           }),
-          catchError((error: Error) => {
-            return of(readConfigurationDetailsUsingGET_failure({payload: error}));
+          catchError((error: any) => {
+            return of(readConfigurationDetailsUsingGET_failure({
+              payload: {
+                title: "Config data missing",
+                message: "Config data can't be loaded.",
+                details: JSON.stringify(error, null, 2),
+              },
+            }));
           }),
         );
       }),
@@ -64,15 +71,16 @@ export class Effects {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_success),
       tap(action => {
+        console.log('readConfigurationDetailsUsingGET_success');
         let configurationDetails: ConfigurationDetails = action.payload;
         //this.logger.updateConfig({
-          // level: configDto.devmode?NgxLoggerLevel.TRACE:NgxLoggerLevel.WARN,
-          // level: configDto.devmode?NgxLoggerLevel.TRACE:NgxLoggerLevel.WARN,
-          // serverLogLevel: NgxLoggerLevel[configDto.serverLogLevel],
-          // serverLoggingUrl: configDto.serverLoggingUrl,
+        // level: configDto.devmode?NgxLoggerLevel.TRACE:NgxLoggerLevel.WARN,
+        // level: configDto.devmode?NgxLoggerLevel.TRACE:NgxLoggerLevel.WARN,
+        // serverLogLevel: NgxLoggerLevel[configDto.serverLogLevel],
+        // serverLoggingUrl: configDto.serverLoggingUrl,
         //})
-        LoggerHolder.logger = this.logger;
-        this.logger.debug("Configuration Loaded");
+        //LoggerHolder.logger = this.logger;
+        this.logger.debug('Configuration Loaded');
         // let logLevel = NgxLoggerLevel[configDto.serverLogLevel];
         // this.logger.info("server log level is ", NgxLoggerLevel[logLevel]);
       }),
@@ -83,7 +91,8 @@ export class Effects {
   readConfigurationUsingGET_failed$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_failure),
-      map(action => {
+      map((action: {payload: ErrorDetails}) => {
+        console.log('readConfigurationDetailsUsingGET_failure');
         return showError({payload: action.payload});
       }),
     );

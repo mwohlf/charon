@@ -4,7 +4,7 @@ import { ConfigurationDetails } from 'build/generated';
 
 export const selectConfigFeature = createFeatureSelector<ConfigState>(featureKey);
 
-export const selectConfigData = createSelector(
+export const selectConfigurationDetails = createSelector(
   selectConfigFeature,
   (state: ConfigState) => {
     return state.config;
@@ -12,17 +12,17 @@ export const selectConfigData = createSelector(
 );
 
 export const selectVersion = createSelector(
-  selectConfigData,
+  selectConfigurationDetails,
   (config: ConfigurationDetails | undefined) => config?.version,
 );
 
 export const selectTimestamp = createSelector(
-  selectConfigData,
+  selectConfigurationDetails,
   (config: ConfigurationDetails | undefined) => config?.timestamp,
 );
 
 export const selectName = createSelector(
-  selectConfigData,
+  selectConfigurationDetails,
   (config: ConfigurationDetails | undefined) => config?.name,
 );
 

@@ -11,7 +11,7 @@ import {NgModule} from '@angular/core';
 import {ProtectedComponent} from './components/protected/protected.component';
 import {ApiModule, Configuration} from '../../build/generated';
 import {Action, ActionReducer, MetaReducer, StoreModule} from '@ngrx/store';
-
+import * as fromConfig from './config/effects';
 import {AppThemeModule} from './app-theme.module';
 import {ShellComponent} from './shell/shell.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -22,8 +22,18 @@ import {environment} from '../environments/environment';
 import {HeaderModule} from './header/header.module';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import * as fromRouteringReducer from './routing/reducer';
+import {ConfigModule} from './config/config.module';
+import {EffectsRootModule} from '@ngrx/effects';
+import {EffectsModule} from '@ngrx/effects';
+import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
 
 export interface AppState {
+}
+
+
+// public logging holder for static contexts
+export class LoggerHolder {
+  public static logger: any = console;
 }
 
 export function logging(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
@@ -50,6 +60,17 @@ export const appMetaReducers: MetaReducer[] = !environment.production
   ],
   imports: [
     ApiModule.forRoot(() => new Configuration({basePath: ''})),
+    AppThemeModule,
+    AuthConfigModule,
+    BrowserAnimationsModule,
+    BrowserModule,
+    ConfigModule,
+    EffectsRootModule,
+    FlexLayoutModule,
+    HeaderModule,
+    LayoutModule,
+    RoutingModule,
+    StoreModule,
     StoreModule.forRoot(fromRouteringReducer.reducer, {
       metaReducers: appMetaReducers,
       runtimeChecks: {
@@ -66,15 +87,15 @@ export const appMetaReducers: MetaReducer[] = !environment.production
       name: 'charon',
       logOnly: environment.production,
     }),
-    RoutingModule,
-    AppThemeModule,
-    AuthConfigModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    LayoutModule,
-    StoreModule,
-    FlexLayoutModule,
-    HeaderModule,
+    EffectsModule.forRoot([
+      fromConfig.Effects,
+    ]),
+    EffectsModule.forFeature([]),
+    LoggerModule.forRoot({
+      serverLoggingUrl: '/api/logs', // fix this after config
+      level: NgxLoggerLevel.DEBUG,
+      serverLogLevel: NgxLoggerLevel.ERROR
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,7 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ConfigService} from 'build/generated/api/api';
 import {ConfigurationDetails} from 'build/generated/model/models';
 import {Observable} from 'rxjs';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../app-shell.module';
+import {
+  selectConfigurationDetails,
+} from '../../config/selector';
 
 @Component({
   selector: 'app-home',
@@ -12,12 +16,12 @@ export class HomeComponent implements OnInit {
 
   static ROUTER_PATH: string = 'home';
 
-  buildProperties$: Observable<ConfigurationDetails>;
+   buildProperties$: Observable<ConfigurationDetails | undefined>;
 
   constructor(
-    private configService: ConfigService,
+    private store: Store<AppState>,
   ) {
-    this.buildProperties$ = this.configService.readConfigurationDetails();
+    this.buildProperties$ = this.store.select(selectConfigurationDetails);
   }
 
   ngOnInit(): void {
