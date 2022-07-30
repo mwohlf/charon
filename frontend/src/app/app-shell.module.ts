@@ -1,5 +1,5 @@
 import {AppComponent} from './app.component';
-import {AppRoutingModule} from './app-routing.module';
+import {RoutingModule} from './routing/routing.module';
 import {AuthConfigModule} from './app-auth.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
@@ -8,16 +8,34 @@ import {HomeComponent} from './components/home/home.component';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MainComponent} from './components/main/main.component';
 import {NgModule} from '@angular/core';
-import {ProtectedComponent} from "./components/protected/protected.component";
-import {HeaderComponent} from "./header/header.component";
+import {ProtectedComponent} from './components/protected/protected.component';
 import {ApiModule, Configuration} from '../../build/generated';
-import {StoreModule} from '@ngrx/store';
+import {Action, ActionReducer, MetaReducer, StoreModule} from '@ngrx/store';
 
-import {AppThemeModule} from "./app-theme.module";
-import {ShellComponent} from "./shell/shell.component";
+import {AppThemeModule} from './app-theme.module';
+import {ShellComponent} from './shell/shell.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {FooterComponent} from "./footer/footer.component";
-import {MenuComponent} from "./menu/menu.component";
+import {FooterComponent} from './footer/footer.component';
+import {MenuComponent} from './menu/menu.component';
+import {StoreRouterConnectingModule} from '@ngrx/router-store';
+import {environment} from '../environments/environment';
+import {HeaderModule} from './header/header.module';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import * as fromRouteringReducer from './routing/reducer';
+
+export interface AppState {
+}
+
+export function logging(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
+  return function(state: AppState | undefined, action: Action) {
+    // TODO log here
+    return reducer(state, action);
+  };
+}
+
+export const appMetaReducers: MetaReducer[] = !environment.production
+  ? [logging]
+  : [];
 
 @NgModule({
   declarations: [
@@ -27,13 +45,28 @@ import {MenuComponent} from "./menu/menu.component";
     MainComponent,
     ProtectedComponent,
     FooterComponent,
-    HeaderComponent,
     MenuComponent,
     ShellComponent,
   ],
   imports: [
     ApiModule.forRoot(() => new Configuration({basePath: ''})),
-    AppRoutingModule,
+    StoreModule.forRoot(fromRouteringReducer.reducer, {
+      metaReducers: appMetaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+        strictStateSerializability: true,
+        strictActionSerializability: true,
+        strictActionWithinNgZone: true,
+        strictActionTypeUniqueness: true,
+      },
+    }),
+    StoreRouterConnectingModule.forRoot({stateKey: fromRouteringReducer.featureKey}),
+    StoreDevtoolsModule.instrument({
+      name: 'charon',
+      logOnly: environment.production,
+    }),
+    RoutingModule,
     AppThemeModule,
     AuthConfigModule,
     BrowserAnimationsModule,
@@ -41,9 +74,10 @@ import {MenuComponent} from "./menu/menu.component";
     LayoutModule,
     StoreModule,
     FlexLayoutModule,
+    HeaderModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppShellModule {
 }

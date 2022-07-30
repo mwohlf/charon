@@ -14,8 +14,8 @@ import {AuthModule} from 'angular-auth-oidc-client';
       silentRenew: true,
       silentRenewUrl: window.location.origin + '/silent-renew.html',
       renewTimeBeforeTokenExpiresInSeconds: 10,
-      autoUserInfo: false
-    }
+      autoUserInfo: false,
+    },
   })],
   exports: [AuthModule],
 })
