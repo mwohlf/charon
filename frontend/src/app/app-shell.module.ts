@@ -59,7 +59,9 @@ export const appMetaReducers: MetaReducer[] = !environment.production
     ShellComponent,
   ],
   imports: [
-    ApiModule.forRoot(() => new Configuration({basePath: ''})),
+    ApiModule.forRoot(() => new Configuration({
+      basePath: environment.apiBasePath
+    })),
     AppThemeModule,
     AuthConfigModule,
     BrowserAnimationsModule,
@@ -94,7 +96,7 @@ export const appMetaReducers: MetaReducer[] = !environment.production
     LoggerModule.forRoot({
       serverLoggingUrl: '/api/logs', // fix this after config
       level: NgxLoggerLevel.DEBUG,
-      serverLogLevel: NgxLoggerLevel.ERROR
+      serverLogLevel: NgxLoggerLevel.ERROR,
     }),
   ],
   providers: [],
