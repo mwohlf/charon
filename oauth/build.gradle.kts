@@ -11,7 +11,7 @@ repositories {
 }
 
 // disable jit for now...
-tasks.findByName("jib")?.enabled = false
+// tasks.findByName("jib")?.enabled = false
 
 tasks.test {
     useJUnitPlatform()

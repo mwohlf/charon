@@ -26,6 +26,7 @@ import {EffectsRootModule} from '@ngrx/effects';
 import {EffectsModule} from '@ngrx/effects';
 import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
 import {OAuthModule} from './oauth/oauth.module';
+import {AuthModule} from 'angular-auth-oidc-client';
 
 export interface AppState {
 }

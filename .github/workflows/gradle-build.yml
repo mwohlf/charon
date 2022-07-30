@@ -28,15 +28,15 @@ jobs:
       - name: Run gradle build to compile the applications
         run: ${{ github.workspace }}/gradlew build --no-daemon
 
-      - name: Authenticate to the docker registry
-        uses: docker/login-action@v2
-        with:
-          # registry: registry.gitlab.com
-          registry: ghcr.io
-          username: mwohlf
-          password: ${{ secrets.GHCR_TOKEN }}
+#      - name: Authenticate to the docker registry
+#        uses: docker/login-action@v2
+#        with:
+#          # registry: registry.gitlab.com
+#          registry: ghcr.io
+#          username: mwohlf
+#          password: ${{ secrets.GHCR_TOKEN }}
 
       # this creates and pushes the docker images we need for the services
-      - name: Run gradle jib to create and push the image
+      - name: Run gradle jib to create and push the images
         run: ${{ github.workspace }}/gradlew jib --no-daemon
 

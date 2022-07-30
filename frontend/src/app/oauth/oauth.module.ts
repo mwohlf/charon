@@ -7,25 +7,36 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {StoreModule} from '@ngrx/store';
-import {AuthModule} from 'angular-auth-oidc-client';
+import {AuthModule, LogLevel} from 'angular-auth-oidc-client';
 
 @NgModule({
   imports: [
+    // config from here: https://github.com/damienbod/angular-auth-oidc-client/issues/1318
     AuthModule.forRoot({
       config: {
         configId: "simple",
-        authority: 'http://127.0.0.1:9000',
-        // localhost is not allowed here
-        redirectUrl: 'http://127.0.0.1:4200/home',
-        postLogoutRedirectUri: window.location.origin,
+        //   autoUserInfo: false,
+        //   silentRenew: false,
+        //   silentRenewUrl: window.location.origin + '/silent-renew.html',
+        //   localhost is not allowed here
+        authority: 'http://127.0.0.1:8081',
         clientId: 'public-client',
-        scope: 'openid message.read message.write', // 'openid profile ' + your scopes
-        responseType: 'code',
-        silentRenew: false,
-     //   silentRenewUrl: window.location.origin + '/silent-renew.html',
+        logLevel: LogLevel.Debug,
+        postLogoutRedirectUri: window.location.origin,
+        redirectUrl: 'http://127.0.0.1:4200/home',
         renewTimeBeforeTokenExpiresInSeconds: 10,
-        autoUserInfo: false,
+        responseType: 'code',
+        scope: 'openid profile email offline_access',
+        // scope: 'openid message.read message.write', // 'openid profile ' + your scopes
+        useRefreshToken: true,
+        issValidationOff: false,
+        historyCleanupOff: false,
+        startCheckSession: true,
+        silentRenew: true,
       },
+      storage: {
+
+      }
     }),
     AppThemeModule,
     CommonModule,
