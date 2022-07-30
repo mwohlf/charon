@@ -1,11 +1,24 @@
-<div style="background: yellow">
-    <button (click)="login()">Click here to login</button>
-    <button (click)="logout()">Click here to logout</button>
-    <mat-icon>pie_chart</mat-icon>
-    <mat-icon fontSet="material-icons-outlined">pie_chart</mat-icon>
-    <mat-icon fontSet="material-icons-round">pie_chart</mat-icon>
-    <mat-icon fontSet="material-icons-sharp">pie_chart</mat-icon>
-    <mat-icon fontSet="material-icons-two-tone">pie_chart</mat-icon>
-    test
-    <mat-icon fontSet="material-icons-two-tone" style="margin-left: auto; cursor: pointer;" (click)="login();">login</mat-icon>
+<div style="background: yellow; padding:13px" fxLayout="row" fxLayoutGap="5px">
+    <div>
+        test
+    </div>
+    <div fxFlex="2 1 auto">
+        space
+    </div>
+    <div>
+        <mat-icon *ngIf="!(isAuthenticated$ | async)"
+                  fontSet="material-icons-two-tone"
+                  style="margin-left: auto; cursor: pointer;"
+                  (click)="login();">
+            login
+        </mat-icon>
+    </div>
+    <div>
+        <mat-icon *ngIf="(isAuthenticated$ | async)"
+                  fontSet="material-icons-two-tone"
+                  style="margin-left: auto; cursor: pointer;"
+                  (click)="logout();">
+            logout
+        </mat-icon>
+    </div>
 </div>

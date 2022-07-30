@@ -26,6 +26,7 @@ import {ConfigModule} from './config/config.module';
 import {EffectsRootModule} from '@ngrx/effects';
 import {EffectsModule} from '@ngrx/effects';
 import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
+import {OauthModule} from './oauth/oauth.module';
 
 export interface AppState {
 }
@@ -64,6 +65,7 @@ export const appMetaReducers: MetaReducer[] = !environment.production
     })),
     AppThemeModule,
     AuthConfigModule,
+    OauthModule, // TODO: merge them
     BrowserAnimationsModule,
     BrowserModule,
     ConfigModule,

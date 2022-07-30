@@ -26,7 +26,7 @@ export class Effects {
   ) {
   }
 
-  rootEffectsInit: Observable<Action> = createEffect(() => {
+  ROOT_EFFECTS_INIT: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(ROOT_EFFECTS_INIT),
       tap(() => {
@@ -43,7 +43,7 @@ export class Effects {
   });
 
   // the config loading action
-  readConfigurationUsingGET$: Observable<Action> = createEffect(() => {
+  readConfigurationDetailsUsingGET$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET),
       mergeMap(() => {
@@ -67,7 +67,7 @@ export class Effects {
   });
 
   // config is ready and loaded
-  readConfigurationUsingGET_success$: Observable<Action> = createEffect(() => {
+  readConfigurationDetailsUsingGET_success$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_success),
       tap(action => {
@@ -88,7 +88,7 @@ export class Effects {
   }, {dispatch: false});
 
   // forward as error action...
-  readConfigurationUsingGET_failed$: Observable<Action> = createEffect(() => {
+  readConfigurationDetailsUsingGET_failure$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_failure),
       map((action: {payload: ErrorDetails}) => {
