@@ -20,12 +20,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('---: ');
     // this reads the callback url params from oauth
-    // apparently we are only supposed to call this once on initial load, or on auth redirect...
+    // apparently we are only supposed to call this once on initial load,
+    // or on auth redirect...
     this.oidcSecurityService.checkAuth().subscribe(((next: LoginResponse) => {
-      RequestInterceptor.ACCESS_TOKEN = next.accessToken;
-      console.error('----: ', RequestInterceptor.ACCESS_TOKEN);
+      RequestInterceptor.setAccessToken(next.accessToken);
     }));
 
 

@@ -50,7 +50,9 @@ export class Effects {
         console.log('readConfigurationDetailsUsingGET');
         return this.configurationDetailsService.readConfigurationDetails().pipe(
           map((configurationDetails: ConfigurationDetails) => {
-            return readConfigurationDetailsUsingGET_success({payload: configurationDetails});
+            return readConfigurationDetailsUsingGET_success({
+              payload: configurationDetails
+            });
           }),
           catchError((error: any) => {
             return of(readConfigurationDetailsUsingGET_failure({

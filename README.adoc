@@ -146,3 +146,15 @@ todo: +
 https://bhuwanupadhyay.github.io/2020/06/expose-spring-boot-microservice-with-ingress-using-helm/ +
 https://unbroken-dome.github.io/projects/gradle-helm-plugin/latest/userguide/index.html +
 
+
+-
+
+
+#### Spring Auth Server Project:
+
+https://github.com/spring-projects/spring-authorization-server
+https://www.appsdeveloperblog.com/spring-authorization-server-tutorial/
+
+#### OAuth Client Project:
+
+angular-auth-oidc-client

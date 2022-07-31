@@ -10,6 +10,7 @@ import {authorizeAction, logoffAction} from '../oauth/action';
 import {Observable} from 'rxjs';
 import {isAuthenticated} from '../oauth/selector';
 import {readConfigurationDetailsUsingGET} from '../config/action';
+import {SIMPLE_CONFIG} from '../oauth/oauth.module';
 
 @Component({
   selector: 'app-header',
@@ -29,34 +30,21 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  refresh() {
+  reReadConfig() {
     this.store.dispatch(readConfigurationDetailsUsingGET());
-    this.oidcSecurityService.authorize();
   }
 
-  login() {
-   // this.store.dispatch(authorizeAction());
+  authorize() {
     this.oidcSecurityService.authorize();
   }
 
   logout() {
-    this.oidcSecurityService.logoffAndRevokeTokens();
-    // this.store.dispatch(logoffAction());
+    console.error("logout?");
+    this.oidcSecurityService.logoffAndRevokeTokens(SIMPLE_CONFIG).subscribe( next => {
+      console.log("logout next:", next);
+    })
+
+    // only local cleanup, the session cookie still persists and will be used
+    // this.oidcSecurityService.logoff(SIMPLE_CONFIG);
   }
 }
-
-
-/*
-
-  login() {
-    this.oidcSecurityService.authorize();
-    this.store.dispatch(enableHeaderFlag({
-      payload: {isEnabled: true},
-    }));
-    // this.oidcSecurityService.authorize();
-    console.log('clicked');
-  }
-
-  logout() {
-    this.oidcSecurityService.logoff();
- */
