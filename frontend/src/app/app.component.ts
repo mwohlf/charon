@@ -5,6 +5,7 @@ import {
   PublicEventsService,
 } from 'angular-auth-oidc-client';
 import {filter, tap} from 'rxjs/operators';
+import {RequestInterceptor} from './oauth/request-interceptor';
 
 @Component({
   selector: 'app-root',
@@ -12,21 +13,25 @@ import {filter, tap} from 'rxjs/operators';
 })
 export class AppComponent implements OnInit {
 
-  title = 'charon';
-
   constructor(
-    private oidcSecurityService: OidcSecurityService,
-    private eventService: PublicEventsService,
+    public oidcSecurityService: OidcSecurityService,
+    public eventService: PublicEventsService,
   ) {
-    //
   }
 
   ngOnInit() {
+    /*
+    console.log('ngOnInit nexttt: ');
     // this reads the callback url params from oauth
+    // apparently we are only supposed to call this once on initial load, or on auth redirect...
     this.oidcSecurityService.checkAuth().subscribe(((next: LoginResponse) => {
-      console.log('next: ', JSON.stringify(next));
+      console.error('nexttt: ', next);
+      console.error('nexttt: ', next.accessToken);
+      RequestInterceptor.ACCESS_TOKEN = next.accessToken;
+      console.error('nexttt: ', RequestInterceptor.ACCESS_TOKEN);
     }));
 
+     */
     /*
     this.oidcSecurityService.checkAuth().subscribe((next: LoginResponse) => {
       console.log('isAuthenticated: ', next.isAuthenticated);

@@ -15,7 +15,7 @@ import {AuthModule, LogLevel} from 'angular-auth-oidc-client';
     // config from here: https://github.com/damienbod/angular-auth-oidc-client/issues/1318
     AuthModule.forRoot({
       config: {
-        configId: "simple",
+        configId: "simpleConfig",
         //   autoUserInfo: false,
         //   silentRenew: false,
         //   silentRenewUrl: window.location.origin + '/silent-renew.html',
@@ -24,22 +24,19 @@ import {AuthModule, LogLevel} from 'angular-auth-oidc-client';
         clientId: 'public-client',
         logLevel: LogLevel.Debug,
         postLogoutRedirectUri: window.location.origin,
-        redirectUrl: window.location.origin,
-
-        // redirectUrl: 'http://127.0.0.1:4200/home',
+        redirectUrl: 'http://127.0.0.1:4200/home',
         renewTimeBeforeTokenExpiresInSeconds: 10,
         responseType: 'code',
-        scope: 'openid',
-        // scope: 'openid message.read message.write', // 'openid profile ' + your scopes
+        scope: 'openid offline_access',
         useRefreshToken: true,
         issValidationOff: false,
         historyCleanupOff: false,
         startCheckSession: true,
         silentRenew: true,
-        triggerAuthorizationResultEvent: true,
-        postLoginRoute: "start",  // route to use after a successful login, if not using the triggerAuthorizationResultEvent.
-        unauthorizedRoute: "unauthorized", //route to redirect the client to when the server returns an HTTP 401 response.
-        forbiddenRoute: "forbidden", // route to redirect the client to when the server returns an HTTP 403 response.
+       // triggerAuthorizationResultEvent: true,
+       // postLoginRoute: "start",  // route to use after a successful login, if not using the triggerAuthorizationResultEvent.
+       // unauthorizedRoute: "unauthorized", //route to redirect the client to when the server returns an HTTP 401 response.
+       // forbiddenRoute: "forbidden", // route to redirect the client to when the server returns an HTTP 403 response.
       }
     }),
     AppThemeModule,

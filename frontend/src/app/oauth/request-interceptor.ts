@@ -4,7 +4,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {Observable} from 'rxjs';
 import {LoginResponse, OidcSecurityService} from 'angular-auth-oidc-client';
 
@@ -12,26 +12,24 @@ import {LoginResponse, OidcSecurityService} from 'angular-auth-oidc-client';
 @Injectable({providedIn: 'root'})
 export class RequestInterceptor implements HttpInterceptor {
 
-  private accessToken: string | undefined;
+  public static ACCESS_TOKEN: string | undefined;
 
   constructor(
-    private oidcSecurityService: OidcSecurityService,
   ) {
-    this.oidcSecurityService.checkAuth().subscribe(((next: LoginResponse) => {
-      this.accessToken = next.accessToken;
-      console.log('next: ', JSON.stringify(next));
-    }));
+    console.error('********************* constructor');
   }
 
   // add bearer token if we have one
   public intercept(originalRequest: HttpRequest<any>, nextHandler: HttpHandler): Observable<HttpEvent<any>> {
     console.log('intercept: ', JSON.stringify(originalRequest));
+    console.error('********************* intercept ', RequestInterceptor.ACCESS_TOKEN);
+
     let newRequest = originalRequest;
-    if (!!this.accessToken) {
-      console.log('<intercept> adding bearer token for API access: ', originalRequest);
+    if (!!RequestInterceptor.ACCESS_TOKEN) {
+      console.error('<intercept> adding bearer token for API access: ', originalRequest);
       newRequest = newRequest.clone({
         // adding bearer token for API access
-        headers: newRequest.headers.set('Authorization', 'Bearer ' + this.accessToken),
+        headers: newRequest.headers.set('Authorization', 'Bearer ' + RequestInterceptor.ACCESS_TOKEN),
       });
     }
     return nextHandler.handle(newRequest);

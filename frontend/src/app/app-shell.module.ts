@@ -104,11 +104,11 @@ export const appMetaReducers: MetaReducer[] = !environment.production
     }),
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: RequestInterceptor,
-      multi: true,
-    },
+  //  {
+  //    provide: HTTP_INTERCEPTORS,
+  //    useClass: RequestInterceptor,
+  //    multi: true,
+  //  },
   ],
   bootstrap: [AppComponent],
 })

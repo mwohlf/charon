@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public store: Store<AppState>,
+    public oidcSecurityService: OidcSecurityService,
   ) {
     this.isAuthenticated$ = this.store.select(isAuthenticated);
   }
@@ -28,11 +29,13 @@ export class HeaderComponent implements OnInit {
   }
 
   login() {
-    this.store.dispatch(authorizeAction());
+   // this.store.dispatch(authorizeAction());
+    this.oidcSecurityService.authorize();
   }
 
   logout() {
-    this.store.dispatch(logoffAction());
+    this.oidcSecurityService.logoffAndRevokeTokens();
+    // this.store.dispatch(logoffAction());
   }
 }
 
