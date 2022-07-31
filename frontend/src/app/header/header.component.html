@@ -6,7 +6,7 @@
         space
     </div>
     <div>
-        <mat-icon *ngIf="!(isAuthenticated$ | async)"
+        <mat-icon
                   fontSet="material-icons-two-tone"
                   style="margin-left: auto; cursor: pointer;"
                   (click)="login();">
@@ -14,7 +14,7 @@
         </mat-icon>
     </div>
     <div>
-        <mat-icon *ngIf="(isAuthenticated$ | async)"
+        <mat-icon
                   fontSet="material-icons-two-tone"
                   style="margin-left: auto; cursor: pointer;"
                   (click)="logout();">

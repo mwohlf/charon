@@ -1,6 +1,5 @@
 import {createFeatureSelector, createSelector, Store} from '@ngrx/store';
 import {featureKey, OAuthState} from './reducer';
-import { ConfigurationDetails } from 'build/generated';
 
 export const selectOAuthFeature = createFeatureSelector<OAuthState>(featureKey);
 

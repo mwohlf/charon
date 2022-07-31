@@ -27,6 +27,8 @@ import {EffectsModule} from '@ngrx/effects';
 import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
 import {OAuthModule} from './oauth/oauth.module';
 import {AuthModule} from 'angular-auth-oidc-client';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {RequestInterceptor} from './oauth/request-interceptor';
 
 export interface AppState {
 }
@@ -71,6 +73,7 @@ export const appMetaReducers: MetaReducer[] = !environment.production
     EffectsRootModule,
     FlexLayoutModule,
     HeaderModule,
+    HttpClientModule,
     LayoutModule,
     RoutingModule,
     StoreModule,
@@ -100,7 +103,13 @@ export const appMetaReducers: MetaReducer[] = !environment.production
       serverLogLevel: NgxLoggerLevel.ERROR,
     }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppShellModule {

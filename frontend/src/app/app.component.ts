@@ -4,7 +4,7 @@ import {
   OidcSecurityService,
   PublicEventsService,
 } from 'angular-auth-oidc-client';
-import {filter} from 'rxjs/operators';
+import {filter, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +22,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this reads the callback url params from oauth
+    this.oidcSecurityService.checkAuth().subscribe(((next: LoginResponse) => {
+      console.log('next: ', JSON.stringify(next));
+    }));
+
     /*
     this.oidcSecurityService.checkAuth().subscribe((next: LoginResponse) => {
       console.log('isAuthenticated: ', next.isAuthenticated);
@@ -32,11 +37,25 @@ export class AppComponent implements OnInit {
       console.log(`Current idToken: '${next.idToken}'`);
     });
 
+import { HttpHeaders } from '@angular/common/http';
+
+const token = this.oidcSecurityServices.getAccessToken().subscribe((token) => {
+  const httpOptions = {
+    headers: new HttpHeaders({
+      Authorization: 'Bearer ' + token,
+    }),
+  };
+});
      */
 
     this.eventService
       .registerForEvents()
-      .pipe(filter((notification) => notification.type === EventTypes.CheckSessionReceived))
+      .pipe(
+        tap((elem) => {
+          console.log("event: ", elem)
+        } ),
+        filter((notification) => notification.type === EventTypes.CheckSessionReceived)
+      )
       .subscribe((value) => console.log('CheckSessionReceived with value from app ', value));
   }
 }

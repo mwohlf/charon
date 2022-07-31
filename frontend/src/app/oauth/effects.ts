@@ -22,6 +22,7 @@ export class Effects {
       ofType(authorizeAction),
       tap(() => {
         console.log('authorizeAction');
+        // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/public-api
         this.oidcSecurityService.authorize(); // this redirects
       }),
     );
@@ -32,8 +33,12 @@ export class Effects {
     return this.action$.pipe(
       ofType(logoffAction),
       tap(() => {
-        console.log('logoffAction');
-        this.oidcSecurityService.logoff();
+        // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/login-logout
+        console.log('logoffAction...');
+        // this.oidcSecurityService.logoff();
+        // this.oidcSecurityService.logoffLocal();
+        this.oidcSecurityService.logoffAndRevokeTokens()
+          .subscribe((result) => console.log(result));
       }),
     );
   }, {dispatch: false});
