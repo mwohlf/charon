@@ -9,6 +9,7 @@ import {AppState} from '../app-shell.module';
 import {authorizeAction, logoffAction} from '../oauth/action';
 import {Observable} from 'rxjs';
 import {isAuthenticated} from '../oauth/selector';
+import {readConfigurationDetailsUsingGET} from '../config/action';
 
 @Component({
   selector: 'app-header',
@@ -26,6 +27,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  refresh() {
+    this.store.dispatch(readConfigurationDetailsUsingGET());
+    this.oidcSecurityService.authorize();
   }
 
   login() {

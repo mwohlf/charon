@@ -14,6 +14,7 @@ export class RequestInterceptor implements HttpInterceptor {
 
   public static ACCESS_TOKEN: string | undefined;
 
+  // TODO: seems like this is not a singleton and this constructor is called multiple times...
   constructor(
   ) {
     console.error('********************* constructor');
@@ -22,9 +23,9 @@ export class RequestInterceptor implements HttpInterceptor {
   // add bearer token if we have one
   public intercept(originalRequest: HttpRequest<any>, nextHandler: HttpHandler): Observable<HttpEvent<any>> {
     console.log('intercept: ', JSON.stringify(originalRequest));
-    console.error('********************* intercept ', RequestInterceptor.ACCESS_TOKEN);
 
     let newRequest = originalRequest;
+    console.error('********************* intercept ', RequestInterceptor.ACCESS_TOKEN, newRequest);
     if (!!RequestInterceptor.ACCESS_TOKEN) {
       console.error('<intercept> adding bearer token for API access: ', originalRequest);
       newRequest = newRequest.clone({

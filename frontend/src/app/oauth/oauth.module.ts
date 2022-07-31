@@ -33,6 +33,7 @@ import {AuthModule, LogLevel} from 'angular-auth-oidc-client';
         historyCleanupOff: false,
         startCheckSession: true,
         silentRenew: true,
+        autoUserInfo: false,
        // triggerAuthorizationResultEvent: true,
        // postLoginRoute: "start",  // route to use after a successful login, if not using the triggerAuthorizationResultEvent.
        // unauthorizedRoute: "unauthorized", //route to redirect the client to when the server returns an HTTP 401 response.
