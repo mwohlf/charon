@@ -7,7 +7,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {StoreModule} from '@ngrx/store';
-import {AuthModule, LogLevel} from 'angular-auth-oidc-client';
+import {AuthInterceptor, AuthModule, LogLevel} from 'angular-auth-oidc-client';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
 
 export const SIMPLE_CONFIG = "simpleConfig";
@@ -29,6 +30,19 @@ export const SIMPLE_CONFIG = "simpleConfig";
         useRefreshToken: true,
         logLevel: LogLevel.Debug,
         autoUserInfo: false,
+
+        secureRoutes: [
+          '/api',
+          '/oauth2',
+          'https://localhost/',
+          'https://127.0.0.1/',
+          'https://localhost:8080/',
+          'https://127.0.0.1:8080/',
+          'https://localhost:4200/',
+          'https://127.0.0.1:4200/',
+          'http://127.0.0.1:8081/oauth2/revoke'
+        ],
+
       }
     }),
     AppThemeModule,
@@ -42,6 +56,9 @@ export const SIMPLE_CONFIG = "simpleConfig";
   declarations: [],
   exports: [
     AuthModule,
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
 })
 

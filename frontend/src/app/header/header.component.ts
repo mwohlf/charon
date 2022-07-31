@@ -39,11 +39,15 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    console.error("logout?");
-    this.oidcSecurityService.logoffAndRevokeTokens(SIMPLE_CONFIG).subscribe( next => {
-      console.log("logout next:", next);
-    })
+    console.error("logout...");
+    this.oidcSecurityService.revokeAccessToken()
+      .subscribe((result) => console.log(result));
 
+    //
+    // this.oidcSecurityService.logoffAndRevokeTokens(SIMPLE_CONFIG).subscribe( next => {
+    //  console.log("logout next:", next);
+    // })
+    //
     // only local cleanup, the session cookie still persists and will be used
     // this.oidcSecurityService.logoff(SIMPLE_CONFIG);
   }

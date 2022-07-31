@@ -5,7 +5,6 @@ import {
   PublicEventsService,
 } from 'angular-auth-oidc-client';
 import {filter, tap} from 'rxjs/operators';
-import {RequestInterceptor} from './oauth/request-interceptor';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +23,7 @@ export class AppComponent implements OnInit {
     // apparently we are only supposed to call this once on initial load,
     // or on auth redirect...
     this.oidcSecurityService.checkAuth().subscribe(((next: LoginResponse) => {
-      RequestInterceptor.setAccessToken(next.accessToken);
+      console.log('next: ', next);
     }));
 
 

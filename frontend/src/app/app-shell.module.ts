@@ -22,13 +22,10 @@ import {HeaderModule} from './header/header.module';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import * as fromRouteringReducer from './routing/reducer';
 import {ConfigModule} from './config/config.module';
-import {EffectsRootModule} from '@ngrx/effects';
-import {EffectsModule} from '@ngrx/effects';
+import {EffectsModule, EffectsRootModule} from '@ngrx/effects';
 import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
 import {OAuthModule} from './oauth/oauth.module';
-import {AuthModule} from 'angular-auth-oidc-client';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {RequestInterceptor} from './oauth/request-interceptor';
+import {HttpClientModule} from '@angular/common/http';
 
 export interface AppState {
 }
@@ -63,7 +60,7 @@ export const appMetaReducers: MetaReducer[] = !environment.production
   ],
   imports: [
     ApiModule.forRoot(() => new Configuration({
-      basePath: environment.apiBasePath
+      basePath: environment.apiBasePath,
     })),
     AppThemeModule,
     OAuthModule,
@@ -103,13 +100,7 @@ export const appMetaReducers: MetaReducer[] = !environment.production
       serverLogLevel: NgxLoggerLevel.ERROR,
     }),
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: RequestInterceptor,
-      multi: true,
-    },
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppShellModule {

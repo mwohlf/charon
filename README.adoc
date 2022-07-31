@@ -158,3 +158,7 @@ https://www.appsdeveloperblog.com/spring-authorization-server-tutorial/
 #### OAuth Client Project:
 
 angular-auth-oidc-client
+
+see: https://github.com/spring-projects/spring-authorization-server/issues/796
+
+https://github.com/spring-projects/spring-authorization-server/issues/297

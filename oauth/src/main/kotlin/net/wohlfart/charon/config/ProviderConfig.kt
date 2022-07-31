@@ -13,7 +13,8 @@ class ProviderConfig(
     @Bean
     fun providerSettings(): ProviderSettings {
         return ProviderSettings.builder()
-          //  .issuer(oauthProperties.issuer)
+            .issuer(oauthProperties.issuer)
+            // configure endpoints here that will be used in the well-known...
             .build()
     }
 
