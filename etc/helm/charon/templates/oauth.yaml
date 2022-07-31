@@ -8,7 +8,7 @@ spec:
     app: charon-aouth
   ports:
     - port: 81
-      targetPort: 8080
+      targetPort: 8081
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -30,20 +30,20 @@ spec:
           imagePullPolicy: Always
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 8081
               protocol: TCP
           livenessProbe:
             initialDelaySeconds: 15
             periodSeconds: 40
             httpGet:
               path: /actuator/health/liveness
-              port: 8080
+              port: 8081
           readinessProbe:
             initialDelaySeconds: 20
             periodSeconds: 30
             httpGet:
               path: /actuator/health/readiness
-              port: 8080
+              port: 8081
 
 #
 # see: https://kubernetes.io/docs/concepts/services-networking/_print/#defining-a-service
