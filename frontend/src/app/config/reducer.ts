@@ -19,6 +19,7 @@ const initialState: ConfigState = {
 
 const featureReducer = createReducer(
   initialState,
+
   on(fromActions.readConfigurationDetailsUsingGET,
     (state: ConfigState) => {
       return {
@@ -28,6 +29,7 @@ const featureReducer = createReducer(
       };
     },
   ),
+
   on(fromActions.readConfigurationDetailsUsingGET_success,
     (state: ConfigState, {payload: payload}) => {
       return {
@@ -37,6 +39,7 @@ const featureReducer = createReducer(
       };
     },
   ),
+
   on(fromActions.readConfigurationDetailsUsingGET_failure,
     (state: ConfigState, {payload: error}) => {
       return {
@@ -46,6 +49,7 @@ const featureReducer = createReducer(
       };
     },
   ),
+
 );
 
 export function reducer(state: ConfigState | undefined, action: Action): ConfigState {

@@ -2,7 +2,7 @@ import {AppThemeModule} from '../app-theme.module';
 import {CommonModule} from '@angular/common';
 import {EffectsModule} from '@ngrx/effects';
 import {Effects} from './effects';
-import {featureKey, reducer} from './reducer';
+import {reducer, SIMPLE_CONFIG} from './reducer';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
@@ -10,8 +10,8 @@ import {StoreModule} from '@ngrx/store';
 import {AuthInterceptor, AuthModule, LogLevel} from 'angular-auth-oidc-client';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
+export const featureKey = 'oAuthFeature';
 
-export const SIMPLE_CONFIG = "simpleConfig";
 
 @NgModule({
   imports: [

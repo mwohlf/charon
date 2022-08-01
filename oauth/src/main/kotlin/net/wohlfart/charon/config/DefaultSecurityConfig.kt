@@ -14,8 +14,14 @@ class DefaultSecurityConfig {
     fun defaultSecurityFilterChain(
         http: HttpSecurity,
     ): SecurityFilterChain {
+
+        // http://127.0.0.1:8081/oauth2/revoke
         return http
-            .authorizeRequests { authorizeRequests -> authorizeRequests.anyRequest().authenticated() }
+            .authorizeRequests { authorizeRequests ->
+                authorizeRequests
+                    .antMatchers("/oauth2/revoke").anonymous()
+                    .anyRequest().authenticated()
+            }
             .cors(withDefaults())
             .formLogin(withDefaults())
             .build()

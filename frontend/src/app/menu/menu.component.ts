@@ -25,7 +25,9 @@ export class MenuComponent implements OnInit {
       shareReplay(),
     );
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(
+    private breakpointObserver: BreakpointObserver
+  ) {
   }
 
 

@@ -1,46 +1,64 @@
 import * as fromActions from './action';
 import {Action, createReducer, on} from '@ngrx/store';
-import {authorizeAction, logoffAction, receivedAccessToken} from './action';
-import {ConfigState} from '../config/reducer';
 
-export const featureKey = 'oAuthFeature';
+export const SIMPLE_CONFIG = 'simpleConfig';
 
 export interface OAuthState {
+  configId: string | undefined;
+  authState: string;
   isAuthenticated: boolean;
-  accessToken: string | undefined;
+  userData: any;
+  errorMessage: string | undefined;
 }
 
 export const initialState: OAuthState = {
+  configId: undefined,
+  authState: 'undefined',
   isAuthenticated: false,
-  accessToken: undefined,
+  userData: undefined,
+  errorMessage: undefined,
 };
 
 const featureReducer = createReducer(
   initialState,
-  on(fromActions.authorizeAction,
-    (state: OAuthState) => {
+
+  on(fromActions.loginAction,
+    (state: OAuthState, {payload: {configId: configId}}) => {
       return {
-        ...state, // keep the old state in case we are updating...
-        isAuthenticated: true,
-        accessToken: undefined,
+        ...state,
+        configId: configId,
       };
     },
   ),
-  on(fromActions.receivedAccessToken,
-    (state: OAuthState, {payload: accessToken}) => {
+
+  on(fromActions.oauthEventAction,
+    (state: OAuthState, {payload: payload}) => {
+      const values = [
+        'ConfigLoaded',
+        'ConfigLoadingFailed',
+        'CheckSessionReceived',
+        'UserDataChanged',
+        'NewAuthenticationResult',
+        'TokenExpired',
+        'IdTokenExpired',
+        'SilentRenewStarted',
+      ];
+      console.log(' payload: ', payload);
       return {
-        ...state, // keep the old state in case we are updating...
-        isAuthenticated: true,
-        accessToken: accessToken,
+        ...state,
+        authState: values[payload.type],
       };
     },
   ),
-  on(fromActions.logoffAction,
-    (state: OAuthState) => {
+
+  on(fromActions.oidcSecurityAction,
+    (state: OAuthState, {payload: payload}) => {
       return {
         ...state, // keep the old state in case we are updating...
-        isAuthenticated: false,
-        accessToken: undefined,
+        configId: payload.configId,
+        isAuthenticated: payload.isAuthenticated,
+        userData: payload.userData,
+        errorMessage: payload.errorMessage,
       };
     },
   ),

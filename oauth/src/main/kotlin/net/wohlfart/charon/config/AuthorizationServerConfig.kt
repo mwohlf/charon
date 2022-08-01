@@ -26,10 +26,12 @@ class AuthorizationServerConfig {
     fun authorizationServerSecurityFilterChain(
         http: HttpSecurity,
     ): SecurityFilterChain {
+
+        // token endpoint
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
         return http
-            .cors(withDefaults())
-            .formLogin(withDefaults())
+            .cors(withDefaults())  // give access to the token endpoints from a different domain
+            .formLogin(withDefaults())   // implements the login form
             .build()
     }
 

@@ -79,6 +79,16 @@ proxy service config: +
 https://angular.io/guide/build#proxying-to-a-backend-server
 
 
+=== simple ngrx concepts
+
+Actions:: Describe unique events, dispatched from Components (Users), Services (Backends) and might contain data.
+
+Reducer:: Convert action types, the data from actions and the current state into a new State.
+
+Effects:: Listen to an observable of every action dispatched from the store, interact with Services, Isolate side effects, return new actions.
+
+
+Components:: Select and render state, dispatch actions.
 
 == backend module
 
@@ -152,13 +162,17 @@ https://unbroken-dome.github.io/projects/gradle-helm-plugin/latest/userguide/ind
 
 #### Spring Auth Server Project:
 
-https://github.com/spring-projects/spring-authorization-server
-https://www.appsdeveloperblog.com/spring-authorization-server-tutorial/
+https://github.com/spring-projects/spring-authorization-server +
+https://www.appsdeveloperblog.com/spring-authorization-server-tutorial/ +
+https://github.com/spring-projects/spring-authorization-server/issues/796 +
+https://github.com/spring-projects/spring-authorization-server/issues/297 +
+
+
 
 #### OAuth Client Project:
 
 angular-auth-oidc-client
 
-see: https://github.com/spring-projects/spring-authorization-server/issues/796
+https://github.com/damienbod/angular-auth-oidc-client +
 
-https://github.com/spring-projects/spring-authorization-server/issues/297
+

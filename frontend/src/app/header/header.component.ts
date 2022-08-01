@@ -1,16 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {
   OidcSecurityService,
-  PublicEventsService,
 } from 'angular-auth-oidc-client';
-import {enableHeaderFlag} from './action';
 import {Store} from '@ngrx/store';
 import {AppState} from '../app-shell.module';
-import {authorizeAction, logoffAction} from '../oauth/action';
+import {loginAction, logoutAction} from '../oauth/action';
 import {Observable} from 'rxjs';
 import {isAuthenticated} from '../oauth/selector';
 import {readConfigurationDetailsUsingGET} from '../config/action';
-import {SIMPLE_CONFIG} from '../oauth/oauth.module';
+import {SIMPLE_CONFIG} from '../oauth/reducer';
 
 @Component({
   selector: 'app-header',
@@ -35,20 +33,10 @@ export class HeaderComponent implements OnInit {
   }
 
   authorize() {
-    this.oidcSecurityService.authorize();
+    this.store.dispatch(loginAction({payload: {configId: SIMPLE_CONFIG}}));
   }
 
   logout() {
-    console.error("logout...");
-    this.oidcSecurityService.revokeAccessToken()
-      .subscribe((result) => console.log(result));
-
-    //
-    // this.oidcSecurityService.logoffAndRevokeTokens(SIMPLE_CONFIG).subscribe( next => {
-    //  console.log("logout next:", next);
-    // })
-    //
-    // only local cleanup, the session cookie still persists and will be used
-    // this.oidcSecurityService.logoff(SIMPLE_CONFIG);
+    this.store.dispatch(logoutAction());
   }
 }

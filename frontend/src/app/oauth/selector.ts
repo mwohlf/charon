@@ -1,5 +1,6 @@
 import {createFeatureSelector, createSelector, Store} from '@ngrx/store';
-import {featureKey, OAuthState} from './reducer';
+import {OAuthState} from './reducer';
+import {featureKey} from './oauth.module';
 
 export const selectOAuthFeature = createFeatureSelector<OAuthState>(featureKey);
 
@@ -12,7 +13,7 @@ export const selectOAuthDetails = createSelector(
 
 export const isAuthenticated = createSelector(
   selectOAuthDetails,
-  (state: OAuthState | undefined) => state?.isAuthenticated,
+  (state: OAuthState) => state.isAuthenticated,
 );
 
 

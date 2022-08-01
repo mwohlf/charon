@@ -1,12 +1,21 @@
 import {createAction, props} from '@ngrx/store';
+import {LoginResponse, OidcClientNotification} from 'angular-auth-oidc-client';
 
-export const OAUTH_INITIALIZED = "@app/oauth/initialization_success";
-
-export const authorizeAction = createAction('@app/oauth/authorizeAction');
-
-export const receivedAccessToken = createAction(
-  '@app/oauth/receivedAccessToken',
-  props<{ payload: string }>()
+export const loginAction = createAction(
+  '@app/oauth/loginAction',
+  props<{ payload: { configId: string } }>(),
 );
 
-export const logoffAction = createAction('@app/oauth/logoffAction');
+export const logoutAction = createAction(
+  '@app/oauth/logoffAction'
+);
+
+export const oauthEventAction = createAction(
+  '@app/oauth/oauthEventAction',
+  props<{ payload: OidcClientNotification<any> }>(),
+);
+
+export const oidcSecurityAction = createAction(
+  '@app/oauth/oidcSecurityAction',
+  props<{ payload: LoginResponse }>(),
+);

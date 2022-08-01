@@ -13,7 +13,9 @@
             refresh
         </mat-icon>
     </div>
-    <div>
+    <div style="width: 50px">
+    </div>
+    <div *ngIf="!(isAuthenticated$ | async)">
         <mat-icon matTooltip="Login"
                   fontSet="material-icons-two-tone"
                   style="margin-left: auto; cursor: pointer;"
@@ -21,7 +23,7 @@
             login
         </mat-icon>
     </div>
-    <div>
+    <div *ngIf="(isAuthenticated$ | async)">
         <mat-icon matTooltip="Logout"
                   fontSet="material-icons-two-tone"
                   style="margin-left: auto; cursor: pointer;"
