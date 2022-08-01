@@ -40,10 +40,10 @@ export const featureKey = 'oAuthFeature';
           'https://127.0.0.1:8080/',
           'https://localhost:4200/',
           'https://127.0.0.1:4200/',
-          'http://127.0.0.1:8081/oauth2/revoke'
+          'http://127.0.0.1:8081/oauth2/revoke',
         ],
 
-      }
+      },
     }),
     AppThemeModule,
     CommonModule,
@@ -58,7 +58,7 @@ export const featureKey = 'oAuthFeature';
     AuthModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
   ],
 })
 

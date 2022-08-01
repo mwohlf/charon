@@ -1,0 +1,14 @@
+#
+# the ConfigurationDetails data type
+#
+type: object
+required:
+  - configId
+properties:
+  configId:
+    example: "simpleConfig"
+    type: string
+  config:
+    type: object
+    additionalProperties:
+      type: object

@@ -1,7 +1,7 @@
 get:
   tags:
     - configurationDetails
-  operationId: readConfigurationDetails
+  operationId: readClientConfigurationList
   description: ''
   responses:
     '200':
@@ -9,7 +9,9 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../model/ConfigurationDetails.yaml"
+            type: array
+            items:
+              $ref: "../model/ClientConfiguration.yaml"
+
     '405':
       description: Invalid input
-
