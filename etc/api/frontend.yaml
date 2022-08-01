@@ -13,3 +13,6 @@ paths:
 
   /configuration-details:
     $ref: "./endpoints/configuration-details.yaml"
+
+  /client-configuration-list:
+    $ref: "./endpoints/client-configuration-list.yaml"

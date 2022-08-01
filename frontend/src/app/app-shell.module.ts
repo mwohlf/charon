@@ -11,6 +11,7 @@ import {ProtectedComponent} from './components/protected/protected.component';
 import {ApiModule, Configuration} from '../../build/generated';
 import {Action, ActionReducer, MetaReducer, StoreModule} from '@ngrx/store';
 import * as fromConfig from './config/effects';
+import * as fromOAuth from './oauth/effects';
 import {AppThemeModule} from './app-theme.module';
 import {ShellComponent} from './shell/shell.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -92,6 +93,7 @@ export const appMetaReducers: MetaReducer[] = !environment.production
     }),
     EffectsModule.forRoot([
       fromConfig.Effects,
+      fromOAuth.Effects,
     ]),
     EffectsModule.forFeature([]),
     LoggerModule.forRoot({

@@ -4,6 +4,7 @@
 type: object
 required:
   - configId
+  - config
 properties:
   configId:
     example: "simpleConfig"

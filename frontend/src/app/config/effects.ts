@@ -4,13 +4,14 @@ import {Action} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 
-import {NGXLogger, NgxLoggerLevel} from 'ngx-logger';
+import {NGXLogger} from 'ngx-logger';
 import {
   ConfigurationDetails,
   ConfigurationDetailsService,
 } from 'build/generated';
 import {
-  readConfigurationDetailsUsingGET, readConfigurationDetailsUsingGET_failure,
+  readConfigurationDetailsUsingGET,
+  readConfigurationDetailsUsingGET_failure,
   readConfigurationDetailsUsingGET_success,
 } from './action';
 import {ErrorDetails, showError} from '../error/action';
@@ -27,10 +28,11 @@ export class Effects {
   }
 
   ROOT_EFFECTS_INIT: Observable<Action> = createEffect(() => {
+    console.error('register root1');
     return this.action$.pipe(
-      ofType(ROOT_EFFECTS_INIT),
+      ofType(ROOT_EFFECTS_INIT), // the trigger to start loading config
       tap(() => {
-        console.log('root effect');
+        console.error('root effect1');
         // just to get rid of the console logging as early as possible
         LoggerHolder.logger = this.logger;
       }),
@@ -51,14 +53,14 @@ export class Effects {
         return this.configurationDetailsService.readConfigurationDetails().pipe(
           map((configurationDetails: ConfigurationDetails) => {
             return readConfigurationDetailsUsingGET_success({
-              payload: configurationDetails
+              payload: configurationDetails,
             });
           }),
           catchError((error: any) => {
             return of(readConfigurationDetailsUsingGET_failure({
               payload: {
-                title: "Config data missing",
-                message: "Config data can't be loaded.",
+                title: 'Config data missing',
+                message: 'Config data can\'t be loaded.',
                 details: JSON.stringify(error, null, 2),
               },
             }));
@@ -93,7 +95,7 @@ export class Effects {
   readConfigurationDetailsUsingGET_failure$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_failure),
-      map((action: {payload: ErrorDetails}) => {
+      map((action: { payload: ErrorDetails }) => {
         console.log('readConfigurationDetailsUsingGET_failure');
         return showError({payload: action.payload});
       }),
