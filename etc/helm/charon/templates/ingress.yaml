@@ -2,12 +2,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: public-backend-svc
+  name: public-svc
 spec:
   type: LoadBalancer
   selector:
-    app: charon-backend-svc
+    app: charon-backend
   ports:
     - port: 80
       targetPort: 8080
 
+#
+# see: https://kubernetes.io/docs/concepts/services-networking/_print/#defining-a-service
+#
