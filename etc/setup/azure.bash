@@ -21,9 +21,9 @@ function cleanup {
 trap cleanup EXIT
 
 # config values
-export NAMESPACE="charon"
-export RESOURCE_GROUP="${NAMESPACE}ResourceGroup"
-export CLUSTER="${NAMESPACE}Cluster"
+export NAMESPACE="default"
+export RESOURCE_GROUP="charonResourceGroup"
+export CLUSTER="charonCluster"
 # export LOCATION="germanywestcentral"
 export LOCATION="eastus2"
 export CREDENTIALS_FILE="credentials.txt"
@@ -90,13 +90,13 @@ function delete_secrets() {
 #      https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
 #
 function deploy_dashboard() {
-    kubectl apply -f "${SCRIPT_DIR}//dashboard-setup.yaml"
+    kubectl apply -f "${SCRIPT_DIR}/dashboard-setup.yaml"
     kubectl proxy &
     SECRET_NAME=$(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}{'\n'}")
     kubectl -n kubernetes-dashboard get secret "${SECRET_NAME}" -o go-template="{{.data.token | base64decode}}" >"${SCRIPT_DIR}/${TOKEN_FILE}"
     cat <<EOF
 copy the token from ${TOKEN_FILE} to login at
-http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/node?namespace=charon
+http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/node
 EOF
 }
 
