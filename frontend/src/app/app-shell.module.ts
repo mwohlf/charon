@@ -74,7 +74,7 @@ export const appMetaReducers: MetaReducer[] = !environment.production
     HttpClientModule,
     LayoutModule,
     RoutingModule,
-    StoreModule,
+    // StoreModule,
     StoreModule.forRoot(fromRouteringReducer.reducer, {
       metaReducers: appMetaReducers,
       runtimeChecks: {
