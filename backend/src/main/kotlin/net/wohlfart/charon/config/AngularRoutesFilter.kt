@@ -20,6 +20,7 @@ class AngularRoutesFilter(val charonProperties: CharonProperties) : Filter {
 
     val API_PATH = "/api"
     val SWAGGER_CONFIG_PATH = "/v3/api-docs"
+    val ACTUATOR_PATH = "/actuator"
     val INDEX_HTML = "/index.html"
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, filterchain: FilterChain) {
@@ -55,6 +56,9 @@ class AngularRoutesFilter(val charonProperties: CharonProperties) : Filter {
             return false // this indicates a html,jpg,js file we don't want to reroute that
         }
         if (path.startsWith(API_PATH)) {
+            return false // we don't want to re-route api traffic
+        }
+        if (path.startsWith(ACTUATOR_PATH)) {
             return false // we don't want to re-route api traffic
         }
         if (path.startsWith(SWAGGER_CONFIG_PATH)) {
