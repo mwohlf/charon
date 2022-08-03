@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: charon-backend
-  labels:
-    app: charon-backend
+  name: charon-deployment
 spec:
   selector:
     matchLabels:
@@ -34,3 +32,38 @@ spec:
             httpGet:
               path: /actuator/health/readiness
               port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: charon-deployment
+spec:
+  selector:
+    matchLabels:
+      app: charon-aouth
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: charon-aouth
+    spec:
+      containers:
+        - name: charon-aouth
+          image: ttl.sh/mwohlf/charon-aouth
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 40
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 30
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8081

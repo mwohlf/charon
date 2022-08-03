@@ -133,6 +133,7 @@ https://ttl.sh/mwohlf/charon-backend +
 Simple bootup the backend image:
 
   docker run -p 8080:8080 ttl.sh/mwohlf/charon-backend
+  docker run -p 8080:8080 ttl.sh/mwohlf/charon-backend:7d6f43c585c71fa3770e6e20f12fd16da61a5652
 
 Deployment is outlined here: +
 https://www.koslib.com/posts/deploy-k8s-apps-helm-complete/ +
