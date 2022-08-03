@@ -62,13 +62,13 @@ jobs:
 
 # we store images in ttl.sh,
 #  no need for a login
-#      - name: Authenticate to the docker registry
-#        uses: docker/login-action@v2
-#        with:
-#          # registry: registry.gitlab.com
-#          registry: ghcr.io
-#          username: mwohlf
-#          password: ${{ secrets.GHCR_TOKEN }}
+      - name: Authenticate to the docker registry
+        uses: docker/login-action@v2
+        with:
+          # registry: registry.gitlab.com
+          registry: ghcr.io
+          username: mwohlf
+          password: ${{ secrets.GHCR_TOKEN }}
 
       # Deploy app to AKS
       # see: https://github.com/Azure/k8s-deploy
