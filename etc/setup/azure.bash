@@ -187,12 +187,14 @@ function create_cluster() {
     az aks create \
         --resource-group ${RESOURCE_GROUP} \
         --name ${CLUSTER} \
-        --node-resource-group "_nodeResourceGroup" \
-        --node-count 1 \
+        --node-count 2 \
         --location ${LOCATION:=eastus2} \
-        --node-vm-size "Standard_B2s" \
-        --generate-ssh-keys >/dev/null
+        --node-vm-size "Standard_B2ms" \
+        --generate-ssh-keys # >/dev/null
     # skipping:
+    #
+    #    --node-vm-size "Standard_B2s" \
+    #    --node-resource-group "_nodeResourceGroup" \
     #    --enable-managed-identity
     #  this creates a public ip
     #    --enable-addons http_application_routing

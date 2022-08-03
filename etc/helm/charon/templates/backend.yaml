@@ -1,7 +1,18 @@
+
+#
+# kubectl delete deploy charon-deployment
+# kubectl delete pods --all
+# kubectl apply -f ./backend.yaml
+# kubectl get pods
+# kubectl get deployments
+# kubectl get pods --all-namespaces
+# kubectl get events
+#
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: charon-deployment
+  name: charon-backend-deployment
 spec:
   selector:
     matchLabels:
@@ -36,20 +47,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: charon-deployment
+  name: charon-oauth-deployment
 spec:
   selector:
     matchLabels:
-      app: charon-aouth
+      app: charon-oauth
   replicas: 1
   template:
     metadata:
       labels:
-        app: charon-aouth
+        app: charon-oauth
     spec:
       containers:
-        - name: charon-aouth
-          image: ttl.sh/mwohlf/charon-aouth
+        - name: charon-oauth
+          image: ttl.sh/mwohlf/charon-oauth
           imagePullPolicy: Always
           ports:
             - name: http
