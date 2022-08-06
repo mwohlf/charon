@@ -5,7 +5,7 @@ metadata:
   namespace: development
 spec:
   rules:
-  - host: 900f1cdd37f94309a139.eastus2.aksapp.io
+  - host: 7fbf1b6251d84f83ae93.eastus2.aksapp.io
     http:
       paths:
 

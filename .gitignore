@@ -15,3 +15,5 @@ build
 
 /etc/setup/token.txt
 /frontend/src/generated/
+/etc/setup/zone-name.txt
+/etc/setup/cluster.txt
