@@ -63,7 +63,7 @@ class ConfigurationDetailsController(
             ClientConfiguration(
                 configId = "SimpleConfig",
                 config = hashMapOf(
-                    "authority" to "http://127.0.0.1:8081",
+                    "authority" to "http://oauth.finalrestingheartrate.com/",
                     "redirectUrl" to "http://127.0.0.1:4200/home",
                     "postLogoutRedirectUri" to "http://127.0.0.1:4200/home",
                     "clientId" to "public-client",

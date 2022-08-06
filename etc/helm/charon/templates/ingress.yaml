@@ -1,3 +1,5 @@
+
+
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -11,14 +13,26 @@ spec:
     # http://20.22.50.34/
     # 7fbf1b6251d84f83ae93.eastus2.aksapp.io
     # host: printhostname.7fbf1b6251d84f83ae93.eastus2.aksapp.io
-  - http:
-      paths:
 
+  - host: backend.finalrestingheartrate.com
+    http:
+      paths:
         - path: /
           pathType: Prefix
           backend:
             service:
               name: charon-backend-svc
+              port:
+                number: 8080
+
+  - host: oauth.finalrestingheartrate.com
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: charon-oauth-svc
               port:
                 number: 8080
 

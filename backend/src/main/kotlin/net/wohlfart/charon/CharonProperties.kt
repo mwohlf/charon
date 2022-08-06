@@ -19,6 +19,9 @@ class CharonProperties(
     @NestedConfigurationProperty
     val api: ApiConfig,
 
+    @NestedConfigurationProperty
+    val oauthClients: Array<ClientConfig>,
+
 )
 
 @ConstructorBinding
@@ -29,5 +32,16 @@ class ApiConfig(
     val logging: String,
 
     val oauth: String,
+
+)
+
+@ConstructorBinding
+class ClientConfig(
+
+    val configId: String,
+
+    val authority: String,
+
+    val clientId: String,
 
 )
