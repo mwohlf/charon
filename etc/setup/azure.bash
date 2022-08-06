@@ -46,7 +46,7 @@ function create_container_registry() {
 function get_pods() {
     az aks command invoke \
         --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
-        --name ${CLUSTER:=charonCluster} \
+        --name ${CLUSTER:-charonCluster} \
         --command "kubectl get pods -n kube-system"
 }
 
@@ -54,7 +54,7 @@ function get_pods() {
 function create_public_ip_address() {
     NODE_RESOURCE_GROUP=$(az aks show \
         -g ${RESOURCE_GROUP} \
-        -n ${CLUSTER:charonCluster} \
+        -n ${CLUSTER:-charonCluster} \
         --query 'nodeResourceGroup' -o tsv)
     export NODE_RESOURCE_GROUP
     PUBLIC_IP=$(az network public-ip create \
@@ -71,7 +71,7 @@ function create_public_ip_address() {
 function delete_public_ip_address() {
     NODE_RESOURCE_GROUP=$(az aks show \
         -g ${RESOURCE_GROUP:-charonResourceGroup} \
-        -n ${CLUSTER:charonCluster} \
+        -n ${CLUSTER:-charonCluster} \
         --query 'nodeResourceGroup' -o tsv)
     export NODE_RESOURCE_GROUP
     az network public-ip delete \
@@ -174,7 +174,7 @@ EOF
 function has_cluster() {
     # az aks show -n charonCluster -g charonResourceGroup -o json --query id 2>/dev/null
     # -n: check for non-empty
-    if [[ -n "$(az aks show -n ${CLUSTER} -g ${RESOURCE_GROUP:-charonResourceGroup} -o json --query id 2>/dev/null)" ]]; then
+    if [[ -n "$(az aks show -n ${CLUSTER:-charonCluster} -g ${RESOURCE_GROUP:-charonResourceGroup} -o json --query id 2>/dev/null)" ]]; then
         return 0 # true
     else
         return 1 # false
@@ -186,14 +186,13 @@ function has_cluster() {
 function create_cluster() {
     echo "<create_cluster>"
     if has_cluster; then
-        echo "cluster ${CLUSTER} already exists"
+        echo "cluster ${CLUSTER:-charonCluster} already exists"
         return
     fi
-    echo "creating cluster ${CLUSTER}..."
+    echo "creating cluster ${CLUSTER:-charonCluster}..."
     az aks create \
         --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
-        --node-resource-group "_nodeResourceGroup" \
-        --name ${CLUSTER} \
+        --name ${CLUSTER:-charonCluster} \
         --node-count 2 \
         --location ${LOCATION:=eastus2} \
         --node-vm-size "Standard_B2ms" \
@@ -201,6 +200,9 @@ function create_cluster() {
         --network-plugin azure \
         --generate-ssh-keys > "${SCRIPT_DIR}/${CLUSTER_CONFIG_FILE}"
 
+    #
+    # this might break the deployment
+    #   --node-resource-group "_nodeResourceGroup" \
 
     az aks show \
         --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
@@ -223,9 +225,9 @@ function create_cluster() {
     echo "getting credentials"
     az aks get-credentials \
         --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
-        --name ${CLUSTER} \
+        --name ${CLUSTER:-charonCluster} \
         --overwrite-existing
-    echo "...finished creating ${CLUSTER}"
+    echo "...finished creating ${CLUSTER:-charonCluster}"
 }
 
 
@@ -318,7 +320,7 @@ EOF
 #
 #    az aks command invoke \
 #       --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
-#       --name ${CLUSTER:=charonCluster} \
+#       --name ${CLUSTER:-charonCluster} \
 #       --command "kubectl get pods -n kube-system"
 #
 
@@ -330,13 +332,13 @@ EOF
 # merging the cluster credential as current context into /home/michael/.kube/config
 # az aks get-credentials \
 #    --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
-#    --name ${CLUSTER} \
+#    --name ${CLUSTER:-charonCluster} \
 
 #
 # query for the service principal appId
 #  az aks show \
 #    --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
-#    --name ${CLUSTER} \
+#    --name ${CLUSTER:-charonCluster} \
 #    --query servicePrincipalProfile.clientId \
 #    -o tsv \
 
