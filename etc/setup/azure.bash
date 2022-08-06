@@ -28,7 +28,8 @@ export CLUSTER="charonCluster"
 export LOCATION="eastus2"
 export CREDENTIALS_FILE="credentials.txt"
 export TOKEN_FILE="token.txt"
-
+export CLUSTER_CONFIG_FILE="cluster.txt"
+export ZONE_NAME_FILE="zone-name.txt"
 
 
 # we use a free cr from ttl.sh
@@ -36,7 +37,7 @@ export TOKEN_FILE="token.txt"
 function create_container_registry() {
     # this creates acr charon.azurecr.io
     az acr create \
-        --resource-group ${RESOURCE_GROUP:=charonResourceGroup} \
+        --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
         --location ${LOCATION:=eastus2} \
         --name charon \
         --sku Basic
@@ -44,7 +45,7 @@ function create_container_registry() {
 
 function get_pods() {
     az aks command invoke \
-        --resource-group ${RESOURCE_GROUP:=charonResourceGroup} \
+        --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
         --name ${CLUSTER:=charonCluster} \
         --command "kubectl get pods -n kube-system"
 }
@@ -53,7 +54,7 @@ function get_pods() {
 function create_public_ip_address() {
     NODE_RESOURCE_GROUP=$(az aks show \
         -g ${RESOURCE_GROUP} \
-        -n ${CLUSTER} \
+        -n ${CLUSTER:charonCluster} \
         --query 'nodeResourceGroup' -o tsv)
     export NODE_RESOURCE_GROUP
     PUBLIC_IP=$(az network public-ip create \
@@ -69,8 +70,8 @@ function create_public_ip_address() {
 
 function delete_public_ip_address() {
     NODE_RESOURCE_GROUP=$(az aks show \
-        -g ${RESOURCE_GROUP} \
-        -n ${CLUSTER} \
+        -g ${RESOURCE_GROUP:-charonResourceGroup} \
+        -n ${CLUSTER:charonCluster} \
         --query 'nodeResourceGroup' -o tsv)
     export NODE_RESOURCE_GROUP
     az network public-ip delete \
@@ -154,7 +155,7 @@ EOF
     az ad sp create-for-rbac \
         --name "charonApp" \
         --role contributor \
-        --scopes "/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP}" \
+        --scopes "/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP:-charonResourceGroup}" \
         --sdk-auth >>"${SCRIPT_DIR}/${CREDENTIALS_FILE}"
     # setup the secret in the github repo as "AZURE_SP_CREDENTIALS"
     # the github deploy action will pick up the secret as secrets.AZURE_SP_CREDENTIALS
@@ -163,12 +164,17 @@ EOF
     echo "you need to copy them into github secrets to use for github actions"
 }
 
-########## cluster ###########
+
+######################################
+#
+#  managing cluster
+#
+######################################
 
 function has_cluster() {
     # az aks show -n charonCluster -g charonResourceGroup -o json --query id 2>/dev/null
     # -n: check for non-empty
-    if [[ -n "$(az aks show -n ${CLUSTER} -g ${RESOURCE_GROUP} -o json --query id 2>/dev/null)" ]]; then
+    if [[ -n "$(az aks show -n ${CLUSTER} -g ${RESOURCE_GROUP:-charonResourceGroup} -o json --query id 2>/dev/null)" ]]; then
         return 0 # true
     else
         return 1 # false
@@ -185,14 +191,27 @@ function create_cluster() {
     fi
     echo "creating cluster ${CLUSTER}..."
     az aks create \
-        --resource-group ${RESOURCE_GROUP} \
+        --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
+        --node-resource-group "_nodeResourceGroup" \
         --name ${CLUSTER} \
         --node-count 2 \
         --location ${LOCATION:=eastus2} \
         --node-vm-size "Standard_B2ms" \
-        --generate-ssh-keys # >/dev/null
-    # skipping:
+        --enable-addons http_application_routing \
+        --network-plugin azure \
+        --generate-ssh-keys > "${SCRIPT_DIR}/${CLUSTER_CONFIG_FILE}"
+
+
+    az aks show \
+        --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
+        --name ${CLUSTER:-charonCluster} \
+        --query addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName \
+        -o table > "${SCRIPT_DIR}/${ZONE_NAME_FILE}"
+
     #
+    # not for production:
+    #    --enable-addons http_application_routing
+    # skipping:
     #    --node-vm-size "Standard_B2s" \
     #    --node-resource-group "_nodeResourceGroup" \
     #    --enable-managed-identity
@@ -203,17 +222,22 @@ function create_cluster() {
     # https://docs.microsoft.com/en-us/azure/aks/faq#why-are-two-resource-groups-created-with-aks
     echo "getting credentials"
     az aks get-credentials \
-        --resource-group ${RESOURCE_GROUP} \
+        --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
         --name ${CLUSTER} \
         --overwrite-existing
     echo "...finished creating ${CLUSTER}"
 }
 
-########## resource group ###########
+
+######################################
+#
+#  managing resource groups
+#
+######################################
 
 function has_resource_group() {
     # az group exists --name charonResourceGroup
-    if [[ "$(az group exists --name ${RESOURCE_GROUP})" == "true" ]]; then
+    if [[ "$(az group exists --name ${RESOURCE_GROUP:-charonResourceGroup})" == "true" ]]; then
         return 0 # true
     else
         return 1 # false
@@ -224,28 +248,33 @@ function has_resource_group() {
 function create_resource_group() {
     echo "<create_resource_group>"
     if has_resource_group; then
-        echo "resource group ${RESOURCE_GROUP} already exists"
+        echo "resource group ${RESOURCE_GROUP:-charonResourceGroup} already exists"
         return
     fi
-    echo "creating resource group ${RESOURCE_GROUP}..."
+    echo "creating resource group ${RESOURCE_GROUP:-charonResourceGroup}..."
     az group create \
-        --name ${RESOURCE_GROUP} \
-        --location ${LOCATION:=eastus2} >/dev/null
-    echo "...finished creating resource group ${RESOURCE_GROUP}"
-    az configure --defaults group=${RESOURCE_GROUP} >/dev/null
+        --name ${RESOURCE_GROUP:-charonResourceGroup} \
+        --location ${LOCATION:eastus2} >/dev/null
+    echo "...finished creating resource group ${RESOURCE_GROUP:-charonResourceGroup}"
+    az configure --defaults group=${RESOURCE_GROUP:-charonResourceGroup} >/dev/null
 }
 
 function delete_resource_group() {
     if has_resource_group; then
         az group delete \
-            --name ${RESOURCE_GROUP} \
+            --name ${RESOURCE_GROUP:-charonResourceGroup} \
             --yes >/dev/null
     else
-        echo "resource group ${RESOURCE_GROUP} already removed"
+        echo "resource group ${RESOURCE_GROUP:-charonResourceGroup} already removed"
     fi
 }
 
-########## authentication ###########
+
+######################################
+#
+#  managing authentication
+#
+######################################
 
 function is_authenticated() {
     if [[ -n "$(az account show 2>/dev/null)" ]]; then
@@ -288,7 +317,7 @@ EOF
 
 #
 #    az aks command invoke \
-#       --resource-group ${RESOURCE_GROUP:=charonResourceGroup} \
+#       --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
 #       --name ${CLUSTER:=charonCluster} \
 #       --command "kubectl get pods -n kube-system"
 #
@@ -300,13 +329,13 @@ EOF
 # for local shell
 # merging the cluster credential as current context into /home/michael/.kube/config
 # az aks get-credentials \
-#    --resource-group ${RESOURCE_GROUP} \
+#    --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
 #    --name ${CLUSTER} \
 
 #
 # query for the service principal appId
 #  az aks show \
-#    --resource-group ${RESOURCE_GROUP} \
+#    --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
 #    --name ${CLUSTER} \
 #    --query servicePrincipalProfile.clientId \
 #    -o tsv \

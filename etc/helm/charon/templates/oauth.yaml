@@ -1,37 +1,27 @@
 
-#
-# kubectl delete deploy charon-deployment
-# kubectl delete pods --all
-# kubectl apply -f ./backend.yaml
-# kubectl get pods
-# kubectl get deployments
-# kubectl get pods --all-namespaces
-# kubectl get events
-#
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: charon-backend-deployment
+  name: charon-oauth-deployment
   namespace: development
 spec:
   selector:
     matchLabels:
-      app: charon-backend
+      app: charon-oauth
   replicas: 1
   template:
     metadata:
       labels:
-        app: charon-backend
+        app: charon-oauth
     spec:
 
       containers:
-        - name: charon-backend
-          image: ttl.sh/mwohlf/charon-backend
+        - name: charon-oauth
+          image: ttl.sh/mwohlf/charon-oauth
           imagePullPolicy: Always
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 8081
               protocol: TCP
 
           livenessProbe:
@@ -42,7 +32,7 @@ spec:
             failureThreshold: 1
             httpGet:
               path: /actuator/health/liveness
-              port: 8080
+              port: 8081
 
           readinessProbe:
             initialDelaySeconds: 10
@@ -52,5 +42,4 @@ spec:
             failureThreshold: 1
             httpGet:
               path: /actuator/health/readiness
-              port: 8080
-
+              port: 8081

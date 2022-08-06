@@ -1,16 +1,31 @@
-apiVersion: v1
-kind: Service
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: public-svc
+  name: public-ingress
+  namespace: development
 spec:
-  type: LoadBalancer
-  selector:
-    app: charon-backend
-  ports:
-    - port: 80
-      targetPort: 8080
+  rules:
+  - host: 900f1cdd37f94309a139.eastus2.aksapp.io
+    http:
+      paths:
+
+        - path: "/backend"
+          pathType: Prefix
+          backend:
+            service:
+              name: charon-backend
+              port:
+                number: 8080
+
+        - path: "/oauth"
+          pathType: Prefix
+          backend:
+            service:
+              name: charon-backend
+              port:
+                number: 8081
 
 #
+# 900f1cdd37f94309a139.eastus2.aksapp.io
 # see: https://kubernetes.io/docs/concepts/services-networking/_print/#defining-a-service
-#
 #

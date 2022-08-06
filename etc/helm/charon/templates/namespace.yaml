@@ -1,0 +1,13 @@
+#
+# kubectl apply -f namespace.yaml
+# kubectl get namespaces
+# https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-organizing-with-namespaces
+#
+# kubectl config set-context --current --namespace=development
+#
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: development
+  labels:
+    name: development
