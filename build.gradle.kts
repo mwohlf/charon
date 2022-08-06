@@ -14,11 +14,7 @@ tasks.register<DefaultTask>("info") {
     println(" *********************************************************** ")
 }
 
-//
-// if (hasProperty("buildScan")) {
-//    buildScan.let {
-//        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-//        termsOfServiceAgree = "yes"
-//    }
-// }
-//
+extensions.findByName("buildScan")?.withGroovyBuilder {
+    setProperty("termsOfServiceUrl", "https://gradle.com/terms-of-service")
+    setProperty("termsOfServiceAgree", "yes")
+}
