@@ -181,4 +181,4 @@ https://github.com/damienbod/angular-auth-oidc-client +
 #### k8s resources
 
 https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0
-
+https://medium.com/microsoftazure/aks-different-load-balancing-options-for-a-single-cluster-when-to-use-what-abd2c22c2825

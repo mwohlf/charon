@@ -1,13 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: public-ingress
+  name: public-charon-ig
   namespace: development
   annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
+    kubernetes.io/ingress.class: azure/application-gateway
 spec:
   rules:
-
     # http://20.22.50.219/
     # http://20.22.50.34/
     # 7fbf1b6251d84f83ae93.eastus2.aksapp.io
@@ -22,7 +21,6 @@ spec:
               name: charon-backend-svc
               port:
                 number: 8080
-
 
 #
 # 900f1cdd37f94309a139.eastus2.aksapp.io

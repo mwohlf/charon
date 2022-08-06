@@ -191,26 +191,41 @@ function create_cluster() {
     fi
     echo "creating cluster ${CLUSTER:-charonCluster}..."
     az aks create \
-        --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
-        --name ${CLUSTER:-charonCluster} \
-        --node-count 2 \
+        --appgw-name charonApplicationGateway \
+        --appgw-subnet-cidr "10.225.0.0/16" \
+        --enable-addons ingress-appgw \
+        --enable-managed-identity \
+        --generate-ssh-keys \
         --location ${LOCATION:=eastus2} \
-        --node-vm-size "Standard_B2ms" \
-        --enable-addons http_application_routing \
+        --name ${CLUSTER:-charonCluster} \
         --network-plugin azure \
-        --generate-ssh-keys > "${SCRIPT_DIR}/${CLUSTER_CONFIG_FILE}"
+        --node-count 2 \
+        --node-vm-size "Standard_B2s" \
+        --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
+        > "${SCRIPT_DIR}/${CLUSTER_CONFIG_FILE}" \
+
 
     # https://medium.com/microsoftazure/aks-different-load-balancing-options-for-a-single-cluster-when-to-use-what-abd2c22c2825
     #
     #
     # this might break the deployment
     #   --node-resource-group "_nodeResourceGroup" \
+    # --enable-addons http_application_routing
 
-    az aks show \
-        --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
-        --name ${CLUSTER:-charonCluster} \
-        --query addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName \
-        -o table > "${SCRIPT_DIR}/${ZONE_NAME_FILE}"
+    # ee: https://medium.com/microsoftazure/aks-different-load-balancing-options-for-a-single-cluster-when-to-use-what-abd2c22c2825
+    #az aks enable-addons \
+    #    --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
+    #    --name ${CLUSTER:-charonCluster} \
+    #    -a ingress-appgw \
+    #    --appgw-subnet-cidr 10.224.0.0/24 \
+    #    --appgw-name charonAppGateway
+
+
+    #az aks show \
+    #    --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
+    #    --name ${CLUSTER:-charonCluster} \
+    #    --query addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName \
+    #    -o table > "${SCRIPT_DIR}/${ZONE_NAME_FILE}"
 
     #
     # not for production:
