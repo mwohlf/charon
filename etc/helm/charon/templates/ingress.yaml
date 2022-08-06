@@ -3,27 +3,27 @@ kind: Ingress
 metadata:
   name: public-ingress
   namespace: development
+  annotations:
+    service.beta.kubernetes.io/azure-dns-label-name: charon-public
+    kubernetes.io/ingress.class: addon-http-application-routing
 spec:
+  ingressClassName: nginx
   rules:
-  - host: 7fbf1b6251d84f83ae93.eastus2.aksapp.io
-    http:
+
+    # http://20.22.50.219/
+    # http://20.22.50.34/
+    # 7fbf1b6251d84f83ae93.eastus2.aksapp.io
+  - http:
       paths:
 
-        - path: "/backend"
+        - path: /
           pathType: Prefix
           backend:
             service:
-              name: charon-backend
+              name: charon-backend-svc
               port:
                 number: 8080
 
-        - path: "/oauth"
-          pathType: Prefix
-          backend:
-            service:
-              name: charon-oauth
-              port:
-                number: 8081
 
 #
 # 900f1cdd37f94309a139.eastus2.aksapp.io

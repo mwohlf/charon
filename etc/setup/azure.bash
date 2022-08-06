@@ -200,6 +200,8 @@ function create_cluster() {
         --network-plugin azure \
         --generate-ssh-keys > "${SCRIPT_DIR}/${CLUSTER_CONFIG_FILE}"
 
+    # https://medium.com/microsoftazure/aks-different-load-balancing-options-for-a-single-cluster-when-to-use-what-abd2c22c2825
+    #
     #
     # this might break the deployment
     #   --node-resource-group "_nodeResourceGroup" \

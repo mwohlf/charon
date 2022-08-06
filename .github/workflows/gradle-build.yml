@@ -28,7 +28,7 @@ jobs:
           arguments: build --scan
 
       - name: Run gradle build to compile the applications
-        run: ${{ github.workspace }}/gradlew build --no-daemon
+        run: ${{ github.workspace }}/gradlew build --no-daemon --scan
 
 #      - name: Authenticate to the docker registry
 #        uses: docker/login-action@v2
