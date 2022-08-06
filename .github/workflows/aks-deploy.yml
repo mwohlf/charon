@@ -14,7 +14,7 @@ on:
 env:
   CLUSTER: charonCluster
   RESOURCE_GROUP: charonResourceGroup
-  NAMESPACE: default
+  NAMESPACE: development
   GITHUB_SHA: ${{ github.sha }}
 
 jobs:
