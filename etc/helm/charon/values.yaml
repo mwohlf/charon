@@ -3,12 +3,6 @@ kubernetes:
 
 charon:
   namespace: default
-  image:
-    registry: "ttl.sh"
-    repository: "mwohlf/charon-backend"
-    pullPolicy: Always
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: "latest"
 
   service:
     ingressClass: internal-ingress
