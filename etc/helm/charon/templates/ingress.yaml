@@ -4,15 +4,14 @@ metadata:
   name: public-ingress
   namespace: development
   annotations:
-    service.beta.kubernetes.io/azure-dns-label-name: charon-public
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
-  ingressClassName: nginx
   rules:
 
     # http://20.22.50.219/
     # http://20.22.50.34/
     # 7fbf1b6251d84f83ae93.eastus2.aksapp.io
+    # host: printhostname.7fbf1b6251d84f83ae93.eastus2.aksapp.io
   - http:
       paths:
 
