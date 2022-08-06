@@ -21,7 +21,7 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: charon-backend
+              name: charon-oauth
               port:
                 number: 8081
 

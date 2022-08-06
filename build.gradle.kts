@@ -13,3 +13,12 @@ tasks.register<DefaultTask>("info") {
     println("    ./gradlew build           build all modules and prepare images for deployment")
     println(" *********************************************************** ")
 }
+
+//
+// if (hasProperty("buildScan")) {
+//    buildScan.let {
+//        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+//        termsOfServiceAgree = "yes"
+//    }
+// }
+//
