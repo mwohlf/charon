@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {reducer} from './reducer';
+import {featureKey, reducer} from './reducer';
 import {NgModule} from '@angular/core';
 import {Store, StoreModule} from '@ngrx/store';
 import {
@@ -17,7 +17,6 @@ import {selectOpenIdConfigurations} from './selector';
 import {filter, map} from 'rxjs/operators';
 import * as _ from 'lodash';
 
-export const featureKey = 'oAuthFeature';
 
 
 class ConfigLoader {

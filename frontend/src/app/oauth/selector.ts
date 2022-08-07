@@ -1,12 +1,10 @@
 import {createFeatureSelector, createSelector, Store} from '@ngrx/store';
-import {OAuthState} from './reducer';
-import {featureKey} from './oauth.module';
-import {Observable, take} from 'rxjs';
+import {featureKey, OAuthState} from './reducer';
+import {take} from 'rxjs';
 import {
-  OpenIdConfiguration
+  OpenIdConfiguration,
 } from 'angular-auth-oidc-client/lib/config/openid-configuration';
 import {AppState} from '../app-shell.module';
-import {map} from 'rxjs/operators';
 
 export const selectOAuthFeature = createFeatureSelector<OAuthState>(featureKey);
 

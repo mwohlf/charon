@@ -6,6 +6,8 @@ import {
 } from 'angular-auth-oidc-client/lib/config/openid-configuration';
 import {LogLevel} from 'angular-auth-oidc-client';
 
+export const featureKey = 'oAuthFeature';
+
 export const SIMPLE_CONFIG = 'spring-oauth';
 
 export interface OAuthState {
