@@ -50,7 +50,7 @@ const featureReducer = createReducer(
         'IdTokenExpired',
         'SilentRenewStarted',
       ];
-      console.log(' payload: ', payload);
+      console.log(' oauthEventAction, payload: ', payload);
       return {
         ...state,
         authState: values[payload.type],
@@ -60,6 +60,7 @@ const featureReducer = createReducer(
 
   on(fromActions.oidcSecurityAction,
     (state: OAuthState, {payload: payload}) => {
+      console.log(' oidcSecurityAction, payload: ', payload);
       return {
         ...state, // keep the old state in case we are updating...
         configId: payload.configId,
@@ -73,14 +74,14 @@ const featureReducer = createReducer(
 
   on(fromActions.readClientConfigurationListUsingGET_success,
     (state: OAuthState, {payload: payload}) => {
+      console.log(' readClientConfigurationListUsingGET_success, payload: ', payload);
       const openIdConfigurations: Array<OpenIdConfiguration> = payload.map(
         (element: ClientConfiguration) => {
-          const result: OpenIdConfiguration = {
+          return {
             configId: element.configId,
             authority: element.issuerUri,
             clientId: element.clientId,
             redirectUrl: 'http://127.0.0.1:4200/home',
-            authWellknownEndpointUrl: undefined,
             postLogoutRedirectUri: window.location.origin,
             scope: 'openid profile email offline_access',
             responseType: 'code',
@@ -88,7 +89,6 @@ const featureReducer = createReducer(
             useRefreshToken: true,
             logLevel: LogLevel.Debug,
             autoUserInfo: false,
-
             secureRoutes: [
               '/api',
               '/oauth2',
@@ -101,7 +101,6 @@ const featureReducer = createReducer(
               'http://127.0.0.1:8081/oauth2/revoke',
             ],
           };
-          return result;
         },
       );
       return {
