@@ -22,6 +22,3 @@ properties:
   logging:
     example: "some/where/to/find"
     type: string
-  oauth:
-    example: "some/where/else/to/find"
-    type: string

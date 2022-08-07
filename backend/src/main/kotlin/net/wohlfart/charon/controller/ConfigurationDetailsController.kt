@@ -5,13 +5,11 @@ import net.wohlfart.charon.api.ConfigurationDetailsApi
 import net.wohlfart.charon.model.ClientConfiguration
 import net.wohlfart.charon.model.ConfigurationDetails
 import org.springframework.boot.info.BuildProperties
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.time.OffsetDateTime
 import java.time.ZoneId
-import java.util.List.of
 
 
 @RestController
@@ -28,12 +26,18 @@ class ConfigurationDetailsController(
                 version = buildProperties.version,
                 timestamp = OffsetDateTime.ofInstant(buildProperties.time, ZoneId.systemDefault()),
                 logging = charonProperties.api.logging,
-                oauth = charonProperties.api.oauth,
             )
         )
     }
 
     override fun readClientConfigurationList(): ResponseEntity<List<ClientConfiguration>> {
+        return ResponseEntity.ok(charonProperties.oauthClients.map {
+            ClientConfiguration(
+                configId = it.configId,
+                clientId = it.clientId,
+                issuerUri = it.issuerUri,
+            )
+        })
         /*
         configId: SIMPLE_CONFIG,
         authority: 'http://127.0.0.1:8081',
@@ -58,7 +62,6 @@ class ConfigurationDetailsController(
           'https://127.0.0.1:4200/',
           'http://127.0.0.1:8081/oauth2/revoke',
         ],
-         */
         val result = listOf(
             ClientConfiguration(
                 configId = "SimpleConfig",
@@ -87,6 +90,7 @@ class ConfigurationDetailsController(
             ),
         )
         return ResponseEntity.ok(result)
+        */
     }
 
 }

@@ -11,6 +11,14 @@ export const selectOAuthDetails = createSelector(
   },
 );
 
+export const selectOpenIdConfigurations = createSelector(
+  selectOAuthFeature,
+  (state: OAuthState) => {
+    return state.openIdConfigurations;
+  },
+);
+
+
 export const isAuthenticated = createSelector(
   selectOAuthDetails,
   (state: OAuthState) => state.isAuthenticated,

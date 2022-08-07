@@ -19,12 +19,9 @@ import {
 import {Action, Store} from '@ngrx/store';
 import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 import {AppState} from '../app-shell.module';
-import {
-  ClientConfiguration,
-  ConfigurationDetailsService,
-} from 'build/generated';
 
 import {ErrorDetails, showError} from '../error/action';
+import {ClientConfiguration, ConfigurationDetailsService } from 'build/generated';
 
 @Injectable()
 export class Effects {
@@ -54,11 +51,9 @@ export class Effects {
   }
 
   ROOT_EFFECTS_INIT: Observable<Action> = createEffect(() => {
-    console.error('register root2');
     return this.action$.pipe(
       ofType(ROOT_EFFECTS_INIT), // the trigger to start loading config
-      tap(() => {
-        console.error('root effect2');
+      tap((action) => {
       }),
       mergeMap(() => {
         return [
@@ -72,7 +67,7 @@ export class Effects {
   readClientConfigurationListUsingGET$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readClientConfigurationListUsingGET),
-      mergeMap(() => {
+      mergeMap((action) => {
         console.log('readClientConfigurationListUsingGET');
         return this.configurationDetailsService.readClientConfigurationList().pipe(
           map((clientConfigurationList: Array<ClientConfiguration>) => {
@@ -98,7 +93,7 @@ export class Effects {
   readClientConfigurationListUsingGET_success$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readClientConfigurationListUsingGET_success),
-      tap(action => {
+      tap((action) => {
         console.log('readConfigurationDetailsUsingGET_success');
         let clientConfigurationList: Array<ClientConfiguration> = action.payload;
         console.log('clientConfigurationList Loaded', clientConfigurationList);
@@ -110,7 +105,7 @@ export class Effects {
   readClientConfigurationListUsingGET_failure$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readClientConfigurationListUsingGET_failure),
-      map((action: { payload: ErrorDetails }) => {
+      map((action) => {
         console.log('readConfigurationDetailsUsingGET_failure');
         return showError({payload: action.payload});
       }),
@@ -120,10 +115,10 @@ export class Effects {
   loginAction$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(loginAction),
-      tap(next => {
+      tap((action) => {
         console.log('authorizeAction');
         // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/public-api
-        this.oidcSecurityService.authorize(next.payload.configId); // this performs a browser redirect to the login page
+        this.oidcSecurityService.authorize(action.payload.configId); // this performs a browser redirect to the login page
       }),
     );
   }, {dispatch: false});
@@ -131,7 +126,7 @@ export class Effects {
   logoutAction$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(logoutAction),
-      tap(() => {
+      tap((action) => {
         // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/login-logout
         console.log('logoffAction...');
         // this.oidcSecurityService.logoff();

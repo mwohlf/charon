@@ -5,10 +5,7 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 
 import {NGXLogger} from 'ngx-logger';
-import {
-  ConfigurationDetails,
-  ConfigurationDetailsService,
-} from 'build/generated';
+
 import {
   readConfigurationDetailsUsingGET,
   readConfigurationDetailsUsingGET_failure,
@@ -16,6 +13,7 @@ import {
 } from './action';
 import {ErrorDetails, showError} from '../error/action';
 import {LoggerHolder} from '../app-shell.module';
+import {ConfigurationDetails, ConfigurationDetailsService } from 'build/generated';
 
 @Injectable()
 export class Effects {
@@ -28,11 +26,9 @@ export class Effects {
   }
 
   ROOT_EFFECTS_INIT: Observable<Action> = createEffect(() => {
-    console.error('register root1');
     return this.action$.pipe(
       ofType(ROOT_EFFECTS_INIT), // the trigger to start loading config
-      tap(() => {
-        console.error('root effect1');
+      tap((action) => {
         // just to get rid of the console logging as early as possible
         LoggerHolder.logger = this.logger;
       }),
@@ -48,7 +44,7 @@ export class Effects {
   readConfigurationDetailsUsingGET$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET),
-      mergeMap(() => {
+      mergeMap((action) => {
         console.log('readConfigurationDetailsUsingGET');
         return this.configurationDetailsService.readConfigurationDetails().pipe(
           map((configurationDetails: ConfigurationDetails) => {
