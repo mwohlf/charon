@@ -1,72 +1,23 @@
 import {CommonModule} from '@angular/common';
-import {reducer, SIMPLE_CONFIG} from './reducer';
+import {reducer} from './reducer';
 import {NgModule} from '@angular/core';
-import {StoreModule} from '@ngrx/store';
+import {Store, StoreModule} from '@ngrx/store';
 import {
   AuthInterceptor,
   AuthModule,
-  LogLevel,
   StsConfigLoader,
 } from 'angular-auth-oidc-client';
-import {HTTP_INTERCEPTORS, HttpClient} from '@angular/common/http';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {
   OpenIdConfiguration,
 } from 'angular-auth-oidc-client/lib/config/openid-configuration';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
+import {AppState} from '../app-shell.module';
+import {selectOpenIdConfigurations} from './selector';
+import {filter, map} from 'rxjs/operators';
+import * as _ from 'lodash';
 
 export const featureKey = 'oAuthFeature';
-
-
-const CONFIG1: OpenIdConfiguration = {
-  configId: SIMPLE_CONFIG,
-  authority: 'http://127.0.0.1:8081',
-  redirectUrl: 'http://127.0.0.1:4200/home',
-  postLogoutRedirectUri: window.location.origin,
-  clientId: 'public-client',
-  scope: 'openid profile email offline_access',
-  responseType: 'code',
-  silentRenew: true,
-  useRefreshToken: true,
-  logLevel: LogLevel.Debug,
-  autoUserInfo: false,
-
-  secureRoutes: [
-    '/api',
-    '/oauth2',
-    'https://localhost/',
-    'https://127.0.0.1/',
-    'https://localhost:8080/',
-    'https://127.0.0.1:8080/',
-    'https://localhost:4200/',
-    'https://127.0.0.1:4200/',
-    'http://127.0.0.1:8081/oauth2/revoke',
-  ],
-};
-const CONFIG2: OpenIdConfiguration = {
-  configId: SIMPLE_CONFIG + 'test',
-  authority: 'http://127.0.0.1:8081',
-  redirectUrl: 'http://127.0.0.1:4200/home',
-  postLogoutRedirectUri: window.location.origin,
-  clientId: 'public-client',
-  scope: 'openid profile email offline_access',
-  responseType: 'code',
-  silentRenew: true,
-  useRefreshToken: true,
-  logLevel: LogLevel.Debug,
-  autoUserInfo: false,
-
-  secureRoutes: [
-    '/api',
-    '/oauth2',
-    'https://localhost/',
-    'https://127.0.0.1/',
-    'https://localhost:8080/',
-    'https://127.0.0.1:8080/',
-    'https://localhost:4200/',
-    'https://127.0.0.1:4200/',
-    'http://127.0.0.1:8081/oauth2/revoke',
-  ],
-};
 
 
 class ConfigLoader {
@@ -80,8 +31,16 @@ class ConfigLoader {
   };
 }
 
-export const httpLoaderFactory = (httpClient: HttpClient) => {
-  const config$ = of([CONFIG1, CONFIG2]);
+export const httpLoaderFactory = (store: Store<AppState>) => {
+  // const config$ = of([CONFIG1, CONFIG2]);
+  const config$ = store.select(selectOpenIdConfigurations)
+    .pipe(
+      filter(elements => elements.length > 0),
+      map(elements => {
+        return _.cloneDeep(elements);
+      }),
+    );
+
   return new ConfigLoader(config$);
 };
 
@@ -96,7 +55,7 @@ export const httpLoaderFactory = (httpClient: HttpClient) => {
       loader: {
         provide: StsConfigLoader,
         useFactory: httpLoaderFactory,
-        deps: [HttpClient],
+        deps: [Store<AppState>],
       },
     }),
     StoreModule.forFeature(featureKey, reducer),
