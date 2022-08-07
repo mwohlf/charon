@@ -116,7 +116,14 @@ export class Effects {
     return this.action$.pipe(
       ofType(loginAction),
       tap((action) => {
-        console.log('authorizeAction');
+        console.log('authorizeAction for ', action.payload);
+
+        if (! this.oidcSecurityService.getConfigurations().some((elem) => {
+          return elem.configId == action.payload.configId
+        })) {
+          console.error('no config found for ', action.payload.configId);
+          console.error('available: ', this.oidcSecurityService.getConfigurations());
+        }
         // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/public-api
         this.oidcSecurityService.authorize(action.payload.configId); // this performs a browser redirect to the login page
       }),

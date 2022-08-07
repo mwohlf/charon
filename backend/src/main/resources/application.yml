@@ -26,5 +26,5 @@ net:
           issuer-uri: http://oauth.finalrestingheartrate.com/
           client-id: public-client
         - config-id: google
-          issuer-uri: http://oauth.finalrestingheartrate.com/
-          client-id: public-client
+          issuer-uri: http://google.finalrestingheartrate.com/
+          client-id: public-google-client

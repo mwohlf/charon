@@ -6,7 +6,7 @@ import {
 } from 'angular-auth-oidc-client/lib/config/openid-configuration';
 import {LogLevel} from 'angular-auth-oidc-client';
 
-export const SIMPLE_CONFIG = 'simpleConfig';
+export const SIMPLE_CONFIG = 'spring-oauth';
 
 export interface OAuthState {
   configId: string | undefined;
@@ -75,11 +75,12 @@ const featureReducer = createReducer(
     (state: OAuthState, {payload: payload}) => {
       const openIdConfigurations: Array<OpenIdConfiguration> = payload.map(
         (element: ClientConfiguration) => {
-          return {
+          const result: OpenIdConfiguration = {
             configId: element.configId,
             authority: element.issuerUri,
             clientId: element.clientId,
             redirectUrl: 'http://127.0.0.1:4200/home',
+            authWellknownEndpointUrl: undefined,
             postLogoutRedirectUri: window.location.origin,
             scope: 'openid profile email offline_access',
             responseType: 'code',
@@ -100,6 +101,7 @@ const featureReducer = createReducer(
               'http://127.0.0.1:8081/oauth2/revoke',
             ],
           };
+          return result;
         },
       );
       return {
