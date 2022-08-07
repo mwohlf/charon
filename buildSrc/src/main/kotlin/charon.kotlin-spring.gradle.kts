@@ -33,7 +33,7 @@ repositories {
     maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
-
+// see: https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#integrating-with-actuator.build-info
 springBoot {
     buildInfo()  // to create the buildInfo object
 }

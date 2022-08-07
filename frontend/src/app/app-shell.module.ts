@@ -60,11 +60,7 @@ export const appMetaReducers: MetaReducer[] = !environment.production
     ShellComponent,
   ],
   imports: [
-    ApiModule.forRoot(() => new Configuration({
-      basePath: environment.apiBasePath,
-    })),
     AppThemeModule,
-    OAuthModule,
     BrowserAnimationsModule,
     BrowserModule,
     ConfigModule,
@@ -73,8 +69,11 @@ export const appMetaReducers: MetaReducer[] = !environment.production
     HeaderModule,
     HttpClientModule,
     LayoutModule,
+    OAuthModule,
     RoutingModule,
-    // StoreModule,
+    ApiModule.forRoot(() => new Configuration({
+      basePath: environment.apiBasePath,
+    })),
     StoreModule.forRoot(fromRouteringReducer.reducer, {
       metaReducers: appMetaReducers,
       runtimeChecks: {
@@ -86,7 +85,9 @@ export const appMetaReducers: MetaReducer[] = !environment.production
         strictActionTypeUniqueness: true,
       },
     }),
-    StoreRouterConnectingModule.forRoot({stateKey: fromRouteringReducer.featureKey}),
+    StoreRouterConnectingModule.forRoot({
+      stateKey: fromRouteringReducer.featureKey,
+    }),
     StoreDevtoolsModule.instrument({
       name: 'charon',
       logOnly: environment.production,
@@ -95,7 +96,6 @@ export const appMetaReducers: MetaReducer[] = !environment.production
       fromConfig.Effects,
       fromOAuth.Effects,
     ]),
-    EffectsModule.forFeature([]),
     LoggerModule.forRoot({
       serverLoggingUrl: '/api/logs', // fix this after config
       level: NgxLoggerLevel.DEBUG,

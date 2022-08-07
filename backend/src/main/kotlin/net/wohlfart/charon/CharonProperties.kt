@@ -40,7 +40,7 @@ class ClientConfig(
 
     val configId: String,
 
-    val authority: String,
+    val issuerUri: String,
 
     val clientId: String,
 

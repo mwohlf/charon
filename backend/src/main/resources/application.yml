@@ -23,8 +23,8 @@ net:
         oauth: "/oauth"         # oauth resources endpoint
       oauth-clients:
         - config-id: spring-oauth
-          authority: http://oauth.finalrestingheartrate.com/
+          issuer-uri: http://oauth.finalrestingheartrate.com/
           client-id: public-client
         - config-id: google
-          authority: http://oauth.finalrestingheartrate.com/
+          issuer-uri: http://oauth.finalrestingheartrate.com/
           client-id: public-client
