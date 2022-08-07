@@ -16,14 +16,7 @@ class CorsConfig {
         val config = CorsConfiguration()
         config.addAllowedHeader("*")
         config.addAllowedMethod("*")
-        config.addAllowedOrigin("http://127.0.0.1:4200")
-        config.addAllowedOrigin("http://localhost:4200")
-        config.addAllowedOrigin("http://127.0.0.1:4200/")
-        config.addAllowedOrigin("http://localhost:4200/")
-        config.addAllowedOrigin("http://127.0.0.1:8080")
-        config.addAllowedOrigin("http://localhost:8080")
-        config.addAllowedOrigin("http://127.0.0.1:8081")
-        config.addAllowedOrigin("http://localhost:8081")
+        config.addAllowedOrigin("*")
         config.allowCredentials = true
         source.registerCorsConfiguration("/**", config)
         return source
