@@ -30,7 +30,7 @@ class AuthorizationServerConfig {
         // token endpoint
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
         return http
-            .cors(withDefaults())  // give access to the token endpoints from a different domain
+            .cors().disable()
             .formLogin(withDefaults())   // implements the login form
             .build()
     }

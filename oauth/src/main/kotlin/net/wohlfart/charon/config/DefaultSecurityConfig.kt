@@ -22,7 +22,7 @@ class DefaultSecurityConfig {
                     .antMatchers("/oauth2/revoke").anonymous()
                     .anyRequest().authenticated()
             }
-            .cors(withDefaults())
+            .cors().disable()
             .formLogin(withDefaults())
             .build()
     }
