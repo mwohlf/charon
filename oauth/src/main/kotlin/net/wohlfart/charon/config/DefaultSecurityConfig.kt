@@ -17,12 +17,12 @@ class DefaultSecurityConfig {
 
         // http://127.0.0.1:8081/oauth2/revoke
         return http
+            .cors {}
             .authorizeRequests { authorizeRequests ->
                 authorizeRequests
                     .antMatchers("/oauth2/revoke").anonymous()
                     .anyRequest().authenticated()
             }
-            .cors().disable()
             .formLogin(withDefaults())
             .build()
     }
