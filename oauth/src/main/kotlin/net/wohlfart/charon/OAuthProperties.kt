@@ -3,6 +3,7 @@ package net.wohlfart.charon
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
+import org.springframework.boot.context.properties.NestedConfigurationProperty
 
 
 @ConstructorBinding
@@ -13,4 +14,6 @@ class OAuthProperties(
 
     val issuer: String,
 
+    @NestedConfigurationProperty
+    val allowedOrigins: Array<String>,
 )

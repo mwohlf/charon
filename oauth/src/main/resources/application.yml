@@ -7,9 +7,9 @@ management:
       probes:
         enabled: true
   health:
-    livenessState:
+    liveness-state:
       enabled: true
-    readinessState:
+    readiness-state:
       enabled: true
 
 net:
@@ -18,6 +18,10 @@ net:
       oauth:
         data-dir: test
         issuer: "http://oauth.finalrestingheartrate.com"
+        allowed-origins:
+          - "http://oauth.finalrestingheartrate.com"
+          - "https://oauth.finalrestingheartrate.com"
+          - "https://frontend.finalrestingheartrate.com"
 
 logging:
   level:
