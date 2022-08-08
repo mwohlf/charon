@@ -19,7 +19,8 @@ net:
         data-dir: test
         issuer: "http://oauth.finalrestingheartrate.com"
         allowed-origins:
-          - "http://oauth.finalrestingheartrate.com"
+          - "http://backend.finalrestingheartrate.com"
+          - "https://backend.finalrestingheartrate.com"
           - "https://oauth.finalrestingheartrate.com"
           - "https://frontend.finalrestingheartrate.com"
 
