@@ -19,6 +19,7 @@ env:
 
 jobs:
   deploy:
+    name: deploy helm chart
     runs-on: ubuntu-latest
 
     steps:

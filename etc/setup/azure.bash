@@ -26,19 +26,31 @@ export RESOURCE_GROUP="charonResourceGroup"
 export CLUSTER="charonCluster"
 # export LOCATION="germanywestcentral"
 export LOCATION="eastus2"
+export KEYVAULT="finalrestingheartrateVlt"
+
 export CREDENTIALS_FILE="credentials.txt"
 export TOKEN_FILE="token.txt"
 export CLUSTER_CONFIG_FILE="cluster.txt"
 export ZONE_NAME_FILE="zone-name.txt"
+export KEYVAULT_INFO="keyvault.txt"
 
+
+function create_keyvault() {
+    az keyvault create \
+        --name ${KEYVAULT:-finalrestingheartrateVlt} \
+        --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
+        --location ${LOCATION:-eastus2} \
+        > "${SCRIPT_DIR}/${KEYVAULT_INFO}"
+}
 
 # we use a free cr from ttl.sh
 # we don't use the container registry in azure
+# however this is how a acr azure container registry is set up
 function create_container_registry() {
     # this creates acr charon.azurecr.io
     az acr create \
         --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
-        --location ${LOCATION:=eastus2} \
+        --location ${LOCATION:-eastus2} \
         --name charon \
         --sku Basic
 }
@@ -374,6 +386,7 @@ for var in "$@"; do
     create_cluster)
         login_azure
         create_resource_group
+        create_keyvault
         create_cluster
         create_credentials
         ;;

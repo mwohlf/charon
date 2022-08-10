@@ -182,3 +182,13 @@ https://github.com/damienbod/angular-auth-oidc-client +
 
 https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0
 https://medium.com/microsoftazure/aks-different-load-balancing-options-for-a-single-cluster-when-to-use-what-abd2c22c2825
+
+https://docs.microsoft.com/en-us/azure/application-gateway/ingress-controller-letsencrypt-certificate-application-gateway
+
+https://techblog.buzyka.de/2021/02/make-lets-encrypt-certificates-love.html
+
+https://gist.github.com/jult/e4dd064e3988aa111ea2194b05bc69f5
+
+
+https://labzilla.io/blog/cloudflare-certbot
+

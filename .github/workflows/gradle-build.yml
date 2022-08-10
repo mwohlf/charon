@@ -12,7 +12,9 @@ on:
 jobs:
 
   gradle-build:
+    name: build the images with the jib gradle task
     runs-on: ubuntu-latest
+
     steps:
 
       - uses: actions/checkout@v3
@@ -29,14 +31,6 @@ jobs:
 
       - name: Run gradle build to compile the applications
         run: ${{ github.workspace }}/gradlew build --no-daemon --scan
-
-#      - name: Authenticate to the docker registry
-#        uses: docker/login-action@v2
-#        with:
-#          # registry: registry.gitlab.com
-#          registry: ghcr.io
-#          username: mwohlf
-#          password: ${{ secrets.GHCR_TOKEN }}
 
       # this creates and pushes the docker images we need for the services
       - name: Run gradle jib to create and push the images

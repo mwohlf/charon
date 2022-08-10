@@ -8,6 +8,8 @@ metadata:
   annotations:
     # https://docs.microsoft.com/en-us/azure/application-gateway/
     kubernetes.io/ingress.class: azure/application-gateway
+    # appgw.ingress.kubernetes.io/appgw-ssl-certificate: "wildcard.finalrestingheartrate.com"
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   rules:
     # http://20.22.50.219/
@@ -15,7 +17,7 @@ spec:
     # 7fbf1b6251d84f83ae93.eastus2.aksapp.io
     # host: printhostname.7fbf1b6251d84f83ae93.eastus2.aksapp.io
 
-  - host: backend.finalrestingheartrate.com
+  - host: backend.wired-hearts.com
     http:
       paths:
         - path: /
@@ -26,7 +28,7 @@ spec:
               port:
                 number: 8080
 
-  - host: oauth.finalrestingheartrate.com
+  - host: oauth.wired-hearts.com
     http:
       paths:
         - path: /
