@@ -1,0 +1,30 @@
+name: Renew Certs
+
+# Controls when the workflow will run
+on:
+  # # once a month
+  # schedule:
+  #  - cron:  '0 5 */31 * *'
+  # # manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+
+  refresh-certs:
+    name: refresh certs
+    runs-on: ubuntu-latest
+
+    env:
+      # reading the env from the github action secrets
+      CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2.3.2
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_SP_CREDENTIALS}}
+
+      - name: Run the script
+        run: ${{ github.workspace }}/etc/certs/certbot.bash

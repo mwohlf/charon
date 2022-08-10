@@ -17,7 +17,7 @@ spec:
     # 7fbf1b6251d84f83ae93.eastus2.aksapp.io
     # host: printhostname.7fbf1b6251d84f83ae93.eastus2.aksapp.io
 
-  - host: backend.wired-hearts.com
+  - host: backend.wired-heart.com
     http:
       paths:
         - path: /
@@ -28,7 +28,7 @@ spec:
               port:
                 number: 8080
 
-  - host: oauth.wired-hearts.com
+  - host: oauth.wired-heart.com
     http:
       paths:
         - path: /
