@@ -39,6 +39,7 @@ docker run \
   --dns-cloudflare-credentials /etc/letsencrypt/credentials \
   --dns-cloudflare-propagation-seconds 120 \
   --agree-tos \
+  --email mwhlfrt@gmail.com \
   -d \*.wired-heart.com \
   --server https://acme-v02.api.letsencrypt.org/directory \
   --dry-run
