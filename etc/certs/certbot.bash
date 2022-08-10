@@ -17,12 +17,8 @@ function cleanup {
 }
 trap cleanup EXIT
 
-echo "dns_cloudflare_api_token = ${CLOUDFLARE_TOKEN}" > ./etc/credentials
+echo "dns_cloudflare_api_token = ${CLOUDFLARE_TOKEN}" > "${SCRIPT_DIR}/etc/credentials"
 # chmod 400 ./etc/credentials
-
-ls -al "${SCRIPT_DIR}"
-file "${SCRIPT_DIR}/certbot.bash"
-echo "running inside th econtainer.."
 
 docker run \
   --rm \
