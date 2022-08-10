@@ -18,3 +18,4 @@ build
 /etc/setup/zone-name.txt
 /etc/setup/cluster.txt
 /etc/setup/keyvault.txt
+/etc/setup/cloudflare-token.txt

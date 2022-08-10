@@ -1,4 +1,4 @@
-name: Renew Certs
+name: renew-certs
 
 # Controls when the workflow will run
 on:
