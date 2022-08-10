@@ -17,6 +17,7 @@ function cleanup {
 }
 trap cleanup EXIT
 
+mkdir "${SCRIPT_DIR}/etc"
 echo "dns_cloudflare_api_token = ${CLOUDFLARE_TOKEN}" > "${SCRIPT_DIR}/etc/credentials"
 # chmod 400 ./etc/credentials
 
@@ -41,6 +42,8 @@ docker run \
   --dry-run
 
 
+ls -alr "${SCRIPT_DIR}"
+rm "${SCRIPT_DIR}/etc/credentials"
 
 exit 0
 
