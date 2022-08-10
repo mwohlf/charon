@@ -1,4 +1,4 @@
-#!/bin/bash
+#
 #
 # https://hub.docker.com/r/certbot/dns-cloudflare
 # https://certbot-dns-cloudflare.readthedocs.io/en/stable/#credentials
