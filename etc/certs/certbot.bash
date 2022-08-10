@@ -20,6 +20,10 @@ trap cleanup EXIT
 echo "dns_cloudflare_api_token = ${CLOUDFLARE_TOKEN}" > ./etc/credentials
 # chmod 400 ./etc/credentials
 
+ls -al "${SCRIPT_DIR}"
+file "${SCRIPT_DIR}/certbot.bash"
+echo "running inside th econtainer.."
+
 docker run \
   --rm \
   --name certbot \
@@ -38,6 +42,8 @@ docker run \
   -d \*.wired-heart.com \
   --server https://acme-v02.api.letsencrypt.org/directory \
   --dry-run
+
+
 
 exit 0
 
