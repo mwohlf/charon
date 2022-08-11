@@ -9,7 +9,7 @@
 set -e
 
 CURRENT_DIR="${PWD}"
-SCRIPT_DIR="${0%/*}"
+SCRIPT_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 function cleanup {
     echo "finishing the script, error code is ${?}"
     # back to where we came from
@@ -17,7 +17,12 @@ function cleanup {
 }
 trap cleanup EXIT
 
-mkdir "${SCRIPT_DIR}/etc"
+# for running local
+if [[ -z "${CLOUDFLARE_TOKEN}" ]]; then
+    CLOUDFLARE_TOKEN=$(cat "${SCRIPT_DIR}/../setup/cloudflare-token.txt")        #the output of 'cat $file' is assigned to the $name variable
+fi
+
+mkdir -p "${SCRIPT_DIR}/etc"
 echo "dns_cloudflare_api_token = ${CLOUDFLARE_TOKEN}" > "${SCRIPT_DIR}/etc/credentials"
 # chmod 400 ./etc/credentials
 
@@ -48,16 +53,6 @@ rm "${SCRIPT_DIR}/etc/credentials"
 exit 0
 
 
-
-
-
-echo "Renews the certificates"
-sudo certbot certonly --dns-cloudflare --dns-cloudflare-credentials ./cftoken -d $DOMAIN -m $CB_EMAIL --config-dir . --cert-path . --non-interactive --agree-tos
-
-# Certbot runs as root, so it creates all the files as root. This changes the permissions so that other utilities can read the file.
-echo "Set file permissions"
-sudo chmod -R 777 ./*
-
 echo "Creates a PFX for Azure"
 openssl pkcs12 -inkey ./live/$DOMAIN/privkey.pem -in live/$DOMAIN/fullchain.pem -export -out $DOMAIN.pfx -passout pass:pwd123
 
@@ -76,18 +71,12 @@ echo "Cleans Up Files"
 rm ./cftoken
 rm $DOMAIN.pfx
 
+az keyvault secret set \
+    --name SecretPassword \
+    --value reindeer_flotilla \
+    --vault-name <your-unique-vault-name>
 
-echo "Creates a PFX for Azure"
-openssl pkcs12 -inkey ./live/$DOMAIN/privkey.pem -in live/$DOMAIN/fullchain.pem -export -out $DOMAIN.pfx -passout pass:pwd123
 
-echo "Login to Azure with a Service Principal"
-az login --service-principal -u $SP_CLIENT_ID -p $SP_SECRET --tenant $TENANT_ID
-
-echo "Uploads the certificate and gets the Thumbprint"
-THUMBPRINT=$(az functionapp config ssl upload --certificate-file $DOMAIN.pfx --certificate-password pwd123 -n $FUNCTION_APP -g $RESOURCE_GROUP | jq --raw-output '.|.thumbprint')
-
-echo "Binds the funciton app to the certificate"
-az functionapp config ssl bind --certificate-thumbprint $THUMBPRINT --ssl-type SNI -n $FUNCTION_APP -g $RESOURCE_GROUP
 
 
 

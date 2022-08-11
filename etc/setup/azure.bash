@@ -12,7 +12,7 @@
 set -e
 
 CURRENT_DIR="${PWD}"
-SCRIPT_DIR="${0%/*}"
+SCRIPT_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 function cleanup {
     echo "finishing the script, error code is ${?}"
     # back to where we came from
