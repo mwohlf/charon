@@ -43,6 +43,17 @@ spec:
               port:
                 number: 8080
 
+  # default route
+  - http:
+      paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: charon-hello-svc
+              port:
+                number: 80
+
 #
 # 900f1cdd37f94309a139.eastus2.aksapp.io
 # see: https://kubernetes.io/docs/concepts/services-networking/_print/#defining-a-service
