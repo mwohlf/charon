@@ -50,6 +50,17 @@ spec:
               port:
                 number: 8080
 
+  - host: www.wired-heart.com
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: charon-hello-svc
+              port:
+                number: 80
+
   # default route
   - http:
       paths:
