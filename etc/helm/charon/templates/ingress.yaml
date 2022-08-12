@@ -21,6 +21,7 @@ spec:
         - backend.wired-heart.com
         - oauth.wired-heart.com
         - www.wired-heart.com
+        - wired-heart.com
       secretName: wired-heart-tls
 
   rules:
@@ -52,6 +53,17 @@ spec:
                 number: 8080
 
   - host: www.wired-heart.com
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: charon-hello-svc
+              port:
+                number: 80
+
+  - host: wired-heart.com
     http:
       paths:
         - path: /
