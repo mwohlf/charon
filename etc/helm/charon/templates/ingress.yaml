@@ -15,6 +15,13 @@ metadata:
     # appgw.ingress.kubernetes.io/appgw-ssl-certificate: "wildcard.finalrestingheartrate.com"
     # appgw.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
+
+  tls:
+    - hosts:
+        - backend.wired-heart.com
+        - oauth.wired-heart.com
+      secretName: wired-heart-tls
+
   rules:
     # http://20.22.50.219/
     # http://20.22.50.34/

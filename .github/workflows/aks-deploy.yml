@@ -5,11 +5,11 @@ name: aks-deploy
 # see: https://github.com/Azure/actions-workflow-samples/blob/master/Kubernetes/build-and-deploy-docker-image-to-aks-using-helm.yml
 
 on:
+  # workflow_run:
+  #   workflows: ["gradle-build"]
+  #   types:
+  #     - completed
   workflow_dispatch:
-  workflow_run:
-    workflows: ["gradle-build"]
-    types:
-      - completed
 
 env:
   CLUSTER: charonCluster

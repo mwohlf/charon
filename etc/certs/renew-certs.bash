@@ -4,8 +4,8 @@
 # https://hub.docker.com/r/certbot/dns-cloudflare
 # https://certbot-dns-cloudflare.readthedocs.io/en/stable/#credentials
 # https://www.nodinrogers.com/post/2022-03-10-certbot-cloudflare-docker/
-#
-#
+# https://stackoverflow.com/questions/50389883/generate-crt-key-ssl-files-from-lets-encrypt-from-scratch
+# https://www.sslshopper.com/article-most-common-openssl-commands.html
 
 set -e
 
@@ -58,26 +58,22 @@ function create_cert() {
     rm "${SCRIPT_DIR}/etc/credentials"
 }
 
-function convert_pem() {
-
-    # convert pem and chain into a pkc12 file
-    openssl pkcs12 \
-      -inkey "${SCRIPT_DIR}/etc/live/${DOMAIN}/privkey.pem"\
-      -in "${SCRIPT_DIR}/etc/live/${DOMAIN}/fullchain.pem" \
-      -export \
-      -out "${SCRIPT_DIR}/${DOMAIN}.pfx" \
-      -passout pass:empty
-
-    #
-    openssl pkcs12 -in "${SCRIPT_DIR}/${DOMAIN}.pfx" -info
-
-#    # import pkc12 into vault
-#    az keyvault certificate import \
-#      --name "${DOMAIN}.pfx" \
-#      --vault-name "${KEYVAULT}" \
-#      --file "${SCRIPT_DIR}/${DOMAIN}.pfx" \
-#      --password pass:empty
-
+function create_config() {
+    cat >"${SCRIPT_DIR}/secrets.yaml" <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: wired-heart-tls
+  namespace: development
+data:
+EOF
+    {
+    printf "\n  tls.crt: "
+    base64 -w 0 < "${SCRIPT_DIR}/etc/live/${DOMAIN}/fullchain.pem"
+    printf "\n  tls.key: "
+    base64 -w 0 < "${SCRIPT_DIR}/etc/live/${DOMAIN}/privkey.pem"
+    printf "\n\ntype: kubernetes.io/tls\n"
+    } >>"${SCRIPT_DIR}/secrets.yaml"
 }
 
 
@@ -86,7 +82,8 @@ function convert_pem() {
 #################
 
 # create_cert
-convert_pem
+# convert_pem
+create_config
 
 exit 0
 
@@ -108,8 +105,7 @@ az keyvault secret set \
     --value reindeer_flotilla \
     --vault-name your-unique-vault-name
 
-# check the token
-
+# to check the token
 curl -X \
     GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
     -H "Authorization: Bearer GerhwqHsooFIEVzX2DPgcxqbPtpj4jR_PQK0M8ne" \
