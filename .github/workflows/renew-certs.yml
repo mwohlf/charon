@@ -27,4 +27,4 @@ jobs:
           creds: ${{ secrets.AZURE_SP_CREDENTIALS}}
 
       - name: Run the script
-        run: bash ${{ github.workspace }}/etc/certs/certbot.bash
+        run: bash ${{ github.workspace }}/etc/certs/renew-certs.bash
