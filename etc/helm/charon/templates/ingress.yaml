@@ -20,6 +20,7 @@ spec:
     - hosts:
         - backend.wired-heart.com
         - oauth.wired-heart.com
+        - www.wired-heart.com
       secretName: wired-heart-tls
 
   rules:
