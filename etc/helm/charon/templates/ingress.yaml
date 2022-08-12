@@ -9,12 +9,13 @@ kind: Ingress
 metadata:
   name: public-charon-ig
   namespace: development
-  annotations:
+  # annotations:
     # https://docs.microsoft.com/en-us/azure/application-gateway/
-    kubernetes.io/ingress.class: azure/application-gateway
+    # kubernetes.io/ingress.class: azure/application-gateway
     # appgw.ingress.kubernetes.io/appgw-ssl-certificate: "wildcard.finalrestingheartrate.com"
     # appgw.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
+  ingressClassName: nginx
 
   tls:
     - hosts:
