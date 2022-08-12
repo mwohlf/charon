@@ -1,4 +1,4 @@
-#
+#!/usr/bin/env bash
 #
 # this script is for setting up the k8s cluster in azure
 #   https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
@@ -386,7 +386,7 @@ for var in "$@"; do
     create_cluster)
         login_azure
         create_resource_group
-        create_keyvault
+        # create_keyvault
         create_cluster
         create_credentials
         ;;

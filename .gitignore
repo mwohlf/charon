@@ -19,3 +19,8 @@ build
 /etc/setup/cluster.txt
 /etc/setup/keyvault.txt
 /etc/setup/cloudflare-token.txt
+/etc/certs/certbot/
+/etc/certs/etc/
+/etc/certs/log/
+/etc/certs/var/
+/etc/certs/wired-heart.com.pfx
