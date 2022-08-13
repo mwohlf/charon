@@ -161,6 +161,23 @@ https://unbroken-dome.github.io/projects/gradle-helm-plugin/latest/userguide/ind
 
 -
 
+### deployment steps
+
+- remove old namespace with cluster and all the configs +
+`./azure.bash delete`
+
+- create cluster, namespace nodepools etc +
+`./azure.bash create_cluster`
+
+- update sevice account +
+the content of credentials.txt goes into the github secrets  as `AZURE_SP_CREDENTIALS`
+
+- update IP +
+`kubectl get service --all-namespaces`  +
+shows the current IP which needs to b configured in cloudflare
+
+
+
 
 #### Spring Auth Server Project:
 

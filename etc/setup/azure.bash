@@ -203,9 +203,7 @@ function create_cluster() {
     fi
     echo "creating cluster ${CLUSTER:-charonCluster}..."
     az aks create \
-        --appgw-name charonApplicationGateway \
-        --appgw-subnet-cidr "10.225.0.0/16" \
-        --enable-addons ingress-appgw \
+        --enable-addons http_application_routing  \
         --enable-managed-identity \
         --generate-ssh-keys \
         --location ${LOCATION:=eastus2} \

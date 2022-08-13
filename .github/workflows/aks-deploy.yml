@@ -16,6 +16,7 @@ env:
   RESOURCE_GROUP: charonResourceGroup
   NAMESPACE: development
   GITHUB_SHA: ${{ github.sha }}
+  TLS_KEY: ${{ secrets.TLS_KEY }}
 
 jobs:
   deploy:
@@ -60,7 +61,7 @@ jobs:
           helmChart: '${{ github.workspace }}/etc/helm/charon/'
           helm-version: 'latest'
           # see: https://github.com/marketplace/actions/kubernetes-bake
-          # to override the secret from a env variable
+          # to override the secret from an env variable (todo)
         id: bake
 
 # we store images in ttl.sh,
