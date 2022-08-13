@@ -27,6 +27,8 @@ class OAuthClientRepository(
             .redirectUri("http://127.0.0.1:8080")
             .redirectUri("http://127.0.0.1:8080/silent-renew.html")
             .redirectUri("http://127.0.0.1:8080/home")
+            .redirectUri("https://backend.wired-heart.com/home")
+            .redirectUri("https://backend.wired-heart.com/charon/home")
             .scope(OidcScopes.OPENID)
             .scope(OidcScopes.PROFILE) // openid profile email offline_access
             .scope(OidcScopes.EMAIL)
