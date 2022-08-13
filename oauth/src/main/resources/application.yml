@@ -17,12 +17,11 @@ net:
     charon:
       oauth:
         data-dir: test
-        issuer: "http://oauth.finalrestingheartrate.com"
+        issuer: "https://oauth.wired-heart.com"
         allowed-origins:
-          - "http://backend.finalrestingheartrate.com"
-          - "https://backend.finalrestingheartrate.com"
-          - "https://oauth.finalrestingheartrate.com"
-          - "https://frontend.finalrestingheartrate.com"
+          - "https://backend.wired-heart.com"
+          - "https://app.wired-heart.com"
+
 
 logging:
   level:

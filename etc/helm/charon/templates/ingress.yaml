@@ -67,9 +67,9 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: charon-hello-svc
+              name: charon-backend-svc
               port:
-                number: 80
+                number: 8080
 
   - host: oauth.wired-heart.com
     http:
