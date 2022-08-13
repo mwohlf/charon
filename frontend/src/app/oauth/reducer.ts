@@ -83,7 +83,7 @@ const featureReducer = createReducer(
             configId: element.configId,
             authority: element.issuerUri,
             clientId: element.clientId,
-            redirectUrl: 'http://127.0.0.1:4200/home',
+            redirectUrl: window.location.origin + '/charon/home',  // TODO: this needs to work with 4200 and in prod
             postLogoutRedirectUri: window.location.origin,
             scope: 'openid profile email offline_access',
             responseType: 'code',
