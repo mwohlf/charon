@@ -177,6 +177,12 @@ the content of credentials.txt goes into the github secrets  as `AZURE_SP_CREDEN
 shows the current IP which needs to b configured in cloudflare
 
 
+### deployment troubleshooting
+
+- kubectl get ingress --all-namespaces
+
+- kubectl get ingress --all-namespaces
+
 
 
 #### Spring Auth Server Project:

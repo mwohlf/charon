@@ -18,9 +18,9 @@ spec:
 
   tls:
     - hosts:
+        - www.wired-heart.com
         - backend.wired-heart.com
         - oauth.wired-heart.com
-        - www.wired-heart.com
         - wired-heart.com
       secretName: wired-heart-tls
 
@@ -29,6 +29,17 @@ spec:
     # http://20.22.50.34/
     # 7fbf1b6251d84f83ae93.eastus2.aksapp.io
     # host: printhostname.7fbf1b6251d84f83ae93.eastus2.aksapp.io
+
+  - host: www.wired-heart.com
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: charon-hello-svc
+              port:
+                number: 80
 
   - host: backend.wired-heart.com
     http:
@@ -51,17 +62,6 @@ spec:
               name: charon-oauth-svc
               port:
                 number: 8080
-
-  - host: www.wired-heart.com
-    http:
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: charon-hello-svc
-              port:
-                number: 80
 
   - host: wired-heart.com
     http:
