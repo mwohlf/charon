@@ -166,11 +166,11 @@ https://unbroken-dome.github.io/projects/gradle-helm-plugin/latest/userguide/ind
 - remove old namespace with cluster and all the configs +
 `./azure.bash delete`
 
-- create cluster, namespace nodepools etc +
+- create cluster, namespace, nodepools etc +
 `./azure.bash create_cluster`
 
-- update sevice account +
-the content of credentials.txt goes into the github secrets  as `AZURE_SP_CREDENTIALS`
+- update service account +
+the content of credentials.txt goes into the github secrets as `AZURE_SP_CREDENTIALS`
 
 - update IP +
 `kubectl get service --all-namespaces`  +
