@@ -1,4 +1,14 @@
 
+#
+# kubectl delete deploy charon-deployment
+# kubectl delete pods --all
+# kubectl apply -f ./backend.yaml
+# kubectl get pods
+# kubectl get deployments
+# kubectl get pods --all-namespaces
+# kubectl get events
+#
+
 # https://github.com/Azure/application-gateway-kubernetes-ingress/blob/master/docs/tutorials/tutorial.general.md#expose-services-over-https
 
 apiVersion: networking.k8s.io/v1
