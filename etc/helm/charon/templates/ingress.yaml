@@ -1,8 +1,9 @@
 
-#
+# kubectl apply -f ./ingress.yaml
 # kubectl delete deploy charon-deployment
 # kubectl delete pods --all
 # kubectl apply -f ./backend.yaml
+# kubectl apply -f ./ingress.yaml
 # kubectl get pods
 # kubectl get deployments
 # kubectl get pods --all-namespaces
@@ -29,16 +30,13 @@ spec:
   tls:
     - hosts:
         - www.wired-heart.com
+        - app.wired-heart.com
         - backend.wired-heart.com
         - oauth.wired-heart.com
         - wired-heart.com
       secretName: wired-heart-tls
 
   rules:
-    # http://20.22.50.219/
-    # http://20.22.50.34/
-    # 7fbf1b6251d84f83ae93.eastus2.aksapp.io
-    # host: printhostname.7fbf1b6251d84f83ae93.eastus2.aksapp.io
 
   - host: www.wired-heart.com
     http:
@@ -51,7 +49,7 @@ spec:
               port:
                 number: 80
 
-  - host: backend.wired-heart.com
+  - host: app.wired-heart.com
     http:
       paths:
         - path: /
@@ -61,6 +59,17 @@ spec:
               name: charon-backend-svc
               port:
                 number: 8080
+
+  - host: backend.wired-heart.com
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: charon-hello-svc
+              port:
+                number: 80
 
   - host: oauth.wired-heart.com
     http:
