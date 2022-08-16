@@ -27,6 +27,7 @@ import {EffectsModule, EffectsRootModule} from '@ngrx/effects';
 import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
 import {OAuthModule} from './oauth/oauth.module';
 import {HttpClientModule} from '@angular/common/http';
+import {APP_BASE_HREF} from '@angular/common';
 
 export interface AppState {
 }
@@ -102,7 +103,10 @@ export const appMetaReducers: MetaReducer[] = !environment.production
       serverLogLevel: NgxLoggerLevel.ERROR,
     }),
   ],
-  providers: [],
+  providers: [{ // see: https://angular.io/api/common/APP_BASE_HREF
+    provide: APP_BASE_HREF,
+    useValue: environment.baseHref,
+  }],
   bootstrap: [AppComponent],
 })
 export class AppShellModule {

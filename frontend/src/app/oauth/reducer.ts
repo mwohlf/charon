@@ -5,6 +5,9 @@ import {
   OpenIdConfiguration,
 } from 'angular-auth-oidc-client/lib/config/openid-configuration';
 import {LogLevel} from 'angular-auth-oidc-client';
+import {environment} from '../../environments/environment';
+import {HomeComponent} from '../components/home/home.component';
+import {MainComponent} from '../components/main/main.component';
 
 export const featureKey = 'oAuthFeature';
 
@@ -83,8 +86,8 @@ const featureReducer = createReducer(
             configId: element.configId,
             authority: element.issuerUri,
             clientId: element.clientId,
-            redirectUrl: window.location.origin + '/charon/home',  // TODO: this needs to work with 4200 and in prod
-            postLogoutRedirectUri: window.location.origin,
+            redirectUrl: window.location.origin + environment.baseHref + HomeComponent.ROUTER_PATH,
+            postLogoutRedirectUri: window.location.origin + environment.baseHref + MainComponent.ROUTER_PATH,
             scope: 'openid profile email offline_access',
             responseType: 'code',
             silentRenew: true,

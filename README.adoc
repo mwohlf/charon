@@ -21,10 +21,10 @@ This is a POC for implementing an OAuth Server and an Angular UI using it, in mo
     ** the backend (controllers)
     ** the frontend (services)
  - using github's actions and build pipeline
- - using
+ - a fancy deployment in azure
 
 I think this is today's state-of-the-art web application development
-and the best approach
+
 
 
 == oauth module
