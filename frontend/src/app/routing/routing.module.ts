@@ -4,6 +4,8 @@ import {ErrorComponent} from '../components/error/error.component';
 import {HomeComponent} from '../components/home/home.component';
 import {MainComponent} from '../components/main/main.component';
 import {ProtectedComponent} from '../components/protected/protected.component';
+import {APP_BASE_HREF} from '@angular/common';
+import {environment} from '../../environments/environment';
 
 const routes: Routes = [
   {
@@ -42,6 +44,10 @@ export function routerErrorHandler(error: Error): void {
         relativeLinkResolution: 'corrected', // one of 'legacy', 'corrected'
       })],
   exports: [RouterModule],
+  providers: [{ // see: https://angular.io/api/common/APP_BASE_HREF
+    provide: APP_BASE_HREF,
+    useValue: environment.baseHref,
+  }],
 })
 export class RoutingModule {
 }

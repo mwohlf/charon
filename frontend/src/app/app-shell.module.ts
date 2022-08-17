@@ -103,10 +103,6 @@ export const appMetaReducers: MetaReducer[] = !environment.production
       serverLogLevel: NgxLoggerLevel.ERROR,
     }),
   ],
-  providers: [{ // see: https://angular.io/api/common/APP_BASE_HREF
-    provide: APP_BASE_HREF,
-    useValue: environment.baseHref,
-  }],
   bootstrap: [AppComponent],
 })
 export class AppShellModule {
