@@ -15,7 +15,7 @@ import {Observable} from 'rxjs';
 import {AppState} from '../app-shell.module';
 import {selectOpenIdConfigurations} from './selector';
 import {filter, map} from 'rxjs/operators';
-import * as _ from 'lodash-es';
+import * as _ from 'lodash';
 
 
 

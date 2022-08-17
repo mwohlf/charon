@@ -3,6 +3,7 @@ package net.wohlfart.charon.config;
 import net.wohlfart.charon.OAuthProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
 import org.springframework.http.HttpMethod
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
@@ -17,6 +18,7 @@ class CorsConfig(
 
     // see: https://docs.spring.io/spring-security/reference/servlet/integrations/cors.html
     @Bean
+    @Primary
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
         configuration.allowedOrigins = oauthProperties.allowedOrigins.toList()
