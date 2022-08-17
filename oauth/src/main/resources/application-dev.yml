@@ -7,9 +7,9 @@ management:
       probes:
         enabled: true
   health:
-    livenessState:
+    liveness-state:
       enabled: true
-    readinessState:
+    readiness-state:
       enabled: true
 
 net:
