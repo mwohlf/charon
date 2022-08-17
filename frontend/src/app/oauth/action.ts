@@ -9,7 +9,10 @@ export const readClientConfigurationListUsingGET = createAction(
 
 export const readClientConfigurationListUsingGET_success = createAction(
   '@app/config/readClientConfigurationListUsingGET_success',
-  props<{ payload: Array<ClientConfiguration> }>(),
+  props<{ payload: {
+      clientConfigurationList: Array<ClientConfiguration>,
+      baseUrl: string,
+  }}>(),
 );
 
 export const readClientConfigurationListUsingGET_failure = createAction(

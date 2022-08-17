@@ -20,13 +20,18 @@ import {Action, Store} from '@ngrx/store';
 import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 import {AppState} from '../app-shell.module';
 
-import {ErrorDetails, showError} from '../error/action';
-import {ClientConfiguration, ConfigurationDetailsService } from 'build/generated';
+import {showError} from '../error/action';
+import {
+  ClientConfiguration,
+  ConfigurationDetailsService,
+} from 'build/generated';
+import {LocationStrategy} from '@angular/common';
 
 @Injectable()
 export class Effects {
 
   constructor(
+    private locationStrategy: LocationStrategy,
     private configurationDetailsService: ConfigurationDetailsService,
     private oidcSecurityService: OidcSecurityService,
     private eventService: PublicEventsService,
@@ -72,7 +77,10 @@ export class Effects {
         return this.configurationDetailsService.readClientConfigurationList().pipe(
           map((clientConfigurationList: Array<ClientConfiguration>) => {
             return readClientConfigurationListUsingGET_success({
-              payload: clientConfigurationList,
+              payload: {
+                clientConfigurationList: clientConfigurationList,
+                baseUrl: window.location.origin + this.locationStrategy.getBaseHref(),
+              },
             });
           }),
           catchError((error: any) => {
@@ -95,7 +103,8 @@ export class Effects {
       ofType(readClientConfigurationListUsingGET_success),
       tap((action) => {
         console.log('readConfigurationDetailsUsingGET_success');
-        let clientConfigurationList: Array<ClientConfiguration> = action.payload;
+        let clientConfigurationList: Array<ClientConfiguration> = action.payload.clientConfigurationList;
+        let baseUrl: string = action.payload.baseUrl;
         console.log('clientConfigurationList Loaded', clientConfigurationList);
       }),
     );
@@ -118,8 +127,8 @@ export class Effects {
       tap((action) => {
         console.log('authorizeAction for ', action.payload);
 
-        if (! this.oidcSecurityService.getConfigurations().some((elem) => {
-          return elem.configId == action.payload.configId
+        if (!this.oidcSecurityService.getConfigurations().some((elem) => {
+          return elem.configId == action.payload.configId;
         })) {
           console.error('no config found for ', action.payload.configId);
           console.error('available: ', this.oidcSecurityService.getConfigurations());

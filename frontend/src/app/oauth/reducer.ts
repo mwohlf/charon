@@ -80,14 +80,15 @@ const featureReducer = createReducer(
   on(fromActions.readClientConfigurationListUsingGET_success,
     (state: OAuthState, {payload: payload}) => {
       console.log(' readClientConfigurationListUsingGET_success, payload: ', payload);
-      const openIdConfigurations: Array<OpenIdConfiguration> = payload.map(
+      const baseUrl = payload.baseUrl;
+      const openIdConfigurations: Array<OpenIdConfiguration> = payload.clientConfigurationList.map(
         (element: ClientConfiguration) => {
           return {
             configId: element.configId,
             authority: element.issuerUri,
             clientId: element.clientId,
-            redirectUrl: window.location.origin + environment.baseHref + HomeComponent.ROUTER_PATH,
-            postLogoutRedirectUri: window.location.origin + environment.baseHref + MainComponent.ROUTER_PATH,
+            redirectUrl: baseUrl + HomeComponent.ROUTER_PATH,
+            postLogoutRedirectUri: baseUrl + MainComponent.ROUTER_PATH,
             scope: 'openid profile email offline_access',
             responseType: 'code',
             silentRenew: true,

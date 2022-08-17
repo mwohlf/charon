@@ -21,7 +21,7 @@ net:
         allowed-origins:
           - "http://127.0.0.1:4200"
         redirect-uris:
-          - "http://127.0.0.1:4200/home"
+          - "http://127.0.0.1:4200/charon/home"
 
 
 logging:

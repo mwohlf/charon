@@ -44,10 +44,6 @@ export function routerErrorHandler(error: Error): void {
         relativeLinkResolution: 'corrected', // one of 'legacy', 'corrected'
       })],
   exports: [RouterModule],
-  providers: [{ // see: https://angular.io/api/common/APP_BASE_HREF
-    provide: APP_BASE_HREF,
-    useValue: environment.baseHref,
-  }],
 })
 export class RoutingModule {
 }
