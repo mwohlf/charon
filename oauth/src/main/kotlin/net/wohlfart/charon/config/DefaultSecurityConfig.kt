@@ -15,15 +15,13 @@ class DefaultSecurityConfig {
     @Bean
     fun defaultSecurityFilterChain(
         http: HttpSecurity,
-        corsConfig: CorsConfigurationSource,
         userDetailsService: UserDetailsService,
     ): SecurityFilterChain {
 
         // http://127.0.0.1:8081/oauth2/revoke
         return http
+            .cors { }
             .userDetailsService(userDetailsService)
-            .cors().configurationSource(corsConfig)
-            .and()
             .formLogin(withDefaults())
             .build()
     }

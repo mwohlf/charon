@@ -8,7 +8,6 @@ import org.springframework.security.config.Customizer.withDefaults
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.web.cors.CorsConfigurationSource
 
 
 // docs:
@@ -23,14 +22,12 @@ class AuthorizationServerConfig {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     fun authorizationServerSecurityFilterChain(
         http: HttpSecurity,
-        corsConfig: CorsConfigurationSource,
     ): SecurityFilterChain {
 
         // token endpoint
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
         return http
-            .cors().configurationSource(corsConfig)
-            .and()
+            .cors { }
             .formLogin(withDefaults())   // implements the login form
             .build()
     }

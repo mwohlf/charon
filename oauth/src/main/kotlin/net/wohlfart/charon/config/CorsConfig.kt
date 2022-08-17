@@ -15,7 +15,6 @@ class CorsConfig(
     val oauthProperties: OAuthProperties,
 ) {
 
-
     // see: https://docs.spring.io/spring-security/reference/servlet/integrations/cors.html
     @Bean
     @Primary
