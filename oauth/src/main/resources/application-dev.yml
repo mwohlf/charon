@@ -26,5 +26,5 @@ net:
 
 logging:
   level:
-    root: INFO
+    root: DEBUG
 

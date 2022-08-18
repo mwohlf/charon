@@ -23,6 +23,7 @@ class OAuthClientRepository(
             .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .scope(OidcScopes.OPENID)
+            .scope(OidcScopes.ADDRESS)
             .scope(OidcScopes.PROFILE) // openid profile email offline_access
             .scope(OidcScopes.EMAIL)
             .scope(OidcScopes.PHONE)
