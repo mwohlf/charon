@@ -191,7 +191,7 @@ https://github.com/spring-projects/spring-authorization-server +
 https://www.appsdeveloperblog.com/spring-authorization-server-tutorial/ +
 https://github.com/spring-projects/spring-authorization-server/issues/796 +
 https://github.com/spring-projects/spring-authorization-server/issues/297 +
-
+https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-userinfo.html +
 
 
 #### OAuth Client Project:

@@ -28,6 +28,7 @@ class AuthorizationServerConfig {
         http: HttpSecurity,
     ): SecurityFilterChain {
 
+        // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-userinfo.html
         // token endpoint
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
         return http
