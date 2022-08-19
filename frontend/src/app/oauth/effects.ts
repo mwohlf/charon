@@ -20,7 +20,7 @@ import {Action, Store} from '@ngrx/store';
 import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 import {AppState} from '../app-shell.module';
 
-import {showError} from '../error/action';
+import {showNotification} from '../notification/action';
 import {
   ClientConfiguration,
   ConfigurationDetailsService,
@@ -86,7 +86,7 @@ export class Effects {
           catchError((error: any) => {
             return of(readClientConfigurationListUsingGET_failure({
               payload: {
-                title: 'Config data missing',
+                title: 'OAuth data missing',
                 message: 'Config data can\'t be loaded.',
                 details: JSON.stringify(error, null, 2),
               },
@@ -115,8 +115,8 @@ export class Effects {
     return this.action$.pipe(
       ofType(readClientConfigurationListUsingGET_failure),
       map((action) => {
-        console.log('readConfigurationDetailsUsingGET_failure');
-        return showError({payload: action.payload});
+        console.log('readClientConfigurationListUsingGET_failure');
+        return showNotification({payload: action.payload});
       }),
     );
   });

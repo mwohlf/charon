@@ -1,7 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {
-  OidcSecurityService,
-} from 'angular-auth-oidc-client';
 import {Store} from '@ngrx/store';
 import {AppState} from '../app-shell.module';
 import {loginAction, logoutAction} from '../oauth/action';
@@ -9,6 +6,7 @@ import {Observable} from 'rxjs';
 import {isAuthenticated} from '../oauth/selector';
 import {readConfigurationDetailsUsingGET} from '../config/action';
 import {SIMPLE_CONFIG} from '../oauth/reducer';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +18,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public store: Store<AppState>,
-    public oidcSecurityService: OidcSecurityService,
+    private matSnackBar: MatSnackBar,
   ) {
     this.isAuthenticated$ = this.store.select(isAuthenticated);
   }

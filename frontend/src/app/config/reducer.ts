@@ -1,20 +1,19 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import { ConfigurationDetails } from 'build/generated';
 import * as fromActions from './action';
-import {ErrorDetails} from '../error/action';
 
 export const featureKey = 'configFeature';
 
 export interface ConfigState {
   isLoading: boolean;
+  isError: boolean;
   config: ConfigurationDetails | undefined;
-  error: ErrorDetails | undefined;
 }
 
 const initialState: ConfigState = {
   isLoading: false,
+  isError: false,
   config: undefined,
-  error: undefined,
 };
 
 const featureReducer = createReducer(
@@ -24,8 +23,8 @@ const featureReducer = createReducer(
     (state: ConfigState) => {
       return {
         isLoading: true,
+        isError: false,
         config: undefined,
-        error: undefined,
       };
     },
   ),
@@ -34,8 +33,8 @@ const featureReducer = createReducer(
     (state: ConfigState, {payload: payload}) => {
       return {
         isLoading: false,
+        isError: false,
         config: payload,
-        error: undefined,
       };
     },
   ),
@@ -44,8 +43,8 @@ const featureReducer = createReducer(
     (state: ConfigState, {payload: error}) => {
       return {
         isLoading: false,
+        isError: true,
         config: undefined,
-        error: error,
       };
     },
   ),

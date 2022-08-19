@@ -1,43 +1,48 @@
 import {createAction, props} from '@ngrx/store';
 import {LoginResponse, OidcClientNotification} from 'angular-auth-oidc-client';
 import {ClientConfiguration} from 'build/generated';
-import {ErrorDetails} from '../error/action';
+import {NotificationData} from '../notification/reducer';
+
+const GROUP = '@app/oauth';
+
 
 export const readClientConfigurationListUsingGET = createAction(
-  '@app/oauth/readClientConfigurationListUsingGET',
+  `${GROUP}/readClientConfigurationListUsingGET`,
 );
 
 export const readClientConfigurationListUsingGET_success = createAction(
-  '@app/config/readClientConfigurationListUsingGET_success',
-  props<{ payload: {
+  `${GROUP}/readClientConfigurationListUsingGET_success`,
+  props<{
+    payload: {
       clientConfigurationList: Array<ClientConfiguration>,
       baseUrl: string,
-  }}>(),
+    }
+  }>(),
 );
 
 export const readClientConfigurationListUsingGET_failure = createAction(
-  '@app/config/readClientConfigurationListUsingGET_failure',
-  props<{ payload: ErrorDetails }>(),
+  `${GROUP}/readClientConfigurationListUsingGET_failure`,
+  props<{ payload: NotificationData }>(),
 );
 
 // login with a specific auth issuer
 export const loginAction = createAction(
-  '@app/oauth/loginAction',
+  `${GROUP}/loginAction`,
   props<{ payload: { configId: string } }>(),
 );
 
 export const logoutAction = createAction(
-  '@app/oauth/logoffAction',
+  `${GROUP}/logoutAction`,
 );
 
 // fire events from the oidc service
 export const oauthEventAction = createAction(
-  '@app/oauth/oauthEventAction',
+  `${GROUP}/oauthEventAction`,
   props<{ payload: OidcClientNotification<any> }>(),
 );
 
 // fire events from the oidc service
 export const oidcSecurityAction = createAction(
-  '@app/oauth/oidcSecurityAction',
+  `${GROUP}/oidcSecurityAction`,
   props<{ payload: LoginResponse }>(),
 );

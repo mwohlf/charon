@@ -11,9 +11,13 @@ import {
   readConfigurationDetailsUsingGET_failure,
   readConfigurationDetailsUsingGET_success,
 } from './action';
-import {ErrorDetails, showError} from '../error/action';
+import {showNotification} from '../notification/action';
 import {LoggerHolder} from '../app-shell.module';
-import {ConfigurationDetails, ConfigurationDetailsService } from 'build/generated';
+import {
+  ConfigurationDetails,
+  ConfigurationDetailsService,
+} from 'build/generated';
+import {NotificationData} from '../notification/reducer';
 
 @Injectable()
 export class Effects {
@@ -70,7 +74,7 @@ export class Effects {
   readConfigurationDetailsUsingGET_success$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_success),
-      tap(action => {
+      map(action => {
         console.log('readConfigurationDetailsUsingGET_success');
         let configurationDetails: ConfigurationDetails = action.payload;
         //this.logger.updateConfig({
@@ -83,17 +87,22 @@ export class Effects {
         this.logger.debug('Configuration Loaded');
         // let logLevel = NgxLoggerLevel[configDto.serverLogLevel];
         // this.logger.info("server log level is ", NgxLoggerLevel[logLevel]);
+        return showNotification({payload: {
+            title: 'Config data loaded',
+            message: 'Config data have been loaded.',
+            details: 'Config data have been loaded.',
+          }});
       }),
     );
-  }, {dispatch: false});
+  });
 
   // forward as error action...
   readConfigurationDetailsUsingGET_failure$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_failure),
-      map((action: { payload: ErrorDetails }) => {
+      map((action: { payload: NotificationData }) => {
         console.log('readConfigurationDetailsUsingGET_failure');
-        return showError({payload: action.payload});
+        return showNotification({payload: action.payload});
       }),
     );
   });

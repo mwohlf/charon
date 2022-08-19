@@ -12,7 +12,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     AppThemeModule,
     CommonModule,
     StoreModule.forFeature(featureKey, reducer),
-    // EffectsModule.forFeature([]),
     RouterModule,
     FlexLayoutModule,
   ],

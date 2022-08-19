@@ -13,7 +13,6 @@ import {Action, ActionReducer, MetaReducer, StoreModule} from '@ngrx/store';
 import * as fromConfig from './config/effects';
 import * as fromOAuth from './oauth/effects';
 import {AppThemeModule} from './app-theme.module';
-import {ShellComponent} from './shell/shell.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FooterComponent} from './footer/footer.component';
 import {MenuComponent} from './menu/menu.component';
@@ -21,13 +20,14 @@ import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {environment} from '../environments/environment';
 import {HeaderModule} from './header/header.module';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import * as fromRouteringReducer from './routing/reducer';
+import * as fromRoutingReducer from './routing/reducer';
 import {ConfigModule} from './config/config.module';
 import {EffectsModule, EffectsRootModule} from '@ngrx/effects';
 import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
 import {OAuthModule} from './oauth/oauth.module';
 import {HttpClientModule} from '@angular/common/http';
-import {APP_BASE_HREF} from '@angular/common';
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
+import {NotificationModule} from './notification/notification.module';
 
 export interface AppState {
 }
@@ -50,16 +50,6 @@ export const appMetaReducers: MetaReducer[] = !environment.production
   : [];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ErrorComponent,
-    HomeComponent,
-    MainComponent,
-    ProtectedComponent,
-    FooterComponent,
-    MenuComponent,
-    ShellComponent,
-  ],
   imports: [
     AppThemeModule,
     BrowserAnimationsModule,
@@ -70,12 +60,13 @@ export const appMetaReducers: MetaReducer[] = !environment.production
     HeaderModule,
     HttpClientModule,
     LayoutModule,
+    NotificationModule,
     OAuthModule,
     RoutingModule,
     ApiModule.forRoot(() => new Configuration({
       basePath: environment.apiBasePath,
     })),
-    StoreModule.forRoot(fromRouteringReducer.reducer, {
+    StoreModule.forRoot(fromRoutingReducer.reducer, {
       metaReducers: appMetaReducers,
       runtimeChecks: {
         strictStateImmutability: true,
@@ -87,7 +78,7 @@ export const appMetaReducers: MetaReducer[] = !environment.production
       },
     }),
     StoreRouterConnectingModule.forRoot({
-      stateKey: fromRouteringReducer.featureKey,
+      stateKey: fromRoutingReducer.featureKey,
     }),
     StoreDevtoolsModule.instrument({
       name: 'charon',
@@ -102,6 +93,21 @@ export const appMetaReducers: MetaReducer[] = !environment.production
       level: NgxLoggerLevel.DEBUG,
       serverLogLevel: NgxLoggerLevel.ERROR,
     }),
+  ],
+  declarations: [
+    AppComponent,
+    ErrorComponent,
+    HomeComponent,
+    MainComponent,
+    ProtectedComponent,
+    FooterComponent,
+    MenuComponent,
+  ],
+  providers: [
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {duration: 2500},
+    },
   ],
   bootstrap: [AppComponent],
 })

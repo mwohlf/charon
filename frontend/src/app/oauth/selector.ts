@@ -22,19 +22,6 @@ export const selectOpenIdConfigurations = createSelector(
   },
 );
 
-// a function to retrieve the state in sync
-export function getOpenIdConfigurations(store: Store<AppState>): Array<OpenIdConfiguration> {
-  var result: Array<OpenIdConfiguration> = [];
-  store.select(selectOpenIdConfigurations).pipe(
-    take(1),
-  ).subscribe(
-    next => {
-      result = next || [];
-    },
-  );
-  return result;
-}
-
 export const isAuthenticated = createSelector(
   selectOAuthDetails,
   (state: OAuthState) => state.isAuthenticated,
