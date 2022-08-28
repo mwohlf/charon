@@ -1,6 +1,5 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import * as fromActions from './action';
-import {THEMES} from './theme-picker';
 
 export const featureKey = 'themeFeature';
 
@@ -14,7 +13,13 @@ export interface ThemeDetails {
   isDark?: boolean;
 }
 
-const initialState: ThemeDetails = THEMES[0];
+const initialState: ThemeDetails =     {
+  primary: '#673AB7',
+  accent: '#FFC107',
+  displayName: 'Deep Purple & Amber',
+  name: 'deeppurple-amber',
+  isDark: false,
+}
 
 
 const featureReducer = createReducer(
@@ -24,7 +29,7 @@ const featureReducer = createReducer(
     (state: ThemeDetails, {payload: payload}) => {
       return {
         ...payload,
-        isDarkTheme: (payload.isDark !== undefined) ? payload.isDark : state.isDark,
+        isDark: (payload.isDark !== undefined) ? payload.isDark : state.isDark,
       };
     },
   ),
@@ -33,7 +38,7 @@ const featureReducer = createReducer(
     (state: ThemeDetails) => {
       return {
         ...state,
-        isDarkTheme: !state.isDark,
+        isDark: !state.isDark,
       };
     },
   ),

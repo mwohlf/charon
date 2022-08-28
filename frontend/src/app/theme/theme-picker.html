@@ -1,5 +1,4 @@
-
-<button #toggleThemeButton mat-icon-button (click)="toggleDarkMode()" matTooltip="Toggle Theme">
+<button mat-icon-button (click)="toggleDarkMode()" matTooltip="Toggle Theme">
     <mat-icon>{{(isDarkTheme$ | async) ? 'light_mode' : 'dark_mode'}}</mat-icon>
 </button>
 
@@ -10,11 +9,14 @@
 
 <mat-menu #themeMenu="matMenu" xPosition="before" class="docs-theme-picker-menu">
     <button mat-menu-item *ngFor="let theme of themes" (click)="selectTheme(theme.name)">
-        <mat-icon [ngClass]="{'docs-theme-selected-icon': currentTheme === theme}"
-                  [color]="currentTheme === theme ? 'accent' : undefined">
-            {{currentTheme === theme ? 'radio_button_checked' : 'radio_button_unchecked'}}
-        </mat-icon>
+        <ng-container *ngIf="(currentTheme$ | async)?.name != theme.name; else currentThemeRadio">
+            <mat-icon>radio_button_unchecked</mat-icon>
+        </ng-container>
         <span>{{theme.displayName}}</span>
         <mat-icon [class]="'theme-example-icon ' + theme.name" svgIcon="theme-example"></mat-icon>
     </button>
 </mat-menu>
+
+<ng-template #currentThemeRadio>
+    <mat-icon [ngClass]="'docs-theme-selected-icon'" [color]="'accent'">radio_button_checked</mat-icon>
+</ng-template>

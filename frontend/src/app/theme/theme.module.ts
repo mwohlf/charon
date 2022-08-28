@@ -7,7 +7,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {ThemePicker} from './theme-picker';
 import {StyleManager} from './style-manager';
 import {StoreModule} from '@ngrx/store';
-import {featureKey, reducer} from './reducer';
+import {featureKey, reducer, ThemeDetails} from './reducer';
 
 @NgModule({
   imports: [
@@ -18,8 +18,15 @@ import {featureKey, reducer} from './reducer';
     MatTooltipModule,
     StoreModule.forFeature(featureKey, reducer),
   ],
-  exports: [ThemePicker],
-  declarations: [ThemePicker],
-  providers: [StyleManager],
+  exports: [
+    ThemePicker,
+  ],
+  declarations: [
+    ThemePicker,
+  ],
+  providers: [
+    StyleManager,
+  ],
 })
-export class ThemeModule { }
+export class ThemeModule {
+}
