@@ -28,6 +28,7 @@ import {OAuthModule} from './oauth/oauth.module';
 import {HttpClientModule} from '@angular/common/http';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 import {NotificationModule} from './notification/notification.module';
+import {UxModule} from './ux/ux.module';
 
 export interface AppState {
 }
@@ -63,6 +64,7 @@ export const appMetaReducers: MetaReducer[] = !environment.production
     NotificationModule,
     OAuthModule,
     RoutingModule,
+    UxModule,
     ApiModule.forRoot(() => new Configuration({
       basePath: environment.apiBasePath,
     })),

@@ -1,3 +1,4 @@
+import com.github.gradle.node.npm.task.NpmTask
 import gradle.kotlin.dsl.accessors._fcffe14232c178f32c3a5a66a4becfb6.openApiGenerate
 
 plugins {
@@ -37,15 +38,28 @@ openApiGenerate {
 }
 
 
+// update the version in package.json:
+// npm version 'your version'
+
 tasks.npmSetup {
     // to override the config in ~/.npmrc
     args.addAll("--registry", "https://registry.npmjs.org")
 }
 
+
 tasks.findByName("webjarTest")?.enabled = false
 tasks.findByName("webjarLint")?.enabled = false
 tasks.findByName("webjarClean")?.enabled = false
 tasks.findByName("compileJava")?.enabled = false
+
+tasks.register<NpmTask>("syncVersion") {
+    args.set(listOf("version", this.project.version.toString()))
+    this.ignoreExitValue.set(true);
+}
+// re-create the API classes before building the webjar
+tasks.findByName("openApiGenerate")?.let {
+    it.dependsOn("syncVersion")
+}
 
 // re-create the API classes before building the webjar
 tasks.findByName("webjarBuild")?.let {

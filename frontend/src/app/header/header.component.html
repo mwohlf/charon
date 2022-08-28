@@ -5,30 +5,33 @@
     <div fxFlex="2 1 auto">
         space
     </div>
-    <div>
+    <button mat-icon-button>
         <mat-icon matTooltip="Refresh"
                   fontSet="material-icons-two-tone"
                   style="margin-left: auto; cursor: pointer;"
                   (click)="reReadConfig();">
             refresh
         </mat-icon>
-    </div>
+    </button>
     <div style="width: 50px">
     </div>
-    <div *ngIf="!(isAuthenticated$ | async)">
+    <button mat-icon-button *ngIf="!(isAuthenticated$ | async)">
         <mat-icon matTooltip="Login"
                   fontSet="material-icons-two-tone"
                   style="margin-left: auto; cursor: pointer;"
                   (click)="authorize();">
             login
         </mat-icon>
-    </div>
-    <div *ngIf="(isAuthenticated$ | async)">
+    </button>
+    <button #toggleThemeButton mat-icon-button (click)="toggleDarkModeAction()" matTooltip="Toggle Theme">
+        <mat-icon>{{(isDarkTheme$ | async) ? 'light_mode' : 'dark_mode'}}</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="(isAuthenticated$ | async)">
         <mat-icon matTooltip="Logout"
                   fontSet="material-icons-two-tone"
                   style="margin-left: auto; cursor: pointer;"
                   (click)="logout();">
             logout
         </mat-icon>
-    </div>
+    </button>
 </div>

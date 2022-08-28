@@ -23,8 +23,10 @@ export const selectOpenIdConfigurations = createSelector(
 );
 
 export const isAuthenticated = createSelector(
-  selectOAuthDetails,
-  (state: OAuthState) => state.isAuthenticated,
+  selectOAuthFeature,
+  (state: OAuthState) => {
+    return state.isAuthenticated;
+  },
 );
 
 
