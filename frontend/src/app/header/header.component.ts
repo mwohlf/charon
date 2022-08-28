@@ -7,8 +7,6 @@ import {isAuthenticated} from '../oauth/selector';
 import {readConfigurationDetailsUsingGET} from '../config/action';
 import {SIMPLE_CONFIG} from '../oauth/reducer';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {isDarkTheme} from '../ux/selector';
-import {toggleDarkModeAction} from '../ux/action';
 
 @Component({
   selector: 'app-header',
@@ -17,14 +15,12 @@ import {toggleDarkModeAction} from '../ux/action';
 export class HeaderComponent implements OnInit {
 
   isAuthenticated$: Observable<boolean | undefined>;
-  isDarkTheme$: Observable<boolean | undefined>;
 
   constructor(
     public store: Store<AppState>,
     private matSnackBar: MatSnackBar,
   ) {
     this.isAuthenticated$ = this.store.select(isAuthenticated);
-    this.isDarkTheme$ = this.store.select(isDarkTheme);
   }
 
   ngOnInit(): void {
@@ -40,10 +36,6 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.store.dispatch(logoutAction());
-  }
-
-  toggleDarkModeAction() {
-    this.store.dispatch(toggleDarkModeAction());
   }
 
 }

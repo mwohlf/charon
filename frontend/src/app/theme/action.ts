@@ -1,13 +1,13 @@
 import {createAction, props} from '@ngrx/store';
-import {ThemeUpdate} from './reducer';
+import {ThemeDetails} from './reducer';
 
-const GROUP = '@app/ux';
+const GROUP = '@app/theme';
 
 export const configureTheme = createAction(
   `${GROUP}/configureTheme`,
-  props<{ payload: ThemeUpdate }>(),
+  props<{ payload: ThemeDetails }>(),
 );
 
-export const toggleDarkModeAction = createAction(
+export const toggleDarkMode = createAction(
   `${GROUP}/toggleDarkModeAction`,
 );

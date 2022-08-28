@@ -1,4 +1,4 @@
-<div style="background: yellow; padding:13px" fxLayout="row" fxLayoutGap="5px">
+<div class="themed" style="padding:13px" fxLayout="row" fxLayoutGap="5px">
     <div>
         test
     </div>
@@ -8,7 +8,7 @@
     <button mat-icon-button>
         <mat-icon matTooltip="Refresh"
                   fontSet="material-icons-two-tone"
-                  style="margin-left: auto; cursor: pointer;"
+                  style="margin-left: auto;"
                   (click)="reReadConfig();">
             refresh
         </mat-icon>
@@ -18,18 +18,16 @@
     <button mat-icon-button *ngIf="!(isAuthenticated$ | async)">
         <mat-icon matTooltip="Login"
                   fontSet="material-icons-two-tone"
-                  style="margin-left: auto; cursor: pointer;"
+                  style="margin-left: auto;"
                   (click)="authorize();">
             login
         </mat-icon>
     </button>
-    <button #toggleThemeButton mat-icon-button (click)="toggleDarkModeAction()" matTooltip="Toggle Theme">
-        <mat-icon>{{(isDarkTheme$ | async) ? 'light_mode' : 'dark_mode'}}</mat-icon>
-    </button>
+    <theme-picker> </theme-picker>
     <button mat-icon-button *ngIf="(isAuthenticated$ | async)">
         <mat-icon matTooltip="Logout"
                   fontSet="material-icons-two-tone"
-                  style="margin-left: auto; cursor: pointer;"
+                  style="margin-left: auto;"
                   (click)="logout();">
             logout
         </mat-icon>

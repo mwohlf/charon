@@ -6,6 +6,7 @@ import {featureKey, reducer} from './reducer';
 import {HeaderComponent} from './header.component';
 import {AppThemeModule} from '../app-theme.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {ThemeModule} from '../theme/theme.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     StoreModule.forFeature(featureKey, reducer),
     RouterModule,
     FlexLayoutModule,
+    ThemeModule,
   ],
   declarations: [
     HeaderComponent,
