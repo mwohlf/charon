@@ -65,10 +65,6 @@ export class ThemePicker implements OnInit, OnDestroy {
   constructor(
     public store: Store<AppState>,
     public styleManager: StyleManager,
-    // private _themeStorage: ThemeStorage,
-    private liveAnnouncer: LiveAnnouncer,
-    iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
   ) {
 
     this.isDarkTheme$ = this.store.select(isDarkTheme);
@@ -113,6 +109,8 @@ if (themeName) {
       return;
     }
     this.store.dispatch(configureTheme({payload: nextTheme}));
+
+    this.styleManager.setStyle('theme', `${nextTheme.name}.css`);
 
     //this.currentTheme = theme;
     /*

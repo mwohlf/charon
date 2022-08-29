@@ -50,10 +50,13 @@ export const appMetaReducers: MetaReducer[] = !environment.production
   ? [logging]
   : [];
 
+const prefersReducedMotion =
+  typeof matchMedia === 'function' ? matchMedia('(prefers-reduced-motion)').matches : false;
+
 @NgModule({
   imports: [
     AppThemeModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule.withConfig({disableAnimations: prefersReducedMotion}),
     BrowserModule,
     ConfigModule,
     EffectsRootModule,

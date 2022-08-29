@@ -1,11 +1,11 @@
 // https://material.angular.io/guide/theming
 // https://github.com/angular/material.angular.io/blob/main/src/styles.scss
-@use '@angular/material' as mat;
-@use './app-theme';
+@use 'node_modules/@angular/material/index' as mat;
+@use 'src/app-theme';
 
 // fonts and icons to avoid using a CDN
-@import 'material-icons/iconfont/material-icons.scss';
-@import '@fontsource/roboto'; // Defaults to weight 400.
+@import 'node_modules/material-icons/iconfont/material-icons';
+@import 'node_modules/@fontsource/roboto'; // Defaults to weight 400.
 
 // Define the light theme.
 $_primary: mat.define-palette(mat.$indigo-palette);

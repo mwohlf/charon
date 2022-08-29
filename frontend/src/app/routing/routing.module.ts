@@ -38,10 +38,11 @@ export function routerErrorHandler(error: Error): void {
     RouterModule.forRoot(routes,
       {
         scrollPositionRestoration: 'enabled', // one of 'disabled', 'enabled', 'top'
+        anchorScrolling: 'enabled',
+        relativeLinkResolution: 'corrected', // one of 'legacy', 'corrected'
         enableTracing: false, // log to console for debugging
         errorHandler: routerErrorHandler,
         paramsInheritanceStrategy: 'always',
-        relativeLinkResolution: 'corrected', // one of 'legacy', 'corrected'
       })],
   exports: [RouterModule],
 })

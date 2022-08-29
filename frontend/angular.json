@@ -29,7 +29,29 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              {
+                "input": "src/styles/main.scss"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/pink-bluegrey.scss",
+                "bundleName": "pink-bluegrey"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/deeppurple-amber.scss",
+                "bundleName": "deeppurple-amber"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/indigo-pink.scss",
+                "bundleName": "indigo-pink"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/purple-green.scss",
+                "bundleName": "purple-green"
+              }
             ],
             "scripts": []
           },
@@ -74,7 +96,7 @@
             },
             "development": {
               "browserTarget": "charon:build:development",
-              "proxyConfig": "src/proxy.conf.json",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
