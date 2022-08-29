@@ -1,4 +1,4 @@
-@use '@angular/material' as mat;
+@use 'node_modules/@angular/material/index' as mat;
 @use 'sass:map';
 
 // see: https://github.com/angular/material.angular.io/blob/main/src/_app-theme.scss
@@ -11,13 +11,6 @@
     $foreground: map.get($theme, foreground);
     $is-dark-theme: map.get($theme, is-dark);
 
-    $next-theme: mat.define-palette(mat.$red-palette);
-
-    .themed {
-        color: mat.get-color-from-palette($primary, if($is-dark-theme, 200, 800));
-        background: mat.get-color-from-palette($background, if($is-dark-theme, 200, 800));
-        // background: red;
-    }
     a {
         color: mat.get-color-from-palette($foreground, text);
     }
