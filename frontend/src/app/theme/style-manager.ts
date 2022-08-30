@@ -14,15 +14,6 @@ export class StyleManager {
     getLinkElementForKey(key).setAttribute('href', href);
   }
 
-  /**
-   * Remove the stylesheet with the specified key.
-   */
-  removeStyle(key: string) {
-    const existingLinkElement = getExistingLinkElementByKey(key);
-    if (existingLinkElement) {
-      document.head.removeChild(existingLinkElement);
-    }
-  }
 }
 
 function getLinkElementForKey(key: string) {

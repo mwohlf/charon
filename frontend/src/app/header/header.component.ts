@@ -6,7 +6,6 @@ import {Observable} from 'rxjs';
 import {isAuthenticated} from '../oauth/selector';
 import {readConfigurationDetailsUsingGET} from '../config/action';
 import {SIMPLE_CONFIG} from '../oauth/reducer';
-import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +17,6 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public store: Store<AppState>,
-    private matSnackBar: MatSnackBar,
   ) {
     this.isAuthenticated$ = this.store.select(isAuthenticated);
   }

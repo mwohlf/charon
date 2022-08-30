@@ -34,23 +34,43 @@
               },
               {
                 "inject": false,
-                "input": "src/styles/themes/pink-bluegrey.scss",
-                "bundleName": "pink-bluegrey"
+                "input": "src/styles/themes/pink-bluegrey-dark.scss",
+                "bundleName": "pink-bluegrey-dark"
               },
               {
                 "inject": false,
-                "input": "src/styles/themes/deeppurple-amber.scss",
-                "bundleName": "deeppurple-amber"
+                "input": "src/styles/themes/pink-bluegrey-light.scss",
+                "bundleName": "pink-bluegrey-light"
               },
               {
                 "inject": false,
-                "input": "src/styles/themes/indigo-pink.scss",
-                "bundleName": "indigo-pink"
+                "input": "src/styles/themes/deeppurple-amber-dark.scss",
+                "bundleName": "deeppurple-amber-dark"
               },
               {
                 "inject": false,
-                "input": "src/styles/themes/purple-green.scss",
-                "bundleName": "purple-green"
+                "input": "src/styles/themes/deeppurple-amber-light.scss",
+                "bundleName": "deeppurple-amber-light"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/themes/indigo-pink-dark.scss",
+                "bundleName": "indigo-pink-dark"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/themes/indigo-pink-light.scss",
+                "bundleName": "indigo-pink-light"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/themes/purple-green-dark.scss",
+                "bundleName": "purple-green-dark"
+              }
+             {
+                "inject": false,
+                "input": "src/styles/themes/purple-green-light.scss",
+                "bundleName": "purple-green-light"
               }
             ],
             "scripts": []

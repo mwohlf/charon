@@ -32,7 +32,7 @@ export class Effects {
   ROOT_EFFECTS_INIT: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(ROOT_EFFECTS_INIT), // the trigger to start loading config
-      tap((action) => {
+      tap((action: {}) => {
         // just to get rid of the console logging as early as possible
         LoggerHolder.logger = this.logger;
       }),
@@ -48,7 +48,7 @@ export class Effects {
   readConfigurationDetailsUsingGET$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET),
-      mergeMap((action) => {
+      mergeMap((action: {}) => {
         console.log('readConfigurationDetailsUsingGET');
         return this.configurationDetailsService.readConfigurationDetails().pipe(
           map((configurationDetails: ConfigurationDetails) => {
@@ -74,7 +74,7 @@ export class Effects {
   readConfigurationDetailsUsingGET_success$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_success),
-      map(action => {
+      map((action: { payload: ConfigurationDetails }) => {
         console.log('readConfigurationDetailsUsingGET_success');
         let configurationDetails: ConfigurationDetails = action.payload;
         //this.logger.updateConfig({
@@ -87,11 +87,13 @@ export class Effects {
         this.logger.debug('Configuration Loaded');
         // let logLevel = NgxLoggerLevel[configDto.serverLogLevel];
         // this.logger.info("server log level is ", NgxLoggerLevel[logLevel]);
-        return showNotification({payload: {
+        return showNotification({
+          payload: {
             title: 'Config data loaded',
             message: 'Config data have been loaded.',
             details: 'Config data have been loaded.',
-          }});
+          },
+        });
       }),
     );
   });

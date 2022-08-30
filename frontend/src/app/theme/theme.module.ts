@@ -7,7 +7,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {ThemePicker} from './theme-picker';
 import {StyleManager} from './style-manager';
 import {StoreModule} from '@ngrx/store';
-import {featureKey, reducer, ThemeDetails} from './reducer';
+import {featureKey, reducer} from './reducer';
 
 @NgModule({
   imports: [

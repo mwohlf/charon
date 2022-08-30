@@ -7,7 +7,3 @@ export const configureTheme = createAction(
   `${GROUP}/configureTheme`,
   props<{ payload: ThemeDetails }>(),
 );
-
-export const toggleDarkMode = createAction(
-  `${GROUP}/toggleDarkModeAction`,
-);

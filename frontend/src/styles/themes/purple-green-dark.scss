@@ -1,11 +1,13 @@
 @use 'node_modules/@angular/material/index' as mat;
 @use 'src/styles/app-theme';
+@use 'src/app/header/header.component-theme' as header;
+@use 'src/app/app.component-theme' as app;
 
-// Define the dark theme.
 $_primary: mat.define-palette(mat.$purple-palette);
 $_accent:  mat.define-palette(mat.$green-palette, A200, A100, A400);
 $_theme: mat.define-dark-theme($_primary, $_accent);
-$is-dark: false;
 
 @include mat.all-component-themes($_theme);
 @include app-theme.theme($_theme);
+@include header.theme($_theme);
+@include app.theme($_theme);

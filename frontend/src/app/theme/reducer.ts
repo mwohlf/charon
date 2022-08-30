@@ -6,20 +6,16 @@ export const featureKey = 'themeFeature';
 
 // from https://github.com/angular/material.angular.io/blob/main/src/app/shared/theme-picker/theme-storage/theme-storage.ts
 export interface ThemeDetails {
+  displayName: string;
   name: string;
-  displayName?: string;
-  accent: string;
-  primary: string;
-  isDark?: boolean;
+  isDark: boolean;
 }
 
-const initialState: ThemeDetails =     {
-  primary: '#673AB7',
-  accent: '#FFC107',
+export const initialState: ThemeDetails = {
   displayName: 'Deep Purple & Amber',
   name: 'deeppurple-amber',
   isDark: false,
-}
+};
 
 
 const featureReducer = createReducer(
@@ -28,17 +24,8 @@ const featureReducer = createReducer(
   on(fromActions.configureTheme,
     (state: ThemeDetails, {payload: payload}) => {
       return {
-        ...payload,
-        isDark: (payload.isDark !== undefined) ? payload.isDark : state.isDark,
-      };
-    },
-  ),
-
-  on(fromActions.toggleDarkMode,
-    (state: ThemeDetails) => {
-      return {
         ...state,
-        isDark: !state.isDark,
+        ...payload,
       };
     },
   ),

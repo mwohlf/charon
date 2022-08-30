@@ -1,0 +1,13 @@
+@use 'node_modules/@angular/material/index' as mat;
+@use 'src/styles/app-theme';
+@use 'src/app/header/header.component-theme' as header;
+@use 'src/app/app.component-theme' as app;
+
+$_primary: mat.define-palette(mat.$pink-palette);
+$_accent:  mat.define-palette(mat.$blue-grey-palette);
+$_theme: mat.define-dark-theme($_primary, $_accent);
+
+@include mat.all-component-themes($_theme);
+@include app-theme.theme($_theme);
+@include header.theme($_theme);
+@include app.theme($_theme);

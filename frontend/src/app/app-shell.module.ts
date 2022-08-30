@@ -12,6 +12,7 @@ import {ApiModule, Configuration} from '../../build/generated';
 import {Action, ActionReducer, MetaReducer, StoreModule} from '@ngrx/store';
 import * as fromConfig from './config/effects';
 import * as fromOAuth from './oauth/effects';
+import * as fromTheme from './theme/effects';
 import {AppThemeModule} from './app-theme.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FooterComponent} from './footer/footer.component';
@@ -92,6 +93,7 @@ const prefersReducedMotion =
     EffectsModule.forRoot([
       fromConfig.Effects,
       fromOAuth.Effects,
+      fromTheme.Effects,
     ]),
     LoggerModule.forRoot({
       serverLoggingUrl: '/api/logs', // fix this after config
