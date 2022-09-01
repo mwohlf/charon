@@ -181,7 +181,11 @@ shows the current IP which needs to b configured in cloudflare
 
 - kubectl get ingress --all-namespaces
 
-- kubectl get ingress --all-namespaces
+- kubectl get pods --all-namespaces
+
+- kubectl get deployments --all-namespaces
+
+- kubectl get deployments --all-namespaces
 
 - kubectl logs charon-backend-deployment-6996d676b6-z4zlj --namespace development
 
