@@ -2,6 +2,8 @@
 @use 'src/styles/app-theme';
 @use 'src/app/header/header.component-theme' as header;
 @use 'src/app/app.component-theme' as app;
+@use 'src/app/menu/menu.component-theme' as menu;
+@use 'src/app/footer/footer.component-theme' as footer;
 
 $_primary: mat.define-palette(mat.$indigo-palette);
 $_accent:  mat.define-palette(mat.$pink-palette, A200, A100, A400);
@@ -11,3 +13,5 @@ $_theme: mat.define-dark-theme($_primary, $_accent);
 @include app-theme.theme($_theme);
 @include header.theme($_theme);
 @include app.theme($_theme);
+@include menu.theme($_theme);
+@include footer.theme($_theme);

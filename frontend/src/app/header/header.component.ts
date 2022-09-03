@@ -8,7 +8,7 @@ import {readConfigurationDetailsUsingGET} from '../config/action';
 import {SIMPLE_CONFIG} from '../oauth/reducer';
 
 @Component({
-  selector: 'app-header',
+  selector: '.app-header',
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {

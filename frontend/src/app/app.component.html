@@ -1,14 +1,13 @@
 <div fxFlexFill fxLayout="column" style="padding: 5px">
-    <div fxFlex="none" style="border:2px solid green;">
-        <app-header></app-header>
-        <app-notification></app-notification>
+    <app-notification></app-notification>
+
+    <div class="app-header" fxFlex="none" style="border:2px solid green;">
     </div>
 
     <div fxFlex style="border:2px solid black;">
 
         <div fxFill fxLayout="row">
-            <div style="border: 1px solid blue; padding: 2px; width: 250px">
-                <app-menu></app-menu>
+            <div class="app-menu" style="border: 1px solid blue; padding: 2px; width: 250px">
             </div>
 
             <div fxFlex style="border: 2px solid red; padding: 2px">
@@ -18,7 +17,6 @@
 
     </div>
 
-    <div fxFlex="none" style="border:2px solid blue;">
-        <app-footer></app-footer>
+    <div class="app-footer" fxFlex="none" style="border:2px solid blue;">
     </div>
 </div>

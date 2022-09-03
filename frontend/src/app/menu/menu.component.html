@@ -1,7 +1,8 @@
 <mat-nav-list>
-    <a mat-list-item routerLink="{{homeComponentPath}}">Home</a>
-    <a mat-list-item routerLink="{{mainComponentPath}}">Main</a>
-    <a mat-list-item routerLink="{{errorComponentPath}}">Error</a>
-    <a mat-list-item routerLink="{{protectedComponentPath}}">Protected</a>
+    <ng-container *ngFor="let item of menuItems">
+        <a mat-list-item routerLink="{{ item.path }}" [routerLinkActive]="['active']" >
+            {{ item.text }}
+        </a>
+    </ng-container>
 </mat-nav-list>
 

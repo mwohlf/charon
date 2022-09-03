@@ -8,16 +8,31 @@ import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {map, shareReplay} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-menu',
+  selector: '.app-menu',
   templateUrl: './menu.component.html',
 })
 export class MenuComponent implements OnInit {
 
   prefix = '/';
-  errorComponentPath = this.prefix + ErrorComponent.ROUTER_PATH;
-  homeComponentPath = this.prefix + HomeComponent.ROUTER_PATH;
-  mainComponentPath = this.prefix + MainComponent.ROUTER_PATH;
-  protectedComponentPath = this.prefix + ProtectedComponent.ROUTER_PATH;
+
+  public menuItems = [
+    {
+      'path': this.prefix + ErrorComponent.ROUTER_PATH,
+      'text': 'Error',
+    },
+    {
+      'path': this.prefix + HomeComponent.ROUTER_PATH,
+      'text': 'Home',
+    },
+    {
+      'path': this.prefix + MainComponent.ROUTER_PATH,
+      'text': 'Main',
+    },
+    {
+      'path': this.prefix + ProtectedComponent.ROUTER_PATH,
+      'text': 'Protected',
+    },
+  ];
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -26,7 +41,7 @@ export class MenuComponent implements OnInit {
     );
 
   constructor(
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
   ) {
   }
 
