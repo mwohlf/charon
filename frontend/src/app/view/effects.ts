@@ -5,9 +5,7 @@ import {StyleManager} from './style-manager';
 import {Observable} from 'rxjs';
 import {configureTheme} from './action';
 import {Action} from '@ngrx/store';
-import {mergeMap, tap} from 'rxjs/operators';
-import {LoggerHolder} from '../app-shell.module';
-import {readConfigurationDetailsUsingGET} from '../config/action';
+import {tap} from 'rxjs/operators';
 import {initialState} from './reducer';
 
 @Injectable()

@@ -2,7 +2,7 @@
     <mat-card-title>Home</mat-card-title>
     <mat-card-content>
 
-        <div *ngIf="buildProperties$ | async as buildProperties; else loading">
+        <div *ngIf="buildProperties$ | async as buildProperties; else loadingTmpl">
 
             <mat-list role="list">
                 <mat-list-item role="listitem">{{buildProperties["name"]}}</mat-list-item>
@@ -12,7 +12,7 @@
 
         </div>
 
-        <ng-template #loading>
+        <ng-template #loadingTmpl>
             Loading stuff...
         </ng-template>
 

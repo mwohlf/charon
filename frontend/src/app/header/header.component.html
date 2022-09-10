@@ -15,15 +15,14 @@
     </button>
     <div style="width: 50px">
     </div>
-    <button mat-icon-button>
-        <mat-icon matTooltip="Login"
-                  fontSet="material-icons-two-tone"
+    <button mat-icon-button *ngIf="(navState$ | async) == 'opened'; else overTmpl">
+        <mat-icon fontSet="material-icons-two-tone"
                   style="margin-left: auto;"
-                  (click)="login();">
-            switch
+                  (click)="setNavState('closed');">
+            toggle_on
         </mat-icon>
     </button>
-    <button mat-icon-button *ngIf="!(isAuthenticated$ | async)">
+    <button mat-icon-button *ngIf="!(isAuthenticated$ | async); else logoutTmpl">
         <mat-icon matTooltip="Login"
                   fontSet="material-icons-two-tone"
                   style="margin-left: auto;"
@@ -31,7 +30,24 @@
             login
         </mat-icon>
     </button>
-    <button mat-icon-button *ngIf="(isAuthenticated$ | async)">
+    <theme-picker></theme-picker>
+</div>
+
+
+<!-- -->
+
+<ng-template #overTmpl>
+    <button mat-icon-button>
+        <mat-icon fontSet="material-icons-two-tone"
+                  style="margin-left: auto;"
+                  (click)="setNavState('opened');">
+            toggle_off
+        </mat-icon>
+    </button>
+</ng-template>
+
+<ng-template #logoutTmpl>
+    <button mat-icon-button>
         <mat-icon matTooltip="Logout"
                   fontSet="material-icons-two-tone"
                   style="margin-left: auto;"
@@ -39,5 +55,4 @@
             logout
         </mat-icon>
     </button>
-    <theme-picker> </theme-picker>
-</div>
+</ng-template>

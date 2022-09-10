@@ -11,6 +11,11 @@ export const selectCurrentTheme = createSelector(
 
 export const selectNavPosition = createSelector(
   selectViewFeature,
-  (state: ThemeDetails) => state.navPosition,
+  (state: ThemeDetails) => state.navDrawerMode,
+);
+
+export const selectNavState = createSelector(
+  selectViewFeature,
+  (state: ThemeDetails) => state.navState,
 );
 

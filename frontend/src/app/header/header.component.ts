@@ -7,7 +7,10 @@ import {isAuthenticated} from '../oauth/selector';
 import {readConfigurationDetailsUsingGET} from '../config/action';
 import {SIMPLE_CONFIG} from '../oauth/reducer';
 import {setNavPosition} from '../view/action';
-import {selectNavPosition} from '../view/selector';
+import {setNavState} from '../view/action';
+import {selectNavPosition, selectNavState} from '../view/selector';
+import {MatDrawerMode} from '@angular/material/sidenav';
+import {NavState} from '../view/reducer';
 
 @Component({
   selector: '.app-header',
@@ -16,13 +19,13 @@ import {selectNavPosition} from '../view/selector';
 export class HeaderComponent implements OnInit {
 
   isAuthenticated$: Observable<boolean | undefined>;
-  navPosition$: Observable<'side' | 'over'>;
+  navState$: Observable<NavState>;
 
   constructor(
     public store: Store<AppState>,
   ) {
     this.isAuthenticated$ = this.store.select(isAuthenticated);
-    this.navPosition$ = this.store.select(selectNavPosition);
+    this.navState$ = this.store.select(selectNavState);
   }
 
   ngOnInit(): void {
@@ -32,8 +35,12 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(readConfigurationDetailsUsingGET());
   }
 
-  setNavPosition(position: string) {
+  setNavPosition(position: MatDrawerMode) {
     this.store.dispatch(setNavPosition({payload: {position: position}}));
+  }
+
+  setNavState(navState: NavState) {
+    this.store.dispatch(setNavState({payload: {navState: navState}}));
   }
 
   login() {

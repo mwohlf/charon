@@ -4,8 +4,8 @@
     <div fxFlex="none" class="app-header" style="border:3px solid green;">
     </div>
 
-    <mat-sidenav-container fxFlex>
-        <mat-sidenav mode="side" opened>
+    <mat-sidenav-container fxFlex *ngIf="navPosition$ | async as navPosition" >
+        <mat-sidenav [mode]="navPosition" opened="{{(navState$ | async) == 'opened'}}">
             <div class="app-menu" style="border: 3px solid blue; width: 250px">
             </div>
         </mat-sidenav>
