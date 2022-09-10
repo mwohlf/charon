@@ -1,8 +1,9 @@
 import {createAction, props} from '@ngrx/store';
 import {ConfigurationDetails} from 'build/generated';
 import {NotificationData} from '../notification/reducer';
+import {configFeature} from '../const';
 
-const GROUP = '@app/config';
+const GROUP = '@app/' + configFeature;
 
 // this is a handle for action chaining,
 // whatever needs to be done after the config is loaded can happen afterwards...

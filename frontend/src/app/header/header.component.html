@@ -15,15 +15,22 @@
     </button>
     <div style="width: 50px">
     </div>
+    <button mat-icon-button>
+        <mat-icon matTooltip="Login"
+                  fontSet="material-icons-two-tone"
+                  style="margin-left: auto;"
+                  (click)="login();">
+            switch
+        </mat-icon>
+    </button>
     <button mat-icon-button *ngIf="!(isAuthenticated$ | async)">
         <mat-icon matTooltip="Login"
                   fontSet="material-icons-two-tone"
                   style="margin-left: auto;"
-                  (click)="authorize();">
+                  (click)="login();">
             login
         </mat-icon>
     </button>
-    <theme-picker> </theme-picker>
     <button mat-icon-button *ngIf="(isAuthenticated$ | async)">
         <mat-icon matTooltip="Logout"
                   fontSet="material-icons-two-tone"
@@ -32,4 +39,5 @@
             logout
         </mat-icon>
     </button>
+    <theme-picker> </theme-picker>
 </div>

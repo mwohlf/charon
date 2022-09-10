@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store';
+import {headerFeature} from '../const';
 
-const GROUP = '@app/header';
-
+const GROUP = '@app/' + headerFeature;
 
 // only create in the store
 export const enableHeaderFlag = createAction(

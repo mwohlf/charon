@@ -2,9 +2,9 @@ import {createAction, props} from '@ngrx/store';
 import {LoginResponse, OidcClientNotification} from 'angular-auth-oidc-client';
 import {ClientConfiguration} from 'build/generated';
 import {NotificationData} from '../notification/reducer';
+import {oAuthFeature} from '../const';
 
-const GROUP = '@app/oauth';
-
+const GROUP = '@app/' + oAuthFeature;
 
 export const readClientConfigurationListUsingGET = createAction(
   `${GROUP}/readClientConfigurationListUsingGET`,

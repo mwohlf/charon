@@ -6,6 +6,8 @@ import {Observable} from 'rxjs';
 import {isAuthenticated} from '../oauth/selector';
 import {readConfigurationDetailsUsingGET} from '../config/action';
 import {SIMPLE_CONFIG} from '../oauth/reducer';
+import {setNavPosition} from '../view/action';
+import {selectNavPosition} from '../view/selector';
 
 @Component({
   selector: '.app-header',
@@ -14,11 +16,13 @@ import {SIMPLE_CONFIG} from '../oauth/reducer';
 export class HeaderComponent implements OnInit {
 
   isAuthenticated$: Observable<boolean | undefined>;
+  navPosition$: Observable<'side' | 'over'>;
 
   constructor(
     public store: Store<AppState>,
   ) {
     this.isAuthenticated$ = this.store.select(isAuthenticated);
+    this.navPosition$ = this.store.select(selectNavPosition);
   }
 
   ngOnInit(): void {
@@ -28,7 +32,11 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(readConfigurationDetailsUsingGET());
   }
 
-  authorize() {
+  setNavPosition(position: string) {
+    this.store.dispatch(setNavPosition({payload: {position: position}}));
+  }
+
+  login() {
     this.store.dispatch(loginAction({payload: {configId: SIMPLE_CONFIG}}));
   }
 

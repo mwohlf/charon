@@ -12,7 +12,7 @@ import {ApiModule, Configuration} from '../../build/generated';
 import {Action, ActionReducer, MetaReducer, StoreModule} from '@ngrx/store';
 import * as fromConfig from './config/effects';
 import * as fromOAuth from './oauth/effects';
-import * as fromTheme from './theme/effects';
+import * as fromTheme from './view/effects';
 import {AppThemeModule} from './app-theme.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FooterComponent} from './footer/footer.component';
@@ -29,11 +29,15 @@ import {OAuthModule} from './oauth/oauth.module';
 import {HttpClientModule} from '@angular/common/http';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 import {NotificationModule} from './notification/notification.module';
-import {ThemeModule} from './theme/theme.module';
+import {ViewModule} from './view/view.module';
+import {MatSidenavModule} from '@angular/material/sidenav';
+
+
+
+
 
 export interface AppState {
 }
-
 
 // public logging holder for static contexts
 export class LoggerHolder {
@@ -65,10 +69,11 @@ const prefersReducedMotion =
     HeaderModule,
     HttpClientModule,
     LayoutModule,
+    MatSidenavModule,
     NotificationModule,
     OAuthModule,
     RoutingModule,
-    ThemeModule,
+    ViewModule,
     ApiModule.forRoot(() => new Configuration({
       basePath: environment.apiBasePath,
     })),

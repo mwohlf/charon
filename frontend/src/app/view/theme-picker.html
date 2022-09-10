@@ -1,7 +1,7 @@
 <ng-container *ngIf="currentTheme$ | async as currentTheme">
 
     <button mat-icon-button (click)="toggleDarkMode(currentTheme)" matTooltip="Toggle Theme">
-        <mat-icon>{{currentTheme.isDark ? 'light_mode' : 'dark_mode'}}</mat-icon>
+        <mat-icon>{{currentTheme.variant}}_mode</mat-icon>
     </button>
 
     <button mat-icon-button [mat-menu-trigger-for]="themeMenu" aria-label="Select a theme"
@@ -15,7 +15,7 @@
                 <mat-icon>radio_button_unchecked</mat-icon>
             </ng-container>
             <span>{{theme.displayName}}</span>
-            <mat-icon [class]="'theme-example-icon ' + theme.name" svgIcon="theme-example"></mat-icon>
+            <mat-icon [class]="'theme-example-icon ' + theme.name">theme-example</mat-icon>
         </button>
     </mat-menu>
 

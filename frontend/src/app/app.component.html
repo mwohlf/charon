@@ -1,22 +1,21 @@
-<div fxFlexFill fxLayout="column" style="padding: 5px">
+<div fxFlexFill fxLayout="column">
     <app-notification></app-notification>
 
-    <div class="app-header" fxFlex="none" style="border:2px solid green;">
+    <div fxFlex="none" class="app-header" style="border:3px solid green;">
     </div>
 
-    <div fxFlex style="border:2px solid black;">
-
-        <div fxFill fxLayout="row">
-            <div class="app-menu" style="border: 1px solid blue; padding: 2px; width: 250px">
+    <mat-sidenav-container fxFlex>
+        <mat-sidenav mode="side" opened>
+            <div class="app-menu" style="border: 3px solid blue; width: 250px">
             </div>
-
-            <div fxFlex style="border: 2px solid red; padding: 2px">
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <div style="border: 3px solid red">
                 <router-outlet></router-outlet>
             </div>
-        </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
 
-    </div>
-
-    <div class="app-footer" fxFlex="none" style="border:2px solid blue;">
+    <div fxFlex="none" class="app-footer" style="border:3px solid yellow;">
     </div>
 </div>

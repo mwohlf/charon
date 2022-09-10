@@ -7,7 +7,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {ThemePicker} from './theme-picker';
 import {StyleManager} from './style-manager';
 import {StoreModule} from '@ngrx/store';
-import {featureKey, reducer} from './reducer';
+import {reducer} from './reducer';
+import {viewFeature} from '../const';
+
 
 @NgModule({
   imports: [
@@ -16,7 +18,7 @@ import {featureKey, reducer} from './reducer';
     MatIconModule,
     MatMenuModule,
     MatTooltipModule,
-    StoreModule.forFeature(featureKey, reducer),
+    StoreModule.forFeature(viewFeature, reducer),
   ],
   exports: [
     ThemePicker,
@@ -28,5 +30,5 @@ import {featureKey, reducer} from './reducer';
     StyleManager,
   ],
 })
-export class ThemeModule {
+export class ViewModule {
 }

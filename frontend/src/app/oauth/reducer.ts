@@ -9,7 +9,6 @@ import {environment} from '../../environments/environment';
 import {HomeComponent} from '../components/home/home.component';
 import {MainComponent} from '../components/main/main.component';
 
-export const featureKey = 'oAuthFeature';
 
 export const SIMPLE_CONFIG = 'spring-oauth';
 

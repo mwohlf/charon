@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {featureKey, reducer} from './reducer';
+import {reducer} from './reducer';
 import {NgModule} from '@angular/core';
 import {Store, StoreModule} from '@ngrx/store';
 import {
@@ -12,11 +12,11 @@ import {
   OpenIdConfiguration,
 } from 'angular-auth-oidc-client/lib/config/openid-configuration';
 import {Observable} from 'rxjs';
-import {AppState} from '../app-shell.module';
 import {selectOpenIdConfigurations} from './selector';
 import {filter, map} from 'rxjs/operators';
 import * as _ from 'lodash';
-
+import {AppState} from '../app-shell.module';
+import {oAuthFeature} from '../const';
 
 
 class ConfigLoader {
@@ -30,6 +30,7 @@ class ConfigLoader {
   };
 }
 
+// do we need to move this?
 export const httpLoaderFactory = (store: Store<AppState>) => {
   // const config$ = of([CONFIG1, CONFIG2]);
   const config$ = store.select(selectOpenIdConfigurations)
@@ -57,7 +58,7 @@ export const httpLoaderFactory = (store: Store<AppState>) => {
         deps: [Store<AppState>],
       },
     }),
-    StoreModule.forFeature(featureKey, reducer),
+    StoreModule.forFeature(oAuthFeature, reducer),
   ],
   exports: [
     AuthModule,

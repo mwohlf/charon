@@ -1,8 +1,9 @@
-import {createFeatureSelector, createSelector, Store} from '@ngrx/store';
-import {featureKey, ConfigState} from './reducer';
-import { ConfigurationDetails } from 'build/generated';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
+import {ConfigState} from './reducer';
+import {ConfigurationDetails} from 'build/generated';
+import {configFeature} from '../const';
 
-export const selectConfigFeature = createFeatureSelector<ConfigState>(featureKey);
+export const selectConfigFeature = createFeatureSelector<ConfigState>(configFeature);
 
 export const selectConfigurationDetails = createSelector(
   selectConfigFeature,

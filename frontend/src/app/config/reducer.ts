@@ -2,7 +2,6 @@ import {Action, createReducer, on} from '@ngrx/store';
 import { ConfigurationDetails } from 'build/generated';
 import * as fromActions from './action';
 
-export const featureKey = 'configFeature';
 
 export interface ConfigState {
   isLoading: boolean;

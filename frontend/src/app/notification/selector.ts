@@ -1,7 +1,8 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {featureKey, NotificationData, NotificationQueue} from './reducer';
+import {NotificationQueue} from './reducer';
+import {notificationFeature} from '../const';
 
-export const selectNotificationFeature = createFeatureSelector<NotificationQueue>(featureKey);
+export const selectNotificationFeature = createFeatureSelector<NotificationQueue>(notificationFeature);
 
 // see: https://v11.ngrx.io/guide/store/selectors
 export const selectNotificationQueue = createSelector(

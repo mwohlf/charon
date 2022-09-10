@@ -51,7 +51,7 @@ export class ThemePicker {
     let nextTheme = {
       ...theTheme,
     };
-    nextTheme.isDark = !nextTheme.isDark;
+    nextTheme.variant=(nextTheme.variant=='dark')?'light':'dark';
     this.store.dispatch(configureTheme({payload: nextTheme}));
   }
 

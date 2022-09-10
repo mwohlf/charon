@@ -1,7 +1,6 @@
 import * as fromActions from './action';
 import {Action, createReducer, on} from '@ngrx/store';
 
-export const featureKey = 'headerFeature';
 
 export interface HeaderState {
   isEnabled: boolean;

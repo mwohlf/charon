@@ -2,7 +2,6 @@ import {Action, createReducer, on} from '@ngrx/store';
 import * as fromActions from './action';
 import * as _ from 'lodash';
 
-export const featureKey = 'notificationFeature';
 
 export interface NotificationData {
   title: string;

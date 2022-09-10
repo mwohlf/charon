@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
 import org.springframework.security.web.SecurityFilterChain
 
 
@@ -22,6 +23,9 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 class AuthorizationServerConfig {
 
+
+    // see: https://github.com/spring-projects/spring-authorization-server/blob/d39cc7ca7580bdcd9cbf8bd65b54c84f1dfe42e7/docs/src/docs/asciidoc/configuration-model.adoc
+
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     fun authorizationServerSecurityFilterChain(
@@ -30,12 +34,16 @@ class AuthorizationServerConfig {
 
         // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-userinfo.html
         // token endpoint
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
-        return http
-            .cors { }
-            .oauth2ResourceServer(OAuth2ResourceServerConfigurer<HttpSecurity>::jwt)
-            .formLogin(withDefaults())   // implements the login form
-            .build()
+
+        val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
+        //authorizationServerConfigurer.tokenRevocationEndpoint(tokenRevocationEndpoint -> { })
+
+        // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
+        http.apply(authorizationServerConfigurer)
+        http.cors { }
+        http.oauth2ResourceServer(OAuth2ResourceServerConfigurer<HttpSecurity>::jwt)
+        http.formLogin(withDefaults())   // implements the login form
+        return http.build()
     }
 
     @Bean

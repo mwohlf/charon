@@ -1,15 +1,16 @@
 import {CommonModule} from '@angular/common';
-import {featureKey, reducer} from './reducer';
+import {reducer} from './reducer';
 import {NgModule} from '@angular/core';
 import {StoreModule} from '@ngrx/store';
 import {NotificationComponent} from './notification.component';
+import {notificationFeature} from '../const';
 
 
 @NgModule({
   // Effects imported in main
   imports: [
     CommonModule,
-    StoreModule.forFeature(featureKey, reducer),
+    StoreModule.forFeature(notificationFeature, reducer),
   ],
   declarations: [
     NotificationComponent,

@@ -1,8 +1,8 @@
 import {createAction, props} from '@ngrx/store';
 import {NotificationData} from './reducer';
+import {notificationFeature} from '../const';
 
-const GROUP = '@app/notification';
-
+const GROUP = '@app/' + notificationFeature;
 
 export const showNotification = createAction(
   GROUP + '/showNotification',

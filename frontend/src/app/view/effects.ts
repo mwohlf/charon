@@ -25,7 +25,7 @@ export class Effects {
       ofType(ROOT_EFFECTS_INIT), // the trigger to start loading config
       tap((action) => {
         console.log('configureTheme');
-        this.styleManager.setStyle('theme', `${initialState.name}-${initialState.isDark ? 'dark' : 'light'}.css`);
+        this.styleManager.setStyle('theme', `${initialState.name}-${initialState.variant}.css`);
       }),
     );
   }, {dispatch: false});
@@ -35,7 +35,7 @@ export class Effects {
       ofType(configureTheme),
       tap((action) => {
         console.log('configureTheme');
-        this.styleManager.setStyle('theme', `${action.payload.name}-${action.payload.isDark ? 'dark' : 'light'}.css`);
+        this.styleManager.setStyle('theme', `${action.payload.name}-${action.payload.variant}.css`);
       }),
     );
   }, {dispatch: false});
