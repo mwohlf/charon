@@ -1,4 +1,4 @@
-package net.wohlfart.charon.config
+package net.wohlfart.charon.repository
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
