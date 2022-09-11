@@ -34,16 +34,12 @@ class AuthorizationServerConfig {
 
         // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-userinfo.html
         // token endpoint
-
-        val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
-        //authorizationServerConfigurer.tokenRevocationEndpoint(tokenRevocationEndpoint -> { })
-
-        // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
-        http.apply(authorizationServerConfigurer)
-        http.cors { }
-        http.oauth2ResourceServer(OAuth2ResourceServerConfigurer<HttpSecurity>::jwt)
-        http.formLogin(withDefaults())   // implements the login form
-        return http.build()
+        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
+        return http
+            .cors { }
+            .oauth2ResourceServer(OAuth2ResourceServerConfigurer<HttpSecurity>::jwt)
+            .formLogin(withDefaults())   // implements the login form
+            .build()
     }
 
     @Bean
