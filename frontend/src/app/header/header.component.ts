@@ -6,8 +6,7 @@ import {Observable} from 'rxjs';
 import {isAuthenticated} from '../oauth/selector';
 import {readConfigurationDetailsUsingGET} from '../config/action';
 import {SIMPLE_CONFIG} from '../oauth/reducer';
-import {setNavDrawMode} from '../view/action';
-import {setNavState} from '../view/action';
+import {setNavDrawMode, setNavState, toggleMenu} from '../view/action';
 import {selectNavDrawMode, selectNavState} from '../view/selector';
 import {MatDrawerMode} from '@angular/material/sidenav';
 import {NavState} from '../view/reducer';
@@ -20,12 +19,14 @@ export class HeaderComponent implements OnInit {
 
   isAuthenticated$: Observable<boolean | undefined>;
   navState$: Observable<NavState>;
+  navDrawMode$: Observable<MatDrawerMode>;
 
   constructor(
     public store: Store<AppState>,
   ) {
     this.isAuthenticated$ = this.store.select(isAuthenticated);
     this.navState$ = this.store.select(selectNavState);
+    this.navDrawMode$ = this.store.select(selectNavDrawMode);
   }
 
   ngOnInit(): void {
@@ -35,8 +36,8 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(readConfigurationDetailsUsingGET());
   }
 
-  setNavPosition(position: MatDrawerMode) {
-    this.store.dispatch(setNavDrawMode({payload: {drawMode: position}}));
+  toggleMenu() {
+    this.store.dispatch(toggleMenu());
   }
 
   setNavState(navState: NavState) {

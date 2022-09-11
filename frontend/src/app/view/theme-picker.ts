@@ -10,7 +10,6 @@ import {AppState} from '../app-shell.module';
 import {setThemeDetails} from './action';
 import {ThemeDetails} from './reducer';
 import {themes} from './themelist';
-import {BreakpointObserver} from '@angular/cdk/layout';
 
 
 @Component({
@@ -35,7 +34,7 @@ export class ThemePicker {
     let nextTheme = {
       ...theTheme,
     };
-    nextTheme.variant=(nextTheme.variant=='dark')?'light':'dark';
+    nextTheme.variant = (nextTheme.variant == 'dark') ? 'light' : 'dark';
     this.store.dispatch(setThemeDetails({payload: nextTheme}));
   }
 

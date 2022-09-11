@@ -13,10 +13,14 @@ export const setThemeDetails = createAction(
 // see: https://medium.com/@karsonbraaten/create-an-angular-material-responsive-sidenav-directive-5f641c53b2be
 export const setNavDrawMode = createAction(
   `${GROUP}/setNavPosition`,
-  props<{ payload: { drawMode: MatDrawerMode } }>(),
+  props<{ payload: { navDrawMode: MatDrawerMode } }>(),
 );
 
 export const setNavState = createAction(
   `${GROUP}/setNavState`,
   props<{ payload: { navState: NavState } }>(),
+);
+
+export const toggleMenu = createAction(
+  `${GROUP}/toggleMenu`,
 );

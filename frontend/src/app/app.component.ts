@@ -9,7 +9,7 @@ import {NavState} from './view/reducer';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {menuWidth, mobileBreakpoint} from './const';
 import {map} from 'rxjs/operators';
-import {setNavState} from './view/action';
+import {setNavDrawMode, setNavState} from './view/action';
 
 @Component({
   selector: 'app-root',
@@ -44,8 +44,10 @@ export class AppComponent implements OnInit {
         console.log('largerThanMin: ', largerThanMin);
         if (largerThanMin) {
           this.store.dispatch(setNavState({payload: {navState: 'opened'}}));
+          this.store.dispatch(setNavDrawMode({payload: {navDrawMode: 'side'}}));
         } else {
           this.store.dispatch(setNavState({payload: {navState: 'closed'}}));
+          this.store.dispatch(setNavDrawMode({payload: {navDrawMode: 'over'}}));
         }
       });
   }

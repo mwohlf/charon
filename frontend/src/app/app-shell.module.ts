@@ -33,9 +33,6 @@ import {ViewModule} from './view/view.module';
 import {MatSidenavModule} from '@angular/material/sidenav';
 
 
-
-
-
 export interface AppState {
 }
 

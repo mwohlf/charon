@@ -1,4 +1,7 @@
 <div style="padding:13px" fxLayout="row" fxLayoutGap="5px">
+    <button mat-icon-button (click)="toggleMenu()" *ngIf="(navDrawMode$ | async) != 'side'">
+        <mat-icon>menu</mat-icon>
+    </button>
     <div>
         test
     </div>

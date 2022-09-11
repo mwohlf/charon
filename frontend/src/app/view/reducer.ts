@@ -8,7 +8,6 @@ export type ThemeVariant = 'light' | 'dark'
 export type NavState = 'opened' | 'closed'
 
 
-
 // from https://github.com/angular/material.angular.io/blob/main/src/app/shared/theme-picker/theme-storage/theme-storage.ts
 export type ThemeDetails = {
   displayName: string;
@@ -23,7 +22,7 @@ export type NavDetails = {
 
 export type ViewState = ThemeDetails & NavDetails;
 
-let theme = themes[0]
+let theme = themes[0];
 export const initialState: ViewState = {
   displayName: theme.displayName,
   name: theme.name,
@@ -49,7 +48,7 @@ const featureReducer = createReducer(
     (state: ViewState, {payload: payload}) => {
       return {
         ...state,
-        navDrawerMode: payload.drawMode,
+        navDrawerMode: payload.navDrawMode,
       };
     },
   ),
@@ -63,6 +62,15 @@ const featureReducer = createReducer(
     },
   ),
 
+  on(fromActions.toggleMenu,
+    (state: ViewState) => {
+      let nextState: NavState = state.navState == 'opened'? 'closed' : 'opened'
+      return {
+        ...state,
+        navState: nextState,
+      };
+    },
+  ),
 );
 
 export function reducer(state: ViewState | undefined, action: Action): ViewState {

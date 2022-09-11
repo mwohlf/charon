@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {ThemeDetails, ViewState} from './reducer';
+import {ViewState} from './reducer';
 import {viewFeature} from '../const';
 
 export const selectViewFeature = createFeatureSelector<ViewState>(viewFeature);

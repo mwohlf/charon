@@ -1,6 +1,3 @@
-
-
-
 export const themes = [
   {
     displayName: 'Deep Purple & Amber',
