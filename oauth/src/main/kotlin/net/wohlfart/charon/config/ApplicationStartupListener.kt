@@ -23,6 +23,13 @@ class ApplicationStartupListener(
             logger.info { "    $it" }
         }
         logger.info { "charonProperties.issuer: ${oauthProperties.issuer}" }
+        oauthProperties.clientRegistry.forEach {
+            logger.info { "  clientId:  ${it.key}" }
+            logger.info { "     authorizationGrantType:  ${it.value.authorizationGrantType.value}" }
+            logger.info { "     clientAuthenticationMethod:  ${it.value.clientAuthenticationMethod.value}" }
+            logger.info { "     redirectUris:  ${it.value.redirectUris.joinToString(""",""")}" }
+            logger.info { "     scopes:  ${it.value.scopes.joinToString(""",""")}" }
+        }
         logger.info { "--------------------------------------------" }
     }
 
