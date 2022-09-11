@@ -9,11 +9,13 @@ import {StyleManager} from './style-manager';
 import {StoreModule} from '@ngrx/store';
 import {reducer} from './reducer';
 import {viewFeature} from '../const';
+import {LayoutModule} from '@angular/cdk/layout';
 
 
 @NgModule({
   imports: [
     CommonModule,
+    LayoutModule,
     MatButtonModule,
     MatIconModule,
     MatMenuModule,

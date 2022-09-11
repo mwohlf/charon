@@ -6,9 +6,9 @@ import {Observable} from 'rxjs';
 import {isAuthenticated} from '../oauth/selector';
 import {readConfigurationDetailsUsingGET} from '../config/action';
 import {SIMPLE_CONFIG} from '../oauth/reducer';
-import {setNavPosition} from '../view/action';
+import {setNavDrawMode} from '../view/action';
 import {setNavState} from '../view/action';
-import {selectNavPosition, selectNavState} from '../view/selector';
+import {selectNavDrawMode, selectNavState} from '../view/selector';
 import {MatDrawerMode} from '@angular/material/sidenav';
 import {NavState} from '../view/reducer';
 
@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
   }
 
   setNavPosition(position: MatDrawerMode) {
-    this.store.dispatch(setNavPosition({payload: {position: position}}));
+    this.store.dispatch(setNavDrawMode({payload: {drawMode: position}}));
   }
 
   setNavState(navState: NavState) {

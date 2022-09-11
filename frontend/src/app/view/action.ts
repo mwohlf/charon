@@ -5,15 +5,15 @@ import {MatDrawerMode} from '@angular/material/sidenav';
 
 const GROUP = '@app/' + oAuthFeature;
 
-export const configureTheme = createAction(
+export const setThemeDetails = createAction(
   `${GROUP}/configureTheme`,
   props<{ payload: ThemeDetails }>(),
 );
 
 // see: https://medium.com/@karsonbraaten/create-an-angular-material-responsive-sidenav-directive-5f641c53b2be
-export const setNavPosition = createAction(
+export const setNavDrawMode = createAction(
   `${GROUP}/setNavPosition`,
-  props<{ payload: { position: MatDrawerMode } }>(),
+  props<{ payload: { drawMode: MatDrawerMode } }>(),
 );
 
 export const setNavState = createAction(

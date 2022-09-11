@@ -6,7 +6,9 @@
 
     <mat-sidenav-container fxFlex *ngIf="navPosition$ | async as navPosition" >
         <mat-sidenav [mode]="navPosition" opened="{{(navState$ | async) == 'opened'}}">
-            <div class="app-menu" style="border: 3px solid blue; width: 250px">
+            <div class="app-menu"
+                 style="border: 3px solid blue"
+                 [style.width]="menuWidth">
             </div>
         </mat-sidenav>
         <mat-sidenav-content>

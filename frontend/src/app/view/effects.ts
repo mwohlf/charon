@@ -3,7 +3,7 @@ import {Actions, createEffect, ofType, ROOT_EFFECTS_INIT} from '@ngrx/effects';
 import {NGXLogger} from 'ngx-logger';
 import {StyleManager} from './style-manager';
 import {Observable} from 'rxjs';
-import {configureTheme} from './action';
+import {setThemeDetails} from './action';
 import {Action} from '@ngrx/store';
 import {tap} from 'rxjs/operators';
 import {initialState} from './reducer';
@@ -30,7 +30,7 @@ export class Effects {
 
   configureTheme$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
-      ofType(configureTheme),
+      ofType(setThemeDetails),
       tap((action) => {
         console.log('configureTheme');
         this.styleManager.setStyle('theme', `${action.payload.name}-${action.payload.variant}.css`);

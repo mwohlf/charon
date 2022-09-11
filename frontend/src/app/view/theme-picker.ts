@@ -7,8 +7,10 @@ import {Observable} from 'rxjs';
 import {selectCurrentTheme} from './selector';
 import {Store} from '@ngrx/store';
 import {AppState} from '../app-shell.module';
-import {configureTheme} from './action';
+import {setThemeDetails} from './action';
 import {ThemeDetails} from './reducer';
+import {themes} from './themelist';
+import {BreakpointObserver} from '@angular/cdk/layout';
 
 
 @Component({
@@ -19,26 +21,8 @@ import {ThemeDetails} from './reducer';
 })
 export class ThemePicker {
 
-  themes = [
-    {
-      displayName: 'Deep Purple & Amber',
-      name: 'deeppurple-amber',
-    },
-    {
-      displayName: 'Indigo & Pink',
-      name: 'indigo-pink',
-    },
-    {
-      displayName: 'Pink & Blue-grey',
-      name: 'pink-bluegrey',
-    },
-    {
-      displayName: 'Purple & Green',
-      name: 'purple-green',
-    },
-  ];
-
   currentTheme$: Observable<ThemeDetails>;
+  themes = themes;
 
   constructor(
     public store: Store<AppState>,
@@ -52,21 +36,21 @@ export class ThemePicker {
       ...theTheme,
     };
     nextTheme.variant=(nextTheme.variant=='dark')?'light':'dark';
-    this.store.dispatch(configureTheme({payload: nextTheme}));
+    this.store.dispatch(setThemeDetails({payload: nextTheme}));
   }
 
   selectTheme(theTheme: ThemeDetails, nextName: string) {
     console.log('selectTheme');
-    let theme = this.themes.find(element => element.name === nextName);
+    let theme = themes.find(element => element.name === nextName);
     if (!theme) {
-      theme = this.themes[0];
+      theme = themes[0];
     }
     let nextTheme = {
       ...theTheme,
       name: theme.name,
       displayName: theme.displayName,
     };
-    this.store.dispatch(configureTheme({payload: nextTheme}));
+    this.store.dispatch(setThemeDetails({payload: nextTheme}));
   }
 
 }

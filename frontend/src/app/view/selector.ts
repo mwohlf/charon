@@ -1,21 +1,21 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {ThemeDetails} from './reducer';
+import {ThemeDetails, ViewState} from './reducer';
 import {viewFeature} from '../const';
 
-export const selectViewFeature = createFeatureSelector<ThemeDetails>(viewFeature);
+export const selectViewFeature = createFeatureSelector<ViewState>(viewFeature);
 
 export const selectCurrentTheme = createSelector(
   selectViewFeature,
-  (state: ThemeDetails) => state,
+  (state: ViewState) => state,
 );
 
-export const selectNavPosition = createSelector(
+export const selectNavDrawMode = createSelector(
   selectViewFeature,
-  (state: ThemeDetails) => state.navDrawerMode,
+  (state: ViewState) => state.navDrawerMode,
 );
 
 export const selectNavState = createSelector(
   selectViewFeature,
-  (state: ThemeDetails) => state.navState,
+  (state: ViewState) => state.navState,
 );
 

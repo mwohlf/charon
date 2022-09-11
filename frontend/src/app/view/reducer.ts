@@ -1,23 +1,32 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import * as fromActions from './action';
 import {MatDrawerMode} from '@angular/material/sidenav';
+import {themes} from './themelist';
 
 
 export type ThemeVariant = 'light' | 'dark'
 export type NavState = 'opened' | 'closed'
 
+
+
 // from https://github.com/angular/material.angular.io/blob/main/src/app/shared/theme-picker/theme-storage/theme-storage.ts
-export interface ThemeDetails {
+export type ThemeDetails = {
   displayName: string;
   name: string;
   variant: ThemeVariant;
+}
+
+export type NavDetails = {
   navDrawerMode: MatDrawerMode;
   navState: NavState;
 }
 
-export const initialState: ThemeDetails = {
-  displayName: 'Deep Purple & Amber',
-  name: 'deeppurple-amber',
+export type ViewState = ThemeDetails & NavDetails;
+
+let theme = themes[0]
+export const initialState: ViewState = {
+  displayName: theme.displayName,
+  name: theme.name,
   variant: 'light',
   navDrawerMode: 'side',
   navState: 'opened',
@@ -27,8 +36,8 @@ export const initialState: ThemeDetails = {
 const featureReducer = createReducer(
   initialState,
 
-  on(fromActions.configureTheme,
-    (state: ThemeDetails, {payload: payload}) => {
+  on(fromActions.setThemeDetails,
+    (state: ViewState, {payload: payload}) => {
       return {
         ...state,
         ...payload,
@@ -36,17 +45,17 @@ const featureReducer = createReducer(
     },
   ),
 
-  on(fromActions.setNavPosition,
-    (state: ThemeDetails, {payload: payload}) => {
+  on(fromActions.setNavDrawMode,
+    (state: ViewState, {payload: payload}) => {
       return {
         ...state,
-        navPosition: payload.position,
+        navDrawerMode: payload.drawMode,
       };
     },
   ),
 
   on(fromActions.setNavState,
-    (state: ThemeDetails, {payload: payload}) => {
+    (state: ViewState, {payload: payload}) => {
       return {
         ...state,
         navState: payload.navState,
@@ -56,6 +65,6 @@ const featureReducer = createReducer(
 
 );
 
-export function reducer(state: ThemeDetails | undefined, action: Action): ThemeDetails {
+export function reducer(state: ViewState | undefined, action: Action): ViewState {
   return featureReducer(state, action);
 }
