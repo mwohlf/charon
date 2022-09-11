@@ -24,6 +24,23 @@ net:
         redirect-uris:
           - "https://backend.wired-heart.com/charon/home"
           - "https://app.wired-heart.com/charon/home"
+        client-registry:
+          # the clientId not the id in the db
+          public-client:
+            client-authentication-method: NONE
+            authorization-grant-type: AUTHORIZATION_CODE
+            scope:
+                - "openid"
+                - "profile"
+                - "email"
+                - "address"
+                - "phone"
+                - "offline_access"
+                - "message.read"
+                - "message.write"
+            redirect-uris:
+                - "https://backend.wired-heart.com/charon/home"
+                - "https://app.wired-heart.com/charon/home"
 
 
 logging:
