@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 import {isAuthenticated} from '../oauth/selector';
 import {readConfigurationDetailsUsingGET} from '../config/action';
 import {SIMPLE_CONFIG} from '../oauth/reducer';
-import {setNavDrawMode, setNavState, toggleMenu} from '../view/action';
+import {setNavState, toggleMenu} from '../view/action';
 import {selectNavDrawMode, selectNavState} from '../view/selector';
 import {MatDrawerMode} from '@angular/material/sidenav';
 import {NavState} from '../view/reducer';

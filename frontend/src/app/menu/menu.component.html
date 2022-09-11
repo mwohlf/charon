@@ -1,8 +1,14 @@
 <mat-nav-list>
-    <ng-container *ngFor="let item of menuItems">
-        <a mat-list-item routerLink="{{ item.path }}" [routerLinkActive]="['active']" >
-            {{ item.text }}
-        </a>
-    </ng-container>
+    <a *ngFor="let item of menuItems"
+       mat-list-item
+       (click)="menuItemClick()"
+       routerLinkActive
+       #routerLinkActiveInstance="routerLinkActive"
+       [class.list-item-active]="routerLinkActiveInstance.isActive"
+       [routerLink]="[item.route]">
+        <mat-icon matListIcon class="app-nav-list-icon">{{item.icon}}</mat-icon>
+        {{item.title}}
+    </a>
+
 </mat-nav-list>
 

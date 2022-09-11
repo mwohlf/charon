@@ -6,6 +6,8 @@ import {ProtectedComponent} from '../components/protected/protected.component';
 import {Observable} from 'rxjs';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {map, shareReplay} from 'rxjs/operators';
+import {Store} from '@ngrx/store';
+import {AppState} from '../app-shell.module';
 
 @Component({
   selector: '.app-menu',
@@ -17,36 +19,38 @@ export class MenuComponent implements OnInit {
 
   public menuItems = [
     {
-      'path': this.prefix + ErrorComponent.ROUTER_PATH,
-      'text': 'Error',
+      'route': this.prefix + ErrorComponent.ROUTER_PATH,
+      'icon': 'home',
+      'title': 'Error',
     },
     {
-      'path': this.prefix + HomeComponent.ROUTER_PATH,
-      'text': 'Home',
+      'route': this.prefix + HomeComponent.ROUTER_PATH,
+      'icon': 'home',
+      'title': 'Home',
     },
     {
-      'path': this.prefix + MainComponent.ROUTER_PATH,
-      'text': 'Main',
+      'route': this.prefix + MainComponent.ROUTER_PATH,
+      'icon': 'home',
+      'title': 'Main',
     },
     {
-      'path': this.prefix + ProtectedComponent.ROUTER_PATH,
-      'text': 'Protected',
+      'route': this.prefix + ProtectedComponent.ROUTER_PATH,
+      'icon': 'home',
+      'title': 'Protected',
     },
   ];
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay(),
-    );
-
   constructor(
-    private breakpointObserver: BreakpointObserver,
+    public store: Store<AppState>,
   ) {
   }
 
 
   ngOnInit(): void {
+  }
+
+  menuItemClick() {
+
   }
 
 }

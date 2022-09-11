@@ -4,8 +4,8 @@ import {MatDrawerMode} from '@angular/material/sidenav';
 import {themes} from './themelist';
 
 
-export type ThemeVariant = 'light' | 'dark'
-export type NavState = 'opened' | 'closed'
+export declare type ThemeVariant = 'light' | 'dark'
+export declare type NavState = 'opened' | 'closed'
 
 
 // from https://github.com/angular/material.angular.io/blob/main/src/app/shared/theme-picker/theme-storage/theme-storage.ts
@@ -16,8 +16,8 @@ export type ThemeDetails = {
 }
 
 export type NavDetails = {
-  navDrawerMode: MatDrawerMode;
-  navState: NavState;
+  navDrawerMode: MatDrawerMode;  // 'over' | 'push' | 'side';
+  navState: NavState;  // open or closed when in side mode
 }
 
 export type ViewState = ThemeDetails & NavDetails;
