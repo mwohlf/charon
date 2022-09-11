@@ -3,11 +3,12 @@ import {ErrorComponent} from '../components/error/error.component';
 import {HomeComponent} from '../components/home/home.component';
 import {MainComponent} from '../components/main/main.component';
 import {ProtectedComponent} from '../components/protected/protected.component';
-import {Observable} from 'rxjs';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {map, shareReplay} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
 import {AppState} from '../app-shell.module';
+import {setNavState} from '../view/action';
+import {Observable} from 'rxjs';
+import {MatDrawerMode} from '@angular/material/sidenav';
+import {selectNavDrawMode} from '../view/selector';
 
 @Component({
   selector: '.app-menu',
@@ -16,6 +17,7 @@ import {AppState} from '../app-shell.module';
 export class MenuComponent implements OnInit {
 
   prefix = '/';
+  matDrawerMode$: Observable<MatDrawerMode>;
 
   public menuItems = [
     {
@@ -40,17 +42,25 @@ export class MenuComponent implements OnInit {
     },
   ];
 
+  // we need a custom implementation of the open/close trigger...
+  //  - esc
+  //  - backdrop click
+  // ...to set the store state because we derive the open/close menu state from the store,
+  // using default implementation gets us out of sync
   constructor(
     public store: Store<AppState>,
   ) {
+    this.matDrawerMode$ = this.store.select(selectNavDrawMode);
   }
 
 
   ngOnInit(): void {
   }
 
-  menuItemClick() {
-
+  closeNavigation(matDrawerMode: MatDrawerMode) {
+    if (matDrawerMode !== 'side') {
+      this.store.dispatch(setNavState({payload: {navState: 'closed'}}));
+    }
   }
 
 }

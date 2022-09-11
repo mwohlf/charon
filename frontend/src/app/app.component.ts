@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   isAuthenticated$: Observable<boolean | undefined>;
-  navPosition$: Observable<MatDrawerMode>;
+  matDrawerMode$: Observable<MatDrawerMode>;
   navState$: Observable<NavState>;
   menuWidth: string = menuWidth + 'px';
   mobileBreakpoint: string = mobileBreakpoint + 'px';
@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
     public store: Store<AppState>,
   ) {
     this.isAuthenticated$ = this.store.select(isAuthenticated);
-    this.navPosition$ = this.store.select(selectNavDrawMode);
+    this.matDrawerMode$ = this.store.select(selectNavDrawMode);
     this.navState$ = this.store.select(selectNavState);
   }
 
@@ -43,10 +43,14 @@ export class AppComponent implements OnInit {
       .subscribe((largerThanMin: boolean) => {
         console.log('largerThanMin: ', largerThanMin);
         if (largerThanMin) {
+          // enough space, menu and content
           this.store.dispatch(setNavState({payload: {navState: 'opened'}}));
+          // exist side by side
           this.store.dispatch(setNavDrawMode({payload: {navDrawMode: 'side'}}));
         } else {
+          // mobile screen, menu initially closed
           this.store.dispatch(setNavState({payload: {navState: 'closed'}}));
+          // opening menu hides and disables content, 'push' disables and pusheds content
           this.store.dispatch(setNavDrawMode({payload: {navDrawMode: 'over'}}));
         }
       });
@@ -56,4 +60,9 @@ export class AppComponent implements OnInit {
     this.destroyed$.next(true);
     this.destroyed$.complete();
   }
+
+  closeNavigation(matDrawerMode: MatDrawerMode) {
+    this.store.dispatch(setNavState({payload: {navState: 'closed'}}));
+  }
+
 }

@@ -4,8 +4,11 @@
     <div fxFlex="none" class="app-header" style="border:3px solid green;">
     </div>
 
-    <mat-sidenav-container fxFlex *ngIf="navPosition$ | async as navPosition">
-        <mat-sidenav [mode]="navPosition" opened="{{(navState$ | async) == 'opened'}}">
+    <mat-sidenav-container fxFlex *ngIf="matDrawerMode$ | async as matDrawerMode" (backdropClick)="closeNavigation(matDrawerMode)">
+        <mat-sidenav [mode]="matDrawerMode"
+                     opened="{{(navState$ | async) == 'opened'}}"
+                     (keydown.escape)="closeNavigation(matDrawerMode)"
+                     disableClose>
             <div class="app-menu"
                  style="border: 3px solid blue"
                  [style.width]="menuWidth">
