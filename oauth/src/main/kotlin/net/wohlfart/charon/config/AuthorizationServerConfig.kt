@@ -2,20 +2,17 @@ package net.wohlfart.charon.config
 
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
+import net.wohlfart.charon.component.LoginCustomizer
+import net.wohlfart.charon.component.LogoutCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
-import org.springframework.security.config.Customizer
-import org.springframework.security.config.Customizer.withDefaults
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
 
 
 // docs:
@@ -39,6 +36,8 @@ class AuthorizationServerConfig {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     fun authorizationServerSecurityFilterChain(
         http: HttpSecurity,
+        loginCustomizer: LoginCustomizer,
+        logoutCustomizer: LogoutCustomizer,
     ): SecurityFilterChain {
 
         // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-userinfo.html
@@ -52,7 +51,8 @@ class AuthorizationServerConfig {
             //    }
             //})
             .oauth2ResourceServer(OAuth2ResourceServerConfigurer<HttpSecurity>::jwt)
-            .formLogin(withDefaults())   // implements the login form
+            .formLogin(loginCustomizer)
+            .logout(logoutCustomizer)
             .build()
     }
 

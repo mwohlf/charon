@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod
 
 
+
 @ConstructorBinding
 @ConfigurationProperties(prefix = "net.wohlfart.charon.oauth")
 class OAuthProperties(
@@ -26,11 +27,9 @@ class OAuthProperties(
     val clientRegistry: Map<String, ClientEntry>,
 )
 
-// @ConfigurationProperties
 // class ClientRegistry: HashMap<String, ClientEntry>()
 
 @ConstructorBinding
-@ConfigurationProperties
 class ClientEntry (
 
     @NestedConfigurationProperty

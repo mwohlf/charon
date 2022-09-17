@@ -1,5 +1,6 @@
 package net.wohlfart.charon.config
 
+import net.wohlfart.charon.component.LoginCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.Customizer.withDefaults
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -16,6 +17,7 @@ class DefaultSecurityConfig {
     fun defaultSecurityFilterChain(
         http: HttpSecurity,
         userDetailsService: UserDetailsService,
+        loginCustomizer: LoginCustomizer,
     ): SecurityFilterChain {
 
         // used for:
@@ -24,7 +26,7 @@ class DefaultSecurityConfig {
         return http
             .cors { }
             .userDetailsService(userDetailsService)
-            .formLogin(withDefaults())
+            .formLogin(loginCustomizer)
             .build()
     }
 

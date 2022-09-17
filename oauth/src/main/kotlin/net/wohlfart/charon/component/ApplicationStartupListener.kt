@@ -1,4 +1,4 @@
-package net.wohlfart.charon.config
+package net.wohlfart.charon.component
 
 import mu.KotlinLogging
 import net.wohlfart.charon.OAuthProperties
