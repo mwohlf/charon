@@ -2,6 +2,7 @@ package net.wohlfart.charon.config
 
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
+import net.wohlfart.charon.OAuthProperties
 import net.wohlfart.charon.component.LoginCustomizer
 import net.wohlfart.charon.component.LogoutCustomizer
 import org.springframework.context.annotation.Bean
@@ -12,7 +13,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
+import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings
 import org.springframework.security.web.SecurityFilterChain
+import java.time.Duration
 
 
 // docs:
@@ -27,10 +31,12 @@ import org.springframework.security.web.SecurityFilterChain
 
 
 @Configuration
-class AuthorizationServerConfig {
+class AuthorizationServerConfig(
+    val oauthProperties: OAuthProperties,
+) {
 
 
-    // see: https://github.com/spring-projects/spring-authorization-server/blob/d39cc7ca7580bdcd9cbf8bd65b54c84f1dfe42e7/docs/src/docs/asciidoc/configuration-model.adoc
+// see: https://github.com/spring-projects/spring-authorization-server/blob/d39cc7ca7580bdcd9cbf8bd65b54c84f1dfe42e7/docs/src/docs/asciidoc/configuration-model.adoc
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -59,6 +65,14 @@ class AuthorizationServerConfig {
     @Bean
     fun jwtDecoder(jwkSource: JWKSource<SecurityContext>): JwtDecoder {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource)
+    }
+
+    @Bean
+    fun authorizationServerSettings(): AuthorizationServerSettings {
+        return AuthorizationServerSettings.builder()
+            .issuer(oauthProperties.issuer)
+            // configure endpoints here that will be used in the well-known...
+            .build()
     }
 
 }

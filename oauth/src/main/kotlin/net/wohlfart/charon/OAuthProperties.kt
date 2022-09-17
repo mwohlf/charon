@@ -24,13 +24,15 @@ class OAuthProperties(
     val redirectUris: Array<String>,
 
     @NestedConfigurationProperty
-    val clientRegistry: Map<String, ClientEntry>,
+    val clientRegistry: Array<ClientEntry>,
 )
 
 // class ClientRegistry: HashMap<String, ClientEntry>()
 
 @ConstructorBinding
 class ClientEntry (
+
+    val clientId: String,
 
     @NestedConfigurationProperty
     val clientAuthenticationMethod: ClientAuthenticationMethod,

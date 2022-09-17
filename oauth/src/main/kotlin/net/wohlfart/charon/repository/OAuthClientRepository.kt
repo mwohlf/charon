@@ -8,7 +8,9 @@ import org.springframework.security.oauth2.core.oidc.OidcScopes
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings
 import org.springframework.stereotype.Component
+import java.time.Duration
 import java.util.*
 
 @Component
@@ -35,6 +37,10 @@ class OAuthClientRepository(
                 ClientSettings.builder()
                     .requireAuthorizationConsent(false)
                     .requireProofKey(false)
+                    .build()
+            ).tokenSettings(
+                TokenSettings.builder()
+                    .accessTokenTimeToLive(Duration.ofSeconds(30))
                     .build()
             )
 

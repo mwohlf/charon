@@ -91,7 +91,9 @@ const featureReducer = createReducer(
             scope: 'openid profile email offline_access',
             responseType: 'code',
             silentRenew: true,
-            useRefreshToken: true,
+            useRefreshToken: false, // not provided by the spring-boot backend
+            silentRenewUrl: element.issuerUri,
+            startCheckSession: false,
             logLevel: LogLevel.Debug,
             autoUserInfo: true,
             secureRoutes: [

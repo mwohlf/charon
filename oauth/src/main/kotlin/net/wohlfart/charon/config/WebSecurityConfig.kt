@@ -1,23 +1,23 @@
 package net.wohlfart.charon.config
 
+import net.wohlfart.charon.component.HeaderCustomizer
 import net.wohlfart.charon.component.LoginCustomizer
 import org.springframework.context.annotation.Bean
-import org.springframework.security.config.Customizer.withDefaults
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.SecurityFilterChain
 
 
 @EnableWebSecurity
-class DefaultSecurityConfig {
+class WebSecurityConfig {
 
     @Bean
     fun defaultSecurityFilterChain(
         http: HttpSecurity,
         userDetailsService: UserDetailsService,
         loginCustomizer: LoginCustomizer,
+        headerCustomizer: HeaderCustomizer,
     ): SecurityFilterChain {
 
         // used for:
@@ -27,6 +27,7 @@ class DefaultSecurityConfig {
             .cors { }
             .userDetailsService(userDetailsService)
             .formLogin(loginCustomizer)
+            .headers(headerCustomizer)
             .build()
     }
 
