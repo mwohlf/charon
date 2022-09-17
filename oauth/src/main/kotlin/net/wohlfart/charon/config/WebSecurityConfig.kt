@@ -32,3 +32,12 @@ class WebSecurityConfig {
     }
 
 }
+/*
+
+http://127.0.0.1:8081/oauth2/authorize
+?client_id=public-client
+&redirect_uri=http%3A%2F%2F127.0.0.1%3A8081
+&response_type=code&scope=openid%20profile%20email%20offline_access&nonce=2f1ec08e1ea4c4b37727eabd3ede4c2e9bLb9Bsth&state=984fbad271498ef5d658c9004b5b7e9b3fOVMZcDM&code_challenge=qjHB_jjIvoLsPF-rMRPrtTKJ0_MFQQPpI09-rHJNlbA&code_challenge_method=S256&prompt=none
+
+
+ */

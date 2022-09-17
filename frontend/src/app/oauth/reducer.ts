@@ -92,7 +92,8 @@ const featureReducer = createReducer(
             responseType: 'code',
             silentRenew: true,
             useRefreshToken: false, // not provided by the spring-boot backend
-            silentRenewUrl: element.issuerUri,
+            // see: https://github.com/damienbod/angular-auth-oidc-client/issues/788
+            silentRenewUrl: baseUrl + HomeComponent.ROUTER_PATH,   // not sure this makes sense here...
             startCheckSession: false,
             logLevel: LogLevel.Debug,
             autoUserInfo: true,
