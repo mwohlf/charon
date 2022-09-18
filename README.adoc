@@ -219,3 +219,4 @@ https://gist.github.com/jult/e4dd064e3988aa111ea2194b05bc69f5
 
 https://labzilla.io/blog/cloudflare-certbot
 
+https://github.com/spring-projects/spring-authorization-server/pull/335

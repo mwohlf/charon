@@ -24,6 +24,7 @@ class OAuthClientRepository(
             .clientId("public-client")
             .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+            .authorizationGrantType(AuthorizationGrantType.JWT_BEARER)
             .scope(OidcScopes.OPENID)
             .scope(OidcScopes.ADDRESS)
             .scope(OidcScopes.PROFILE) // openid profile email offline_access

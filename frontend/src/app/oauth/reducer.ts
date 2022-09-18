@@ -93,7 +93,20 @@ const featureReducer = createReducer(
             silentRenew: true,
             useRefreshToken: false, // not provided by the spring-boot backend
             // see: https://github.com/damienbod/angular-auth-oidc-client/issues/788
-            silentRenewUrl: baseUrl + HomeComponent.ROUTER_PATH,   // not sure this makes sense here...
+            // https://nice-hill-002425310.azurestaticapps.net/docs/documentation/silent-renew
+            // silentRenewUrl: baseUrl + HomeComponent.ROUTER_PATH,   // not sure this makes sense here...
+            // http://127.0.0.1:8081/oauth2/authorize
+            // ?client_id=public-client
+            // &redirect_uri=http%3A%2F%2F127.0.0.1%3A4200%2Fcharon%2Fsilent-renew.html
+            // &response_type=code
+            // &scope=openid%20profile%20email%20offline_access
+            // &nonce=08291e915ce68a5b9f2a196eee9a1f8391cSHXuCZ
+            // &state=f87d3fa6505c3bc238d82745e9dd28f598Mo9sCQt
+            // &code_challenge=6ZGBhBX3wA2u2CmgFBCOQpO07YhQnnATJzdLhjja0RI
+            // &code_challenge_method=S256
+            // &prompt=none
+            silentRenewUrl: baseUrl + "assets/silent-renew.html",   // not sure this makes sense here...
+            renewTimeBeforeTokenExpiresInSeconds: 15,
             startCheckSession: false,
             logLevel: LogLevel.Debug,
             autoUserInfo: true,

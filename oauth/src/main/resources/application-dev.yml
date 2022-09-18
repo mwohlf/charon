@@ -24,7 +24,8 @@ net:
         allowed-origins:
           - "http://127.0.0.1:4200"
         redirect-uris:
-          - "http://127.0.0.1:4200/charon/home"
+          - "http://127.0.0.1:4200/charon/assets/silent-renew.html"
+          - "http://127.0.0.1:4200/charon/silent-renew.html"
           - "http://127.0.0.1:4200/charon/home"
 
 

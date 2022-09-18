@@ -66,8 +66,8 @@
                 "inject": false,
                 "input": "src/styles/themes/purple-green-dark.scss",
                 "bundleName": "purple-green-dark"
-              }
-             {
+              },
+              {
                 "inject": false,
                 "input": "src/styles/themes/purple-green-light.scss",
                 "bundleName": "purple-green-light"
