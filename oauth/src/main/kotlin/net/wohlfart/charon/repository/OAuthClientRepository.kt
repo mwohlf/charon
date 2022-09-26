@@ -36,8 +36,8 @@ class OAuthClientRepository(
             // consent to true causes another step during authorization...
             .clientSettings(
                 ClientSettings.builder()
-                    .requireAuthorizationConsent(false)
-                    .requireProofKey(false)
+                    .requireAuthorizationConsent(true)
+                    .requireProofKey(true)
                     .build()
             ).tokenSettings(
                 TokenSettings.builder()
