@@ -31,5 +31,6 @@ net:
 
 logging:
   level:
-    root: DEBUG
-
+    root: INFO
+    org:
+      springframework: TRACE
