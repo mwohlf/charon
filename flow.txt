@@ -1,0 +1,99 @@
+
+GET
+http://127.0.0.1:8081/oauth2/authorize
+?client_id=public-client
+&redirect_uri=http%3A%2F%2F127.0.0.1%3A4200%2Fcharon%2Fhome
+&response_type=code
+&scope=openid%20profile%20email%20offline_access
+&nonce=0af0d5f7a908f4f0db4e77df19e0b0a971DMsvtp2
+&state=e2a78de7d35e5e905c4f3cf7fa8b1625f6FgSjKmH
+&code_challenge=DNqC3F5fh05W34kFizMIqany3jZUbB_4V7knRpAxRcE
+&code_challenge_method=S256
+
+=> response: Location: http://127.0.0.1:8081/login
+
+
+
+POST
+http://127.0.0.1:8081/login
+_csrf: ca769604-3720-457f-a88f-922c06050c95
+username: user
+password: pass
+
+=> response: Location: http://127.0.0.1:8081/oauth2/authorize
+  ?client_id=public-client
+  &redirect_uri=http%3A%2F%2F127.0.0.1%3A4200%2Fcharon%2Fassets%2Fsilent-renew.html
+  &response_type=code
+  &scope=openid%20profile%20email%20offline_access
+  &nonce=cd7fe8c6a47b753733fcb6fd891903af2cPyIS1uN
+  &state=0a5fb69dbc1ac9803d3dc403774c629929sbkfUj7
+  &code_challenge=i_CQFmzGnpXoX5V9EpCy6sEpNR5KL1Jps_AfbOHIITA
+  &code_challenge_method=S256
+  &prompt=none
+
+
+
+GET
+http://127.0.0.1:8081/oauth2/authorize?client_id=public-client&redirect_uri=http%3A%2F%2F127.0.0.1%3A4200%2Fcharon%2Fhome&response_type=code&scope=openid%20profile%20email%20offline_access&nonce=0af0d5f7a908f4f0db4e77df19e0b0a971DMsvtp2&state=e2a78de7d35e5e905c4f3cf7fa8b1625f6FgSjKmH&code_challenge=DNqC3F5fh05W34kFizMIqany3jZUbB_4V7knRpAxRcE&code_challenge_method=S256
+
+=> response: Location: http://127.0.0.1:4200/charon/home
+?code=_O5PWIpAZXnQackONZSS1WZbYQuc1btOJ_rY90iJVPt7W3hcDwp4o3OREqJR-038kDubvKnuiJJcGFrbbIDkj9MUryfzZ1aCnb-4HKG-nODaowTDHCwtf2bR78iTQvWG&state=e2a78de7d35e5e905c4f3cf7fa8b1625f6FgSjKmH
+
+
+
+POST
+http://127.0.0.1:8081/oauth2/token
+grant_type: authorization_code
+client_id: public-client
+code_verifier: 98dd42db83e7c32054cbed665eadf5bf37f51acd9367f9fddc42d5e3ec55oxduD1o
+code: _O5PWIpAZXnQackONZSS1WZbYQuc1btOJ_rY90iJVPt7W3hcDwp4o3OREqJR-038kDubvKnuiJJcGFrbbIDkj9MUryfzZ1aCnb-4HKG-nODaowTDHCwtf2bR78iTQvWG
+redirect_uri: http://127.0.0.1:4200/charon/home
+
+
+=> response:
+{"access_token":"eyJraWQiOiJmMTUxNjRiZi0yZGE3LTQ1ZGEtYjAwYi0zZTcyZGRjYTJhNTUiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiYXVkIjoicHVibGljLWNsaWVudCIsIm5iZiI6MTY2Mzc4NDE2Mywic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsIm9mZmxpbmVfYWNjZXNzIiwiZW1haWwiXSwiaXNzIjoiaHR0cDovLzEyNy4wLjAuMTo4MDgxIiwiZXhwIjoxNjYzNzg0MTkzLCJpYXQiOjE2NjM3ODQxNjMsInVzZXJuYW1lIjoianVzdCB0ZXN0aW5nIGFjY2VzcyB0b2tlbiJ9.liZw7HenD_CxYe-8MJaZOa7wGP8ml4DDOyczDf4_cydQgm24e2keOiC-52mYhHQTiXYvKnfhknqNH5Npk97KBVnYEQlJTOW_wHr7PpR8_GLd05PfRXn47b-JMjot7zk2wDHLqXIfvYqLYzI4isJpxIRw4KGrmZM3-ZKY94vRLPZlnGOvQeT2QT8YbF0fI_7PoMtNpeEikhrXqrweDnA9dMrrkeZJc7f8RI_-23K1jDnNCaZRSCh9xY66s4R39BYSl25vVUNfHpmDegPgo-9-3blLx_tOEqdpjvm7ExZG2R-X-01-2g7TCVNijrT40VQJSzpb26Z-XgGvepLWYqv3pw","scope":"openid profile offline_access email","id_token":"eyJraWQiOiJmMTUxNjRiZi0yZGE3LTQ1ZGEtYjAwYi0zZTcyZGRjYTJhNTUiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiYXVkIjoicHVibGljLWNsaWVudCIsImF6cCI6InB1YmxpYy1jbGllbnQiLCJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwODEiLCJleHAiOjE2NjM3ODU5NjMsImlhdCI6MTY2Mzc4NDE2Mywibm9uY2UiOiIwYWYwZDVmN2E5MDhmNGYwZGI0ZTc3ZGYxOWUwYjBhOTcxRE1zdnRwMiIsInVzZXJuYW1lIjoianVzdCB0ZXN0aW5nIGlkIHRva2VuIn0.Gg2VOU5--RZs7XFmniTznouHrTAJstwl5RqEDCn-3CmjZC2xRJUh0mjS0TxIZscdjf7QC7I3X7rWPxBBY_0Aj8jSmubh1Ww4faZpliiXg_LcvRh3DujahQp6KUfCqx-q0LIOz8Ceo9-zGPJJBjgfmt41a1T0UJ80xYV5WLBfmz4VIYclF2yTUoH2KI7UiKQ0S5BzgTZ-F8BzgGeZjYFl477sBtYP6f39je2Rx08Y4aTzZVRVFSQkENyGrlR-XGoD9AVFzJsqPTNtxP5Is7Cx-aL9bPelXvT3Ubict6H05HDRlTB7v1CWNDudboL6g3iDSvopKPlTYhVBYx1Whjf53g","token_type":"Bearer","expires_in":29}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GET
+http://127.0.0.1:4200/charon/home
+?code=_O5PWIpAZXnQackONZSS1WZbYQuc1btOJ_rY90iJVPt7W3hcDwp4o3OREqJR-038kDubvKnuiJJcGFrbbIDkj9MUryfzZ1aCnb-4HKG-nODaowTDHCwtf2bR78iTQvWG&state=e2a78de7d35e5e905c4f3cf7fa8b1625f6FgSjKmH
+
+
+
+
+http://127.0.0.1:4200/charon/assets/silent-renew.html
+  ?code=AIlHf3j9I3BbXgVOaHcY4LafchykWuA1eO6W34JUYYS4WDwh2rSA-gwb5zHvwT217AQgSHB4ni_D5UtfPFNf7FHFpRvqIsY8g5KYRsidmTzPOCvmoJUmdBsn6Xll79Mz
+  &state=0a5fb69dbc1ac9803d3dc403774c629929sbkfUj7
+
+
+
+
+http://127.0.0.1:8081/oauth2/token
+Bearer eyJraWQiOiIwOTgyMDlmNC0zZmE0LTRjZDctYWFjYy05NzFhYTAxNjRhYjUiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiYXVkIjoicHVibGljLWNsaWVudCIsIm5iZiI6MTY2MzY5Njg2Nywic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsIm9mZmxpbmVfYWNjZXNzIiwiZW1haWwiXSwiaXNzIjoiaHR0cDpcL1wvMTI3LjAuMC4xOjgwODEiLCJleHAiOjE2NjM2OTY4OTcsImlhdCI6MTY2MzY5Njg2NywidXNlcm5hbWUiOiJqdXN0IHRlc3RpbmcgYWNjZXNzIHRva2VuIn0.elf9byGNHrPtPlk0rSYu-pFBc915VVEKBbdSwkw7CVCJepDWf_dVG61CknvW1Y3duJj97M-lcPcfcLE7N5gNWFHracZoXuwnhQfkdDk2jYBzUyvryhWXgmMJDXKcYpf5fwnK0V7dNB5W3Kn9ZKrOTbd1KF60bsvKHGamJf2RBxKr9ZLGjUEygdShA11zBcb6KC3VJjdKYdjx4itCt2IshBoAX9MpgHXpW0Lb_9g5i6IgbgvEWaurdrlt5KwkaOpV9zytW5G3syuy8yWNj5NckPNMcXMVsiVV7G21mn7CVfgvkgJmGbYvRzV42LHedgSDj6PJCUeCq5xJWGX3hPnPEg
+
+grant_type: authorization_code
+client_id: public-client
+code_verifier: 3be4a448ef9b5340b907b4e2b29a3d618b1410954fdaeb6ab7885cdf44b0mfLkfXX
+code: AIlHf3j9I3BbXgVOaHcY4LafchykWuA1eO6W34JUYYS4WDwh2rSA-gwb5zHvwT217AQgSHB4ni_D5UtfPFNf7FHFpRvqIsY8g5KYRsidmTzPOCvmoJUmdBsn6Xll79Mz
+redirect_uri: http://127.0.0.1:4200/charon/assets/silent-renew.html
+

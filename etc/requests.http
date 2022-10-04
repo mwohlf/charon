@@ -1,0 +1,162 @@
+
+###
+# @name 001
+# @no-redirect
+# @no-cookie-jar
+GET http://127.0.0.1:8081/oauth2/authorize?client_id=public-client&redirect_uri=http%3A%2F%2F127.0.0.1%3A4200%2Fcharon%2Fhome&response_type=code&scope=openid%20profile%20email%20offline_access&nonce=fa28c6285576ae766af8c760f9eb85aa1dxFj0ILy&state=b8d41a63a27d84a59758a0d5b00a86a1a1sFq1qxm&code_challenge=mUgKohr3Fhm-G-OMJ-8ulYLd5AUZpZnQAU5CLdGw0a4&code_challenge_method=S256
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Language: en-US,en;q=0.9,de-DE;q=0.8,de;q=0.7,fr-FR;q=0.6,fr;q=0.5
+Cache-Control: no-cache
+Connection: keep-alive
+Pragma: no-cache
+Referer: http://127.0.0.1:4200/
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36
+
+> {%
+  client.global.set("loginRedirect", response.headers.valueOf("Location"));
+  client.log("loginRedirect: " + client.global.get("loginRedirect"));
+  client.global.set("cookie", response.headers.valueOf("Set-Cookie").trim().substring("JSESSIONID=".length).slice(0, "; Path=/; HttpOnly".length * -1));
+  client.log("cookie: " + client.global.get("cookie"));
+%}
+
+###
+# @name 002
+# @no-redirect
+# @no-cookie-jar
+GET {{loginRedirect}}
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Language: en-US,en;q=0.9,de-DE;q=0.8,de;q=0.7,fr-FR;q=0.6,fr;q=0.5
+Cache-Control: no-cache
+Connection: keep-alive
+Cookie: JSESSIONID={{cookie}}
+Pragma: no-cache
+Referer: http://127.0.0.1:4200/
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36
+
+> {%
+   client.global.set("csrf", response.body.match("value=\".*\"")[0].trim().substring("value=\"".length).slice(0, -1))
+   client.log("csrf: " + client.global.get("csrf"));
+%}
+
+###
+# @name 003
+#  no-redirect
+# @no-cookie-jar
+POST {{loginRedirect}}
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Language: en-US,en;q=0.9,de-DE;q=0.8,de;q=0.7,fr-FR;q=0.6,fr;q=0.5
+Cache-Control: no-cache
+Connection: keep-alive
+Cookie: JSESSIONID={{cookie}}
+Origin: http://127.0.0.1:8081
+Pragma: no-cache
+Referer: http://127.0.0.1:8081/login
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36
+Content-Type: application/x-www-form-urlencoded
+
+_csrf={{csrf}}&username=user&password=pass
+> {%
+  // client.global.set("originalUrl", response.headers.valueOf("Location").replace("\+","%20"));
+  client.global.set("originalUrl", response.headers.valueOf("Location"));
+  client.log("originalUrl: " + client.global.get("originalUrl"));
+%}
+
+###
+# @name 004
+# @no-redirect
+# @no-cookie-jar
+GET http://127.0.0.1:8081/oauth2/authorize?client_id=public-client&redirect_uri=http%3A%2F%2F127.0.0.1%3A4200%2Fcharon%2Fhome&response_type=code&scope=openid%20profile%20email%20offline_access&nonce=fa28c6285576ae766af8c760f9eb85aa1dxFj0ILy&state=b8d41a63a27d84a59758a0d5b00a86a1a1sFq1qxm&code_challenge=mUgKohr3Fhm-G-OMJ-8ulYLd5AUZpZnQAU5CLdGw0a4&code_challenge_method=S256
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Language: en-US,en;q=0.9,de-DE;q=0.8,de;q=0.7,fr-FR;q=0.6,fr;q=0.5
+Cache-Control: no-cache
+Connection: keep-alive
+Cookie: JSESSIONID={{cookie}}
+DNT: 1
+Pragma: no-cache
+Referer: http://127.0.0.1:8081/login
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36
+sec-ch-ua: "Google Chrome";v="105", "Not)A;Brand";v="8", "Chromium";v="105"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+
+> {%
+  // client.global.set("originalUrl", response.headers.valueOf("Location").replace("\+","%20"));
+  client.global.set("next", response.headers.valueOf("Location"));
+  client.log("next: " + client.global.get("next"));
+%}
+
+###
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###
+# @name 002 collect csrf from login form
+# @no-redirect
+GET {{redirect1}}
+
+> {%
+   client.global.set("csrf", response.body.match("value=\".*\"")[0].trim().substring("value=\"".length).slice(0, -1))
+   client.log("csrf: " + client.global.get("csrf"));
+%}
+
+
+###
+# @name 003 do the login
+# @no-redirect
+POST http://127.0.0.1:8081/login
+Content-Type: application/x-www-form-urlencoded
+
+_csrf={{csrf}}&username=user&password=pass
+
+> {%
+  client.global.set("redirect2", response.headers.valueOf("Location").replace("\+","%20"));
+  client.log("redirect2: " + client.global.get("redirect2"));
+%}
+
+
+###
+# @name 004 the redirect to authorize
+# @no-redirect
+# GET {{redirect2}}
+GET http://127.0.0.1:8081/oauth2/authorize?client_id=public-client&redirect_uri=http://127.0.0.1:4200/charon/home&response_type=code&scope=openid profile email offline_access&nonce=fa28c6285576ae766af8c760f9eb85aa1dxFj0ILy&state=b8d41a63a27d84a59758a0d5b00a86a1a1sFq1qxm&code_challenge=mUgKohr3Fhm-G-OMJ-8ulYLd5AUZpZnQAU5CLdGw0a4&code_challenge_method=S256
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://127.0.0.1:8081/login
+Cache-Control: no-cache
+
+> {%
+  client.global.set("redirect3", response.headers.valueOf("Location"));
+  client.log("redirect3: " + client.global.get("redirect3"));
+%}
+
+
+###
+http://127.0.0.1:8081/oauth2/authorize?client_id=public-client&redirect_uri=http%3A%2F%2F127.0.0.1%3A4200%2Fcharon%2Fhome&response_type=code&scope=openid%20profile%20email%20offline_access&nonce=fa28c6285576ae766af8c760f9eb85aa1dxFj0ILy&state=b8d41a63a27d84a59758a0d5b00a86a1a1sFq1qxm&code_challenge=mUgKohr3Fhm-G-OMJ-8ulYLd5AUZpZnQAU5CLdGw0a4&code_challenge_method=S256
+http://127.0.0.1:8081/oauth2/authorize?client_id=public-client&redirect_uri=http%3A%2F%2F127.0.0.1%3A4200%2Fcharon%2Fhome&response_type=code&scope=openid%20profile%20email%20offline_access&nonce=fa28c6285576ae766af8c760f9eb85aa1dxFj0ILy&state=b8d41a63a27d84a59758a0d5b00a86a1a1sFq1qxm&code_challenge=mUgKohr3Fhm-G-OMJ-8ulYLd5AUZpZnQAU5CLdGw0a4&code_challenge_method=S256

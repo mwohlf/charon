@@ -26,9 +26,6 @@ net:
         allowed-origins:
           - "https://backend.wired-heart.com"
           - "https://app.wired-heart.com"
-        redirect-uris:
-          - "https://backend.wired-heart.com/charon/home"
-          - "https://app.wired-heart.com/charon/home"
         client-registry:
           # the clientId not the id in the db
           - client-id: "public-client"

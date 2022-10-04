@@ -21,9 +21,6 @@ class OAuthProperties(
     val allowedOrigins: Array<String>,
 
     @NestedConfigurationProperty
-    val redirectUris: Array<String>,
-
-    @NestedConfigurationProperty
     val clientRegistry: Array<ClientEntry>,
 )
 
