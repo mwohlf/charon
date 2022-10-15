@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.SecurityFilterChain
 
+import org.springframework.security.config.Customizer.withDefaults
+
 
 @EnableWebSecurity
 class WebSecurityConfig {
@@ -20,15 +22,24 @@ class WebSecurityConfig {
         headerCustomizer: HeaderCustomizer,
     ): SecurityFilterChain {
 
+        http
+            .authorizeRequests { authorizeRequests -> authorizeRequests.anyRequest().authenticated() }
+            .cors(withDefaults())
+            .formLogin(withDefaults())
+
+        /*
         // used for:
         //   http://127.0.0.1:8081/oauth2/token
         //   http://127.0.0.1:8081/oauth2/revoke (?)
-        return http
+        http
             .cors { }
             .userDetailsService(userDetailsService)
             .formLogin(loginCustomizer)
             .headers(headerCustomizer)
             .build()
+         */
+        return http.build();
+
     }
 
 }

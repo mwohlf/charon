@@ -88,7 +88,8 @@ const featureReducer = createReducer(
             clientId: element.clientId,
             redirectUrl: baseUrl + HomeComponent.ROUTER_PATH,
             postLogoutRedirectUri: baseUrl + MainComponent.ROUTER_PATH,
-            scope: 'openid profile email offline_access',
+            // scope: 'openid profile email offline_access',
+            scope: 'openid',
             responseType: 'code',
             silentRenew: true,
             useRefreshToken: false, // not provided by the spring-boot backend
@@ -107,14 +108,15 @@ const featureReducer = createReducer(
             // &prompt=none
             silentRenewUrl: baseUrl + "assets/silent-renew.html",   // not sure this makes sense here...
             renewTimeBeforeTokenExpiresInSeconds: 15,
-            startCheckSession: false,
+            // startCheckSession: false,
             logLevel: LogLevel.Debug,
-            autoUserInfo: true,
+            // autoUserInfo: true,
+            autoUserInfo: false,
             secureRoutes: [
               '/api',
-              '/oauth2',
+             // '/oauth2',
               element.issuerUri,
-              element.issuerUri + '/oauth2/revoke',
+             // element.issuerUri + '/oauth2/revoke',
               element.issuerUri + '/userinfo',
             ],
           };

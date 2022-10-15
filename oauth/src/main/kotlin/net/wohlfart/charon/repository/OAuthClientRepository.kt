@@ -1,5 +1,6 @@
 package net.wohlfart.charon.repository
 
+import mu.KotlinLogging
 import net.wohlfart.charon.ClientEntry
 import net.wohlfart.charon.OAuthProperties
 import org.springframework.jdbc.core.JdbcTemplate
@@ -14,14 +15,19 @@ import org.springframework.stereotype.Component
 import java.time.Duration
 import java.util.*
 
+private val logger = KotlinLogging.logger {}
+
 
 // TODO: read all from config
 fun buildClient(clientEntry: ClientEntry): RegisteredClient {
+
+    logger.info { "registering ${clientEntry.clientId}" }
+
     val publicClient = RegisteredClient.withId(UUID.randomUUID().toString())
         .clientId(clientEntry.clientId)
         .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-        .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+        // .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
         // consent to true causes another step during authorization...
         .clientSettings(
             ClientSettings.builder()
@@ -30,7 +36,7 @@ fun buildClient(clientEntry: ClientEntry): RegisteredClient {
                 .build()
         ).tokenSettings(
             TokenSettings.builder()
-                .accessTokenTimeToLive(Duration.ofSeconds(30))
+                .accessTokenTimeToLive(Duration.ofSeconds(20))
                 .build()
         )
 
