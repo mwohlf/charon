@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 
 
 @Component
-class LogoutCustomizer: Customizer<LogoutConfigurer<HttpSecurity>> {
+class LogoutCustomizer : Customizer<LogoutConfigurer<HttpSecurity>> {
 
     override fun customize(configurer: LogoutConfigurer<HttpSecurity>?) {
 

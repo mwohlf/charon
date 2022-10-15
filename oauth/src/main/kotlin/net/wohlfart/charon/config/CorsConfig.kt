@@ -21,7 +21,6 @@ class CorsConfig(
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
 
-
         configuration.allowedOrigins = oauthProperties.allowedOrigins.toList()
         // configuration.allowedOriginPatterns = listOf("*")
         configuration.allowedMethods = HttpMethod.values().map { it.name }.toList()

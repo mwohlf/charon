@@ -31,6 +31,7 @@ net:
           - client-id: "public-client"
             client-authentication-method: NONE
             authorization-grant-type: AUTHORIZATION_CODE
+            access-token-ttl: 2m
             scopes:
               - "openid"
               - "profile"
