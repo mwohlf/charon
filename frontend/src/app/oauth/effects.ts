@@ -39,10 +39,10 @@ export class Effects {
     private action$: Actions,
   ) {
 
-    // this reads the callback url params from oauth
+    // this reads the callback url params from oauth,
     // apparently we are only supposed to call this once on initial load,
-    // or on auth redirect, then the magic happens and the oauth lib state machine
-    // is doing its thing
+    // or on returning from the auth redirect,
+    // then the magic happens and the oauth lib's state machine is doing its thing
     this.oidcSecurityService.checkAuth().subscribe((next: LoginResponse) => {
       console.log('checkAuth ', next);
       this.store.dispatch(oidcSecurityAction({payload: next}));

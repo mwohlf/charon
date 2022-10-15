@@ -54,7 +54,7 @@ const featureReducer = createReducer(
         'IdTokenExpired',
         'SilentRenewStarted',
       ];
-      console.log(' oauthEventAction, payload: ', payload);
+      console.log(` oauthEventAction, type: ${values[payload.type]}; payload: `, payload);
       return {
         ...state,
         authState: values[payload.type],
@@ -64,7 +64,7 @@ const featureReducer = createReducer(
 
   on(fromActions.oidcSecurityAction,
     (state: OAuthState, {payload: payload}) => {
-      console.log(' oidcSecurityAction, payload: ', payload);
+      console.log(` oidcSecurityAction, payload: `, payload);
       return {
         ...state, // keep the old state in case we are updating...
         configId: payload.configId,
