@@ -32,17 +32,19 @@ net:
             client-authentication-method: NONE
             authorization-grant-type: AUTHORIZATION_CODE
             scopes:
-                - "openid"
-                - "profile"
-                - "email"
-                - "address"
-                - "phone"
-                - "offline_access"
-                - "message.read"
-                - "message.write"
+              - "openid"
+              - "profile"
+              - "email"
+              - "address"
+              - "phone"
+              - "offline_access"
+              - "message.read"
+              - "message.write"
             redirect-uris:
-                - "https://backend.wired-heart.com/charon/home"
-                - "https://app.wired-heart.com/charon/home"
+              - "https://backend.wired-heart.com/charon/assets/silent-renew.html"
+              - "https://backend.wired-heart.com/charon/silent-renew.html"
+              - "https://backend.wired-heart.com/charon/home"
+              - "https://app.wired-heart.com/charon/home"
 
 
 logging:
