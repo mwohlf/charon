@@ -74,6 +74,7 @@ Setup steps: +
 
 oauth module from here: +
 https://github.com/damienbod/angular-auth-oidc-client +
+https://angular-auth-oidc-client.com/docs/documentation/public-api +
 
 proxy service config: +
 https://angular.io/guide/build#proxying-to-a-backend-server

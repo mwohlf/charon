@@ -104,7 +104,7 @@ export class Effects {
       tap((action) => {
         console.log('readConfigurationDetailsUsingGET_success');
         let clientConfigurationList: Array<ClientConfiguration> = action.payload.clientConfigurationList;
-        let baseUrl: string = action.payload.baseUrl;
+        // let baseUrl: string = action.payload.baseUrl;
         console.log('clientConfigurationList Loaded', clientConfigurationList);
       }),
     );
@@ -146,9 +146,9 @@ export class Effects {
         // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/login-logout
         console.log('logoffAction...');
         // this.oidcSecurityService.logoff();
-        // this.oidcSecurityService.logoffLocal();
-        this.oidcSecurityService.logoffAndRevokeTokens()
-          .subscribe((result) => console.log(result));
+        this.oidcSecurityService.logoffLocal(); // TODO: add configId
+        //this.oidcSecurityService.logoffAndRevokeTokens()
+        //  .subscribe((result) => console.log(result));
       }),
     );
   }, {dispatch: false});
