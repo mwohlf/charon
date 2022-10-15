@@ -53,6 +53,8 @@ class AuthorizationServerConfig(
         http.exceptionHandling { exceptions -> exceptions.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login")) }
         // http.cors(Customizer.withDefaults())
 
+        http.headers().frameOptions().disable()
+
         /*
         http
             .cors { }
