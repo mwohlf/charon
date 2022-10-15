@@ -24,8 +24,9 @@ class WebSecurityConfig {
 
         http
             .authorizeRequests { authorizeRequests -> authorizeRequests.anyRequest().authenticated() }
-            .cors(withDefaults())
-            .formLogin(withDefaults())
+            .cors { }
+            .formLogin(loginCustomizer)
+            .headers(headerCustomizer)
 
         /*
         // used for:
