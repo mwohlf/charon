@@ -47,7 +47,7 @@ class AuthorizationServerConfig(
         // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-userinfo.html
         // token endpoint
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
-        http.cors { }
+        http.cors { } // picks up our default cors config
         http.exceptionHandling { exceptions -> exceptions.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login")) }
         // http.cors(Customizer.withDefaults())
 

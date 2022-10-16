@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 class LoginCustomizer : Customizer<FormLoginConfigurer<HttpSecurity>> {
 
     override fun customize(configurer: FormLoginConfigurer<HttpSecurity>) {
-        configurer.loginPage("/login")
+        configurer.loginPage("/login").permitAll()
     }
 
 }

@@ -19,12 +19,15 @@ class WebSecurityConfig {
         loginCustomizer: LoginCustomizer,
     ): SecurityFilterChain {
 
-        http
-            .authorizeRequests { authorizeRequests -> authorizeRequests.anyRequest().authenticated() }
-            .cors { }
-            .formLogin(withDefaults())
-
-        //  .formLogin(loginCustomizer)
+        http.authorizeRequests { authorizeRequests ->
+            authorizeRequests
+                .antMatchers("/styles/**").permitAll()
+                .antMatchers("/error").permitAll()
+                .antMatchers("/logout").permitAll()
+                .anyRequest().authenticated()
+        }
+        http.cors { } // picks up our default cors config
+        http.formLogin(loginCustomizer)
         return http.build();
 
     }
