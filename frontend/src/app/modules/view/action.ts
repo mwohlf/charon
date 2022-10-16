@@ -1,6 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {NavState, ThemeDetails} from './reducer';
-import {oAuthFeature} from '../../const';
+import {oAuthFeature} from '../../shared/const';
 import {MatDrawerMode} from '@angular/material/sidenav';
 
 const GROUP = '@app/' + oAuthFeature;
@@ -23,4 +23,16 @@ export const setNavState = createAction(
 
 export const toggleMenu = createAction(
   `${GROUP}/toggleMenu`,
+);
+
+// only create in the store
+export const enableHeaderFlag = createAction(
+  `${GROUP}/enableHeaderFlag`,
+  props<{ payload: { isHeaderEnabled: boolean } }>(),
+);
+
+// only delete in the store
+export const disableHeaderFlag = createAction(
+  `${GROUP}/disableHeaderFlag`,
+  props<{ payload: { isHeaderEnabled: boolean } }>(),
 );

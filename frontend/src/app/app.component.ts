@@ -7,7 +7,7 @@ import {Observable, ReplaySubject, takeUntil} from 'rxjs';
 import {MatDrawerMode} from '@angular/material/sidenav';
 import {NavState} from './modules/view/reducer';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {menuWidth, mobileBreakpoint} from './const';
+import {menuWidth, mobileBreakpoint} from './shared/const';
 import {map} from 'rxjs/operators';
 import {setNavDrawMode, setNavState} from './modules/view/action';
 

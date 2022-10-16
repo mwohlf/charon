@@ -1,6 +1,6 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {ViewState} from './reducer';
-import {viewFeature} from '../../const';
+import {viewFeature} from '../../shared/const';
 
 export const selectViewFeature = createFeatureSelector<ViewState>(viewFeature);
 

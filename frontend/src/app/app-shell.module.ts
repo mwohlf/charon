@@ -19,7 +19,6 @@ import {FooterComponent} from './components/footer/footer.component';
 import {MenuComponent} from './components/menu/menu.component';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {environment} from '../environments/environment';
-import {HeaderModule} from './components/header/header.module';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import * as fromRoutingReducer from './modules/routing/reducer';
 import {ConfigModule} from './modules/config/config.module';
@@ -31,6 +30,7 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 import {NotificationModule} from './modules/notification/notification.module';
 import {ViewModule} from './modules/view/view.module';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {HeaderComponent} from './components/header/header.component';
 
 
 export interface AppState {
@@ -63,7 +63,6 @@ const prefersReducedMotion =
     ConfigModule,
     EffectsRootModule,
     FlexLayoutModule,
-    HeaderModule,
     HttpClientModule,
     LayoutModule,
     MatSidenavModule,
@@ -108,6 +107,7 @@ const prefersReducedMotion =
     ErrorComponent,
     HomeComponent,
     MainComponent,
+    HeaderComponent,
     ProtectedComponent,
     FooterComponent,
     MenuComponent,

@@ -1,7 +1,7 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {ConfigState} from './reducer';
 import {ConfigurationDetails} from 'build/generated';
-import {configFeature} from '../../const';
+import {configFeature} from '../../shared/const';
 
 export const selectConfigFeature = createFeatureSelector<ConfigState>(configFeature);
 

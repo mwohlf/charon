@@ -71,6 +71,25 @@ const featureReducer = createReducer(
       };
     },
   ),
+
+  on(fromActions.enableHeaderFlag,
+    (state: ViewState, {payload: {isHeaderEnabled: isEnabled}}) => {
+      return {
+        ...state, // keep the old state in case we are updating...
+        isHeaderEnabled: isEnabled,
+      };
+    },
+  ),
+
+  on(fromActions.disableHeaderFlag,
+    (state: ViewState, {payload: {isHeaderEnabled: isEnabled}}) => {
+      return {
+        ...state, // keep the old state in case we are updating...
+        isHeaderEnabled: isEnabled,
+      };
+    },
+  ),
+
 );
 
 export function reducer(state: ViewState | undefined, action: Action): ViewState {

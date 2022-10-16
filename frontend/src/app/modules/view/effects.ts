@@ -22,7 +22,9 @@ export class Effects {
     return this.action$.pipe(
       ofType(ROOT_EFFECTS_INIT), // the trigger to start loading config
       tap((action) => {
-        console.log('configureTheme');
+        this.logger.debug('setting style, triggered by ROOT_EFFECTS_INIT', action);
+      }),
+      tap((_) => {
         this.styleManager.setStyle('theme', `${initialState.name}-${initialState.variant}.css`);
       }),
     );
@@ -31,6 +33,9 @@ export class Effects {
   configureTheme$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(setThemeDetails),
+      tap((action) => {
+        this.logger.debug('setting style, triggered by setThemeDetails, action is:', action);
+      }),
       tap((action) => {
         console.log('configureTheme');
         this.styleManager.setStyle('theme', `${action.payload.name}-${action.payload.variant}.css`);

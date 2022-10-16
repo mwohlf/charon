@@ -16,7 +16,7 @@ import {selectOpenIdConfigurations} from './selector';
 import {filter, map} from 'rxjs/operators';
 import * as _ from 'lodash';
 import {AppState} from '../../app-shell.module';
-import {oAuthFeature} from '../../const';
+import {oAuthFeature} from '../../shared/const';
 
 
 class ConfigLoader {

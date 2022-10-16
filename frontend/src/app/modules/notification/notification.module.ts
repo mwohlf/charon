@@ -3,7 +3,7 @@ import {reducer} from './reducer';
 import {NgModule} from '@angular/core';
 import {StoreModule} from '@ngrx/store';
 import {NotificationComponent} from './notification.component';
-import {notificationFeature} from '../../const';
+import {notificationFeature} from '../../shared/const';
 
 
 @NgModule({

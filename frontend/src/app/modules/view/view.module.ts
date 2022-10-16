@@ -8,7 +8,7 @@ import {ThemePicker} from './theme-picker';
 import {StyleManager} from './style-manager';
 import {StoreModule} from '@ngrx/store';
 import {reducer} from './reducer';
-import {viewFeature} from '../../const';
+import {viewFeature} from '../../shared/const';
 import {LayoutModule} from '@angular/cdk/layout';
 
 
