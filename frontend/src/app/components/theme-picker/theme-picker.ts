@@ -4,17 +4,17 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {Observable} from 'rxjs';
-import {selectCurrentTheme} from './selector';
+import {selectCurrentTheme} from '../../modules/view/selector';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../app-shell.module';
-import {setThemeDetails} from './action';
-import {ThemeDetails} from './reducer';
-import {themes} from './themelist';
+import {setThemeDetails} from '../../modules/view/action';
+import {ThemeDetails} from '../../modules/view/reducer';
+import {themes} from '../../modules/view/theme-list';
 
 
 @Component({
   selector: 'theme-picker',
-  templateUrl: 'theme-picker.html',
+  templateUrl: './theme-picker.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })

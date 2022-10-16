@@ -5,9 +5,9 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {ThemePicker} from './theme-picker';
-import {StyleManager} from './style-manager';
+import {StyleManager} from '../../modules/view/style-manager';
 import {StoreModule} from '@ngrx/store';
-import {reducer} from './reducer';
+import {reducer} from '../../modules/view/reducer';
 import {viewFeature} from '../../shared/const';
 import {LayoutModule} from '@angular/cdk/layout';
 

@@ -1,7 +1,7 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import * as fromActions from './action';
 import {MatDrawerMode} from '@angular/material/sidenav';
-import {themes} from './themelist';
+import {themes} from './theme-list';
 
 
 export declare type ThemeVariant = 'light' | 'dark'

@@ -28,7 +28,7 @@ import {OAuthModule} from './modules/oauth/oauth.module';
 import {HttpClientModule} from '@angular/common/http';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 import {NotificationModule} from './modules/notification/notification.module';
-import {ViewModule} from './modules/view/view.module';
+import {ViewModule} from './components/theme-picker/view.module';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {HeaderComponent} from './components/header/header.component';
 
