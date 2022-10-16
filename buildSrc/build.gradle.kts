@@ -27,26 +27,28 @@ dependencies {
     // we need to declare dependencies for all the used plugins in the buildScripts...
 
     // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/
-    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.2")
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.4")
     // https://plugins.gradle.org/plugin/io.spring.dependency-management
-    implementation("io.spring.gradle:dependency-management-plugin:1.0.12.RELEASE")
+    implementation("io.spring.gradle:dependency-management-plugin:1.0.14.RELEASE")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${jetbrainKotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-allopen:${jetbrainKotlinVersion}")
     // implementation("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.6.21-1.0.6")
     // webjar and node plugin code for angular modules
 
     // https://plugins.gradle.org/plugin/com.coditory.webjar
-    implementation("com.coditory.gradle:webjar-plugin:1.3.0")
+    implementation("com.coditory.gradle:webjar-plugin:1.3.1")
     // https://plugins.gradle.org/plugin/com.github.node-gradle.node
-    implementation("com.github.node-gradle:gradle-node-plugin:3.3.0")
+    implementation("com.github.node-gradle:gradle-node-plugin:3.4.0")
     // https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
     // https://plugins.gradle.org/m2/com/google/cloud/tools/jib/com.google.cloud.tools.jib.gradle.plugin/3.2.1/
-    implementation("com.google.cloud.tools.jib:com.google.cloud.tools.jib.gradle.plugin:3.2.1")
-    // see: https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html
-    implementation("org.openapitools:openapi-generator-gradle-plugin:6.0.0")
+    implementation("com.google.cloud.tools.jib:com.google.cloud.tools.jib.gradle.plugin:3.3.0")
+    // https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html
+    // https://plugins.gradle.org/plugin/org.openapi.generator
+    implementation("org.openapitools:openapi-generator-gradle-plugin:6.2.0")
     // org/openapi/generator/org.openapi.generator.gradle.plugin/
-    implementation("org.openapi.generator:org.openapi.generator.gradle.plugin:6.0.0")
+    implementation("org.openapi.generator:org.openapi.generator.gradle.plugin:6.2.0")
     // https://mvnrepository.com/artifact/com.palantir.gradle.gitversion/gradle-git-version
+    // https://github.com/palantir/gradle-git-version/tags
     implementation("com.palantir.gradle.gitversion:gradle-git-version:0.15.0")
 }
 
