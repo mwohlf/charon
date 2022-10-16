@@ -62,7 +62,7 @@ export class Effects {
     return this.action$.pipe(
       ofType(ROOT_EFFECTS_INIT), // the trigger to start loading config
       tap((action) => {
-        this.logger.debug('boot up oauth, triggered by ROOT_EFFECTS_INIT', action);
+        this.logger.debug('<ROOT_EFFECTS_INIT> boot up oauth, triggered by ROOT_EFFECTS_INIT', action);
       }),
       mergeMap(() => {
         return [
@@ -143,8 +143,8 @@ export class Effects {
         if (!this.oidcSecurityService.getConfigurations().some((elem) => {
           return elem.configId == action.payload.configId;
         })) {
-          this.logger.error('no config found for ', action.payload.configId);
-          this.logger.error('available configs are : ', this.oidcSecurityService.getConfigurations());
+          this.logger.error('<loginAction> no config found for ', action.payload.configId);
+          this.logger.error('<loginAction> available configs are : ', this.oidcSecurityService.getConfigurations());
         } else {
           // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/public-api
           this.oidcSecurityService.authorize(action.payload.configId); // this performs a browser redirect to the login page

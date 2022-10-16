@@ -91,7 +91,7 @@ export class Effects {
         // serverLoggingUrl: configDto.serverLoggingUrl,
         //})
         //LoggerHolder.logger = this.logger;
-        this.logger.debug('Configuration Loaded');
+        this.logger.debug('<readConfigurationDetailsUsingGET_success> Configuration Loaded');
         // let logLevel = NgxLoggerLevel[configDto.serverLogLevel];
         // this.logger.info("server log level is ", NgxLoggerLevel[logLevel]);
         return showNotification({
