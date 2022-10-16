@@ -4,10 +4,9 @@ import {ClientConfiguration} from 'build/generated';
 import {
   OpenIdConfiguration,
 } from 'angular-auth-oidc-client/lib/config/openid-configuration';
-import {LogLevel} from 'angular-auth-oidc-client';
-import {environment} from '../../../environments/environment';
 import {HomeComponent} from '../../pages/home/home.component';
 import {MainComponent} from '../../pages/main/main.component';
+import {LoggerHolder} from '../../shared/logger-holder';
 
 
 export const SIMPLE_CONFIG = 'spring-oauth';
@@ -44,6 +43,7 @@ const featureReducer = createReducer(
 
   on(fromActions.oauthEventAction,
     (state: OAuthState, {payload: payload}) => {
+      LoggerHolder.logger.debug(`<oauthEventAction> payload: `, payload);
       // these values are copied and pasted from the last version of EventTypes
       // from the angular-auth-oidc-client lib, make sure to update
       // them when updating the lib!
@@ -61,7 +61,7 @@ const featureReducer = createReducer(
         'SilentRenewStarted',
       ];
       let eventString = eventList[payload.type];
-      console.log(` oauthEventAction, type: ${eventString}; payload: `, payload);
+      LoggerHolder.logger.debug(`<oauthEventAction> eventString: `, eventString);
       let result = {
         ...state,
         authState: eventString,
@@ -82,7 +82,7 @@ const featureReducer = createReducer(
 
   on(fromActions.oidcSecurityAction,
     (state: OAuthState, {payload: payload}) => {
-      console.log(` oidcSecurityAction, payload: `, payload);
+      LoggerHolder.logger.debug(`<oidcSecurityAction> payload: `, payload);
       return {
         ...state, // keep the old state in case we are updating...
         configId: payload.configId,
@@ -96,7 +96,7 @@ const featureReducer = createReducer(
 
   on(fromActions.readClientConfigurationListUsingGET_success,
     (state: OAuthState, {payload: payload}) => {
-      console.log(' readClientConfigurationListUsingGET_success, payload: ', payload);
+      LoggerHolder.logger.debug(`<readClientConfigurationListUsingGET_success> payload: `, payload);
       const baseUrl = payload.baseUrl;
       const openIdConfigurations: Array<OpenIdConfiguration> = payload.clientConfigurationList.map(
         (element: ClientConfiguration) => {
@@ -111,7 +111,7 @@ const featureReducer = createReducer(
             responseType: 'code',
             silentRenew: true,
             useRefreshToken: false, // not provided by the spring-boot backend
-            silentRenewUrl: baseUrl + "assets/silent-renew.html",   // not sure this makes sense here...
+            silentRenewUrl: baseUrl + 'assets/silent-renew.html',   // not sure this makes sense here...
             renewTimeBeforeTokenExpiresInSeconds: 15,
             // startCheckSession: false,
             // logLevel: LogLevel.Debug,
@@ -119,9 +119,9 @@ const featureReducer = createReducer(
             autoUserInfo: false,
             secureRoutes: [
               '/api',
-             // '/oauth2',
+              // '/oauth2',
               element.issuerUri,
-             // element.issuerUri + '/oauth2/revoke',
+              // element.issuerUri + '/oauth2/revoke',
               element.issuerUri + '/userinfo',
             ],
           };

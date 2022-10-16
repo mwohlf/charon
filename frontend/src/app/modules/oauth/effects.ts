@@ -26,27 +26,30 @@ import {
   ConfigurationDetailsService,
 } from 'build/generated';
 import {LocationStrategy} from '@angular/common';
+import {NGXLogger} from 'ngx-logger';
 
 @Injectable()
 export class Effects {
 
   constructor(
+    private action$: Actions,
+    private logger: NGXLogger,
     private locationStrategy: LocationStrategy,
     private configurationDetailsService: ConfigurationDetailsService,
     private oidcSecurityService: OidcSecurityService,
     private eventService: PublicEventsService,
     private store: Store<AppState>,
-    private action$: Actions,
   ) {
 
     // this reads the callback url params from oauth,
     // apparently we are only supposed to call this once on initial load,
     // or on returning from the auth redirect,
     // then the magic happens and the oauth lib's state machine is doing its thing
-    this.oidcSecurityService.checkAuth().subscribe((next: LoginResponse) => {
-      console.log('checkAuth ', next);
-      this.store.dispatch(oidcSecurityAction({payload: next}));
-    });
+    this.oidcSecurityService
+      .checkAuth()
+      .subscribe((next: LoginResponse) => {
+        this.store.dispatch(oidcSecurityAction({payload: next}));
+      });
 
     this.eventService
       .registerForEvents()
@@ -59,6 +62,7 @@ export class Effects {
     return this.action$.pipe(
       ofType(ROOT_EFFECTS_INIT), // the trigger to start loading config
       tap((action) => {
+        this.logger.debug('boot up oauth, triggered by ROOT_EFFECTS_INIT', action);
       }),
       mergeMap(() => {
         return [
@@ -72,8 +76,10 @@ export class Effects {
   readClientConfigurationListUsingGET$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readClientConfigurationListUsingGET),
+      tap((action) => {
+        this.logger.debug('readClientConfigurationListUsingGET', action);
+      }),
       mergeMap((action) => {
-        console.log('readClientConfigurationListUsingGET');
         return this.configurationDetailsService.readClientConfigurationList().pipe(
           map((clientConfigurationList: Array<ClientConfiguration>) => {
             return readClientConfigurationListUsingGET_success({
@@ -98,15 +104,18 @@ export class Effects {
   });
 
   // config is ready and loaded
+  // this is just for logging, the reducer processes the payload from the action
   readClientConfigurationListUsingGET_success$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readClientConfigurationListUsingGET_success),
       tap((action) => {
-        console.log('readConfigurationDetailsUsingGET_success');
-        let clientConfigurationList: Array<ClientConfiguration> = action.payload.clientConfigurationList;
-        // let baseUrl: string = action.payload.baseUrl;
-        console.log('clientConfigurationList Loaded', clientConfigurationList);
+        this.logger.debug('readClientConfigurationListUsingGET_success', action);
       }),
+      //tap((action) => {
+      //  let clientConfigurationList: Array<ClientConfiguration> = action.payload.clientConfigurationList;
+      //  // let baseUrl: string = action.payload.baseUrl;
+      //  console.log('clientConfigurationList Loaded', clientConfigurationList);
+      //}),
     );
   }, {dispatch: false});
 
@@ -114,8 +123,10 @@ export class Effects {
   readClientConfigurationListUsingGET_failure$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readClientConfigurationListUsingGET_failure),
+      tap((action) => {
+        this.logger.debug('readClientConfigurationListUsingGET_failure', action);
+      }),
       map((action) => {
-        console.log('readClientConfigurationListUsingGET_failure');
         return showNotification({payload: action.payload});
       }),
     );
@@ -125,16 +136,19 @@ export class Effects {
     return this.action$.pipe(
       ofType(loginAction),
       tap((action) => {
-        console.log('authorizeAction for ', action.payload);
-
+        this.logger.debug('loginAction', action);
+      }),
+      tap((action) => {
+        // check if the configId is in our set
         if (!this.oidcSecurityService.getConfigurations().some((elem) => {
           return elem.configId == action.payload.configId;
         })) {
-          console.error('no config found for ', action.payload.configId);
-          console.error('available: ', this.oidcSecurityService.getConfigurations());
+          this.logger.error('no config found for ', action.payload.configId);
+          this.logger.error('available configs are : ', this.oidcSecurityService.getConfigurations());
+        } else {
+          // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/public-api
+          this.oidcSecurityService.authorize(action.payload.configId); // this performs a browser redirect to the login page
         }
-        // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/public-api
-        this.oidcSecurityService.authorize(action.payload.configId); // this performs a browser redirect to the login page
       }),
     );
   }, {dispatch: false});
@@ -143,8 +157,10 @@ export class Effects {
     return this.action$.pipe(
       ofType(logoutAction),
       tap((action) => {
+        this.logger.debug('logoutAction', action);
+      }),
+      tap((action) => {
         // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/login-logout
-        console.log('logoffAction...');
         // this.oidcSecurityService.logoff();
         this.oidcSecurityService.logoffLocal(); // TODO: add configId
         //this.oidcSecurityService.logoffAndRevokeTokens()

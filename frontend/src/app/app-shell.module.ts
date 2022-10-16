@@ -6,7 +6,7 @@ import {ErrorComponent} from './pages/error/error.component';
 import {HomeComponent} from './pages/home/home.component';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MainComponent} from './pages/main/main.component';
-import {NgModule} from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import {ProtectedComponent} from './pages/protected/protected.component';
 import {ApiModule, Configuration} from '../../build/generated';
 import {Action, ActionReducer, MetaReducer, StoreModule} from '@ngrx/store';
@@ -31,15 +31,12 @@ import {NotificationModule} from './modules/notification/notification.module';
 import {ViewModule} from './components/theme-picker/view.module';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {HeaderComponent} from './components/header/header.component';
+import {GlobalErrorHandler} from './shared/error-handler';
 
 
 export interface AppState {
 }
 
-// public logging holder for static contexts
-export class LoggerHolder {
-  public static logger: any = console;
-}
 
 export function logging(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
   return function(state: AppState | undefined, action: Action) {
@@ -116,6 +113,10 @@ const prefersReducedMotion =
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: {duration: 2500},
+    },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler
     },
   ],
   bootstrap: [AppComponent],

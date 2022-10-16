@@ -12,20 +12,20 @@ import {
   readConfigurationDetailsUsingGET_success,
 } from './action';
 import {showNotification} from '../notification/action';
-import {LoggerHolder} from '../../app-shell.module';
 import {
   ConfigurationDetails,
   ConfigurationDetailsService,
 } from 'build/generated';
 import {NotificationData} from '../notification/reducer';
+import {LoggerHolder} from '../../shared/logger-holder';
 
 @Injectable()
 export class Effects {
 
   constructor(
-    private configurationDetailsService: ConfigurationDetailsService,
-    private logger: NGXLogger,
     private action$: Actions,
+    private logger: NGXLogger,
+    private configurationDetailsService: ConfigurationDetailsService,
   ) {
   }
 

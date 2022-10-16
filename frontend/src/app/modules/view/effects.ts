@@ -12,9 +12,9 @@ import {initialState} from './reducer';
 export class Effects {
 
   constructor(
-    private styleManager: StyleManager,
-    private logger: NGXLogger,
     private action$: Actions,
+    private logger: NGXLogger,
+    private styleManager: StyleManager,
   ) {
   }
 
@@ -37,7 +37,6 @@ export class Effects {
         this.logger.debug('setting style, triggered by setThemeDetails, action is:', action);
       }),
       tap((action) => {
-        console.log('configureTheme');
         this.styleManager.setStyle('theme', `${action.payload.name}-${action.payload.variant}.css`);
       }),
     );
