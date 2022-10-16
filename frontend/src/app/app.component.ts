@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from './app-shell.module';
-import {isAuthenticated} from './oauth/selector';
-import {selectNavDrawMode, selectNavState} from './view/selector';
+import {isAuthenticated} from './modules/oauth/selector';
+import {selectNavDrawMode, selectNavState} from './modules/view/selector';
 import {Observable, ReplaySubject, takeUntil} from 'rxjs';
 import {MatDrawerMode} from '@angular/material/sidenav';
-import {NavState} from './view/reducer';
+import {NavState} from './modules/view/reducer';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {menuWidth, mobileBreakpoint} from './const';
 import {map} from 'rxjs/operators';
-import {setNavDrawMode, setNavState} from './view/action';
+import {setNavDrawMode, setNavState} from './modules/view/action';
 
 @Component({
   selector: 'app-root',

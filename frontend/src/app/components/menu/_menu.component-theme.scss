@@ -1,0 +1,42 @@
+@use 'sass:map';
+@use 'node_modules/@angular/material/index' as mat;
+
+@mixin color($config-or-theme) {
+    // Get the color config from the theme.
+    $color-config: mat.get-color-config($config-or-theme);
+    $background: map.get($color-config, background);
+    $foreground: map.get($color-config, foreground);
+    $primary-palette: map.get($color-config, 'primary');
+
+    .app-menu {
+        background: mat.get-color-from-palette($background, card);
+        color: mat.get-color-from-palette($foreground, text);
+    }
+    .mat-nav-list .list-item-active {
+        background-color: mat.get-color-from-palette($primary-palette, 200) !important;
+    }
+    .mat-nav-list .mat-list-item:hover {
+        background-color: mat.get-color-from-palette($primary-palette, 500);
+    }
+}
+
+@mixin typography($theme) {
+    // Get the typography config from the theme.
+    $typography-config: mat.get-typography-config($theme);
+
+    .app-menu {
+        font-family: mat.font-family($typography-config);
+    }
+}
+
+@mixin theme($theme) {
+    $color-config: mat.get-color-config($theme);
+    @if $color-config != null {
+        @include color($theme);
+    }
+
+    $typography-config: mat.get-typography-config($theme);
+    @if $typography-config != null {
+        @include typography($theme);
+    }
+}
