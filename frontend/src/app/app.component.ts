@@ -10,6 +10,7 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import {menuWidth, mobileBreakpoint} from './shared/const';
 import {map} from 'rxjs/operators';
 import {setNavDrawMode, setNavState} from './modules/view/action';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-root',
@@ -25,8 +26,9 @@ export class AppComponent implements OnInit {
   mobileBreakpoint: string = mobileBreakpoint + 'px';
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
     public store: Store<AppState>,
+    private logger: NGXLogger,
+    private breakpointObserver: BreakpointObserver,
   ) {
     this.isAuthenticated$ = this.store.select(isAuthenticated);
     this.matDrawerMode$ = this.store.select(selectNavDrawMode);
@@ -41,7 +43,7 @@ export class AppComponent implements OnInit {
         map(({matches}) => matches),
       )
       .subscribe((largerThanMin: boolean) => {
-        console.log('largerThanMin: ', largerThanMin);
+        this.logger.debug('<ngOnInit> largerThanMin: ', largerThanMin);
         if (largerThanMin) {
           // enough space, menu and content
           this.store.dispatch(setNavState({payload: {navState: 'opened'}}));

@@ -10,6 +10,7 @@ import {AppState} from '../../app-shell.module';
 import {setThemeDetails} from '../../modules/view/action';
 import {ThemeDetails} from '../../modules/view/reducer';
 import {themes} from '../../modules/view/theme-list';
+import {NGXLogger} from 'ngx-logger';
 
 
 @Component({
@@ -25,12 +26,13 @@ export class ThemePicker {
 
   constructor(
     public store: Store<AppState>,
+    private logger: NGXLogger,
   ) {
     this.currentTheme$ = this.store.select(selectCurrentTheme);
   }
 
   toggleDarkMode(theTheme: ThemeDetails) {
-    console.log('toggleDarkMode');
+    this.logger.debug('<toggleDarkMode>');
     let nextTheme = {
       ...theTheme,
     };
@@ -39,7 +41,7 @@ export class ThemePicker {
   }
 
   selectTheme(theTheme: ThemeDetails, nextName: string) {
-    console.log('selectTheme');
+    this.logger.debug('<selectTheme>');
     let theme = themes.find(element => element.name === nextName);
     if (!theme) {
       theme = themes[0];

@@ -77,7 +77,7 @@ export class Effects {
     return this.action$.pipe(
       ofType(readClientConfigurationListUsingGET),
       tap((action) => {
-        this.logger.debug('readClientConfigurationListUsingGET', action);
+        this.logger.debug('<readClientConfigurationListUsingGET>', action);
       }),
       mergeMap((action) => {
         return this.configurationDetailsService.readClientConfigurationList().pipe(
@@ -109,7 +109,7 @@ export class Effects {
     return this.action$.pipe(
       ofType(readClientConfigurationListUsingGET_success),
       tap((action) => {
-        this.logger.debug('readClientConfigurationListUsingGET_success', action);
+        this.logger.debug('<readClientConfigurationListUsingGET_success>', action);
       }),
       //tap((action) => {
       //  let clientConfigurationList: Array<ClientConfiguration> = action.payload.clientConfigurationList;
@@ -124,7 +124,7 @@ export class Effects {
     return this.action$.pipe(
       ofType(readClientConfigurationListUsingGET_failure),
       tap((action) => {
-        this.logger.debug('readClientConfigurationListUsingGET_failure', action);
+        this.logger.debug('<readClientConfigurationListUsingGET_failure>', action);
       }),
       map((action) => {
         return showNotification({payload: action.payload});
@@ -136,7 +136,7 @@ export class Effects {
     return this.action$.pipe(
       ofType(loginAction),
       tap((action) => {
-        this.logger.debug('loginAction', action);
+        this.logger.debug('<loginAction>', action);
       }),
       tap((action) => {
         // check if the configId is in our set
@@ -157,7 +157,7 @@ export class Effects {
     return this.action$.pipe(
       ofType(logoutAction),
       tap((action) => {
-        this.logger.debug('logoutAction', action);
+        this.logger.debug('<logoutAction>', action);
       }),
       tap((action) => {
         // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/login-logout

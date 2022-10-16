@@ -32,6 +32,9 @@ export class Effects {
   ROOT_EFFECTS_INIT: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(ROOT_EFFECTS_INIT), // the trigger to start loading config
+      tap((action) => {
+        this.logger.debug('<ROOT_EFFECTS_INIT>');
+      }),
       tap((action: {}) => {
         // just to get rid of the console logging as early as possible
         LoggerHolder.logger = this.logger;
@@ -48,8 +51,10 @@ export class Effects {
   readConfigurationDetailsUsingGET$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET),
+      tap((action) => {
+        this.logger.debug('<readConfigurationDetailsUsingGET>', action);
+      }),
       mergeMap((action: {}) => {
-        console.log('readConfigurationDetailsUsingGET');
         return this.configurationDetailsService.readConfigurationDetails().pipe(
           map((configurationDetails: ConfigurationDetails) => {
             return readConfigurationDetailsUsingGET_success({
@@ -74,8 +79,10 @@ export class Effects {
   readConfigurationDetailsUsingGET_success$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_success),
+      tap((action) => {
+        this.logger.debug('<readConfigurationDetailsUsingGET_success>', action);
+      }),
       map((action: { payload: ConfigurationDetails }) => {
-        console.log('readConfigurationDetailsUsingGET_success');
         let configurationDetails: ConfigurationDetails = action.payload;
         //this.logger.updateConfig({
         // level: configDto.devmode?NgxLoggerLevel.TRACE:NgxLoggerLevel.WARN,
@@ -102,8 +109,10 @@ export class Effects {
   readConfigurationDetailsUsingGET_failure$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_failure),
+      tap((action) => {
+        this.logger.debug('<readConfigurationDetailsUsingGET_failure>', action);
+      }),
       map((action: { payload: NotificationData }) => {
-        console.log('readConfigurationDetailsUsingGET_failure');
         return showNotification({payload: action.payload});
       }),
     );

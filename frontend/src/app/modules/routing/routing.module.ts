@@ -4,6 +4,7 @@ import {ErrorComponent} from '../../pages/error/error.component';
 import {HomeComponent} from '../../pages/home/home.component';
 import {MainComponent} from '../../pages/main/main.component';
 import {ProtectedComponent} from '../../pages/protected/protected.component';
+import {LoggerHolder} from '../../shared/logger-holder';
 
 const routes: Routes = [
   {
@@ -28,7 +29,7 @@ const routes: Routes = [
 
 
 export function routerErrorHandler(error: Error): void {
-  console.error('router error: ', JSON.stringify(error));
+  LoggerHolder.logger.error('<routerErrorHandler> router error: ', JSON.stringify(error));
 }
 
 @NgModule({

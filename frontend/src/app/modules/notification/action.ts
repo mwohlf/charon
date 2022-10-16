@@ -5,12 +5,12 @@ import {notificationFeature} from '../../shared/const';
 const GROUP = '@app/' + notificationFeature;
 
 export const showNotification = createAction(
-  GROUP + '/showNotification',
+  `${GROUP}/showNotification`,
   props<{ payload: NotificationData }>(),
 );
 
 export const confirmNotification = createAction(
-  GROUP + '/confirmNotification',
+  `${GROUP}/confirmNotification`,
 );
 
 
