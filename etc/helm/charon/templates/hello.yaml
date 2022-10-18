@@ -10,11 +10,12 @@ spec:
       app: charon-hello
   replicas: 1
   template:
+
     metadata:
       labels:
         app: charon-hello
-    spec:
 
+    spec:
       containers:
         - name: charon-hello
           image: nginxdemos/hello

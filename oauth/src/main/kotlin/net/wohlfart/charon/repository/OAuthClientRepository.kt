@@ -15,13 +15,13 @@ private val logger = KotlinLogging.logger {}
 
 
 // TODO: read all from config
-fun buildClient(clientEntry: ClientEntry): RegisteredClient {
+fun buildClient(clientId: String, clientEntry: ClientEntry): RegisteredClient {
 
-    logger.info { "registering ${clientEntry.clientId}" }
+    logger.info { "registering $clientId" }
 
     val publicClient = RegisteredClient.withId(UUID.randomUUID().toString())
 
-    publicClient.clientId(clientEntry.clientId)
+    publicClient.clientId(clientId)
         .clientAuthenticationMethod(clientEntry.clientAuthenticationMethod.value)
         .authorizationGrantType(clientEntry.authorizationGrantType.value)
     // .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
@@ -60,8 +60,8 @@ class OAuthClientRepository(
 ) : JdbcRegisteredClientRepository(jdbcTemplate) {
 
     init {
-        oauthProperties.clientRegistry.forEach {
-            this.save(buildClient(it))
+        oauthProperties.clients.forEach {
+            this.save(buildClient(it.key, it.value))
         }
     }
 

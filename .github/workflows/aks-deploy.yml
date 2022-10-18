@@ -61,7 +61,7 @@ jobs:
           helmChart: '${{ github.workspace }}/etc/helm/charon/'
           helm-version: 'latest'
           # see: https://github.com/marketplace/actions/kubernetes-bake
-          # to override the secret from an env variable (todo)
+          # to override the secrets in the helm charts with an env variable (todo)
         id: bake
 
 # we store images in ttl.sh,

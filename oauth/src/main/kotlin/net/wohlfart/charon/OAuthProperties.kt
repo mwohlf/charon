@@ -20,16 +20,11 @@ class OAuthProperties(
     @NestedConfigurationProperty
     val allowedOrigins: Array<String>,
 
-    @NestedConfigurationProperty
-    val clientRegistry: Array<ClientEntry>,
+    val clients: Map<String, ClientEntry> = HashMap(),
 )
-
-// class ClientRegistry: HashMap<String, ClientEntry>()
 
 @ConstructorBinding
 class ClientEntry (
-
-    val clientId: String,
 
     @NestedConfigurationProperty
     val clientAuthenticationMethod: ClientAuthenticationMethodValue,
@@ -48,6 +43,7 @@ class ClientEntry (
 )
 
 // supported for the app config
+@Suppress("unused") // used in the application.yaml file
 enum class ClientAuthenticationMethodValue(val value: ClientAuthenticationMethod) {
 
     NONE(ClientAuthenticationMethod.NONE)
@@ -55,6 +51,7 @@ enum class ClientAuthenticationMethodValue(val value: ClientAuthenticationMethod
 }
 
 // supported for the app config
+@Suppress("unused") // used in the application.yaml file
 enum class AuthorizationGrantTypeValue(val value: AuthorizationGrantType) {
 
     AUTHORIZATION_CODE(AuthorizationGrantType.AUTHORIZATION_CODE)
