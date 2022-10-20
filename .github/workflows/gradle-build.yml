@@ -25,14 +25,17 @@ jobs:
           cache: gradle
 
       - name: Setup Gradle
+        id: setup-gradle
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build --scan
 
       - name: Run gradle build to compile the applications
-        run: ${{ github.workspace }}/gradlew build --no-daemon --scan
+        id: run-build
+        run: ${{ github.workspace }}/gradlew build --no-daemon --scan >> $GITHUB_OUTPUT
 
       # this creates and pushes the docker images we need for the services
       - name: Run gradle jib to create and push the images
-        run: ${{ github.workspace }}/gradlew jib --no-daemon
+        id: run-jib
+        run: ${{ github.workspace }}/gradlew jib --no-daemon >> $GITHUB_OUTPUT
 

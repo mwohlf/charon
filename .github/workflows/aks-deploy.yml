@@ -25,7 +25,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@main # we need the helm charts
-
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_SP_CREDENTIALS}}
@@ -54,7 +53,9 @@ jobs:
 #          helm list
 
       # Baking the helm chart to generate the manifests to deploy
-      - uses: azure/k8s-bake@v2.2
+      - name: Create the helm chart
+        id: bake
+        uses: azure/k8s-bake@v2.2
         with:
           silent: 'false' # set this to get more verbose helm command logs
           renderEngine: 'helm'
@@ -62,11 +63,11 @@ jobs:
           helm-version: 'latest'
           # see: https://github.com/marketplace/actions/kubernetes-bake
           # to override the secrets in the helm charts with an env variable (todo)
-        id: bake
 
-# we store images in ttl.sh,
-#  no need for a login
+      # we store images in ttl.sh,
+      #  no need for a login
       - name: Authenticate to the docker registry
+        id: registry-authentication
         uses: docker/login-action@v2
         with:
           # registry: registry.gitlab.com
@@ -76,7 +77,9 @@ jobs:
 
       # Deploy app to AKS
       # see: https://github.com/Azure/k8s-deploy
-      - uses: azure/k8s-deploy@v4.2
+      - name: Deploy on kubernetes
+        id: kubernetes-deployment
+        uses: azure/k8s-deploy@v4.5
         with:
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
           images: |
