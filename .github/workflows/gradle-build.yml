@@ -13,7 +13,6 @@ jobs:
 
   gradle-build:
     name: build the images with the jib gradle task
-    id: build-job
     runs-on: ubuntu-22.04
 
     steps:
