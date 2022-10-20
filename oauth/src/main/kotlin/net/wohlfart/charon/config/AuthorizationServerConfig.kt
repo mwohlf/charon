@@ -9,9 +9,11 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
+import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
@@ -47,10 +49,12 @@ class AuthorizationServerConfig(
         // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-userinfo.html
         // token endpoint
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
+        http.getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
+            .oidc(Customizer.withDefaults()) // Enable OpenID Connect 1.0
+
         http.cors { } // picks up our default cors config
         http.exceptionHandling { exceptions -> exceptions.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login")) }
         // http.cors(Customizer.withDefaults())
-
         http.headers().frameOptions().sameOrigin()
 
         /*
