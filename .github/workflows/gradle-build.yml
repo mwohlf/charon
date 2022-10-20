@@ -13,7 +13,8 @@ jobs:
 
   gradle-build:
     name: build the images with the jib gradle task
-    runs-on: ubuntu-latest
+    id: build-job
+    runs-on: ubuntu-22.04
 
     steps:
 
@@ -32,10 +33,10 @@ jobs:
 
       - name: Run gradle build to compile the applications
         id: run-build
-        run: ${{ github.workspace }}/gradlew build --no-daemon --scan >> $GITHUB_OUTPUT
+        run: ${{ github.workspace }}/gradlew build --no-daemon --scan
 
       # this creates and pushes the docker images we need for the services
       - name: Run gradle jib to create and push the images
         id: run-jib
-        run: ${{ github.workspace }}/gradlew jib --no-daemon >> $GITHUB_OUTPUT
+        run: ${{ github.workspace }}/gradlew jib --no-daemon
 
