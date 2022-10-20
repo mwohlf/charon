@@ -10,25 +10,26 @@ spec:
       app: charon-oauth
   replicas: 1
   template:
+
     metadata:
       labels:
         app: charon-oauth
-    spec:
 
+    spec:
       containers:
         - name: charon-oauth
           image: ttl.sh/mwohlf/charon-oauth
           env:
             - name: SERVER_PORT
               value: "8080"
-            - name: GOOGLE_CLIENT_ID
-              value: {{ .Values.oauth.clients.google.id }}
-            - name: GOOGLE_CLIENT_SECRET
-              value: {{ .Values.oauth.clients.google.secret }}
-            - name: GITHUB_CLIENT_ID
-              value: {{ .Values.oauth.clients.github.id }}
-            - name: GITHUB_CLIENT_SECRET
-              value: {{ .Values.oauth.clients.github.secret }}
+#            - name: GOOGLE_CLIENT_ID
+#              value: {{ .Values.oauth.clients.google.id }}
+#            - name: GOOGLE_CLIENT_SECRET
+#              value: {{ .Values.oauth.clients.google.secret }}
+#            - name: GITHUB_CLIENT_ID
+#              value: {{ .Values.oauth.clients.github.id }}
+#            - name: GITHUB_CLIENT_SECRET
+#              value: {{ .Values.oauth.clients.github.secret }}
           imagePullPolicy: Always
           ports:
             - name: http
