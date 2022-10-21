@@ -10,12 +10,13 @@ import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 
+// see: https://docs.spring.io/spring-security/reference/servlet/integrations/cors.html
+
 @Configuration
 class CorsConfig(
     val oauthProperties: OAuthProperties,
 ) {
 
-    // see: https://docs.spring.io/spring-security/reference/servlet/integrations/cors.html
     @Bean
     @Primary
     fun corsConfigurationSource(): CorsConfigurationSource {

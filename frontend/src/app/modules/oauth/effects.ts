@@ -162,9 +162,8 @@ export class Effects {
       tap((action) => {
         // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/login-logout
         // this.oidcSecurityService.logoff();
-        this.oidcSecurityService.logoffLocal(); // TODO: add configId
-        //this.oidcSecurityService.logoffAndRevokeTokens()
-        //  .subscribe((result) => console.log(result));
+        // this.oidcSecurityService.logoffLocal(); // TODO: add configId
+        this.oidcSecurityService.logoffAndRevokeTokens().subscribe((result) => console.log(result));
       }),
     );
   }, {dispatch: false});

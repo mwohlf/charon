@@ -23,20 +23,17 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 // https://stackoverflow.com/questions/71479250/spring-security-oauth2-authorization-server-angular-auth-oidc-client
 // working sample
 // https://github.com/sjohnr/spring-authorization-server/tree/bff-demo/samples/default-authorizationserver/src
-
 // implementation might have changed here according to
 // https://github.com/spring-projects/spring-authorization-server/blob/main/samples/default-authorizationserver/src/main/java/sample/config/AuthorizationServerConfig.java
-//
-//
-
-
+// more info:
+// https://github.com/spring-projects/spring-authorization-server/blob/d39cc7ca7580bdcd9cbf8bd65b54c84f1dfe42e7/docs/src/docs/asciidoc/configuration-model.adoc
+// or:
+// https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-userinfo.html
+// https://github.com/spring-projects/spring-authorization-server/commit/a846e936e9a5b72567058b5b96f69aa383bc2a4a#diff-7181a8eb33d010003aa5b960b53c8c41a2eab2e43e19d1fe66e5e7ece60a53ff
 @Configuration
 class AuthorizationServerConfig(
     val oauthProperties: OAuthProperties,
 ) {
-
-
-// see: https://github.com/spring-projects/spring-authorization-server/blob/d39cc7ca7580bdcd9cbf8bd65b54c84f1dfe42e7/docs/src/docs/asciidoc/configuration-model.adoc
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -46,15 +43,18 @@ class AuthorizationServerConfig(
         logoutCustomizer: LogoutCustomizer,
     ): SecurityFilterChain {
 
-        // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-userinfo.html
         // token endpoint
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
+        // Enable OpenID Connect 1.0
         http.getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
-            .oidc(Customizer.withDefaults()) // Enable OpenID Connect 1.0
-
-        http.cors { } // picks up our default cors config
-        http.exceptionHandling { exceptions -> exceptions.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login")) }
-        // http.cors(Customizer.withDefaults())
+            .oidc(Customizer.withDefaults())
+            // TODO: .tokenRevocationEndpoint(Customizer.withDefaults())
+        // picks up our default cors config
+        http.cors { }
+        http.exceptionHandling { exceptions ->
+            exceptions.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login"))
+        }
+        // for refresh inline frame needed ?
         http.headers().frameOptions().sameOrigin()
 
         /*
