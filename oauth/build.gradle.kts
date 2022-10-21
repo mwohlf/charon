@@ -18,9 +18,9 @@ tasks.test {
 }
 
 dependencies {
-    implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.1")
-    implementation("io.swagger.core.v3:swagger-models:2.2.1")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.2")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.4")
+    implementation("io.swagger.core.v3:swagger-models:2.2.4")
     implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
