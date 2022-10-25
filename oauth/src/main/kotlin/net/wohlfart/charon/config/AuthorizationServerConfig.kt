@@ -2,6 +2,7 @@ package net.wohlfart.charon.config
 
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
+import mu.KotlinLogging
 import net.wohlfart.charon.OAuthProperties
 import net.wohlfart.charon.component.LoginCustomizer
 import net.wohlfart.charon.component.LogoutCustomizer
@@ -9,15 +10,24 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
+import org.springframework.http.HttpStatus
+import org.springframework.lang.Nullable
+import org.springframework.security.authentication.TestingAuthenticationToken
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2TokenRevocationEndpointConfigurer
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.AuthenticationConverter
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
+import javax.servlet.http.HttpServletRequest
 
+
+private val logger = KotlinLogging.logger {}
 
 // docs:
 // https://stackoverflow.com/questions/71479250/spring-security-oauth2-authorization-server-angular-auth-oidc-client
@@ -49,6 +59,21 @@ class AuthorizationServerConfig(
         http.getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
             .oidc(Customizer.withDefaults())
             // TODO: .tokenRevocationEndpoint(Customizer.withDefaults())
+            // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/protocol-endpoints.html#oauth2-token-revocation-endpoint
+            .tokenRevocationEndpoint { tokenRevocationEndpoint: OAuth2TokenRevocationEndpointConfigurer ->
+                tokenRevocationEndpoint
+                    .revocationRequestConverter(RevokeAuthenticationConverter())
+                    //.authenticationProvider(authenticationProvider)
+                    .revocationResponseHandler { request, response, authentication ->
+                        /* delete session here... */
+                        logger.error { "inside revocationResponseHandler" }
+                        logger.info { "request: $request" }
+                        logger.info { "authentication: $authentication" }
+                        response.status = HttpStatus.OK.value()
+                    }
+                //.errorResponseHandler(errorResponseHandler)
+            }
+
         // picks up our default cors config
         http.cors { }
         http.exceptionHandling { exceptions ->
@@ -70,9 +95,17 @@ class AuthorizationServerConfig(
             .logout(logoutCustomizer)
             .build()
         */
+        // needed according to https://docs.spring.io/spring-authorization-server/docs/current/reference/html/protocol-endpoints.html
+        // for the oidc endpoint user info whatever
+        // val authorizationServerConfigurer: OAuth2AuthorizationServerConfigurer<HttpSecurity> =
+        //    OAuth2AuthorizationServerConfigurer()
+        // http.apply(authorizationServerConfigurer)
+        // http.oauth2ResourceServer(OAuth2ResourceServerConfigurer<HttpSecurity>::jwt)
+
 
         return http.build()
     }
+
 
     @Bean
     fun jwtDecoder(jwkSource: JWKSource<SecurityContext>): JwtDecoder {
@@ -85,6 +118,14 @@ class AuthorizationServerConfig(
             .issuer(oauthProperties.issuer)
             // configure endpoints here that will be used in the well-known...
             .build()
+    }
+
+    class RevokeAuthenticationConverter : AuthenticationConverter {
+        @Nullable
+        override fun convert(request: HttpServletRequest): Authentication {
+            logger.error { "authentication: $request" }
+            return TestingAuthenticationToken("test", "user")
+        }
     }
 
 }
