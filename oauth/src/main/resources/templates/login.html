@@ -7,14 +7,16 @@
 <div tiles:fragment="content">
     <form name="f" th:action="@{/login}" method="post">
         <div class="group">
-            <input type="text"><span class="highlight"></span><span class="bar"></span>
+            <input autocomplete="username" type="text" id="username" name="username">
+            <span class="highlight"></span><span class="bar"></span>
             <label>Name</label>
         </div>
         <div class="group">
-            <input type="email"><span class="highlight"></span><span class="bar"></span>
+            <input autocomplete="current-password" type="password" id="password" name="password">
+            <span class="highlight"></span><span class="bar"></span>
             <label>Email</label>
         </div>
-        <button type="button" class="button buttonBlue">Subscribe
+        <button type="submit" class="button buttonBlue">Login
             <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
         </button>
     </form>
