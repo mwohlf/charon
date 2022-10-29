@@ -59,7 +59,10 @@ class OAuthClientRepository(
     oauthProperties: OAuthProperties,
 ) : JdbcRegisteredClientRepository(jdbcTemplate) {
 
+
+    // or after properties set
     init {
+
         oauthProperties.clients.forEach {
             this.save(buildClient(it.key, it.value))
         }

@@ -4,16 +4,19 @@ server:
     include-exception: true
     include-stacktrace: always
 
-management:
-  endpoint:
-    health:
-      probes:
-        enabled: true
-  health:
-    liveness-state:
+logging:
+  level:
+    root: INFO
+    org:
+      springframework: TRACE
+
+spring:
+  # http://localhost:8080/h2-console
+  h2:
+    console:
       enabled: true
-    readiness-state:
-      enabled: true
+
+
 
 net:
   wohlfart:
@@ -42,9 +45,3 @@ net:
               - "http://127.0.0.1:4200/charon/silent-renew.html"
               - "http://127.0.0.1:4200/charon/home"
 
-
-logging:
-  level:
-    root: INFO
-    org:
-      springframework: TRACE
