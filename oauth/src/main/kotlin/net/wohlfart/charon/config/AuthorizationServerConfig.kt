@@ -48,7 +48,6 @@ class AuthorizationServerConfig(
             .oidc(Customizer.withDefaults())
             .tokenRevocationEndpoint { oAuth2TokenRevocationEndpointConfigurer: OAuth2TokenRevocationEndpointConfigurer ->
                 oAuth2TokenRevocationEndpointConfigurer
-                    // .revocationRequestConverter(RevokeAuthenticationConverter())
                     .authenticationProvider(RevokeAuthenticationProvider())
             }
 
