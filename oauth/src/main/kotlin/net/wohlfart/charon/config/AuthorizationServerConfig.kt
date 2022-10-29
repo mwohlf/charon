@@ -12,13 +12,13 @@ import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
 import org.springframework.lang.Nullable
+import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.TestingAuthenticationToken
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer.ExpressionInterceptUrlRegistry
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
@@ -49,20 +49,20 @@ class AuthorizationServerConfig(
     val oauthProperties: OAuthProperties,
 ) {
 
-/*
-    @Throws(Exception::class)
-    fun applyDefaultSecurity(http: HttpSecurity) {
-        val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
-        val endpointsMatcher = authorizationServerConfigurer.endpointsMatcher
-        http.requestMatcher(endpointsMatcher)
-            .authorizeRequests(Customizer { authorizeRequests: ExpressionInterceptUrlRegistry -> (authorizeRequests.anyRequest() as ExpressionUrlAuthorizationConfigurer.AuthorizedUrl).authenticated() })
-            .csrf { csrf: CsrfConfigurer<HttpSecurity?> ->
-                csrf.ignoringRequestMatchers(
-                    *arrayOf(endpointsMatcher)
-                )
-            }.apply(authorizationServerConfigurer)
-    }
-*/
+    /*
+        @Throws(Exception::class)
+        fun applyDefaultSecurity(http: HttpSecurity) {
+            val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
+            val endpointsMatcher = authorizationServerConfigurer.endpointsMatcher
+            http.requestMatcher(endpointsMatcher)
+                .authorizeRequests(Customizer { authorizeRequests: ExpressionInterceptUrlRegistry -> (authorizeRequests.anyRequest() as ExpressionUrlAuthorizationConfigurer.AuthorizedUrl).authenticated() })
+                .csrf { csrf: CsrfConfigurer<HttpSecurity?> ->
+                    csrf.ignoringRequestMatchers(
+                        *arrayOf(endpointsMatcher)
+                    )
+                }.apply(authorizationServerConfigurer)
+        }
+    */
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     fun authorizationServerSecurityFilterChain(
@@ -71,19 +71,21 @@ class AuthorizationServerConfig(
         logoutCustomizer: LogoutCustomizer,
     ): SecurityFilterChain {
 
-    // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
-    val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
-    val endpointsMatcher = authorizationServerConfigurer.endpointsMatcher
-    http.requestMatcher(endpointsMatcher)
-        .authorizeRequests(Customizer {
-                authorizeRequests: ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry
-            -> (authorizeRequests.anyRequest() as ExpressionUrlAuthorizationConfigurer.AuthorizedUrl).authenticated()
-        })
-        .csrf { csrf: CsrfConfigurer<HttpSecurity?> ->
-            csrf.ignoringRequestMatchers(
-                *arrayOf(endpointsMatcher)
-            )
-        }.apply(authorizationServerConfigurer)
+        // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
+        val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
+        val endpointsMatcher = authorizationServerConfigurer.endpointsMatcher
+        http.requestMatcher(endpointsMatcher)
+            .authorizeRequests { authorizeRequests: ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry
+                ->
+                authorizeRequests
+                    .antMatchers("/oauth2/revoke").permitAll()
+                    .anyRequest().authenticated()
+            }
+            .csrf { csrfConfigurer: CsrfConfigurer<HttpSecurity?>
+                ->
+                csrfConfigurer.ignoringRequestMatchers(*arrayOf(endpointsMatcher)
+                )
+            }.apply(authorizationServerConfigurer)
         // token endpoint
         // val authorizationServerConfigurer = http.getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
         // val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
@@ -95,17 +97,20 @@ class AuthorizationServerConfig(
             .oidc(Customizer.withDefaults())
             // TODO: .tokenRevocationEndpoint(Customizer.withDefaults())
             // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/protocol-endpoints.html#oauth2-token-revocation-endpoint
-            .tokenRevocationEndpoint { tokenRevocationEndpoint: OAuth2TokenRevocationEndpointConfigurer ->
-                tokenRevocationEndpoint
+            .tokenRevocationEndpoint { oAuth2TokenRevocationEndpointConfigurer: OAuth2TokenRevocationEndpointConfigurer ->
+                oAuth2TokenRevocationEndpointConfigurer
                     .revocationRequestConverter(RevokeAuthenticationConverter())
-                    //.authenticationProvider(authenticationProvider)
-                    .revocationResponseHandler { request, response, authentication ->
+                    .authenticationProvider(RevokeAuthenticationProvider())
+                    /*
+                    .revocationResponseHandler { request, response, authentication
+                        ->
                         /* delete session here... */
                         logger.error { "inside revocationResponseHandler" }
                         logger.info { "request: $request" }
                         logger.info { "authentication: $authentication" }
                         response.status = HttpStatus.OK.value()
                     }
+                    */
                 //.errorResponseHandler(errorResponseHandler)
 
             }
@@ -113,8 +118,9 @@ class AuthorizationServerConfig(
         // picks up our default cors config
         http.cors { }
         // http.oauth2ResourceServer(OAuth2ResourceServerConfigurer<HttpSecurity>::jwt)
-        http.exceptionHandling { exceptions: ExceptionHandlingConfigurer<HttpSecurity> ->
-            exceptions.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login"))
+        http.exceptionHandling { exceptionHandlingConfigurer: ExceptionHandlingConfigurer<HttpSecurity>
+            ->
+            exceptionHandlingConfigurer.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login"))
         }
         // for refresh inline frame needed ?
         http.headers().frameOptions().sameOrigin()
@@ -139,7 +145,7 @@ class AuthorizationServerConfig(
         // http.apply(authorizationServerConfigurer)
         // http.oauth2ResourceServer(OAuth2ResourceServerConfigurer<HttpSecurity>::jwt)
 
-
+        // creates
         return http.build()
     }
 
@@ -163,6 +169,22 @@ class AuthorizationServerConfig(
             logger.error { "authentication: $request" }
             return TestingAuthenticationToken("test", "user")
         }
+    }
+
+    class RevokeAuthenticationProvider : AuthenticationProvider {
+        override fun authenticate(authentication: Authentication): Authentication? {
+            logger.error { "authentication: $authentication" }
+            if (authentication is TestingAuthenticationToken) {
+                authentication.isAuthenticated = true
+            }
+            return authentication
+        }
+
+        override fun supports(authentication: Class<*>?): Boolean {
+            logger.error { "can authenticate: $authentication" }
+            return true
+        }
+
     }
 
 }
