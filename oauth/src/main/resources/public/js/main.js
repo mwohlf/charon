@@ -1,23 +1,23 @@
 $(window, document, undefined).ready(function() {
 
     $('input').blur(function() {
-        var $this = $(this);
+        const $this = $(this);
         if ($this.val())
             $this.addClass('used');
         else
             $this.removeClass('used');
     });
 
-    var $ripples = $('.ripples');
+    const $ripples = $('.ripples');
 
     $ripples.on('click.Ripples', function(e) {
 
-        var $this = $(this);
-        var $offset = $this.parent().offset();
-        var $circle = $this.find('.ripplesCircle');
+        const $this = $(this);
+        const $offset = $this.parent().offset();
+        const $circle = $this.find('.ripplesCircle');
 
-        var x = e.pageX - $offset.left;
-        var y = e.pageY - $offset.top;
+        const x = e.pageX - $offset.left;
+        const y = e.pageY - $offset.top;
 
         $circle.css({
             top: y + 'px',

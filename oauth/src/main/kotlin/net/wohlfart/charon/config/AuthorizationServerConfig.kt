@@ -15,6 +15,10 @@ import org.springframework.lang.Nullable
 import org.springframework.security.authentication.TestingAuthenticationToken
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
+import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer.ExpressionInterceptUrlRegistry
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
@@ -45,6 +49,20 @@ class AuthorizationServerConfig(
     val oauthProperties: OAuthProperties,
 ) {
 
+/*
+    @Throws(Exception::class)
+    fun applyDefaultSecurity(http: HttpSecurity) {
+        val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
+        val endpointsMatcher = authorizationServerConfigurer.endpointsMatcher
+        http.requestMatcher(endpointsMatcher)
+            .authorizeRequests(Customizer { authorizeRequests: ExpressionInterceptUrlRegistry -> (authorizeRequests.anyRequest() as ExpressionUrlAuthorizationConfigurer.AuthorizedUrl).authenticated() })
+            .csrf { csrf: CsrfConfigurer<HttpSecurity?> ->
+                csrf.ignoringRequestMatchers(
+                    *arrayOf(endpointsMatcher)
+                )
+            }.apply(authorizationServerConfigurer)
+    }
+*/
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     fun authorizationServerSecurityFilterChain(
@@ -53,10 +71,27 @@ class AuthorizationServerConfig(
         logoutCustomizer: LogoutCustomizer,
     ): SecurityFilterChain {
 
+    // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
+    val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
+    val endpointsMatcher = authorizationServerConfigurer.endpointsMatcher
+    http.requestMatcher(endpointsMatcher)
+        .authorizeRequests(Customizer {
+                authorizeRequests: ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry
+            -> (authorizeRequests.anyRequest() as ExpressionUrlAuthorizationConfigurer.AuthorizedUrl).authenticated()
+        })
+        .csrf { csrf: CsrfConfigurer<HttpSecurity?> ->
+            csrf.ignoringRequestMatchers(
+                *arrayOf(endpointsMatcher)
+            )
+        }.apply(authorizationServerConfigurer)
         // token endpoint
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
+        // val authorizationServerConfigurer = http.getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
+        // val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
+        // http.apply(authorizationServerConfigurer)
+
+
         // Enable OpenID Connect 1.0
-        http.getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
+        authorizationServerConfigurer
             .oidc(Customizer.withDefaults())
             // TODO: .tokenRevocationEndpoint(Customizer.withDefaults())
             // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/protocol-endpoints.html#oauth2-token-revocation-endpoint
@@ -72,11 +107,13 @@ class AuthorizationServerConfig(
                         response.status = HttpStatus.OK.value()
                     }
                 //.errorResponseHandler(errorResponseHandler)
+
             }
 
         // picks up our default cors config
         http.cors { }
-        http.exceptionHandling { exceptions ->
+        // http.oauth2ResourceServer(OAuth2ResourceServerConfigurer<HttpSecurity>::jwt)
+        http.exceptionHandling { exceptions: ExceptionHandlingConfigurer<HttpSecurity> ->
             exceptions.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login"))
         }
         // for refresh inline frame needed ?

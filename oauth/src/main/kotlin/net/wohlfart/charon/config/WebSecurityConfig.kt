@@ -29,7 +29,7 @@ class WebSecurityConfig {
                 .mvcMatchers("/logout").permitAll()
                 .mvcMatchers("/login").permitAll()
                 .mvcMatchers("/revoke").permitAll()
-                .mvcMatchers("/oauth2/revoke").permitAll()
+                .mvcMatchers("/oauth2/revoke").anonymous()
                 .anyRequest().authenticated()
         }
         http.cors { } // picks up our default cors config
