@@ -28,7 +28,7 @@ class WebSecurityConfig {
                 .mvcMatchers("/error").permitAll()
                 .mvcMatchers("/logout").permitAll()
                 .mvcMatchers("/login").permitAll()
-                .mvcMatchers("/h2-console").permitAll()
+                .antMatchers("/h2/**").permitAll()
                // .mvcMatchers("/revoke").permitAll()
                // .mvcMatchers("/oauth2/revoke").anonymous()
                 .anyRequest().authenticated()
