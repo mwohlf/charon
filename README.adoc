@@ -5,10 +5,14 @@
 image::https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml/badge.svg?[https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml]
 
 == TL;DR
-```
+
+[source]
+----
 ./gradlew jibDockerBuild
 docker run <imageid>
-```
+----
+
+
 == intro
 
 This is a POC for implementing an OAuth Server and an Angular UI using it, in mostly  Kotlin/Typescript, basically showing off:
@@ -162,7 +166,7 @@ https://unbroken-dome.github.io/projects/gradle-helm-plugin/latest/userguide/ind
 
 -
 
-### deployment steps
+=== deployment steps
 
 - remove old namespace with cluster and all the configs +
 `./azure.bash delete`
@@ -178,7 +182,7 @@ the content of credentials.txt goes into the github secrets as `AZURE_SP_CREDENT
 shows the current IP which needs to b configured in cloudflare
 
 
-### deployment troubleshooting
+=== deployment troubleshooting
 
 - kubectl get ingress --all-namespaces
 
@@ -190,7 +194,7 @@ shows the current IP which needs to b configured in cloudflare
 
 - kubectl logs charon-backend-deployment-6996d676b6-z4zlj --namespace development
 
-#### Spring Auth Server Project:
+==== Spring Auth Server Project:
 
 https://github.com/spring-projects/spring-authorization-server +
 https://www.appsdeveloperblog.com/spring-authorization-server-tutorial/ +
@@ -199,23 +203,15 @@ https://github.com/spring-projects/spring-authorization-server/issues/297 +
 https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-userinfo.html +
 
 
-#### OAuth Client Project:
+==== OAuth Client Project:
 
 angular-auth-oidc-client
 
 https://github.com/damienbod/angular-auth-oidc-client +
 
 
-#### k8s resources
+==== k8s resources
 
-https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0
-https://medium.com/microsoftazure/aks-different-load-balancing-options-for-a-single-cluster-when-to-use-what-abd2c22c2825
-
-https://docs.microsoft.com/en-us/azure/application-gateway/ingress-controller-letsencrypt-certificate-application-gateway
-
-https://techblog.buzyka.de/2021/02/make-lets-encrypt-certificates-love.html
-
-https://gist.github.com/jult/e4dd064e3988aa111ea2194b05bc69f5
 
 
 https://labzilla.io/blog/cloudflare-certbot

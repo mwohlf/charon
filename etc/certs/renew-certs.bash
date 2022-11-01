@@ -1,17 +1,16 @@
 #!/usr/bin/env bash
 #
+# script to re-generate the cert for wired-heart.com
+#   - make sure the token is still valid in .../setup/cloudflare-token.txt
+#   - run this script with access to cloudflare
+#   - the secrets.yaml file will be generated
 #
-# https://hub.docker.com/r/certbot/dns-cloudflare
-# https://certbot-dns-cloudflare.readthedocs.io/en/stable/#credentials
-# https://www.nodinrogers.com/post/2022-03-10-certbot-cloudflare-docker/
-# https://stackoverflow.com/questions/50389883/generate-crt-key-ssl-files-from-lets-encrypt-from-scratch
-# https://www.sslshopper.com/article-most-common-openssl-commands.html
 
 set -e
 
 
 DOMAIN="wired-heart.com"
-KEYVAULT="finalrestingheartrateVlt"
+# KEYVAULT="finalrestingheartrateVlt"
 
 CURRENT_DIR="${PWD}"
 SCRIPT_DIR="$(
@@ -28,12 +27,12 @@ trap cleanup EXIT
 function create_cert() {
     # for running local
     if [[ -z "${CLOUDFLARE_TOKEN}" ]]; then
-        CLOUDFLARE_TOKEN=$(cat "${SCRIPT_DIR}/../setup/cloudflare-token.txt") #the output of 'cat $file' is assigned to the $name variable
+        CLOUDFLARE_TOKEN=$(cat "${SCRIPT_DIR}/../setup/cloudflare-token.txt")
     fi
 
     mkdir -p "${SCRIPT_DIR}/etc"
     echo "dns_cloudflare_api_token = ${CLOUDFLARE_TOKEN}" >"${SCRIPT_DIR}/etc/credentials"
-    # chmod 400 ./etc/credentials
+    # chmod 400 "${SCRIPT_DIR}/etc/credentials"
 
     docker run \
         --rm \
@@ -81,34 +80,8 @@ EOF
 #   main
 #################
 
-# create_cert
-# convert_pem
+create_cert
 create_config
 
 exit 0
 
-
-echo "Uploads the certificate and gets the Thumbprint"
-THUMBPRINT=$(az functionapp config ssl upload --certificate-file $DOMAIN.pfx --certificate-password pwd123 -n $FUNCTION_APP -g $RESOURCE_GROUP | jq --raw-output '.|.thumbprint')
-
-echo "Binds the funciton app to the certificate"
-az functionapp config ssl bind --certificate-thumbprint $THUMBPRINT --ssl-type SNI -n $FUNCTION_APP -g $RESOURCE_GROUP
-
-ls -l
-
-echo "Cleans Up Files"
-rm ./cftoken
-rm $DOMAIN.pfx
-
-az keyvault secret set \
-    --name SecretPassword \
-    --value reindeer_flotilla \
-    --vault-name your-unique-vault-name
-
-# to check the token
-curl -X \
-    GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
-    -H "Authorization: Bearer GerhwqHsooFIEVzX2DPgcxqbPtpj4jR_PQK0M8ne" \
-    -H "Content-Type:application/json"
-
-# sudo certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/cloudflare.ini -d example.com,*.example.com --preferred-challenges dns-01
