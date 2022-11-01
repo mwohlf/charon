@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest
 
 @Component
 class AngularRoutesFilter(val charonProperties: CharonProperties) : Filter {
-    var logger = Logger.getLogger(this.javaClass.name)
+    var logger = Logger.getLogger(this.javaClass.name)!!
 
     val API_PATH = "/api"
     val SWAGGER_CONFIG_PATH = "/v3/api-docs"

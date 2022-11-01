@@ -10,7 +10,8 @@
 // plugins for the build src
 plugins {
     // val kotlinPluginVersion = "2.1.7"
-    val kotlinDslPluginVersion = "2.3.3"
+    // val kotlinDslPluginVersion = "2.3.3"
+    val kotlinDslPluginVersion = "3.1.0"
     // id("org.jetbrains.kotlin.jvm") version "1.7.0"
     // `kotlin-dsl`
     id("org.gradle.kotlin.kotlin-dsl") version kotlinDslPluginVersion  // `kotlin-dsl`
@@ -27,9 +28,9 @@ dependencies {
     // we need to declare dependencies for all the used plugins in the buildScripts...
 
     // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/
-    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.4")
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.5")
     // https://plugins.gradle.org/plugin/io.spring.dependency-management
-    implementation("io.spring.gradle:dependency-management-plugin:1.0.14.RELEASE")
+    implementation("io.spring.gradle:dependency-management-plugin:1.1.0")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${jetbrainKotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-allopen:${jetbrainKotlinVersion}")
     // implementation("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.6.21-1.0.6")
