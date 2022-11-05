@@ -25,12 +25,12 @@ plugins {
 
 // repos for dependencies of the module in which this plugin is used
 repositories {
+    maven { url = uri("https://repo.spring.io/snapshot") }
+    maven { url = uri("https://repo.spring.io/milestone") }
+    maven { url = uri("https://repo.spring.io/release") }
     google()
     mavenLocal()
     mavenCentral()
-    maven { url = uri("https://repo.spring.io/release") }
-    maven { url = uri("https://repo.spring.io/milestone") }
-    maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 // see: https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#integrating-with-actuator.build-info

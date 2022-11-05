@@ -18,7 +18,6 @@ spring:
       path: "/h2"
       settings:
         web-allow-others: true
-        web-admin-password: password
 
 net:
   wohlfart:

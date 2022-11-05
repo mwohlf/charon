@@ -2,7 +2,6 @@ package net.wohlfart.charon.config
 
 import net.wohlfart.charon.component.LoginCustomizer
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
-import org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -34,6 +33,8 @@ class WebSecurityConfig {
                 .anyRequest().authenticated()
         }
         http.cors { } // picks up our default cors config
+        http.csrf { csrf -> csrf.disable() } // for the h2 console
+        http.headers().frameOptions().sameOrigin() // which uses frames it seems
         http.formLogin(loginCustomizer)
         return http.build()
 

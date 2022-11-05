@@ -2,8 +2,8 @@
 // see: https://github.com/pavan5208/android_sample_kotlin_dsl/blob/master/buildSrc/src/main/kotlin/Versions.kt
 object Versions {
 
-    const val NODE = "16.15.1"
-    const val NPM = "7.19.1"
+    const val NODE = "18.12.1"
+    const val NPM = "8.19.1"
 
     // dependencies
 
