@@ -38,8 +38,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
   private openSnackbar(next: NotificationData): void {
     this.handle = this.matSnackBar.open(
       next.message, 'OK', {
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
       },
     );
 

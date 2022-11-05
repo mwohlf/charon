@@ -14,6 +14,10 @@ class DatabaseBootstrap {
     fun embeddedDatabase(dataSource: DataSource): JdbcTemplate {
         runSqlScript(
             dataSource,
+            "sql/drop-tables.sql"
+        )
+        runSqlScript(
+            dataSource,
             "org/springframework/security/oauth2/server/authorization/oauth2-authorization-schema.sql"
         )
         runSqlScript(
