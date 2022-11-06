@@ -49,6 +49,7 @@ class AuthorizationServerConfig(
             .tokenRevocationEndpoint { oAuth2TokenRevocationEndpointConfigurer: OAuth2TokenRevocationEndpointConfigurer ->
                 oAuth2TokenRevocationEndpointConfigurer
                     .authenticationProvider(RevokeAuthenticationProvider())
+                //    .revocationRequestConverter(RevokeAuthenticationConverter())
             }
 
         val endpointsMatcher = authorizationServerConfigurer.endpointsMatcher
@@ -106,9 +107,22 @@ class AuthorizationServerConfig(
         }
     }
 
+
+    class RevokeAuthenticationData(request: HttpServletRequest) : PreAuthenticatedAuthenticationToken(null, request)
+
+    // invoked first
+    class RevokeAuthenticationConverter : AuthenticationConverter {
+        override fun convert(request: HttpServletRequest): Authentication {
+            request.logout();
+            return RevokeAuthenticationData(request)
+        }
+    }
+
      */
 
-    class RevokeAuthenticationProvider : AuthenticationProvider {
+
+    // invoked second
+    class RevokeAuthenticationProvider() : AuthenticationProvider {
         override fun authenticate(authentication: Authentication): Authentication {
             if (authentication is OAuth2TokenRevocationAuthenticationToken) {
                 try {
