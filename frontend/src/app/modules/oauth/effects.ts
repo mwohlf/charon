@@ -6,7 +6,7 @@ import {
   OidcSecurityService,
   PublicEventsService,
 } from 'angular-auth-oidc-client';
-import {Observable, of} from 'rxjs';
+import {Observable, of, withLatestFrom} from 'rxjs';
 import {
   loginAction,
   logoutAction,
@@ -27,6 +27,8 @@ import {
 } from 'build/generated';
 import {LocationStrategy} from '@angular/common';
 import {NGXLogger} from 'ngx-logger';
+import {selectOAuthFeature} from './selector';
+import {OAuthState} from './reducer';
 
 @Injectable()
 export class Effects {
@@ -153,19 +155,24 @@ export class Effects {
     );
   }, {dispatch: false});
 
-  logoutAction$: Observable<Action> = createEffect(() => {
+  logoutAction$: Observable<[Action, OAuthState]> = createEffect(() => {
     return this.action$.pipe(
       ofType(logoutAction),
       tap((action) => {
         this.logger.debug('<logoutAction>', action);
       }),
-      tap((action) => {
+      withLatestFrom(this.store.select(selectOAuthFeature)),
+      tap(([action, oAuthFeature]) => {
+        this.logger.debug('<logoutAction> for configId:', oAuthFeature.configId);
         // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/login-logout
         // this.oidcSecurityService.logoff();
         // this.oidcSecurityService.logoffLocal(); // TODO: add configId
         this.oidcSecurityService.logoffAndRevokeTokens().subscribe(() => {
           this.logger.debug('<logoffAndRevokeTokens> returned');
-          window.location.href='http://127.0.0.1:8081/logout';
+          var authority = oAuthFeature.openIdConfigurations.find(
+            element => element.configId === oAuthFeature.configId,
+          )?.authority || 'logout';
+          window.location.href = authority + '/logout';
         });
       }),
     );

@@ -25,4 +25,11 @@ export const isAuthenticated = createSelector(
   },
 );
 
+export const selectConfigId = createSelector(
+  selectOAuthFeature,
+  (state: OAuthState) => {
+    return state.configId
+  },
+);
+
 
