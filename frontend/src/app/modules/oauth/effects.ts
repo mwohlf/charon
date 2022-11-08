@@ -165,6 +165,7 @@ export class Effects {
         // this.oidcSecurityService.logoffLocal(); // TODO: add configId
         this.oidcSecurityService.logoffAndRevokeTokens().subscribe(() => {
           this.logger.debug('<logoffAndRevokeTokens> returned');
+          window.location.href='http://127.0.0.1:8081/logout';
         });
       }),
     );

@@ -17,11 +17,14 @@ import org.springframework.security.config.annotation.web.configurers.ExceptionH
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.jwt.JwtDecoder
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenType.ACCESS_TOKEN
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2TokenRevocationAuthenticationToken
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2TokenRevocationEndpointConfigurer
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
+import org.springframework.security.oauth2.server.authorization.settings.ConfigurationSettingNames
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
 import java.text.ParseException
@@ -39,6 +42,7 @@ class AuthorizationServerConfig(
     @Order(Ordered.HIGHEST_PRECEDENCE)
     fun authorizationServerSecurityFilterChain(
         http: HttpSecurity,
+        oAuth2AuthorizationService: OAuth2AuthorizationService,
     ): SecurityFilterChain {
 
         // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
@@ -48,8 +52,7 @@ class AuthorizationServerConfig(
             .oidc(Customizer.withDefaults())
             .tokenRevocationEndpoint { oAuth2TokenRevocationEndpointConfigurer: OAuth2TokenRevocationEndpointConfigurer ->
                 oAuth2TokenRevocationEndpointConfigurer
-                    .authenticationProvider(RevokeAuthenticationProvider())
-                //    .revocationRequestConverter(RevokeAuthenticationConverter())
+                    .authenticationProvider(RevokeAuthenticationProvider(oAuth2AuthorizationService))
             }
 
         val endpointsMatcher = authorizationServerConfigurer.endpointsMatcher
@@ -98,38 +101,25 @@ class AuthorizationServerConfig(
             .build()
     }
 
-    /*
-    class RevokeAuthenticationConverter : AuthenticationConverter {
-        @Nullable
-        override fun convert(request: HttpServletRequest): Authentication {
-            logger.error { "authentication: $request" }
-            return TestingAuthenticationToken("test", "user")
-        }
-    }
-
-
-    class RevokeAuthenticationData(request: HttpServletRequest) : PreAuthenticatedAuthenticationToken(null, request)
-
-    // invoked first
-    class RevokeAuthenticationConverter : AuthenticationConverter {
-        override fun convert(request: HttpServletRequest): Authentication {
-            request.logout();
-            return RevokeAuthenticationData(request)
-        }
-    }
-
-     */
 
 
     // invoked second
-    class RevokeAuthenticationProvider() : AuthenticationProvider {
+    class RevokeAuthenticationProvider(private val oAuth2AuthorizationService: OAuth2AuthorizationService) : AuthenticationProvider {
         override fun authenticate(authentication: Authentication): Authentication {
             if (authentication is OAuth2TokenRevocationAuthenticationToken) {
                 try {
-                    val jwsObject = JWSObject.parse(authentication.token)
-                    val subscriber = jwsObject.payload.toJSONObject()["sub"]
-                    logger.error { "logout subscriber: $subscriber" }
-                } catch (ex: ParseException) {
+                    authentication.token?.let { token ->
+                        val jwsObject = JWSObject.parse(authentication.token)
+                        val subscriber = jwsObject.payload.toJSONObject()["sub"]
+                        logger.info { "logout subscriber: $subscriber" }
+                        val auth = oAuth2AuthorizationService.findByToken(token, ACCESS_TOKEN)
+                        auth?.let { authorization ->
+                            logger.info { "auth: $authorization" }
+                            oAuth2AuthorizationService.remove(authorization)
+                        }
+                    }
+
+                } catch (ex: Exception) {
                     logger.error { "ex: $ex" }
                 }
                 authentication.isAuthenticated = true

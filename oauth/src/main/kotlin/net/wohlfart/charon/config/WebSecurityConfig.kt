@@ -36,6 +36,7 @@ class WebSecurityConfig {
         http.csrf { csrf -> csrf.disable() } // for the h2 console
         http.headers().frameOptions().sameOrigin() // which uses frames it seems
         http.formLogin(loginCustomizer)
+        http.logout().clearAuthentication(true).permitAll()
         return http.build()
 
     }
