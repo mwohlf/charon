@@ -15,6 +15,12 @@
 </script>
 <div tiles:fragment="content">
     <form name="f" th:action="@{/login}" method="post">
+        <div th:if="${param.error}" class="alert alert-error">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success">
+            You have been logged out.
+        </div>
         <div class="group">
             <input autocomplete="username" type="text" id="username" name="username"
                    onfocus="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}"

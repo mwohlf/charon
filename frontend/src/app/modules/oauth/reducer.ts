@@ -11,6 +11,21 @@ import {LoggerHolder} from '../../shared/logger-holder';
 
 export const SIMPLE_CONFIG = 'spring-oauth';
 
+// this needs to be updated if we update the oidc lib
+export const eventList = [
+  'ConfigLoaded',
+  'CheckingAuth',
+  'CheckingAuthFinished',
+  'CheckingAuthFinishedWithError',
+  'ConfigLoadingFailed',
+  'CheckSessionReceived',
+  'UserDataChanged',
+  'NewAuthenticationResult',
+  'TokenExpired',
+  'IdTokenExpired',
+  'SilentRenewStarted',
+];
+
 export interface OAuthState {
   configId: string | undefined;
   authState: string;
@@ -47,19 +62,7 @@ const featureReducer = createReducer(
       // these values are copied and pasted from the last version of EventTypes
       // from the angular-auth-oidc-client lib, make sure to update
       // them when updating the lib!
-      const eventList = [
-        'ConfigLoaded',
-        'CheckingAuth',
-        'CheckingAuthFinished',
-        'CheckingAuthFinishedWithError',
-        'ConfigLoadingFailed',
-        'CheckSessionReceived',
-        'UserDataChanged',
-        'NewAuthenticationResult',
-        'TokenExpired',
-        'IdTokenExpired',
-        'SilentRenewStarted',
-      ];
+
       let eventString = eventList[payload.type];
       LoggerHolder.logger.debug(`<oauthEventAction> eventString: `, eventString);
       let result = {
@@ -73,6 +76,7 @@ const featureReducer = createReducer(
             isAuthenticated: payload.value.userData != null,
           };
           break;
+        case 'ConfigLoadingFailed':
         default:
           break;
       }

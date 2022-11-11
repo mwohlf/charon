@@ -86,14 +86,19 @@ https://angular.io/guide/build#proxying-to-a-backend-server
 
 === simple ngrx concepts
 
-Actions:: Describe unique events, dispatched from Components (Users), Services (Backends) and might contain data.
+Actions::
+Describe unique events, dispatched from Components (Users), Services (Backends) and might contain data.
 
-Reducer:: Convert action types, the data from actions and the current state into a new State.
+Reducer::
+Convert action types, the data from actions and the current state into a new State.
 
-Effects:: Listen to an observable of every action dispatched from the store, interact with Services, Isolate side effects, return new actions.
+Effects::
+Listen to an observable of every action dispatched from the store, interact with Services, Isolate side effects, **return new actions**. Also include state (e.g. with
+withLatestFrom(this.store.select(selectOAuthFeature)) ) to create a new action.
 
 
-Components:: Select and render state, dispatch actions.
+Components::
+Select and render state, dispatch actions.
 
 == backend module
 

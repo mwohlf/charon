@@ -28,7 +28,7 @@ import {
 import {LocationStrategy} from '@angular/common';
 import {NGXLogger} from 'ngx-logger';
 import {selectOAuthFeature} from './selector';
-import {OAuthState} from './reducer';
+import {eventList, OAuthState} from './reducer';
 
 @Injectable()
 export class Effects {
@@ -59,6 +59,28 @@ export class Effects {
         this.store.dispatch(oauthEventAction({payload: next}));
       });
   }
+
+  oauthEventAction: Observable<Action> = createEffect(() => {
+    return this.action$.pipe(
+      ofType(oauthEventAction), // the trigger to start loading config
+      tap((action) => {
+        this.logger.debug('<oauthEventAction> do something: ', action);
+      }),
+      map((action) => {
+        switch (action.payload.type) {
+
+        }
+        return showNotification({
+          payload: {
+            title: 'title',
+            message: 'message ' + eventList[action.payload.type],
+            details: 'details',
+          },
+        });
+      }),
+    );
+  });
+
 
   ROOT_EFFECTS_INIT: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
