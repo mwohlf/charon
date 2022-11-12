@@ -24,13 +24,11 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2TokenRevocationEndpointConfigurer
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
-import org.springframework.security.oauth2.server.authorization.settings.ConfigurationSettingNames
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
-import java.text.ParseException
 
 
-private val logger = KotlinLogging.logger {}
+private val logger = KotlinLogging.logger(AuthorizationServerConfig::class.java.name)
 
 
 @Configuration
@@ -102,9 +100,9 @@ class AuthorizationServerConfig(
     }
 
 
-
     // invoked second
-    class RevokeAuthenticationProvider(private val oAuth2AuthorizationService: OAuth2AuthorizationService) : AuthenticationProvider {
+    class RevokeAuthenticationProvider(private val oAuth2AuthorizationService: OAuth2AuthorizationService) :
+        AuthenticationProvider {
         override fun authenticate(authentication: Authentication): Authentication {
             if (authentication is OAuth2TokenRevocationAuthenticationToken) {
                 try {

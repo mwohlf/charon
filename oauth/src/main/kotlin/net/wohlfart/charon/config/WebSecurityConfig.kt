@@ -1,12 +1,17 @@
 package net.wohlfart.charon.config
 
+import mu.KotlinLogging
 import net.wohlfart.charon.component.LoginCustomizer
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.SecurityFilterChain
+import javax.servlet.http.HttpServletRequest
+
+private val logger = KotlinLogging.logger(AuthorizationServerConfig::class.java.name)
 
 
 @EnableWebSecurity
@@ -25,18 +30,20 @@ class WebSecurityConfig {
             authorizeRequests
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .mvcMatchers("/error").permitAll()
-                .mvcMatchers("/logout").permitAll()
+                .mvcMatchers("/bounce").permitAll()
                 .mvcMatchers("/login").permitAll()
                 .antMatchers("/h2/**").permitAll()
-               // .mvcMatchers("/revoke").permitAll()
-               // .mvcMatchers("/oauth2/revoke").anonymous()
+                // .mvcMatchers("/revoke").permitAll()
+                // .mvcMatchers("/oauth2/revoke").anonymous()
                 .anyRequest().authenticated()
         }
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
+
         http.cors { } // picks up our default cors config
         http.csrf { csrf -> csrf.disable() } // for the h2 console
         http.headers().frameOptions().sameOrigin() // which uses frames it seems
         http.formLogin(loginCustomizer)
-        http.logout().permitAll().clearAuthentication(true).invalidateHttpSession(true)
+        http.logout().logoutUrl("/logout").permitAll().clearAuthentication(true).logoutSuccessUrl("/bounce.html")
         return http.build()
 
     }
