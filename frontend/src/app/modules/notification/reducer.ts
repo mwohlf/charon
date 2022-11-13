@@ -3,7 +3,15 @@ import * as fromActions from './action';
 import * as _ from 'lodash';
 
 
+export enum Level {
+  Error,
+  Warning,
+  Info,
+  Debug,
+}
+
 export interface NotificationData {
+  level: Level;
   title: string;
   message: string;
   details: string;
@@ -22,7 +30,12 @@ const featureReducer = createReducer(
 
   on(fromActions.showNotification,
     (currentState, {payload: payload}) => {
+    // we need to clone because our state is immutable
       const notificationQueue = _.cloneDeep(currentState.notificationQueue);
+      // if we have an incoming error we override any other notification
+      if (payload.level === Level.Error) {
+        notificationQueue.length = 0;
+      }
       notificationQueue.push(payload)
       return {
         notificationQueue: notificationQueue,

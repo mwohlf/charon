@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 #
 # script to re-generate the cert for wired-heart.com
+#  the idea is we update the cloudflare dns config to prove to letsencrypt that we own the domain
+#  then we get a certificate...
 #   - make sure the token is still valid in .../setup/cloudflare-token.txt
 #   - run this script with access to cloudflare
 #   - the secrets.yaml file will be generated
+#   - copy secrets into the values config in the helm chart
 #
+# todo: store the secrets inside the github vault and use k8sbake to insert them into the value file of the chart
 
 set -e
 

@@ -16,7 +16,7 @@ import {
   ConfigurationDetails,
   ConfigurationDetailsService,
 } from 'build/generated';
-import {NotificationData} from '../notification/reducer';
+import {Level, NotificationData} from '../notification/reducer';
 import {LoggerHolder} from '../../shared/logger-holder';
 
 @Injectable()
@@ -64,6 +64,7 @@ export class Effects {
           catchError((error: any) => {
             return of(readConfigurationDetailsUsingGET_failure({
               payload: {
+                level: Level.Error,
                 title: 'Config data missing',
                 message: 'Config data can\'t be loaded.',
                 details: JSON.stringify(error, null, 2),
@@ -96,6 +97,7 @@ export class Effects {
         // this.logger.info("server log level is ", NgxLoggerLevel[logLevel]);
         return showNotification({
           payload: {
+            level: Level.Debug,
             title: 'Config data loaded',
             message: 'Config data have been loaded.',
             details: 'Config data have been loaded.',

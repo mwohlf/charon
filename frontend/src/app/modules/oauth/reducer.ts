@@ -78,6 +78,7 @@ const featureReducer = createReducer(
           break;
         case 'ConfigLoadingFailed':
         default:
+          // not doing anything here
           break;
       }
       return result;

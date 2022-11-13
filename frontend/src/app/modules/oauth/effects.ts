@@ -29,6 +29,7 @@ import {LocationStrategy} from '@angular/common';
 import {NGXLogger} from 'ngx-logger';
 import {selectOAuthFeature} from './selector';
 import {eventList, OAuthState} from './reducer';
+import {Level} from '../notification/reducer';
 
 @Injectable()
 export class Effects {
@@ -70,8 +71,10 @@ export class Effects {
         switch (action.payload.type) {
 
         }
+        let level = Level.Info;
         return showNotification({
           payload: {
+            level: level,
             title: 'title',
             message: 'message ' + eventList[action.payload.type],
             details: 'details',
@@ -116,6 +119,7 @@ export class Effects {
           catchError((error: any) => {
             return of(readClientConfigurationListUsingGET_failure({
               payload: {
+                level: Level.Error,
                 title: 'OAuth data missing',
                 message: 'Config data can\'t be loaded.',
                 details: JSON.stringify(error, null, 2),
@@ -194,6 +198,7 @@ export class Effects {
           var authority = oAuthFeature.openIdConfigurations.find(
             element => element.configId === oAuthFeature.configId,
           )?.authority || 'logout';
+          // window.location.href = authority + '/logout?url=' + window.location.href;
           window.location.href = authority + '/logout';
         });
       }),
