@@ -15,6 +15,8 @@ class OAuthProperties(
 
     val dataDir: String,
 
+    val postLogoutRedirect: String,
+
     val issuer: String,
 
     @NestedConfigurationProperty

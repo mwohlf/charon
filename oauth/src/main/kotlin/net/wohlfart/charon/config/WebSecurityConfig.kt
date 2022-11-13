@@ -1,6 +1,7 @@
 package net.wohlfart.charon.config
 
 import mu.KotlinLogging
+import net.wohlfart.charon.OAuthProperties
 import net.wohlfart.charon.component.LoginCustomizer
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
@@ -22,6 +23,7 @@ class WebSecurityConfig {
         http: HttpSecurity,
         userDetailsService: UserDetailsService,
         loginCustomizer: LoginCustomizer,
+        oAuthProperties: OAuthProperties,
     ): SecurityFilterChain {
 
         // info about where static resources are served from:
@@ -43,7 +45,7 @@ class WebSecurityConfig {
         http.csrf { csrf -> csrf.disable() } // for the h2 console
         http.headers().frameOptions().sameOrigin() // which uses frames it seems
         http.formLogin(loginCustomizer)
-        http.logout().logoutUrl("/logout").permitAll().clearAuthentication(true).logoutSuccessUrl("/bounce.html")
+        http.logout().logoutUrl("/logout").permitAll().clearAuthentication(true).logoutSuccessUrl(oAuthProperties.postLogoutRedirect)
         return http.build()
 
     }

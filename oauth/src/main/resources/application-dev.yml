@@ -25,6 +25,7 @@ net:
       oauth:
         data-dir: test
         issuer: "http://127.0.0.1:8081"
+        post-logout-redirect: "http://127.0.0.1:4200/charon/home"
         allowed-origins:
           - "http://127.0.0.1:4200"
         clients:
