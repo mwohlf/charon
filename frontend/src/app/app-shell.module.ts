@@ -14,7 +14,6 @@ import * as fromConfig from './modules/config/effects';
 import * as fromOAuth from './modules/oauth/effects';
 import * as fromTheme from './modules/view/effects';
 import {AppThemeModule} from './app-theme.module';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {FooterComponent} from './components/footer/footer.component';
 import {MenuComponent} from './components/menu/menu.component';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
@@ -59,7 +58,6 @@ const prefersReducedMotion =
     BrowserModule,
     ConfigModule,
     EffectsRootModule,
-    FlexLayoutModule,
     HttpClientModule,
     LayoutModule,
     MatSidenavModule,
