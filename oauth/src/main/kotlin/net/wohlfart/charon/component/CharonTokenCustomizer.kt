@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 
 // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-userinfo.html
 @Component
-class OAuth2TokenCustomizer : OAuth2TokenCustomizer<JwtEncodingContext> {
+class CharonTokenCustomizer : OAuth2TokenCustomizer<JwtEncodingContext> {
 
     override fun customize(context: JwtEncodingContext) {
         if (OAuth2TokenType.ACCESS_TOKEN.equals(context.tokenType)) {
