@@ -23,7 +23,7 @@ plugins {
 // this is the central point for managing plugin versions
 // it also contains all the base plugins we aggregate into out custom plugins
 dependencies {
-    val jetbrainKotlinVersion = "1.6.21"
+    val jetbrainKotlinVersion = "1.7.21"
 
     // we need to declare dependencies for all the used plugins in the buildScripts...
 

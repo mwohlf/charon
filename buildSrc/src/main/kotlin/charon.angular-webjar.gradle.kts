@@ -1,5 +1,4 @@
 import com.github.gradle.node.npm.task.NpmTask
-import gradle.kotlin.dsl.accessors._fcffe14232c178f32c3a5a66a4becfb6.openApiGenerate
 
 plugins {
     java  // for the jar task, also includes the build and clean task
