@@ -69,3 +69,17 @@ tasks.findByName("webjarBuild")?.let {
 tasks.findByName("build")?.let {
     it.dependsOn("webjarBuild")
 }
+
+
+// ngrx still depends on angularCore 14
+// we need to add "--legacy-peer-deps"
+
+tasks.findByName("webjarInstall")?.let {
+    val npmTask = it as NpmTask
+    (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
+}
+
+tasks.findByName("webjarInit")?.let {
+    val npmTask = it as NpmTask
+    (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
+}

@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --verbose",
-    "build": "ng build ",
+    "build": "ng build --legacy-peer-deps",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "check": "ncu"
@@ -53,6 +53,6 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "npm-check-updates": "^15.3.4",
-    "typescript": "~4.9.3"
+    "typescript": "~4.8.2"
   }
 }
