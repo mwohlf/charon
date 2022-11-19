@@ -100,6 +100,18 @@ withLatestFrom(this.store.select(selectOAuthFeature)) ) to create a new action.
 Components::
 Select and render state, dispatch actions.
 
+
+=== simple commands
+
+update dependencies::
+
+npm run ncu
+
+build::
+
+npm install --legacy-peer-deps
+
+
 == backend module
 
 SpringBoot endpoints in Kotlin and hosting the webjar at

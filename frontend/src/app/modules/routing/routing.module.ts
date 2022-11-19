@@ -36,10 +36,9 @@ export function routerErrorHandler(error: Error): void {
   imports: [
     RouterModule.forRoot(routes,
       {
-        scrollPositionRestoration: 'enabled', // one of 'disabled', 'enabled', 'top'
+        scrollPositionRestoration: 'enabled',
         anchorScrolling: 'enabled',
-        relativeLinkResolution: 'corrected', // one of 'legacy', 'corrected'
-        enableTracing: false, // log to console for debugging
+        enableTracing: false,
         errorHandler: routerErrorHandler,
         paramsInheritanceStrategy: 'always',
       })],
