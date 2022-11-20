@@ -97,6 +97,8 @@ const prefersReducedMotion =
       serverLogLevel: NgxLoggerLevel.ERROR,
     }),
     HeaderComponent,
+    FooterComponent,
+    MenuComponent,
   ],
   declarations: [
     AppComponent,
@@ -104,8 +106,6 @@ const prefersReducedMotion =
     HomeComponent,
     MainComponent,
     ProtectedComponent,
-    FooterComponent,
-    MenuComponent,
   ],
   providers: [
     {

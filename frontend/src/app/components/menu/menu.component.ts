@@ -9,10 +9,24 @@ import {setNavState} from '../../modules/view/action';
 import {Observable} from 'rxjs';
 import {MatDrawerMode} from '@angular/material/sidenav';
 import {selectNavDrawMode} from '../../modules/view/selector';
+import {MatIconModule} from '@angular/material/icon';
+import {RouterLink, RouterLinkActive} from '@angular/router';
+import {MatListModule} from '@angular/material/list';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 
 @Component({
-  selector: '.app-menu',
+  standalone: true,
+  selector: 'app-menu',
   templateUrl: './menu.component.html',
+  imports: [
+    MatIconModule,
+    RouterLink,
+    MatListModule,
+    RouterLinkActive,
+    NgForOf,
+    NgIf,
+    AsyncPipe,
+  ],
 })
 export class MenuComponent implements OnInit {
 
