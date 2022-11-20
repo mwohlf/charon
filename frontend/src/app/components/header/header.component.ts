@@ -10,9 +10,22 @@ import {setNavState, toggleMenu} from '../../modules/view/action';
 import {selectNavDrawMode, selectNavState} from '../../modules/view/selector';
 import {MatDrawerMode} from '@angular/material/sidenav';
 import {NavState} from '../../modules/view/reducer';
+import {MatIconModule} from '@angular/material/icon';
+import {ThemePicker} from '../theme-picker/theme-picker';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {AppThemeModule} from '../../app-theme.module';
 
 @Component({
-  selector: '.app-header',
+  standalone: true,
+  selector: 'app-header',
+  imports: [
+    CommonModule,
+    MatIconModule,
+    ThemePicker,
+    MatButtonModule,
+    AppThemeModule,
+  ],
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
@@ -33,22 +46,27 @@ export class HeaderComponent implements OnInit {
   }
 
   reReadConfig() {
+    console.log("reReadConfig");
     this.store.dispatch(readConfigurationDetailsUsingGET());
   }
 
   toggleMenu() {
+    console.log("toggleMenu");
     this.store.dispatch(toggleMenu());
   }
 
   setNavState(navState: NavState) {
+    console.log("setNavState");
     this.store.dispatch(setNavState({payload: {navState: navState}}));
   }
 
   login() {
+    console.log("login");
     this.store.dispatch(loginAction({payload: {configId: SIMPLE_CONFIG}}));
   }
 
   logout() {
+    console.log("logout");
     this.store.dispatch(logoutAction());
   }
 

@@ -23,10 +23,8 @@ import {LayoutModule} from '@angular/cdk/layout';
     StoreModule.forFeature(viewFeature, reducer),
   ],
   exports: [
-    ThemePicker,
   ],
   declarations: [
-    ThemePicker,
   ],
   providers: [
     StyleManager,

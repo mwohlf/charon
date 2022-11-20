@@ -1,8 +1,8 @@
 <div fxFlexFill fxLayout="column">
     <app-notification></app-notification>
 
-    <div fxFlex="none" class="app-header" style="border:3px solid green;">
-    </div>
+    <app-header fxFlex="none" class="app-header" style="border:3px solid green;">
+    </app-header>
 
     <mat-sidenav-container fxFlex *ngIf="matDrawerMode$ | async as matDrawerMode" (backdropClick)="closeNavigation(matDrawerMode)">
         <mat-sidenav [mode]="matDrawerMode"

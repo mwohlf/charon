@@ -11,10 +11,25 @@ import {setThemeDetails} from '../../modules/view/action';
 import {ThemeDetails} from '../../modules/view/reducer';
 import {themes} from '../../modules/view/theme-list';
 import {NGXLogger} from 'ngx-logger';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import {CommonModule} from '@angular/common';
+import {LayoutModule} from '@angular/cdk/layout';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @Component({
+  standalone: true,
   selector: 'theme-picker',
+  imports: [
+    CommonModule,
+    LayoutModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatTooltipModule,
+  ],
   templateUrl: './theme-picker.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

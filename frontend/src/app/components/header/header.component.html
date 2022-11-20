@@ -1,4 +1,4 @@
-<div style="padding:13px" fxLayout="row" fxLayoutGap="5px">
+<div style="padding:13px; height: 120px" fxLayout="row" fxLayoutGap="5px">
     <button mat-icon-button (click)="toggleMenu()" *ngIf="(navDrawMode$ | async) != 'side'">
         <mat-icon *ngIf="(navState$ | async) == 'opened'">close</mat-icon>
         <mat-icon *ngIf="(navState$ | async) == 'closed'">menu</mat-icon>
@@ -19,18 +19,20 @@
     </button>
     <div style="width: 50px">
     </div>
-    <button mat-icon-button *ngIf="(navState$ | async) == 'opened'; else overTmpl">
+    <button mat-icon-button
+            *ngIf="(navState$ | async) == 'opened'; else overTmpl"
+            (click)="setNavState('closed');">
         <mat-icon fontSet="material-icons-two-tone"
-                  style="margin-left: auto;"
-                  (click)="setNavState('closed');">
+                  style="margin-left: auto;">
             toggle_on
         </mat-icon>
     </button>
-    <button mat-icon-button *ngIf="!(isAuthenticated$ | async); else logoutTmpl">
+    <button mat-icon-button
+            *ngIf="!(isAuthenticated$ | async); else logoutTmpl"
+            (click)="login();">
         <mat-icon matTooltip="Login"
                   fontSet="material-icons-two-tone"
-                  style="margin-left: auto;"
-                  (click)="login();">
+                  style="margin-left: auto;">
             login
         </mat-icon>
     </button>
@@ -41,21 +43,21 @@
 <!-- -->
 
 <ng-template #overTmpl>
-    <button mat-icon-button>
+    <button mat-icon-button
+            (click)="setNavState('opened');">
         <mat-icon fontSet="material-icons-two-tone"
-                  style="margin-left: auto;"
-                  (click)="setNavState('opened');">
+                  style="margin-left: auto;">
             toggle_off
         </mat-icon>
     </button>
 </ng-template>
 
 <ng-template #logoutTmpl>
-    <button mat-icon-button>
+    <button mat-icon-button
+            (click)="logout();">
         <mat-icon matTooltip="Logout"
                   fontSet="material-icons-two-tone"
-                  style="margin-left: auto;"
-                  (click)="logout();">
+                  style="margin-left: auto;">
             logout
         </mat-icon>
     </button>

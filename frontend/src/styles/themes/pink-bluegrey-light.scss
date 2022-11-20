@@ -7,7 +7,15 @@
 
 $_primary: mat.define-palette(mat.$pink-palette);
 $_accent:  mat.define-palette(mat.$blue-grey-palette);
-$_theme: mat.define-light-theme($_primary, $_accent);
+$_warn: mat.define-palette(mat.$red-palette);
+
+$_theme: mat.define-light-theme((
+    color: (
+        primary: $_primary,
+        accent: $_accent,
+        warn: $_warn,
+    )
+));
 
 @include mat.all-component-themes($_theme);
 @include app-theme.theme($_theme);
