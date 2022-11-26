@@ -1,26 +1,30 @@
 <div style="display: flex; flex-direction: column; height: 100vh; min-width: 100%; width: 100%;">
     <app-notification></app-notification>
 
-    <app-header style="flex-grow: 0; border:3px solid green;" class="app-header">
+    <app-header class="app-header"
+                style="flex-grow: 0; border:3px solid green; display: block;">
     </app-header>
 
-    <mat-sidenav-container style="flex-grow: 1;" *ngIf="matDrawerMode$ | async as matDrawerMode" (backdropClick)="closeNavigation(matDrawerMode)">
+    <mat-sidenav-container style="flex-grow: 1;"
+                           *ngIf="matDrawerMode$ | async as matDrawerMode"
+                           (backdropClick)="closeNavigation(matDrawerMode)">
         <mat-sidenav [mode]="matDrawerMode"
                      opened="{{(navState$ | async) == 'opened'}}"
                      (keydown.escape)="closeNavigation(matDrawerMode)"
                      disableClose>
             <app-menu class="app-menu"
-                 style="border: 3px solid blue"
+                 style="border: 3px solid blue; display: block;"
                  [style.width]="menuWidth">
             </app-menu>
         </mat-sidenav>
         <mat-sidenav-content>
-            <div style="border: 3px solid red">
+            <div style="border: 3px solid red; display: block;">
                 <router-outlet></router-outlet>
             </div>
         </mat-sidenav-content>
     </mat-sidenav-container>
 
-    <app-footer style="flex-grow: 0; border:3px solid yellow;" class="app-footer" >
+    <app-footer class="app-footer"
+                style="flex-grow: 0; border:3px solid yellow;">
     </app-footer>
 </div>

@@ -1,4 +1,4 @@
-<div style="padding:13px;" fxLayout="row" fxLayoutGap="5px">
+<div style="padding:2px; display: flex; flex-direction: row; gap: 0 5px">
     <button mat-icon-button (click)="toggleMenu()" *ngIf="(navDrawMode$ | async) != 'side'">
         <mat-icon *ngIf="(navState$ | async) == 'opened'">close</mat-icon>
         <mat-icon *ngIf="(navState$ | async) == 'closed'">menu</mat-icon>
@@ -6,7 +6,7 @@
     <div>
         test
     </div>
-    <div fxFlex="2 1 auto">
+    <div style="flex-grow: 2">
         space
     </div>
     <button mat-icon-button>
