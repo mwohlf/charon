@@ -6,7 +6,7 @@
 @use 'src/app/components/footer/footer.component-theme' as footer;
 
 $_primary: mat.define-palette(mat.$purple-palette);
-$_accent:  mat.define-palette(mat.$green-palette, A200, A100, A400);
+$_accent: mat.define-palette(mat.$green-palette, A200, A100, A400);
 $_warn: mat.define-palette(mat.$red-palette);
 
 $_theme: mat.define-light-theme((
