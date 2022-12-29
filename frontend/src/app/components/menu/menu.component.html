@@ -2,7 +2,7 @@
     <a *ngFor="let item of menuItems"
        mat-list-item
        (click)="closeNavigation(matDrawerMode)"
-       routerLinkActive="list-item-active"
+       [routerLinkActive]="['is-active']"
        [routerLink]="[item.route]">
         <mat-icon class="app-nav-list-icon">{{item.icon}}</mat-icon>
         {{item.title}}

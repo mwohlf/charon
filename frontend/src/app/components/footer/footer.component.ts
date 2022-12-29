@@ -5,14 +5,14 @@ import {MatButtonModule} from '@angular/material/button';
 import {AppThemeModule} from '../../app-theme.module';
 
 @Component({
-  standalone: true,
-  selector: 'app-footer',
   imports: [
     MatIconModule,
     ThemePicker,
     MatButtonModule,
     AppThemeModule,
   ],
+  selector: 'app-footer',
+  standalone: true,
   templateUrl: './footer.component.html',
 })
 export class FooterComponent implements OnInit {

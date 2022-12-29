@@ -12,10 +12,10 @@
         background: mat.get-color-from-palette($background, card);
         color: mat.get-color-from-palette($foreground, text);
     }
-    .mat-nav-list .list-item-active {
+    .mat-mdc-nav-list .is-active {
         background-color: mat.get-color-from-palette($primary-palette, 200) !important;
     }
-    .mat-nav-list .mat-list-item:hover {
+    .mat-mdc-nav-list .mat-list-item:hover {
         background-color: mat.get-color-from-palette($primary-palette, 500);
     }
 }

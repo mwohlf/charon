@@ -15,9 +15,6 @@ import {MatListModule} from '@angular/material/list';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 
 @Component({
-  standalone: true,
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
   imports: [
     MatIconModule,
     RouterLink,
@@ -27,30 +24,33 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
     NgIf,
     AsyncPipe,
   ],
+  selector: 'app-menu',
+  standalone: true,
+  templateUrl: './menu.component.html',
 })
 export class MenuComponent implements OnInit {
 
-  prefix = '/';
+  static PREFIX = `/`;
   matDrawerMode$: Observable<MatDrawerMode>;
 
   public menuItems = [
     {
-      'route': this.prefix + ErrorComponent.ROUTER_PATH,
+      'route': MenuComponent.PREFIX + ErrorComponent.ROUTER_PATH,
       'icon': 'home',
       'title': 'Error',
     },
     {
-      'route': this.prefix + HomeComponent.ROUTER_PATH,
+      'route': MenuComponent.PREFIX + HomeComponent.ROUTER_PATH,
       'icon': 'home',
       'title': 'Home',
     },
     {
-      'route': this.prefix + MainComponent.ROUTER_PATH,
+      'route': MenuComponent.PREFIX + MainComponent.ROUTER_PATH,
       'icon': 'home',
       'title': 'Main',
     },
     {
-      'route': this.prefix + ProtectedComponent.ROUTER_PATH,
+      'route': MenuComponent.PREFIX + ProtectedComponent.ROUTER_PATH,
       'icon': 'home',
       'title': 'Protected',
     },

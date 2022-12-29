@@ -20,8 +20,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @Component({
-  standalone: true,
-  selector: 'theme-picker',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule,
     LayoutModule,
@@ -30,9 +30,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatMenuModule,
     MatTooltipModule,
   ],
+  selector: 'theme-picker',
+  standalone: true,
   templateUrl: './theme-picker.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 export class ThemePicker {
 
@@ -52,6 +52,7 @@ export class ThemePicker {
       ...theTheme,
     };
     nextTheme.variant = (nextTheme.variant == 'dark') ? 'light' : 'dark';
+    this.logger.info("<toggleDarkMode> toggle theme to ", nextTheme);
     this.store.dispatch(setThemeDetails({payload: nextTheme}));
   }
 
@@ -66,6 +67,7 @@ export class ThemePicker {
       name: theme.name,
       displayName: theme.displayName,
     };
+    this.logger.info("<selectTheme> switching theme to ", nextTheme);
     this.store.dispatch(setThemeDetails({payload: nextTheme}));
   }
 

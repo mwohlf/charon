@@ -3,7 +3,7 @@
 @use 'node_modules/@angular/material/index' as mat;
 @use 'app-theme';
 
-// fonts and icons to avoid using a CDN
+// local fonts and icons to avoid using a CDN
 @import 'node_modules/material-icons/iconfont/material-icons';
 @import 'node_modules/@fontsource/roboto'; // Defaults to weight 400.
 

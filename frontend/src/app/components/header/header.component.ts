@@ -17,8 +17,6 @@ import {AppThemeModule} from '../../app-theme.module';
 import {AsyncPipe, NgIf} from '@angular/common';
 
 @Component({
-  standalone: true,
-  selector: 'app-header',
   imports: [
     MatIconModule,
     ThemePicker,
@@ -27,6 +25,8 @@ import {AsyncPipe, NgIf} from '@angular/common';
     AsyncPipe,
     NgIf,
   ],
+  selector: 'app-header',
+  standalone: true,
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {

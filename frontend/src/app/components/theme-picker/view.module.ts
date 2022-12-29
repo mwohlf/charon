@@ -4,7 +4,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {ThemePicker} from './theme-picker';
 import {StyleManager} from '../../modules/view/style-manager';
 import {StoreModule} from '@ngrx/store';
 import {reducer} from '../../modules/view/reducer';
@@ -13,6 +12,8 @@ import {LayoutModule} from '@angular/cdk/layout';
 
 
 @NgModule({
+  declarations: [],
+  exports: [],
   imports: [
     CommonModule,
     LayoutModule,
@@ -21,10 +22,6 @@ import {LayoutModule} from '@angular/cdk/layout';
     MatMenuModule,
     MatTooltipModule,
     StoreModule.forFeature(viewFeature, reducer),
-  ],
-  exports: [
-  ],
-  declarations: [
   ],
   providers: [
     StyleManager,
