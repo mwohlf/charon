@@ -1,6 +1,6 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import * as fromActions from './action';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 
 
 export enum Level {
