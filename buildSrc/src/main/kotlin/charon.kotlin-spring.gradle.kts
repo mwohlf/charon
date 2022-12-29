@@ -1,5 +1,8 @@
 import com.google.cloud.tools.jib.api.Jib
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
 import java.util.UUID
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 //
 // this is a meta plugin, combining some tasks from multiple plugins
@@ -33,9 +36,17 @@ repositories {
     mavenCentral()
 }
 
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<KotlinJvmCompilerOptions>>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+        // allWarningsAsErrors.set(true)
+    }
+}
+
 // see: https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#integrating-with-actuator.build-info
 springBoot {
-    buildInfo()  // to create the buildInfo object
+    buildInfo()  // to create the buildInfo object to have the build data available at runtime
 }
 
 // val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
@@ -120,10 +131,17 @@ openApiGenerate {
     val module = project.name
     // see: https://openapi-generator.tech/docs/generators
     generatorName.set("kotlin-spring")
+    templateDir.set("${rootProject.projectDir.absolutePath}/buildSrc/src/main/resources/openapi/kotlin-spring")
     inputSpec.set("${rootProject.projectDir.absolutePath}/etc/api/${module}.yaml")
     outputDir.set("$buildDir/generated")
     // see: https://openapi-generator.tech/docs/generators/kotlin-spring
     configFile.set("${rootProject.projectDir.absolutePath}/etc/api/config/${generatorName.get()}.json")
+    // configOptions.put("useSpringBoot3", "true")
+    // templates are in modules/openapi-generator/src/main/resources/kotlin-spring/api.mustache
+    // whole template dir at
+    // https://github.com/jayandran-Sampath/openapi-generator/tree/97818d8279c1b94f3961b8b6af01518000cb4656/modules/openapi-generator/src/main/resources/kotlin-spring
+    // openapi-generator/modules/openapi-generator/src/main/resources/kotlin-spring/
+    // https://github.com/jayandran-Sampath/openapi-generator/tree/feat13578_1
 }
 
 // re-create the API classes before ebuilding

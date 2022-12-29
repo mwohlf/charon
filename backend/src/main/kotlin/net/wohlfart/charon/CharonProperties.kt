@@ -3,12 +3,12 @@ package net.wohlfart.charon
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConfigurationPropertiesBinding
-import org.springframework.boot.context.properties.ConstructorBinding
+import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.boot.context.properties.NestedConfigurationProperty
 import org.springframework.context.annotation.Configuration
 
 
-@ConstructorBinding
+// @ConstructorBinding
 @ConfigurationProperties(prefix = "net.wohlfart.charon")
 class CharonProperties(
 
@@ -24,7 +24,7 @@ class CharonProperties(
 
 )
 
-@ConstructorBinding
+// @ConstructorBinding
 class ApiConfig(
 
     val basePath: String,
@@ -35,7 +35,7 @@ class ApiConfig(
 
 )
 
-@ConstructorBinding
+// @ConstructorBinding
 class ClientConfig(
 
     val configId: String,

@@ -9,10 +9,12 @@ object Versions {
 
 
     // https://docs.spring.io/spring-authorization-server/docs/1.0.0-SNAPSHOT/reference/html/
-    // const val SPRING_OAUTH2_SERVER = "1.0.0-SNAPSHOT"
     // const val SPRING_OAUTH2_SERVER = "0.4.0-M2"
-    const val SPRING_OAUTH2_SERVER = "0.4.0-SNAPSHOT"
+    // const val SPRING_OAUTH2_SERVER = "0.4.0-SNAPSHOT"
+    const val SPRING_OAUTH2_SERVER = "1.0.0"
 
-
-    // TODO: move all versions into a single file
+    const val KOTLIN_LOGGING_JVM = "3.0.4"
+    const val SWAGGER = "2.2.6"
+    const val JAKARTA_ANNOTATION_API = "2.1.1"
+    const val JAVAX_ANNOTATION_API = "1.3.2"
 }

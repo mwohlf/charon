@@ -3,9 +3,9 @@ package net.wohlfart.charon.config
 import mu.KotlinLogging
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import javax.servlet.http.HttpSession
-import javax.servlet.http.HttpSessionEvent
-import javax.servlet.http.HttpSessionListener
+import jakarta.servlet.http.HttpSession
+import jakarta.servlet.http.HttpSessionEvent
+import jakarta.servlet.http.HttpSessionListener
 
 
 private val logger = KotlinLogging.logger(AuthorizationServerConfig::class.java.name)

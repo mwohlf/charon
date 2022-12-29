@@ -24,7 +24,7 @@ class CorsConfig(
 
         configuration.allowedOrigins = oauthProperties.allowedOrigins.toList()
         // configuration.allowedOriginPatterns = listOf("*")
-        configuration.allowedMethods = HttpMethod.values().map { it.name }.toList()
+        configuration.allowedMethods = HttpMethod.values().map { it.name() }.toList()
         // configuration.allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
         configuration.allowCredentials = true
         configuration.allowedHeaders = listOf("*") // TODO
