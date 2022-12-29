@@ -20,15 +20,15 @@
     <div style="width: 50px">
     </div>
     <button mat-icon-button
-            *ngIf="(navState$ | async) == 'opened'; else overTmpl"
+            *ngIf="(navState$ | async) == 'opened'; else toggleOffTemplate"
             (click)="setNavState('closed');">
-        <mat-icon fontSet="material-icons-two-tone"
+        <mat-icon fontSet="material-icons-outlined"
                   style="margin-left: auto;">
             toggle_on
         </mat-icon>
     </button>
     <button mat-icon-button
-            *ngIf="!(isAuthenticated$ | async); else logoutTmpl"
+            *ngIf="!(isAuthenticated$ | async); else logoutTemplate"
             (click)="login();">
         <mat-icon matTooltip="Login"
                   fontSet="material-icons-two-tone"
@@ -42,17 +42,17 @@
 
 <!-- -->
 
-<ng-template #overTmpl>
+<ng-template #toggleOffTemplate>
     <button mat-icon-button
             (click)="setNavState('opened');">
-        <mat-icon fontSet="material-icons-two-tone"
+        <mat-icon fontSet="material-icons-outlined"
                   style="margin-left: auto;">
             toggle_off
         </mat-icon>
     </button>
 </ng-template>
 
-<ng-template #logoutTmpl>
+<ng-template #logoutTemplate>
     <button mat-icon-button
             (click)="logout();">
         <mat-icon matTooltip="Logout"
