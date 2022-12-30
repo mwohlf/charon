@@ -6,6 +6,7 @@ import {AppState} from '../../app-shell.module';
 import {
   selectConfigurationDetails,
 } from '../../modules/config/selector';
+import {page_spec} from '../page.spec';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,12 @@ import {
 })
 export class HomeComponent implements OnInit {
 
-  static ROUTER_PATH: string = 'home';
+  static SPEC: page_spec = {
+    route: 'home',
+    icon: 'home',
+    title: 'Home',
+    component: HomeComponent,
+  }
 
    buildProperties$: Observable<ConfigurationDetails | undefined>;
 

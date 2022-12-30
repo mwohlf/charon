@@ -13,6 +13,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {MatListModule} from '@angular/material/list';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {page_spec} from '../../pages/page.spec';
 
 @Component({
   imports: [
@@ -33,28 +34,18 @@ export class MenuComponent implements OnInit {
   static PREFIX = `/`;
   matDrawerMode$: Observable<MatDrawerMode>;
 
+
   public menuItems = [
-    {
-      'route': MenuComponent.PREFIX + ErrorComponent.ROUTER_PATH,
-      'icon': 'home',
-      'title': 'Error',
-    },
-    {
-      'route': MenuComponent.PREFIX + HomeComponent.ROUTER_PATH,
-      'icon': 'home',
-      'title': 'Home',
-    },
-    {
-      'route': MenuComponent.PREFIX + MainComponent.ROUTER_PATH,
-      'icon': 'home',
-      'title': 'Main',
-    },
-    {
-      'route': MenuComponent.PREFIX + ProtectedComponent.ROUTER_PATH,
-      'icon': 'home',
-      'title': 'Protected',
-    },
-  ];
+    HomeComponent.SPEC,
+    ErrorComponent.SPEC,
+    MainComponent.SPEC,
+    ProtectedComponent.SPEC,
+  ].map((spec: page_spec) => {
+    return {
+      ...spec,
+      'route': MenuComponent.PREFIX + spec.route,
+    }
+  })
 
   // we need a custom implementation of the open/close trigger...
   //  - esc

@@ -12,11 +12,16 @@
         background: mat.get-color-from-palette($background, card);
         color: mat.get-color-from-palette($foreground, text);
     }
+    .menu-caption {
+        position: absolute;
+        margin-top: 3px;
+        margin-left: 9px;
+    }
     .mat-mdc-nav-list .is-active {
         background-color: mat.get-color-from-palette($primary-palette, 200) !important;
     }
-    .mat-mdc-nav-list .mat-list-item:hover {
-        background-color: mat.get-color-from-palette($primary-palette, 500);
+    .mat-mdc-nav-list .mat-mdc-list-item:hover {
+        background-color: mat.get-color-from-palette($primary-palette, 100) !important;
     }
 }
 

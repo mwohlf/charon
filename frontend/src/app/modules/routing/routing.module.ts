@@ -8,23 +8,23 @@ import {LoggerHolder} from '../../shared/logger-holder';
 
 const routes: Routes = [
   {
-    path: ErrorComponent.ROUTER_PATH,
+    path: ErrorComponent.SPEC.route,
     component: ErrorComponent,
   },
   {
-    path: HomeComponent.ROUTER_PATH,
+    path: HomeComponent.SPEC.route,
     component: HomeComponent,
   },
   {
-    path: MainComponent.ROUTER_PATH,
+    path: MainComponent.SPEC.route,
     component: MainComponent,
   },
   {
-    path: ProtectedComponent.ROUTER_PATH,
+    path: ProtectedComponent.SPEC.route,
     component: ProtectedComponent,
   },
-  {path: '', redirectTo: HomeComponent.ROUTER_PATH, pathMatch: 'full'},
-  {path: '**', redirectTo: ErrorComponent.ROUTER_PATH},
+  {path: '', redirectTo: HomeComponent.SPEC.route, pathMatch: 'full'},
+  {path: '**', redirectTo: ErrorComponent.SPEC.route},
 ];
 
 
