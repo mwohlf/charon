@@ -12,6 +12,7 @@ import org.springframework.core.annotation.Order
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer
@@ -55,11 +56,11 @@ class AuthorizationServerConfig(
 
         val endpointsMatcher = authorizationServerConfigurer.endpointsMatcher
 
-        http.requestMatcher(endpointsMatcher)
-            .authorizeRequests { authorizeRequests: ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry
+        http.securityMatcher(endpointsMatcher)
+            .authorizeHttpRequests { authorizeRequests: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry
                 ->
                 authorizeRequests
-                    .antMatchers("/oauth2/revoke").permitAll()
+                    .requestMatchers("/oauth2/revoke").permitAll()
                     .anyRequest().authenticated()
             }
 

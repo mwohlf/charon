@@ -18,11 +18,11 @@ tasks.test {
 }
 
 dependencies {
-	implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
-	implementation("io.swagger.core.v3:swagger-annotations:2.2.6")
-	implementation("io.swagger.core.v3:swagger-models:2.2.6")
-    implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
-    implementation("javax.annotation:javax.annotation-api:1.3.2")
+    implementation("io.github.microutils:kotlin-logging-jvm:${Versions.KOTLIN_LOGGING_JVM}")
+    implementation("io.swagger.core.v3:swagger-annotations:${Versions.SWAGGER}")
+    implementation("io.swagger.core.v3:swagger-models:${Versions.SWAGGER}")
+    implementation("jakarta.annotation:jakarta.annotation-api:${Versions.JAKARTA_ANNOTATION_API}")
+    implementation("javax.annotation:javax.annotation-api:${Versions.JAVAX_ANNOTATION_API}")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.boot:spring-boot-starter")

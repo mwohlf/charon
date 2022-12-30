@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.SecurityFilterChain
-import javax.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletRequest
 
 private val logger = KotlinLogging.logger(AuthorizationServerConfig::class.java.name)
 
@@ -31,10 +31,10 @@ class WebSecurityConfig {
         http.authorizeRequests { authorizeRequests ->
             authorizeRequests
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .mvcMatchers("/error").permitAll()
-                .mvcMatchers("/bounce").permitAll()
-                .mvcMatchers("/login").permitAll()
-                .antMatchers("/h2/**").permitAll()
+                .requestMatchers("/error").permitAll()
+                .requestMatchers("/bounce").permitAll()
+                .requestMatchers("/login").permitAll()
+                .requestMatchers("/h2/**").permitAll()
                 // .mvcMatchers("/revoke").permitAll()
                 // .mvcMatchers("/oauth2/revoke").anonymous()
                 .anyRequest().authenticated()

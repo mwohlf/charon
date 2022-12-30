@@ -75,11 +75,11 @@ tasks.findByName("build")?.let {
 // we need to add "--legacy-peer-deps"
 
 tasks.findByName("webjarInstall")?.let {
-    val npmTask = it as NpmTask
+    // val npmTask = it as NpmTask
     (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
 }
 
 tasks.findByName("webjarInit")?.let {
-    val npmTask = it as NpmTask
+    // val npmTask = it as NpmTask
     (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
 }
