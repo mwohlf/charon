@@ -25,6 +25,10 @@ h3 {
     color: #4a89dc;
 }
 
+td {
+    vertical-align: top;
+}
+
 form {
     width: 380px;
     margin: 4em auto;
