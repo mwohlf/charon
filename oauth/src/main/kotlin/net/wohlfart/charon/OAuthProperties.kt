@@ -2,14 +2,12 @@ package net.wohlfart.charon
 
 
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.boot.context.properties.NestedConfigurationProperty
 import org.springframework.security.oauth2.core.AuthorizationGrantType
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod
 import java.time.Duration
 
 
-//@ConstructorBinding
 @ConfigurationProperties(prefix = "net.wohlfart.charon.oauth")
 class OAuthProperties(
 
@@ -25,7 +23,6 @@ class OAuthProperties(
     val clients: Map<String, ClientEntry> = HashMap(),
 )
 
-//@ConstructorBinding
 class ClientEntry (
 
     @NestedConfigurationProperty

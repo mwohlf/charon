@@ -13,6 +13,5 @@
   "useBeanValidation": true,
   "useTags": true,
   "enumPropertyNaming": "UPPERCASE",
-  "useSwaggerUI": false,
-  "useSpringBoot3": true
+  "useSwaggerUI": false
 }

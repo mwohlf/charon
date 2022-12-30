@@ -37,7 +37,7 @@ repositories {
 }
 
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<KotlinJvmCompilerOptions>>().configureEach {
+tasks.withType<KotlinCompilationTask<KotlinJvmCompilerOptions>>().configureEach {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_17)
         // allWarningsAsErrors.set(true)
