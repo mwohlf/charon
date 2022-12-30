@@ -15,7 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
@@ -32,13 +32,14 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 private val logger = KotlinLogging.logger(AuthorizationServerConfig::class.java.name)
 
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 class AuthorizationServerConfig(
     val oauthProperties: OAuthProperties,
 ) {
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
+    @Throws(java.lang.Exception::class)
     fun authorizationServerSecurityFilterChain(
         http: HttpSecurity,
         oAuth2AuthorizationService: OAuth2AuthorizationService,
@@ -49,7 +50,8 @@ class AuthorizationServerConfig(
         // Enable OpenID Connect 1.0
         authorizationServerConfigurer
             .oidc(Customizer.withDefaults())
-            .tokenRevocationEndpoint { oAuth2TokenRevocationEndpointConfigurer: OAuth2TokenRevocationEndpointConfigurer ->
+            .tokenRevocationEndpoint { oAuth2TokenRevocationEndpointConfigurer: OAuth2TokenRevocationEndpointConfigurer
+                ->
                 oAuth2TokenRevocationEndpointConfigurer
                     .authenticationProvider(RevokeAuthenticationProvider(oAuth2AuthorizationService))
             }
@@ -73,19 +75,28 @@ class AuthorizationServerConfig(
 
         http.apply(authorizationServerConfigurer)
 
-        // picks up our default cors config
+
+        // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
+        // http.getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
+        //    .oidc(Customizer.withDefaults()) // Enable OpenID Connect 1.0
+
+        // this picks up our default cors config
         http.cors { }
-        // http.oauth2ResourceServer(OAuth2ResourceServerConfigurer<HttpSecurity>::jwt)
+
+        // redirect to login page for any exception
         http.exceptionHandling { exceptionHandlingConfigurer: ExceptionHandlingConfigurer<HttpSecurity>
             ->
             exceptionHandlingConfigurer.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login"))
         }
+
         // for refresh inline frame needed ?
-        http.headers().frameOptions().sameOrigin()
+        // http.headers().frameOptions().sameOrigin()
+        // whenever we provide any data to the app maybe?
+        // http.oauth2ResourceServer { obj: OAuth2ResourceServerConfigurer<HttpSecurity?> -> obj.jwt() }
+
 
         return http.build()
     }
-
 
     @Bean
     fun jwtDecoder(jwkSource: JWKSource<SecurityContext>): JwtDecoder {
@@ -102,8 +113,9 @@ class AuthorizationServerConfig(
 
 
     // invoked second
-    class RevokeAuthenticationProvider(private val oAuth2AuthorizationService: OAuth2AuthorizationService) :
-        AuthenticationProvider {
+    class RevokeAuthenticationProvider(
+        private val oAuth2AuthorizationService: OAuth2AuthorizationService
+    ) : AuthenticationProvider {
         override fun authenticate(authentication: Authentication): Authentication {
             if (authentication is OAuth2TokenRevocationAuthenticationToken) {
                 try {
