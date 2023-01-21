@@ -37,12 +37,13 @@ jobs:
           git config user.email "<>"
 
       - name: Run the renew-cert script
-        run: bash ${{ github.workspace }}/etc/certs/renew-certs.bash
+        run: |
+          bash ${{ github.workspace }}/etc/certs/manage-certs.bash create
 
       - name: Stage and push the encrypted keys
         run: |
           echo "running on branch ${GITHUB_REF##*/}"
-          git add ${{ github.workspace }}/etc/certs/tls.crt.gpg
-          git add ${{ github.workspace }}/etc/certs/tls.key.gpg
+          git add ${{ github.workspace }}/etc/certs/tls.crt.bin
+          git add ${{ github.workspace }}/etc/certs/tls.key.bin
           git commit -m "added certs"
           git push origin ${GITHUB_REF##*/}

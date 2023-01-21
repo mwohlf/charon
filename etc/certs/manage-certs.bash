@@ -19,7 +19,8 @@
 
 set -e
 
-
+TSL_CRT_FILE="tls.crt"
+TSL_KEY_FILE="tls.key"
 DOMAIN="wired-heart.com"
 # KEYVAULT="finalrestingheartrateVlt"
 
@@ -36,8 +37,12 @@ function finally {
 }
 trap finally EXIT
 
+
+
 function create_cert() {
-    # for running local we read it from file, otherwise it should be in the env already when running as GitHub action
+    # for running local we read content from file,
+    # otherwise it should be in the env already when running as GitHub action
+
     if [[ -z "${CLOUDFLARE_API_TOKEN}" ]]; then
         CLOUDFLARE_API_TOKEN=$(cat "${SCRIPT_DIR}/../setup/cloudflare-api-token.txt")
     fi
@@ -46,9 +51,7 @@ function create_cert() {
         GPG_PASSPHRASE=$(cat "${SCRIPT_DIR}/../setup/gpg-passphrase.txt")
     fi
 
-    whoami
-
-    # this is where the keys are stored
+    # this is where the keys are stored the dirs are pretty much defined by the certbot
     mkdir -p "${SCRIPT_DIR}/etc/certs/etc/live"
     echo "dns_cloudflare_api_token = ${CLOUDFLARE_API_TOKEN}" >"${SCRIPT_DIR}/etc/credentials"
     # chmod 400 "${SCRIPT_DIR}/etc/credentials"
@@ -72,20 +75,20 @@ function create_cert() {
         -d \*.${DOMAIN} \
         --server https://acme-staging-v02.api.letsencrypt.org/directory
 
-# staging:   --server https://acme-staging-v02.api.letsencrypt.org/directory
-# prod:      --server https://acme-v02.api.letsencrypt.org/directory
+# for staging:   --server https://acme-staging-v02.api.letsencrypt.org/directory
+# for prod:      --server https://acme-v02.api.letsencrypt.org/directory
 
     sudo ls -alR "${SCRIPT_DIR}"
 
     sudo gpg --quiet --batch --yes \
         --passphrase="${GPG_PASSPHRASE}" \
-        --output "${SCRIPT_DIR}/tls.crt.gpg" \
+        --output "${SCRIPT_DIR}/${TSL_CRT_FILE}.bin" \
         --symmetric \
         "${SCRIPT_DIR}/etc/live/${DOMAIN}/fullchain.pem"
 
     sudo gpg --quiet --batch --yes \
         --passphrase="${GPG_PASSPHRASE}" \
-        --output "${SCRIPT_DIR}/tls.key.gpg" \
+        --output "${SCRIPT_DIR}/${TSL_KEY_FILE}.bin" \
         --symmetric \
         "${SCRIPT_DIR}/etc/live/${DOMAIN}/privkey.pem"
 
@@ -93,20 +96,22 @@ function create_cert() {
 
 
     echo "---fullchain---"
-    sudo cat "${SCRIPT_DIR}/etc/live/wired-heart.com/fullchain.pem"
+    sudo cat "${SCRIPT_DIR}/etc/live/${DOMAIN}/fullchain.pem"
 
     echo "---privkey---"
-    sudo cat "${SCRIPT_DIR}/etc/live/wired-heart.com/privkey.pem"
+    sudo cat "${SCRIPT_DIR}/etc/live/${DOMAIN}/privkey.pem"
 
     echo
-    echo "---tls.crt.gpg---"
-    sudo cat "${SCRIPT_DIR}/tls.crt.gpg"
+    echo "---tls.crt.bin---"
+    sudo cat "${SCRIPT_DIR}/${TSL_CRT_FILE}.bin"
 
     echo
-    echo "---tls.key.gpg---"
-    sudo cat "${SCRIPT_DIR}/tls.key.gpg"
+    echo "---tls.key.bin---"
+    sudo cat "${SCRIPT_DIR}/${TSL_KEY_FILE}.bin"
 
 }
+
+
 
 function create_config() {
     cat >"${SCRIPT_DIR}/secrets.yaml" <<EOF
@@ -126,17 +131,30 @@ EOF
     } >>"${SCRIPT_DIR}/secrets.yaml"
 }
 
-function checkin_keys() {
-    echo "checkin keys..."
+
+
+function read_cert() {
+    echo "read_cert"
 }
+
+
+
 
 #################
 #   main
 #################
 
-create_cert
-# checkin_keys
-# create_config
+if [[ $# -ne 1 ]]; then
+    echo "Error: usage ${0} [create|read]" >&2
+    exit 1
+fi
 
+if [[ ${1} == "create" ]]; then
+    create_cert
+fi
+
+if [[ ${1} == "read" ]]; then
+    read_cert
+fi
 
 exit 0
