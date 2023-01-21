@@ -43,9 +43,6 @@ trap finally EXIT
 
 # for running local we read content from file,
 # otherwise it should be in the env already when running as GitHub action
-if [[ -z "${CLOUDFLARE_API_TOKEN}" ]]; then
-    CLOUDFLARE_API_TOKEN=$(cat "${SCRIPT_DIR}/../setup/cloudflare-api-token.txt")
-fi
 
 if [[ -z "${GPG_PASSPHRASE}" ]]; then
     GPG_PASSPHRASE=$(cat "${SCRIPT_DIR}/../setup/gpg-passphrase.txt")
@@ -54,6 +51,10 @@ fi
 # ===== main building blocks
 
 function create_cert() {
+
+    if [[ -z "${CLOUDFLARE_API_TOKEN}" ]]; then
+        CLOUDFLARE_API_TOKEN=$(cat "${SCRIPT_DIR}/../setup/cloudflare-api-token.txt")
+    fi
 
     # this is where the keys are stored the dirs are pretty much defined by the certbot
     mkdir -p "${SCRIPT_DIR}/etc/certs/etc/live"
