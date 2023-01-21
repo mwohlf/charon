@@ -112,7 +112,7 @@ EOF
 }
 
 function checkin_keys() {
-
+    echo "checkin keys..."
 }
 
 #################
