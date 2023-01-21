@@ -76,14 +76,16 @@ function create_cert() {
 
     sudo ls -alR "${SCRIPT_DIR}"
 
-    sudo gpg --quiet --batch --yes --encrypt \
+    sudo gpg --quiet --batch --yes \
         --passphrase="${GPG_PASSPHRASE}" \
         --output "${SCRIPT_DIR}/tls.crt.gpg" \
+        --symmetric \
         "${SCRIPT_DIR}/etc/live/${DOMAIN}/fullchain.pem"
 
-    sudo gpg --quiet --batch --yes --encrypt \
+    sudo gpg --quiet --batch --yes \
         --passphrase="${GPG_PASSPHRASE}" \
         --output "${SCRIPT_DIR}/tls.key.gpg" \
+        --symmetric \
         "${SCRIPT_DIR}/etc/live/${DOMAIN}/privkey.pem"
 
     sudo cat "${SCRIPT_DIR}/log/letsencrypt/letsencrypt.log"
