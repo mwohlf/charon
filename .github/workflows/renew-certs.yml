@@ -41,7 +41,8 @@ jobs:
 
       - name: Stage and push the encrypted keys
         run: |
+          echo "running on branch ${GITHUB_REF##*/}"
           git add ${{ github.workspace }}/etc/certs/tls.crt.gpg
           git add ${{ github.workspace }}/etc/certs/tls.key.gpg
           git commit -m "added certs"
-          git push origin develop
+          git push origin ${GITHUB_REF##*/}
