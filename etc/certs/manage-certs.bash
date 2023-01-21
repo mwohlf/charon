@@ -130,22 +130,36 @@ function create_values() {
         --decrypt "${SCRIPT_DIR}/${TSL_KEY_FILE}.bin"
 
     cat >"${SCRIPT_DIR}/secrets.yaml" <<EOF
-apiVersion: v1
-kind: Secret
-metadata:
-  name: wired-heart-tls
-  namespace: development
-data:
+#
+# this file should only exist for deployment
+#
+
+tls:
 EOF
     {
-    printf "\n  tls.crt: "
+    printf "  crt: "
     base64 -w 0 < "${SCRIPT_DIR}/${DOMAIN}-fullchain.pem"
-    printf "\n  tls.key: "
+    printf "\n"
+
+    printf "  key: "
     base64 -w 0 < "${SCRIPT_DIR}/${DOMAIN}-privkey.pem"
-    printf "\n\ntype: kubernetes.io/tls\n"
+    printf "\n"
+
     } >>"${SCRIPT_DIR}/secrets.yaml"
 
+    cat >>"${SCRIPT_DIR}/secrets.yaml" <<EOF
+oauth:
+  clients:
+    google:
+      id: GOOGLE_CLIENT_ID_TEST
+      secret: GOOGLE_CLIENT_SECRET_TEST
+    github:
+      id: GITHUB_CLIENT_ID_TEST
+      secret: GITHUB_CLIENT_SECRET_TEST
+EOF
     cp "${SCRIPT_DIR}/secrets.yaml" "${SCRIPT_DIR}/../helm/charon/values.yaml"
+
+    cat "${SCRIPT_DIR}/../helm/charon/values.yaml"
 }
 
 #################

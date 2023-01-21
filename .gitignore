@@ -27,3 +27,5 @@ build
 /etc/certs/secrets.yaml
 /etc/setup/cloudflare-api-token.txt
 /etc/setup/gpg-passphrase.txt
+/etc/certs/wired-heart.com-fullchain.pem
+/etc/certs/wired-heart.com-privkey.pem
