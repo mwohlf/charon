@@ -12,8 +12,8 @@
 #
 # this script creates two tsl config files:
 #
-#    tls.crt.gpg
-#    tls.key.gpg
+#    tls.crt.bin
+#    tls.key.bin
 #
 
 
@@ -78,21 +78,23 @@ function create_cert() {
 # for staging:   --server https://acme-staging-v02.api.letsencrypt.org/directory
 # for prod:      --server https://acme-v02.api.letsencrypt.org/directory
 
-    sudo ls -alR "${SCRIPT_DIR}"
+    # sudo ls -alR "${SCRIPT_DIR}"
 
     sudo gpg --quiet --batch --yes \
         --passphrase="${GPG_PASSPHRASE}" \
         --output "${SCRIPT_DIR}/${TSL_CRT_FILE}.bin" \
         --symmetric \
         "${SCRIPT_DIR}/etc/live/${DOMAIN}/fullchain.pem"
+    sudo chmod 777 "${SCRIPT_DIR}/${TSL_CRT_FILE}.bin"
 
     sudo gpg --quiet --batch --yes \
         --passphrase="${GPG_PASSPHRASE}" \
         --output "${SCRIPT_DIR}/${TSL_KEY_FILE}.bin" \
         --symmetric \
         "${SCRIPT_DIR}/etc/live/${DOMAIN}/privkey.pem"
+    sudo chmod 777 "${SCRIPT_DIR}/${TSL_KEY_FILE}.bin"
 
-    sudo cat "${SCRIPT_DIR}/log/letsencrypt/letsencrypt.log"
+    # sudo cat "${SCRIPT_DIR}/log/letsencrypt/letsencrypt.log"
 
 
     echo "---fullchain---"
@@ -108,7 +110,6 @@ function create_cert() {
     echo
     echo "---tls.key.bin---"
     sudo cat "${SCRIPT_DIR}/${TSL_KEY_FILE}.bin"
-
 }
 
 
