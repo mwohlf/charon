@@ -3,8 +3,10 @@
 # script to re-generate the cert for wired-heart.com
 #  the idea is we update the cloudflare dns config to prove to letsencrypt that we own the domain
 #  then we get a certificate...
-#   - make sure the token is still valid in .../setup/cloudflare-token.txt
-#   - run this script with access to cloudflare
+#   - make sure the API Token is still valid in .../setup/cloudflare-token.txt
+#     you can roll a new token: https://dash.cloudflare.com/profile/api-tokens
+#   - run this script with access to cloudflare (use a custom ubuntu 22 WSL image, not the standard BB image)
+#     the standard BB ubuntu WSL image might have a router/firewall setting that does not allow access to cloudflare
 #   - the secrets.yaml file will be generated
 #   - copy secrets into the values config in the helm chart
 #
@@ -21,12 +23,12 @@ SCRIPT_DIR="$(
     cd -- "$(dirname "$0")" >/dev/null 2>&1
     pwd -P
 )"
-function cleanup {
+function finally {
     echo "finishing the script, error code is ${?}"
     # back to where we came from
     cd "${CURRENT_DIR}"
 }
-trap cleanup EXIT
+trap finally EXIT
 
 function create_cert() {
     # for running local
@@ -88,4 +90,3 @@ create_cert
 create_config
 
 exit 0
-
