@@ -42,6 +42,7 @@ function create_cert() {
 
     whoami
 
+    # this is where the keys are stored
     mkdir -p "${SCRIPT_DIR}/etc/certs/etc/live"
     echo "dns_cloudflare_api_token = ${CLOUDFLARE_API_TOKEN}" >"${SCRIPT_DIR}/etc/credentials"
     # chmod 400 "${SCRIPT_DIR}/etc/credentials"
@@ -67,9 +68,25 @@ function create_cert() {
 
     sudo ls -alR "${SCRIPT_DIR}"
 
-    sudo file "${SCRIPT_DIR}/log/letsencrypt/letsencrypt.log"
-    sudo file "${SCRIPT_DIR}/etc/live/wired-heart.com/fullchain.pem"
-    sudo file "${SCRIPT_DIR}/etc/live/wired-heart.com/privkey.pem"
+    sudo gpg --quiet --batch --yes --encrypt \
+        --passphrase="${{ env.GPG_PASSPHRASE }}" \
+        --output "${SCRIPT_DIR}/tls.crt.gpg" \
+        "${SCRIPT_DIR}/etc/live/${DOMAIN}/fullchain.pem"
+
+    sudo gpg --quiet --batch --yes --encrypt \
+        --passphrase="${{ env.GPG_PASSPHRASE }}" \
+        --output "${SCRIPT_DIR}/tls.key.gpg" \
+        "${SCRIPT_DIR}/etc/live/${DOMAIN}/privkey.pem"
+
+    sudo cat "${SCRIPT_DIR}/log/letsencrypt/letsencrypt.log"
+    echo "---fullchain---"
+    sudo cat "${SCRIPT_DIR}/etc/live/wired-heart.com/fullchain.pem"
+    echo "---privkey---"
+    sudo cat "${SCRIPT_DIR}/etc/live/wired-heart.com/privkey.pem"
+    echo "---tls.crt.gpg---"
+    sudo cat "${SCRIPT_DIR}/tls.crt.gpg"
+    echo "---tls.key.gpg---"
+    sudo cat "${SCRIPT_DIR}/tls.key.gpg"
 
 }
 
