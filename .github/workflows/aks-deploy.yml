@@ -16,7 +16,8 @@ env:
   RESOURCE_GROUP: charonResourceGroup
   NAMESPACE: development
   GITHUB_SHA: ${{ github.sha }}
-  TLS_KEY: ${{ secrets.TLS_KEY }}
+  # this is used to decrypt the file containing the TSL keys
+  GPG_PASSPHRASE : ${{ secrets.GPG_PASSPHRASE }}
 
 jobs:
   deploy:
@@ -65,7 +66,7 @@ jobs:
           # to override the secrets in the helm charts with an env variable (todo)
 
       # we store images in ttl.sh,
-      #  no need for a login
+      #  no need for a login, this is not really needed, just in case we want to switch to GitHub's docker registry
       - name: Authenticate to the docker registry
         id: registry-authentication
         uses: docker/login-action@v2

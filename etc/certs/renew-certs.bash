@@ -31,13 +31,18 @@ function finally {
 trap finally EXIT
 
 function create_cert() {
-    # for running local
-    if [[ -z "${CLOUDFLARE_TOKEN}" ]]; then
-        CLOUDFLARE_TOKEN=$(cat "${SCRIPT_DIR}/../setup/cloudflare-token.txt")
+    # for running local we read it from file, otherwise it should be in the env already when running as GitHub action
+    if [[ -z "${CLOUDFLARE_API_TOKEN}" ]]; then
+        CLOUDFLARE_API_TOKEN=$(cat "${SCRIPT_DIR}/../setup/cloudflare-api-token.txt")
     fi
 
+    if [[ -z "${GPG_PASSPHRASE}" ]]; then
+        GPG_PASSPHRASE=$(cat "${SCRIPT_DIR}/../setup/gpg-passphrase.txt")
+    fi
+
+
     mkdir -p "${SCRIPT_DIR}/etc"
-    echo "dns_cloudflare_api_token = ${CLOUDFLARE_TOKEN}" >"${SCRIPT_DIR}/etc/credentials"
+    echo "dns_cloudflare_api_token = ${CLOUDFLARE_API_TOKEN}" >"${SCRIPT_DIR}/etc/credentials"
     # chmod 400 "${SCRIPT_DIR}/etc/credentials"
 
     docker run \
@@ -61,6 +66,7 @@ function create_cert() {
 
     ls -alr "${SCRIPT_DIR}"
     rm "${SCRIPT_DIR}/etc/credentials"
+    cat "${SCRIPT_DIR}/log/letsencrypt/letsencrypt.log"
 }
 
 function create_config() {

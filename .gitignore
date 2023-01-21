@@ -25,3 +25,5 @@ build
 /etc/certs/var/
 /etc/certs/wired-heart.com.pfx
 /etc/certs/secrets.yaml
+/etc/setup/cloudflare-api-token.txt
+/etc/setup/gpg-passphrase.txt
