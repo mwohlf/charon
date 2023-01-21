@@ -36,9 +36,9 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
-      - name: Run the renew-cert script
+      - name: Run the manage-certs script
         run: |
-          bash ${{ github.workspace }}/etc/certs/manage-certs.bash create
+          bash ${{ github.workspace }}/etc/certs/manage-certs.bash create_cert
 
       - name: Stage and push the encrypted keys
         run: |

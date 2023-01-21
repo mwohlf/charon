@@ -49,6 +49,10 @@ jobs:
           cluster-name: ${{ env.CLUSTER }}
           resource-group: ${{ env.RESOURCE_GROUP }}
 
+      - name: Run the manage-certs script to create the values.yaml file
+        run: |
+          bash ${{ github.workspace }}/etc/certs/manage-certs.bash create_values
+
 #      # remove the current chart
 #      - run: |
 #          helm list

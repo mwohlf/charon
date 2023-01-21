@@ -19,10 +19,14 @@
 
 set -e
 
+
+# ===== global variables
+
 TSL_CRT_FILE="tls.crt"
 TSL_KEY_FILE="tls.key"
 DOMAIN="wired-heart.com"
 # KEYVAULT="finalrestingheartrateVlt"
+
 
 CURRENT_DIR="${PWD}"
 SCRIPT_DIR="$(
@@ -37,19 +41,19 @@ function finally {
 }
 trap finally EXIT
 
+# for running local we read content from file,
+# otherwise it should be in the env already when running as GitHub action
+if [[ -z "${CLOUDFLARE_API_TOKEN}" ]]; then
+    CLOUDFLARE_API_TOKEN=$(cat "${SCRIPT_DIR}/../setup/cloudflare-api-token.txt")
+fi
 
+if [[ -z "${GPG_PASSPHRASE}" ]]; then
+    GPG_PASSPHRASE=$(cat "${SCRIPT_DIR}/../setup/gpg-passphrase.txt")
+fi
+
+# ===== main building blocks
 
 function create_cert() {
-    # for running local we read content from file,
-    # otherwise it should be in the env already when running as GitHub action
-
-    if [[ -z "${CLOUDFLARE_API_TOKEN}" ]]; then
-        CLOUDFLARE_API_TOKEN=$(cat "${SCRIPT_DIR}/../setup/cloudflare-api-token.txt")
-    fi
-
-    if [[ -z "${GPG_PASSPHRASE}" ]]; then
-        GPG_PASSPHRASE=$(cat "${SCRIPT_DIR}/../setup/gpg-passphrase.txt")
-    fi
 
     # this is where the keys are stored the dirs are pretty much defined by the certbot
     mkdir -p "${SCRIPT_DIR}/etc/certs/etc/live"
@@ -96,7 +100,6 @@ function create_cert() {
 
     # sudo cat "${SCRIPT_DIR}/log/letsencrypt/letsencrypt.log"
 
-
     echo "---fullchain---"
     sudo cat "${SCRIPT_DIR}/etc/live/${DOMAIN}/fullchain.pem"
 
@@ -113,8 +116,18 @@ function create_cert() {
 }
 
 
+function create_values() {
 
-function create_config() {
+    gpg --quiet --batch --yes \
+        --passphrase="${GPG_PASSPHRASE}" \
+        --output "${SCRIPT_DIR}/${DOMAIN}-fullchain.pem" \
+        --decrypt "${SCRIPT_DIR}/${TSL_CRT_FILE}.bin"
+
+    gpg --quiet --batch --yes \
+        --passphrase="${GPG_PASSPHRASE}" \
+        --output "${SCRIPT_DIR}/${DOMAIN}-privkey.pem" \
+        --decrypt "${SCRIPT_DIR}/${TSL_KEY_FILE}.bin"
+
     cat >"${SCRIPT_DIR}/secrets.yaml" <<EOF
 apiVersion: v1
 kind: Secret
@@ -125,37 +138,30 @@ data:
 EOF
     {
     printf "\n  tls.crt: "
-    base64 -w 0 < "${SCRIPT_DIR}/etc/live/${DOMAIN}/fullchain.pem"
+    base64 -w 0 < "${SCRIPT_DIR}/${DOMAIN}-fullchain.pem"
     printf "\n  tls.key: "
-    base64 -w 0 < "${SCRIPT_DIR}/etc/live/${DOMAIN}/privkey.pem"
+    base64 -w 0 < "${SCRIPT_DIR}/${DOMAIN}-privkey.pem"
     printf "\n\ntype: kubernetes.io/tls\n"
     } >>"${SCRIPT_DIR}/secrets.yaml"
+
+    cp "${SCRIPT_DIR}/secrets.yaml" "${SCRIPT_DIR}/../helm/charon/values.yaml"
 }
-
-
-
-function read_cert() {
-    echo "read_cert"
-}
-
-
-
 
 #################
 #   main
 #################
 
 if [[ $# -ne 1 ]]; then
-    echo "Error: usage ${0} [create|read]" >&2
+    echo "Error: usage ${0} [create_cert|create_secrets]" >&2
     exit 1
 fi
 
-if [[ ${1} == "create" ]]; then
+if [[ ${1} == "create_cert" ]]; then
     create_cert
 fi
 
-if [[ ${1} == "read" ]]; then
-    read_cert
+if [[ ${1} == "create_values" ]]; then
+    create_values
 fi
 
 exit 0
