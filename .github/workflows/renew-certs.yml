@@ -30,20 +30,18 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_SP_CREDENTIALS}}
 
-      - name: Run the script
+      - name: Setup git config
+        run: |
+          # setup git username and email for the push
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: Run the renew-cert script
         run: bash ${{ github.workspace }}/etc/certs/renew-certs.bash
 
-      - name: stage /etc/certs/tls.crt.gpg
-        run: git add ${{ github.workspace }}/etc/certs/tls.crt.gpg
-
-      - name: stage /etc/certs/tls.crt.gpg
-        run: git add ${{ github.workspace }}/etc/certs/tls.key.gpg
-
-      - name: commit changed files
-        run: git commit -m "added certs"
-
-      - name: fetch from master
-        run: git fetch origin develop
-
-      - name: push code to master
-        run: git push origin HEAD:develop
+      - name: Stage and push the encrypted keys
+        run: |
+          git add ${{ github.workspace }}/etc/certs/tls.crt.gpg
+          git add ${{ github.workspace }}/etc/certs/tls.key.gpg
+          git commit -m "added certs"
+          git push origin develop

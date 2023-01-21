@@ -29,6 +29,7 @@ SCRIPT_DIR="$(
     pwd -P
 )"
 function finally {
+    echo
     echo "finishing the script, error code is ${?}"
     # back to where we came from
     cd "${CURRENT_DIR}"
@@ -89,12 +90,19 @@ function create_cert() {
         "${SCRIPT_DIR}/etc/live/${DOMAIN}/privkey.pem"
 
     sudo cat "${SCRIPT_DIR}/log/letsencrypt/letsencrypt.log"
+
+
     echo "---fullchain---"
     sudo cat "${SCRIPT_DIR}/etc/live/wired-heart.com/fullchain.pem"
+
     echo "---privkey---"
     sudo cat "${SCRIPT_DIR}/etc/live/wired-heart.com/privkey.pem"
+
+    echo
     echo "---tls.crt.gpg---"
     sudo cat "${SCRIPT_DIR}/tls.crt.gpg"
+
+    echo
     echo "---tls.key.gpg---"
     sudo cat "${SCRIPT_DIR}/tls.key.gpg"
 
