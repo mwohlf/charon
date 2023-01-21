@@ -64,7 +64,10 @@ function create_cert() {
         --agree-tos \
         --email mwhlfrt@gmail.com \
         -d \*.${DOMAIN} \
-        --server https://acme-v02.api.letsencrypt.org/directory
+        --server https://acme-staging-v02.api.letsencrypt.org/directory
+
+# staging:   --server https://acme-staging-v02.api.letsencrypt.org/directory
+# prod:      --server https://acme-v02.api.letsencrypt.org/directory
 
     sudo ls -alR "${SCRIPT_DIR}"
 
@@ -108,12 +111,17 @@ EOF
     } >>"${SCRIPT_DIR}/secrets.yaml"
 }
 
+function checkin_keys() {
+
+}
 
 #################
 #   main
 #################
 
 create_cert
-create_config
+checkin_keys
+# create_config
+
 
 exit 0
