@@ -40,8 +40,9 @@ function create_cert() {
         GPG_PASSPHRASE=$(cat "${SCRIPT_DIR}/../setup/gpg-passphrase.txt")
     fi
 
+    whoami
 
-    mkdir -p "${SCRIPT_DIR}/etc"
+    mkdir -p "${SCRIPT_DIR}/etc/certs/etc/live"
     echo "dns_cloudflare_api_token = ${CLOUDFLARE_API_TOKEN}" >"${SCRIPT_DIR}/etc/credentials"
     # chmod 400 "${SCRIPT_DIR}/etc/credentials"
 
@@ -64,11 +65,11 @@ function create_cert() {
         -d \*.${DOMAIN} \
         --server https://acme-v02.api.letsencrypt.org/directory
 
-    ls -alR "${SCRIPT_DIR}"
+    sudo ls -alR "${SCRIPT_DIR}"
 
-    file "${SCRIPT_DIR}/log/letsencrypt/letsencrypt.log"
-    file "${SCRIPT_DIR}/etc/live/wired-heart.com/fullchain.pem"
-    file "${SCRIPT_DIR}/etc/live/wired-heart.com/privkey.pem"
+    sudo file "${SCRIPT_DIR}/log/letsencrypt/letsencrypt.log"
+    sudo file "${SCRIPT_DIR}/etc/live/wired-heart.com/fullchain.pem"
+    sudo file "${SCRIPT_DIR}/etc/live/wired-heart.com/privkey.pem"
 
 }
 
