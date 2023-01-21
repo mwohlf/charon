@@ -64,9 +64,12 @@ function create_cert() {
         -d \*.${DOMAIN} \
         --server https://acme-v02.api.letsencrypt.org/directory
 
-    ls -alr "${SCRIPT_DIR}"
-    rm "${SCRIPT_DIR}/etc/credentials"
-    cat "${SCRIPT_DIR}/log/letsencrypt/letsencrypt.log"
+    ls -alR "${SCRIPT_DIR}"
+
+    file "${SCRIPT_DIR}/log/letsencrypt/letsencrypt.log"
+    file "${SCRIPT_DIR}/etc/live/wired-heart.com/fullchain.pem"
+    file "${SCRIPT_DIR}/etc/live/wired-heart.com/privkey.pem"
+
 }
 
 function create_config() {
