@@ -69,12 +69,12 @@ function create_cert() {
     sudo ls -alR "${SCRIPT_DIR}"
 
     sudo gpg --quiet --batch --yes --encrypt \
-        --passphrase="${{ env.GPG_PASSPHRASE }}" \
+        --passphrase="${GPG_PASSPHRASE}" \
         --output "${SCRIPT_DIR}/tls.crt.gpg" \
         "${SCRIPT_DIR}/etc/live/${DOMAIN}/fullchain.pem"
 
     sudo gpg --quiet --batch --yes --encrypt \
-        --passphrase="${{ env.GPG_PASSPHRASE }}" \
+        --passphrase="${GPG_PASSPHRASE}" \
         --output "${SCRIPT_DIR}/tls.key.gpg" \
         "${SCRIPT_DIR}/etc/live/${DOMAIN}/privkey.pem"
 
