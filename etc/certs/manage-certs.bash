@@ -1,21 +1,12 @@
 #!/usr/bin/env bash
 #
 # script to re-generate the cert for wired-heart.com
-#  the idea is we update the cloudflare dns config to prove to letsencrypt that we own the domain
-#  then we get a certificate...
-#   - make sure the API Token is still valid in .../setup/cloudflare-token.txt
-#     you can roll a new token: https://dash.cloudflare.com/profile/api-tokens
-#   - run this script with access to cloudflare (use a custom ubuntu 22 WSL image, not the standard BB image)
-#     the standard BB ubuntu WSL image might have a router/firewall setting that does not allow access to cloudflare
-#   - the secrets.yaml file will be generated
-#   - copy secrets into the values config in the helm chart
+#  The idea is we update the cloudflare dns config to prove to letsencrypt
+#  that we own the domain in order to get the cert.
 #
-# this script creates two tsl config files:
+#  There is a docker image that can be used to run the steps we just have to provide the CLOUDFLARE_API_TOKEN
 #
-#    tls.crt.bin
-#    tls.key.bin
 #
-
 
 set -e
 
@@ -56,7 +47,7 @@ function create_cert() {
         CLOUDFLARE_API_TOKEN=$(cat "${SCRIPT_DIR}/../setup/cloudflare-api-token.txt")
     fi
 
-    # this is where the keys are stored the dirs are pretty much defined by the certbot
+    # this is where the keys are stored, the dirs are pretty much defined by the certbot
     mkdir -p "${SCRIPT_DIR}/etc/certs/etc/live"
     echo "dns_cloudflare_api_token = ${CLOUDFLARE_API_TOKEN}" >"${SCRIPT_DIR}/etc/credentials"
     # chmod 400 "${SCRIPT_DIR}/etc/credentials"
@@ -78,7 +69,7 @@ function create_cert() {
         --agree-tos \
         --email mwhlfrt@gmail.com \
         -d \*.${DOMAIN} \
-        --server https://acme-staging-v02.api.letsencrypt.org/directory
+        --server https://acme-v02.api.letsencrypt.org/directory
 
 # for staging:   --server https://acme-staging-v02.api.letsencrypt.org/directory
 # for prod:      --server https://acme-v02.api.letsencrypt.org/directory
