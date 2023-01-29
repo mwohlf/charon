@@ -6,6 +6,13 @@
 #
 #  There is a docker image that can be used to run the steps we just have to provide the CLOUDFLARE_API_TOKEN
 #
+# this script can be called with
+#
+#   create_cert:
+#      to create a new cert from letsencrypt, encrypt them and check them oin
+#
+#   create_values:
+#      to create secrets for k8s deployment from the encrypted cerst
 #
 
 set -e
@@ -31,6 +38,12 @@ function finally {
     cd "${CURRENT_DIR}"
 }
 trap finally EXIT
+
+
+function usage_exit() {
+    echo "Error: usage ${0} [create_cert|create_secrets]" >&2
+    exit 2
+}
 
 # for running local we read content from file,
 # otherwise it should be in the env already when running as GitHub action
@@ -158,16 +171,22 @@ EOF
 #################
 
 if [[ $# -ne 1 ]]; then
-    echo "Error: usage ${0} [create_cert|create_secrets]" >&2
-    exit 1
+    usage_exit()
 fi
 
-if [[ ${1} == "create_cert" ]]; then
+case ${1} in
+
+  "create_cert")
     create_cert
-fi
+    ;;
 
-if [[ ${1} == "create_values" ]]; then
+  "create_values")
     create_values
-fi
+    ;;
+
+  *)
+    usage_exit()
+    ;;
+esac
 
 exit 0
