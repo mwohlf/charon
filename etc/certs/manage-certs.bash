@@ -40,7 +40,7 @@ function finally {
 trap finally EXIT
 
 
-function usage_exit() {
+function usage_exit {
     echo "Error: usage ${0} [create_cert|create_secrets]" >&2
     exit 2
 }
@@ -54,7 +54,7 @@ fi
 
 # ===== main building blocks
 
-function create_cert() {
+function create_cert {
 
     if [[ -z "${CLOUDFLARE_API_TOKEN}" ]]; then
         CLOUDFLARE_API_TOKEN=$(cat "${SCRIPT_DIR}/../setup/cloudflare-api-token.txt")
@@ -106,10 +106,10 @@ function create_cert() {
     # sudo cat "${SCRIPT_DIR}/log/letsencrypt/letsencrypt.log"
 
     echo "---fullchain---"
-    sudo cat "${SCRIPT_DIR}/etc/live/${DOMAIN}/fullchain.pem"
+    # sudo cat "${SCRIPT_DIR}/etc/live/${DOMAIN}/fullchain.pem"
 
     echo "---privkey---"
-    sudo cat "${SCRIPT_DIR}/etc/live/${DOMAIN}/privkey.pem"
+    # sudo cat "${SCRIPT_DIR}/etc/live/${DOMAIN}/privkey.pem"
 
     echo
     echo "---tls.crt.bin---"
@@ -121,7 +121,7 @@ function create_cert() {
 }
 
 
-function create_values() {
+function create_values {
 
     gpg --quiet --batch --yes \
         --passphrase="${GPG_PASSPHRASE}" \
@@ -163,7 +163,7 @@ oauth:
 EOF
     cp "${SCRIPT_DIR}/secrets.yaml" "${SCRIPT_DIR}/../helm/charon/values.yaml"
 
-    cat "${SCRIPT_DIR}/../helm/charon/values.yaml"
+    # cat "${SCRIPT_DIR}/../helm/charon/values.yaml"
 }
 
 #################
@@ -171,7 +171,7 @@ EOF
 #################
 
 if [[ $# -ne 1 ]]; then
-    usage_exit()
+    usage_exit
 fi
 
 case ${1} in
@@ -185,7 +185,7 @@ case ${1} in
     ;;
 
   *)
-    usage_exit()
+    usage_exit
     ;;
 esac
 
