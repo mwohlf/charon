@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession
 import jakarta.servlet.http.HttpSessionEvent
 import jakarta.servlet.http.HttpSessionListener
 import mu.KotlinLogging
+import net.wohlfart.charon.service.AuthorizationService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import kotlin.concurrent.thread
@@ -14,7 +15,9 @@ private val logger = KotlinLogging.logger(AuthorizationServerConfig::class.java.
 private val sessions: MutableMap<String, HttpSession> = HashMap()
 
 @Configuration
-class HttpSessionConfig {
+class HttpSessionConfig(
+    authorizationService: AuthorizationService,
+) {
 
     init {
         thread() {
