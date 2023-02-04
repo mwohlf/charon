@@ -7,24 +7,12 @@ import {
 import {HomeComponent} from '../../pages/home/home.component';
 import {MainComponent} from '../../pages/main/main.component';
 import {LoggerHolder} from '../../shared/logger-holder';
+import {EventTypes} from 'angular-auth-oidc-client';
 
 
 export const SIMPLE_CONFIG = 'spring-oauth';
 
 // this needs to be updated if we update the oidc lib
-export const eventList = [
-  'ConfigLoaded',
-  'CheckingAuth',
-  'CheckingAuthFinished',
-  'CheckingAuthFinishedWithError',
-  'ConfigLoadingFailed',
-  'CheckSessionReceived',
-  'UserDataChanged',
-  'NewAuthenticationResult',
-  'TokenExpired',
-  'IdTokenExpired',
-  'SilentRenewStarted',
-];
 
 export interface OAuthState {
   configId: string | undefined;
@@ -58,25 +46,24 @@ const featureReducer = createReducer(
 
   on(fromActions.oauthEventAction,
     (state: OAuthState, {payload: payload}) => {
-      LoggerHolder.logger.debug(`<oauthEventAction> payload: `, payload);
       // these values are copied and pasted from the last version of EventTypes
       // from the angular-auth-oidc-client lib, make sure to update
       // them when updating the lib!
 
-      let eventString = eventList[payload.type];
-      LoggerHolder.logger.debug(`<oauthEventAction> eventString: `, eventString);
+      let eventString = EventTypes[payload.type];
+      LoggerHolder.logger.info(`<oauthEventAction> eventString: ${eventString}, payload: `, JSON.stringify(payload));
       let result = {
         ...state,
         authState: eventString,
       };
-      switch (eventString) {
-        case 'UserDataChanged':
+      switch (payload.type) {
+        case EventTypes.UserDataChanged:
           result = {
             ...result,
             isAuthenticated: payload.value.userData != null,
           };
           break;
-        case 'ConfigLoadingFailed':
+        case EventTypes.ConfigLoadingFailed:
         default:
           // not doing anything here
           break;
@@ -87,7 +74,7 @@ const featureReducer = createReducer(
 
   on(fromActions.oidcSecurityAction,
     (state: OAuthState, {payload: payload}) => {
-      LoggerHolder.logger.debug(`<oidcSecurityAction> payload: `, payload);
+      LoggerHolder.logger.info(`<oidcSecurityAction> payload: `, JSON.stringify(payload));
       return {
         ...state, // keep the old state in case we are updating...
         configId: payload.configId,
@@ -101,7 +88,7 @@ const featureReducer = createReducer(
 
   on(fromActions.readClientConfigurationListUsingGET_success,
     (state: OAuthState, {payload: payload}) => {
-      LoggerHolder.logger.debug(`<readClientConfigurationListUsingGET_success> payload: `, payload);
+      LoggerHolder.logger.trace(`<readClientConfigurationListUsingGET_success> payload: `, JSON.stringify(payload));
       const baseUrl = payload.baseUrl;
       const openIdConfigurations: Array<OpenIdConfiguration> = payload.clientConfigurationList.map(
         (element: ClientConfiguration) => {

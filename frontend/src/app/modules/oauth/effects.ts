@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType, ROOT_EFFECTS_INIT} from '@ngrx/effects';
 import {
+  EventTypes,
   LoginResponse,
   OidcClientNotification,
   OidcSecurityService,
@@ -28,7 +29,7 @@ import {
 import {LocationStrategy} from '@angular/common';
 import {NGXLogger} from 'ngx-logger';
 import {selectOAuthFeature} from './selector';
-import {eventList, OAuthState} from './reducer';
+import {OAuthState} from './reducer';
 import {Level} from '../notification/reducer';
 
 @Injectable()
@@ -65,7 +66,7 @@ export class Effects {
     return this.action$.pipe(
       ofType(oauthEventAction), // the trigger to start loading config
       tap((action) => {
-        this.logger.debug('<oauthEventAction> do something: ', action);
+        this.logger.debug('<oauthEventAction> ', JSON.stringify(action));
       }),
       map((action) => {
         switch (action.payload.type) {
@@ -76,7 +77,7 @@ export class Effects {
           payload: {
             level: level,
             title: 'title',
-            message: 'message ' + eventList[action.payload.type],
+            message: 'message ' + EventTypes[action.payload.type],
             details: 'details',
           },
         });
@@ -137,7 +138,7 @@ export class Effects {
     return this.action$.pipe(
       ofType(readClientConfigurationListUsingGET_success),
       tap((action) => {
-        this.logger.debug('<readClientConfigurationListUsingGET_success>', action);
+        this.logger.debug('<readClientConfigurationListUsingGET_success>', JSON.stringify(action));
       }),
       //tap((action) => {
       //  let clientConfigurationList: Array<ClientConfiguration> = action.payload.clientConfigurationList;
@@ -190,17 +191,18 @@ export class Effects {
       withLatestFrom(this.store.select(selectOAuthFeature)),
       tap(([action, oAuthFeature]) => {
         this.logger.debug('<logoutAction> for configId:', oAuthFeature.configId);
-        // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/login-logout
-        // this.oidcSecurityService.logoff();
-        // this.oidcSecurityService.logoffLocal(); // TODO: add configId
-        this.oidcSecurityService.logoffAndRevokeTokens().subscribe(() => {
-          this.logger.debug('<logoffAndRevokeTokens> returned');
-          var authority = oAuthFeature.openIdConfigurations.find(
-            element => element.configId === oAuthFeature.configId,
-          )?.authority || 'logout';
-          // window.location.href = authority + '/logout?url=' + window.location.href;
-          window.location.href = authority + '/logout';
-        });
+        const authority = oAuthFeature.openIdConfigurations.find(
+          element => element.configId === oAuthFeature.configId,
+        )?.authority
+        if (authority) {
+          this.oidcSecurityService.logoffAndRevokeTokens(oAuthFeature.configId).subscribe(() => {
+            // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/login-logout
+            this.logger.debug('<logoffAndRevokeTokens> finished');
+            // window.location.href = authority + '/logout';
+          });
+        } else {
+          this.logger.error('<logoutAction> could not find the configuration for :', oAuthFeature.configId);
+        }
       }),
     );
   }, {dispatch: false});

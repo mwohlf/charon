@@ -9,9 +9,10 @@
     <div style="flex-grow: 2">
         space
     </div>
-    <button mat-icon-button>
-        <mat-icon matTooltip="Refresh"
-                  fontSet="material-icons-two-tone"
+    <button mat-icon-button
+            aria-label="Refresh"
+            matTooltip="Refresh">
+        <mat-icon fontSet="material-icons-two-tone"
                   style="margin-left: auto;"
                   (click)="reReadConfig();">
             refresh
@@ -20,6 +21,8 @@
     <div style="width: 50px">
     </div>
     <button mat-icon-button
+            aria-label="close Menu"
+            matTooltip="close Menu"
             *ngIf="(navState$ | async) == 'opened'; else toggleOffTemplate"
             (click)="setNavState('closed');">
         <mat-icon fontSet="material-icons-outlined"
@@ -28,10 +31,11 @@
         </mat-icon>
     </button>
     <button mat-icon-button
+            aria-label="Login"
+            matTooltip="Login"
             *ngIf="!(isAuthenticated$ | async); else logoutTemplate"
             (click)="login();">
-        <mat-icon matTooltip="Login"
-                  fontSet="material-icons-two-tone"
+        <mat-icon fontSet="material-icons-two-tone"
                   style="margin-left: auto;">
             login
         </mat-icon>
@@ -44,6 +48,8 @@
 
 <ng-template #toggleOffTemplate>
     <button mat-icon-button
+            aria-label="open Menu"
+            matTooltip="open Menu"
             (click)="setNavState('opened');">
         <mat-icon fontSet="material-icons-outlined"
                   style="margin-left: auto;">
@@ -54,9 +60,10 @@
 
 <ng-template #logoutTemplate>
     <button mat-icon-button
+            aria-label="Logout"
+            matTooltip="Logout"
             (click)="logout();">
-        <mat-icon matTooltip="Logout"
-                  fontSet="material-icons-two-tone"
+        <mat-icon fontSet="material-icons-two-tone"
                   style="margin-left: auto;">
             logout
         </mat-icon>

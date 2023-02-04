@@ -12,7 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 
 
-private val logger = KotlinLogging.logger(AuthorizationServerConfig::class.java.name)
+private val logger = KotlinLogging.logger(WebSecurityConfig::class.java.name)
 
 
 @EnableWebSecurity

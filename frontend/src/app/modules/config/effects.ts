@@ -52,7 +52,7 @@ export class Effects {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET),
       tap((action) => {
-        this.logger.debug('<readConfigurationDetailsUsingGET>', action);
+        this.logger.debug('<readConfigurationDetailsUsingGET>', JSON.stringify(action));
       }),
       mergeMap((action: {}) => {
         return this.configurationDetailsService.readConfigurationDetails().pipe(
@@ -81,7 +81,7 @@ export class Effects {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_success),
       tap((action) => {
-        this.logger.debug('<readConfigurationDetailsUsingGET_success>', action);
+        this.logger.debug('<readConfigurationDetailsUsingGET_success>', JSON.stringify(action));
       }),
       map((action: { payload: ConfigurationDetails }) => {
         let configurationDetails: ConfigurationDetails = action.payload;
@@ -112,7 +112,7 @@ export class Effects {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_failure),
       tap((action) => {
-        this.logger.debug('<readConfigurationDetailsUsingGET_failure>', action);
+        this.logger.debug('<readConfigurationDetailsUsingGET_failure>', JSON.stringify(action));
       }),
       map((action: { payload: NotificationData }) => {
         return showNotification({payload: action.payload});

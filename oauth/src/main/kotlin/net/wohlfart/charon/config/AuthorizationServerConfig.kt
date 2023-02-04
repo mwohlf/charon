@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
@@ -49,6 +48,7 @@ class AuthorizationServerConfig(
         val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
         // Enable OpenID Connect 1.0
         authorizationServerConfigurer
+            // OpenID Connect 1.0 is disabled in the default configuration
             .oidc(Customizer.withDefaults())
             .tokenRevocationEndpoint { oAuth2TokenRevocationEndpointConfigurer: OAuth2TokenRevocationEndpointConfigurer
                 ->
@@ -75,11 +75,6 @@ class AuthorizationServerConfig(
 
         http.apply(authorizationServerConfigurer)
 
-
-        // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
-        // http.getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
-        //    .oidc(Customizer.withDefaults()) // Enable OpenID Connect 1.0
-
         // this picks up our default cors config
         http.cors { }
 
@@ -91,6 +86,7 @@ class AuthorizationServerConfig(
 
         // for refresh inline frame needed ?
         // http.headers().frameOptions().sameOrigin()
+
         // whenever we provide any data to the app maybe?
         // http.oauth2ResourceServer { obj: OAuth2ResourceServerConfigurer<HttpSecurity?> -> obj.jwt() }
 

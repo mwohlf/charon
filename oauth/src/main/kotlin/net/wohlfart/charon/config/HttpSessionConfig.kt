@@ -1,11 +1,11 @@
 package net.wohlfart.charon.config
 
-import mu.KotlinLogging
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import jakarta.servlet.http.HttpSession
 import jakarta.servlet.http.HttpSessionEvent
 import jakarta.servlet.http.HttpSessionListener
+import mu.KotlinLogging
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 
 
 private val logger = KotlinLogging.logger(AuthorizationServerConfig::class.java.name)
@@ -20,13 +20,17 @@ class HttpSessionConfig {
         return object : HttpSessionListener {
             override fun sessionCreated(httpSessionEvent: HttpSessionEvent) {
                 logger.error { "<sessionCreated> ${httpSessionEvent.session.id}" }
-                sessions.forEach { (key, value) -> println("$key = $value") }
                 sessions[httpSessionEvent.session.id] = httpSessionEvent.session
+                sessions.forEach { (key, value) ->
+                    logger.error { "$key = $value" }
+                }
             }
 
             override fun sessionDestroyed(httpSessionEvent: HttpSessionEvent) {
-                sessions.forEach { (key, value) -> println("$key = $value") }
                 logger.error { "<sessionDestroyed> ${httpSessionEvent.session.id}" }
+                sessions.forEach { (key, value) ->
+                    logger.error { "$key = $value" }
+                }
                 sessions.remove(httpSessionEvent.session.id)
             }
         }
