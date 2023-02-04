@@ -51,13 +51,14 @@ const featureReducer = createReducer(
       // them when updating the lib!
 
       let eventString = EventTypes[payload.type];
-      LoggerHolder.logger.info(`<oauthEventAction> eventString: ${eventString}, payload: `, JSON.stringify(payload));
+      LoggerHolder.logger.debug(`<oauthEventAction> eventString: ${eventString}, payload: `, JSON.stringify(payload));
       let result = {
         ...state,
         authState: eventString,
       };
       switch (payload.type) {
         case EventTypes.UserDataChanged:
+          LoggerHolder.logger.info(`<oauthEventAction> UserDataChanged, payload: `, JSON.stringify(payload));
           result = {
             ...result,
             isAuthenticated: payload.value.userData != null,

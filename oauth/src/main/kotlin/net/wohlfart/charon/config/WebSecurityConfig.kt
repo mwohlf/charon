@@ -31,6 +31,7 @@ class WebSecurityConfig {
                 authorize.anyRequest().authenticated()
             }
 
+        // never create one but use existing
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
 
         http.cors { } // picks up our default cors config for the token endpoint

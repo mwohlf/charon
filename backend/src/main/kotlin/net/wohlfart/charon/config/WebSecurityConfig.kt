@@ -23,6 +23,8 @@ class WebSecurityConfig {
         http: HttpSecurity,
     ): SecurityFilterChain {
 
+        logger.info { "<defaultSecurityFilterChain> disable sessions" }
+
         http.sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .sessionAuthenticationStrategy(NullAuthenticatedSessionStrategy())

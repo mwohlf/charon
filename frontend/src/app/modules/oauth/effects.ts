@@ -50,9 +50,16 @@ export class Effects {
     // or on returning from the auth redirect,
     // then the magic happens and the oauth lib's state machine is doing its thing
     this.oidcSecurityService
-      .checkAuth()
-      .subscribe((next: LoginResponse) => {
-        this.store.dispatch(oidcSecurityAction({payload: next}));
+      .checkAuthMultiple() // TODO: add a url
+      .subscribe((next: LoginResponse[]) => {
+        next.forEach(value => {
+          if (value.isAuthenticated) {
+            this.logger.debug("<oidcSecurityService> authenticated: ", value.configId);
+            this.store.dispatch(oidcSecurityAction({payload: value}));
+          } else {
+            this.logger.debug("<oidcSecurityService> not authenticated: ", value.configId);
+          }
+        });
       });
 
     this.eventService

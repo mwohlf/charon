@@ -45,20 +45,9 @@ class AuthorizationServerConfig(
     ): SecurityFilterChain {
 
         // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
-        val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
-        // Enable OpenID Connect 1.0
-        authorizationServerConfigurer
-            // OpenID Connect 1.0 is disabled in the default configuration
-            .oidc(Customizer.withDefaults())
-            .tokenRevocationEndpoint { oAuth2TokenRevocationEndpointConfigurer: OAuth2TokenRevocationEndpointConfigurer
-                ->
-                oAuth2TokenRevocationEndpointConfigurer
-                    .authenticationProvider(RevokeAuthenticationProvider(oAuth2AuthorizationService))
-            }
+        val authorizationServerConfigurer = configurer(oAuth2AuthorizationService)
 
-        val endpointsMatcher = authorizationServerConfigurer.endpointsMatcher
-
-        http.securityMatcher(endpointsMatcher)
+        http.securityMatcher(authorizationServerConfigurer.endpointsMatcher)
             .authorizeHttpRequests { authorizeRequests: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry
                 ->
                 authorizeRequests
@@ -69,7 +58,7 @@ class AuthorizationServerConfig(
         http.csrf { csrfConfigurer: CsrfConfigurer<HttpSecurity>
             ->
             csrfConfigurer.ignoringRequestMatchers(
-                *arrayOf(endpointsMatcher)
+                *arrayOf(authorizationServerConfigurer.endpointsMatcher)
             )
         }
 
@@ -92,6 +81,20 @@ class AuthorizationServerConfig(
 
 
         return http.build()
+    }
+
+    private fun configurer(oAuth2AuthorizationService: OAuth2AuthorizationService): OAuth2AuthorizationServerConfigurer {
+        val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
+        // Enable OpenID Connect 1.0
+        authorizationServerConfigurer
+            // OpenID Connect 1.0 is disabled in the default configuration
+            .oidc(Customizer.withDefaults())
+            .tokenRevocationEndpoint { oAuth2TokenRevocationEndpointConfigurer: OAuth2TokenRevocationEndpointConfigurer
+                ->
+                oAuth2TokenRevocationEndpointConfigurer
+                    .authenticationProvider(RevokeAuthenticationProvider(oAuth2AuthorizationService))
+            }
+        return authorizationServerConfigurer
     }
 
     @Bean
