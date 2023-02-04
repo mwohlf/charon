@@ -27,10 +27,7 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
 import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter
 
-
 private val logger = KotlinLogging.logger(AuthorizationServerConfig::class.java.name)
-private const val REVOKE_ENDPOINT = "/oauth2/revoke"
-
 
 @Configuration(proxyBeanMethods = false)
 class AuthorizationServerConfig(
@@ -46,9 +43,9 @@ class AuthorizationServerConfig(
         http: HttpSecurity,
         oAuth2AuthorizationService: OAuth2AuthorizationService,
         jwtDecoder: JwtDecoder,
-        ): SecurityFilterChain {
+    ): SecurityFilterChain {
 
-        // externalized config setter
+        // externalized configuration setter
         val authorizationServerConfigurer = customAuthServerConfig(oAuth2AuthorizationService, jwtDecoder)
 
         // the endpoints needed by the server, thi filter will be applied to them
@@ -56,11 +53,11 @@ class AuthorizationServerConfig(
 
 
         http.authorizeHttpRequests { authorizeRequests: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry
-                ->
-                authorizeRequests
-                    //.requestMatchers(REVOKE_ENDPOINT).permitAll()
-                    .anyRequest().authenticated()
-            }
+            ->
+            authorizeRequests
+                //.requestMatchers(REVOKE_ENDPOINT).permitAll()
+                .anyRequest().authenticated()
+        }
 
         http.csrf { csrfConfigurer: CsrfConfigurer<HttpSecurity>
             ->
@@ -90,7 +87,7 @@ class AuthorizationServerConfig(
 
         http.sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.NEVER)
-            //.sessionAuthenticationStrategy(NullAuthenticatedSessionStrategy())
+        //.sessionAuthenticationStrategy(NullAuthenticatedSessionStrategy())
 
         return http.build()
     }
@@ -110,7 +107,7 @@ class AuthorizationServerConfig(
                 ->
                 oAuth2TokenRevocationEndpointConfigurer
                     .authenticationProvider(RevokeAuthenticationProvider(oAuth2AuthorizationService))
-                    //.authenticationProvider(JwtAuthenticationProvider(jwtDecoder))
+                //.authenticationProvider(JwtAuthenticationProvider(jwtDecoder))
             }
         return authorizationServerConfigurer
     }
