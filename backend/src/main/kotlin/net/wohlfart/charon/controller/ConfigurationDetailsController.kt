@@ -36,6 +36,7 @@ class ConfigurationDetailsController(
                 configId = it.configId,
                 clientId = it.clientId,
                 issuerUri = it.issuerUri,
+                postLogoutRedirectUri = it.postLogoutRedirectUri,
             )
         })
         /*

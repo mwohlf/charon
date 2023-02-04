@@ -5,7 +5,6 @@ import {
   OpenIdConfiguration,
 } from 'angular-auth-oidc-client/lib/config/openid-configuration';
 import {HomeComponent} from '../../pages/home/home.component';
-import {MainComponent} from '../../pages/main/main.component';
 import {LoggerHolder} from '../../shared/logger-holder';
 import {EventTypes} from 'angular-auth-oidc-client';
 
@@ -98,13 +97,13 @@ const featureReducer = createReducer(
             authority: element.issuerUri,
             clientId: element.clientId,
             redirectUrl: baseUrl + HomeComponent.SPEC.route,
-            postLogoutRedirectUri: baseUrl + MainComponent.SPEC.route,
+            postLogoutRedirectUri: element.postLogoutRedirectUri,
             // scope: 'openid profile email offline_access',
             scope: 'openid',
             responseType: 'code',
             silentRenew: true,
             useRefreshToken: false, // not provided by the spring-boot backend
-            silentRenewUrl: baseUrl + 'assets/silent-renew.html',   // not sure this makes sense here...
+            silentRenewUrl: baseUrl + 'assets/silent-renew.html',   // not sure if this makes sense here...
             renewTimeBeforeTokenExpiresInSeconds: 15,
             // startCheckSession: false,
             // logLevel: LogLevel.Debug,

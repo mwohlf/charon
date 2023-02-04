@@ -7,8 +7,6 @@ import mu.KotlinLogging
 import net.wohlfart.charon.OAuthProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.Ordered
-import org.springframework.core.annotation.Order
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -36,19 +34,23 @@ class AuthorizationServerConfig(
     val oauthProperties: OAuthProperties,
 ) {
 
+    // see: https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
+
     @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    @Throws(java.lang.Exception::class)
+    // @Order(Ordered.HIGHEST_PRECEDENCE)
+    // @Throws(java.lang.Exception::class)
     fun authorizationServerSecurityFilterChain(
         http: HttpSecurity,
         oAuth2AuthorizationService: OAuth2AuthorizationService,
-    ): SecurityFilterChain {
+        jwtDecoder: JwtDecoder,
+        ): SecurityFilterChain {
 
         // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
-        val authorizationServerConfigurer = configurer(oAuth2AuthorizationService)
+        val authorizationServerConfigurer = customAuthServerConfig(oAuth2AuthorizationService, jwtDecoder)
 
         http.securityMatcher(authorizationServerConfigurer.endpointsMatcher)
-            .authorizeHttpRequests { authorizeRequests: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry
+
+        http.authorizeHttpRequests { authorizeRequests: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry
                 ->
                 authorizeRequests
                     .requestMatchers("/oauth2/revoke").permitAll()
@@ -83,7 +85,10 @@ class AuthorizationServerConfig(
         return http.build()
     }
 
-    private fun configurer(oAuth2AuthorizationService: OAuth2AuthorizationService): OAuth2AuthorizationServerConfigurer {
+    private fun customAuthServerConfig(
+        oAuth2AuthorizationService: OAuth2AuthorizationService,
+        jwtDecoder: JwtDecoder,
+    ): OAuth2AuthorizationServerConfigurer {
         val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
         // Enable OpenID Connect 1.0
         authorizationServerConfigurer
@@ -93,6 +98,7 @@ class AuthorizationServerConfig(
                 ->
                 oAuth2TokenRevocationEndpointConfigurer
                     .authenticationProvider(RevokeAuthenticationProvider(oAuth2AuthorizationService))
+                    //.authenticationProvider(JwtAuthenticationProvider(jwtDecoder))
             }
         return authorizationServerConfigurer
     }

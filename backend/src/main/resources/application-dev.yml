@@ -26,4 +26,5 @@ net:
         - config-id: spring-oauth
           issuer-uri: http://127.0.0.1:8081
           client-id: public-client
+          post-logout-redirect-uri: http://127.0.0.1:8081/logout
 

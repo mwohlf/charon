@@ -54,10 +54,10 @@ export class Effects {
       .subscribe((next: LoginResponse[]) => {
         next.forEach(value => {
           if (value.isAuthenticated) {
-            this.logger.debug("<oidcSecurityService> authenticated: ", value.configId);
+            this.logger.debug('<oidcSecurityService> authenticated: ', value.configId);
             this.store.dispatch(oidcSecurityAction({payload: value}));
           } else {
-            this.logger.debug("<oidcSecurityService> not authenticated: ", value.configId);
+            this.logger.debug('<oidcSecurityService> not authenticated: ', value.configId);
           }
         });
       });
@@ -200,15 +200,30 @@ export class Effects {
         this.logger.debug('<logoutAction> for configId:', oAuthFeature.configId);
         const authority = oAuthFeature.openIdConfigurations.find(
           element => element.configId === oAuthFeature.configId,
-        )?.authority
+        )?.authority;
         if (authority) {
-          this.oidcSecurityService.logoffAndRevokeTokens(oAuthFeature.configId).subscribe(() => {
-            // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/login-logout
-            this.logger.debug('<logoffAndRevokeTokens> finished');
-            // window.location.href = authority + '/logout';
-          });
+          const logger = this.logger;
+          const oidcSecurityService = this.oidcSecurityService;
+          logger.debug('<logoffAndRevokeTokens> starting', JSON.stringify(authority));
+          // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/login-logout
+          this.oidcSecurityService.logoffAndRevokeTokens(oAuthFeature.configId).subscribe({
+              next(success) {
+                logger.debug('<logoffAndRevokeTokens> finished', JSON.stringify(success));
+                // window.location.href = authority + '/logout';
+                oidcSecurityService.logoffLocal(oAuthFeature.configId);
+                window.location.href = authority + '/logout';
+              },
+              error(failure) {
+                logger.error('<logoutAction> could not find the configuration for :', JSON.stringify(failure));
+                oidcSecurityService.logoffLocal(oAuthFeature.configId);
+                window.location.href = authority + '/logout';
+              }
+            },
+          );
         } else {
           this.logger.error('<logoutAction> could not find the configuration for :', oAuthFeature.configId);
+          this.oidcSecurityService.logoffLocalMultiple();
+          window.location.href = authority + '/logout';
         }
       }),
     );

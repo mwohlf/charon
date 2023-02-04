@@ -16,3 +16,6 @@ properties:
   clientId:
     example: "simpleClient"
     type: string
+  postLogoutRedirectUri:
+    example: "http://somewhere/logout"
+    type: string

@@ -38,6 +38,8 @@ class ClientConfig(
 
     val clientId: String,
 
+    val postLogoutRedirectUri: String?,
+
     )
 
 
