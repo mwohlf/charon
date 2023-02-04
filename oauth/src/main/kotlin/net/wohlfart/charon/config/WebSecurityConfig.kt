@@ -2,6 +2,7 @@ package net.wohlfart.charon.config
 
 import mu.KotlinLogging
 import net.wohlfart.charon.OAuthProperties
+import net.wohlfart.charon.component.LoginCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.Customizer.withDefaults
@@ -24,6 +25,7 @@ class WebSecurityConfig {
     fun defaultSecurityFilterChain(
         http: HttpSecurity,
         oAuthProperties: OAuthProperties,
+        loginCustomizer: LoginCustomizer,
     ): SecurityFilterChain {
         http
             .authorizeHttpRequests { authorize: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry

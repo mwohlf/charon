@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
@@ -28,6 +29,7 @@ import org.springframework.security.web.authentication.ui.DefaultLoginPageGenera
 
 
 private val logger = KotlinLogging.logger(AuthorizationServerConfig::class.java.name)
+private const val REVOKE_ENDPOINT = "/oauth2/revoke"
 
 
 @Configuration(proxyBeanMethods = false)
@@ -46,15 +48,17 @@ class AuthorizationServerConfig(
         jwtDecoder: JwtDecoder,
         ): SecurityFilterChain {
 
-        // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
+        // externalized config setter
         val authorizationServerConfigurer = customAuthServerConfig(oAuth2AuthorizationService, jwtDecoder)
 
+        // the endpoints needed by the server, thi filter will be applied to them
         http.securityMatcher(authorizationServerConfigurer.endpointsMatcher)
+
 
         http.authorizeHttpRequests { authorizeRequests: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry
                 ->
                 authorizeRequests
-                    .requestMatchers("/oauth2/revoke").permitAll()
+                    //.requestMatchers(REVOKE_ENDPOINT).permitAll()
                     .anyRequest().authenticated()
             }
 
@@ -84,19 +88,24 @@ class AuthorizationServerConfig(
         // whenever we provide any data to the app maybe?
         // http.oauth2ResourceServer { obj: OAuth2ResourceServerConfigurer<HttpSecurity?> -> obj.jwt() }
 
+        http.sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.NEVER)
+            //.sessionAuthenticationStrategy(NullAuthenticatedSessionStrategy())
 
         return http.build()
     }
 
+    // this is what happens in
+    // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
     private fun customAuthServerConfig(
         oAuth2AuthorizationService: OAuth2AuthorizationService,
         jwtDecoder: JwtDecoder,
     ): OAuth2AuthorizationServerConfigurer {
         val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
-        // Enable OpenID Connect 1.0
         authorizationServerConfigurer
             // OpenID Connect 1.0 is disabled in the default configuration
             .oidc(Customizer.withDefaults())
+            // customize the revocation endpoint
             .tokenRevocationEndpoint { oAuth2TokenRevocationEndpointConfigurer: OAuth2TokenRevocationEndpointConfigurer
                 ->
                 oAuth2TokenRevocationEndpointConfigurer

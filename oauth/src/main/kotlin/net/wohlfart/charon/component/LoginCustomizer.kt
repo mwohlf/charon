@@ -11,6 +11,7 @@ class LoginCustomizer : Customizer<FormLoginConfigurer<HttpSecurity>> {
 
     override fun customize(configurer: FormLoginConfigurer<HttpSecurity>) {
         configurer.loginPage("/login").permitAll()
+        configurer.permitAll()
     }
 
 }
