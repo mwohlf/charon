@@ -24,6 +24,7 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
+import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter
 
 
 private val logger = KotlinLogging.logger(AuthorizationServerConfig::class.java.name)
@@ -69,10 +70,12 @@ class AuthorizationServerConfig(
         // this picks up our default cors config
         http.cors { }
 
-        // redirect to login page for any exception
+        // redirect to login page for any authentication issue
         http.exceptionHandling { exceptionHandlingConfigurer: ExceptionHandlingConfigurer<HttpSecurity>
             ->
-            exceptionHandlingConfigurer.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login"))
+            exceptionHandlingConfigurer.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint(
+                DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL
+            ))
         }
 
         // for refresh inline frame needed ?
