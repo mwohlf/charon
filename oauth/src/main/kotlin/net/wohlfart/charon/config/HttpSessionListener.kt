@@ -2,7 +2,6 @@ package net.wohlfart.charon.config
 
 import jakarta.servlet.http.HttpSession
 import jakarta.servlet.http.HttpSessionEvent
-import jakarta.servlet.http.HttpSessionListener
 import mu.KotlinLogging
 import net.wohlfart.charon.service.AuthorizationService
 import org.springframework.context.annotation.Bean
@@ -15,7 +14,7 @@ private val logger = KotlinLogging.logger(AuthorizationServerConfig::class.java.
 private val sessions: MutableMap<String, HttpSession> = HashMap()
 
 @Configuration
-class HttpSessionConfig(
+class HttpSessionListener(
     authorizationService: AuthorizationService,
 ) {
 

@@ -73,7 +73,7 @@ jobs:
       #  no need for a login, this is not really needed, just in case we want to switch to GitHub's docker registry
       - name: Authenticate to the docker registry
         id: registry-authentication
-        uses: docker/login-action@main
+        uses: docker/login-action@master
         with:
           # registry: registry.gitlab.com
           registry: ghcr.io
