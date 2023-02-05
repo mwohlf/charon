@@ -48,6 +48,18 @@ class AuthorizationServerConfig(
         val authorizationServerConfigurer = customAuthServerConfig(oAuth2AuthorizationService, jwtDecoder)
         http.apply(authorizationServerConfigurer)
 
+        // all endpoints only authenticated
+        http.securityMatcher(authorizationServerConfigurer.endpointsMatcher)
+        http.authorizeHttpRequests { authorizeRequests: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry
+            ->
+            authorizeRequests.anyRequest().authenticated()
+        }
+        // we post from everywhere
+        http.csrf { csrfConfigurer: CsrfConfigurer<HttpSecurity>
+            ->
+            csrfConfigurer.ignoringRequestMatchers(*arrayOf(authorizationServerConfigurer.endpointsMatcher))
+        }
+
         // this picks up our default cors config
         http.cors { }
 
@@ -90,18 +102,7 @@ class AuthorizationServerConfig(
                     .authenticationProvider(RevokeAuthenticationProvider(oAuth2AuthorizationService))
                 //.authenticationProvider(JwtAuthenticationProvider(jwtDecoder))
             }
-            .and()
-            // all endpoints only authenticated
-            .securityMatcher(authorizationServerConfigurer.endpointsMatcher)
-            .authorizeHttpRequests { authorizeRequests: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry
-                ->
-                authorizeRequests.anyRequest().authenticated()
-            }
-            // we post from everywhere
-            .csrf { csrfConfigurer: CsrfConfigurer<HttpSecurity>
-                ->
-                csrfConfigurer.ignoringRequestMatchers(*arrayOf(authorizationServerConfigurer.endpointsMatcher))
-            }
+
         return authorizationServerConfigurer
     }
 

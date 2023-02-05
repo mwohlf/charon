@@ -43,7 +43,7 @@ jobs:
 #          docker push ${{ env.REGISTRY_NAME }}.azurecr.io/myimage:${{ github.sha }}
 
       # Set the target Azure Kubernetes Service (AKS) cluster.
-      - uses: azure/aks-set-context@main
+      - uses: azure/aks-set-context@v3.2
         with:
           creds: ${{ secrets.AZURE_SP_CREDENTIALS }}
           cluster-name: ${{ env.CLUSTER }}
