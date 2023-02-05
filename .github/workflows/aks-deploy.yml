@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@main # we need the helm charts
-      - uses: azure/login@main
+      - uses: azure/login@master
         with:
           creds: ${{ secrets.AZURE_SP_CREDENTIALS}}
 

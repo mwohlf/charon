@@ -1,6 +1,5 @@
 package net.wohlfart.charon.config
 
-import mu.KotlinLogging
 import net.wohlfart.charon.OAuthProperties
 import net.wohlfart.charon.component.LoginCustomizer
 import org.springframework.context.annotation.Bean
@@ -13,7 +12,6 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 
 
-private val logger = KotlinLogging.logger(WebSecurityConfig::class.java.name)
 
 
 @EnableWebSecurity
@@ -40,7 +38,8 @@ class WebSecurityConfig {
         http.formLogin(withDefaults())
         // http.formLogin(loginCustomizer)
 
-        http.logout().logoutUrl("/logout").permitAll().clearAuthentication(true)
+        http.logout().logoutUrl("/logout")
+            .permitAll().clearAuthentication(true).invalidateHttpSession(true)
             .logoutSuccessUrl(oAuthProperties.postLogoutRedirect)
 
         http.csrf { csrf -> csrf.disable() } // for the h2 console
