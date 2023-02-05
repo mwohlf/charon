@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@main # we need the helm charts
+      - uses: actions/checkout@v3.3.0 # we need the helm charts
       - uses: azure/login@v1.4.6
         with:
           creds: ${{ secrets.AZURE_SP_CREDENTIALS}}
@@ -60,7 +60,7 @@ jobs:
       # Baking the helm chart to generate the manifests to deploy
       - name: Create the helm chart
         id: bake
-        uses: azure/k8s-bake@main
+        uses: azure/k8s-bake@v2.2
         with:
           silent: 'false' # set this to get more verbose helm command logs
           renderEngine: 'helm'
@@ -84,7 +84,7 @@ jobs:
       # see: https://github.com/Azure/k8s-deploy
       - name: Deploy on kubernetes
         id: kubernetes-deployment
-        uses: azure/k8s-deploy@main
+        uses: azure/k8s-deploy@v4.9
         with:
           manifests: ${{ steps.bake.outputs.manifestsBundle }}
           images: |
