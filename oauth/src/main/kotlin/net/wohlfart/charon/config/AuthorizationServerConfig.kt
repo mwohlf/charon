@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
-import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
@@ -45,26 +44,9 @@ class AuthorizationServerConfig(
         jwtDecoder: JwtDecoder,
     ): SecurityFilterChain {
 
-        // externalized configuration setter
+        // externalized configurer
         val authorizationServerConfigurer = customAuthServerConfig(oAuth2AuthorizationService, jwtDecoder)
         http.apply(authorizationServerConfigurer)
-
-        // all endpoints only authenticated
-        http.securityMatcher(authorizationServerConfigurer.endpointsMatcher)
-        http.authorizeHttpRequests { authorizeRequests: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry
-            ->
-            authorizeRequests
-                //.requestMatchers(REVOKE_ENDPOINT).permitAll()
-                .anyRequest().authenticated()
-        }
-
-        //
-        http.csrf { csrfConfigurer: CsrfConfigurer<HttpSecurity>
-            ->
-            csrfConfigurer.ignoringRequestMatchers(
-                *arrayOf(authorizationServerConfigurer.endpointsMatcher)
-            )
-        }
 
         // this picks up our default cors config
         http.cors { }
@@ -72,9 +54,11 @@ class AuthorizationServerConfig(
         // redirect to login page for any authentication issue
         http.exceptionHandling { exceptionHandlingConfigurer: ExceptionHandlingConfigurer<HttpSecurity>
             ->
-            exceptionHandlingConfigurer.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint(
-                DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL
-            ))
+            exceptionHandlingConfigurer.authenticationEntryPoint(
+                LoginUrlAuthenticationEntryPoint(
+                    DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL
+                )
+            )
         }
 
         // for refresh inline frame needed ?
@@ -85,10 +69,6 @@ class AuthorizationServerConfig(
             ->
             oAuth2ResourceServerConfigurer.jwt()
         }
-
-        http.sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.NEVER)
-        //.sessionAuthenticationStrategy(NullAuthenticatedSessionStrategy())
 
         return http.build()
     }
@@ -109,6 +89,18 @@ class AuthorizationServerConfig(
                 oAuth2TokenRevocationEndpointConfigurer
                     .authenticationProvider(RevokeAuthenticationProvider(oAuth2AuthorizationService))
                 //.authenticationProvider(JwtAuthenticationProvider(jwtDecoder))
+            }
+            .and()
+            // all endpoints only authenticated
+            .securityMatcher(authorizationServerConfigurer.endpointsMatcher)
+            .authorizeHttpRequests { authorizeRequests: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry
+                ->
+                authorizeRequests.anyRequest().authenticated()
+            }
+            // we post from everywhere
+            .csrf { csrfConfigurer: CsrfConfigurer<HttpSecurity>
+                ->
+                csrfConfigurer.ignoringRequestMatchers(*arrayOf(authorizationServerConfigurer.endpointsMatcher))
             }
         return authorizationServerConfigurer
     }
