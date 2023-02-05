@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.jwt.JwtDecoder
@@ -35,10 +36,9 @@ class AuthorizationServerConfig(
 ) {
 
     // see: https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
+    //      https://docs.spring.io/spring-authorization-server/docs/current/reference/html/getting-started.html
 
     @Bean
-    // @Order(Ordered.HIGHEST_PRECEDENCE)
-    // @Throws(java.lang.Exception::class)
     fun authorizationServerSecurityFilterChain(
         http: HttpSecurity,
         oAuth2AuthorizationService: OAuth2AuthorizationService,
@@ -47,11 +47,10 @@ class AuthorizationServerConfig(
 
         // externalized configuration setter
         val authorizationServerConfigurer = customAuthServerConfig(oAuth2AuthorizationService, jwtDecoder)
+        http.apply(authorizationServerConfigurer)
 
-        // the endpoints needed by the server, thi filter will be applied to them
+        // all endpoints only authenticated
         http.securityMatcher(authorizationServerConfigurer.endpointsMatcher)
-
-
         http.authorizeHttpRequests { authorizeRequests: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry
             ->
             authorizeRequests
@@ -59,14 +58,13 @@ class AuthorizationServerConfig(
                 .anyRequest().authenticated()
         }
 
+        //
         http.csrf { csrfConfigurer: CsrfConfigurer<HttpSecurity>
             ->
             csrfConfigurer.ignoringRequestMatchers(
                 *arrayOf(authorizationServerConfigurer.endpointsMatcher)
             )
         }
-
-        http.apply(authorizationServerConfigurer)
 
         // this picks up our default cors config
         http.cors { }
@@ -82,8 +80,11 @@ class AuthorizationServerConfig(
         // for refresh inline frame needed ?
         // http.headers().frameOptions().sameOrigin()
 
-        // whenever we provide any data to the app maybe?
-        // http.oauth2ResourceServer { obj: OAuth2ResourceServerConfigurer<HttpSecurity?> -> obj.jwt() }
+        // use access tokens for User Info and/or Client Registration
+        http.oauth2ResourceServer { oAuth2ResourceServerConfigurer: OAuth2ResourceServerConfigurer<HttpSecurity>
+            ->
+            oAuth2ResourceServerConfigurer.jwt()
+        }
 
         http.sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.NEVER)
