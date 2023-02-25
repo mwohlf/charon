@@ -198,6 +198,10 @@ the content of credentials.txt goes into the github secrets as `AZURE_SP_CREDENT
 `kubectl get service --all-namespaces`  +
 shows the current IP which needs to b configured in cloudflare
 
+=== update UI componets:
+
+ncu -u
+
 
 === deployment troubleshooting
 
