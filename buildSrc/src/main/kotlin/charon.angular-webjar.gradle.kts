@@ -46,22 +46,22 @@ tasks.npmSetup {
 }
 
 
-tasks.findByName("webjarTest")?.enabled = false
-tasks.findByName("webjarLint")?.enabled = false
-tasks.findByName("webjarClean")?.enabled = false
-tasks.findByName("compileJava")?.enabled = false
+tasks.getByName("webjarTest").enabled = false
+tasks.getByName("webjarLint").enabled = false
+tasks.getByName("webjarClean").enabled = false
+tasks.getByName("compileJava").enabled = false
 
 tasks.register<NpmTask>("syncVersion") {
     args.set(listOf("version", this.project.version.toString(), "--silent"))
     this.ignoreExitValue.set(true);
 }
 // re-create the API classes before building the webjar
-tasks.findByName("openApiGenerate")?.let {
+tasks.getByName("openApiGenerate").let {
     it.dependsOn("syncVersion")
 }
 
 // re-create the API classes before building the webjar
-tasks.findByName("webjarBuild")?.let {
+tasks.getByName("webjarBuild").let {
     it.dependsOn("openApiGenerate")
 }
 
@@ -82,7 +82,7 @@ val delete = tasks.register<Delete>("delete") {
     )
 }
 
-tasks.findByName("clean")?.let {
+tasks.getByName("clean").let {
     it.actions.clear()
     it.setDependsOn(listOf(delete))
 }
@@ -90,12 +90,12 @@ tasks.findByName("clean")?.let {
 // ngrx still depends on angularCore 14
 // we need to add "--legacy-peer-deps"
 
-tasks.findByName("webjarInstall")?.let {
-    // val npmTask = it as NpmTask
-    // (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
-}
+// tasks.findByName("webjarInstall")?.let {
+//    // val npmTask = it as NpmTask
+//    // (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
+//}
 
-tasks.findByName("webjarInit")?.let {
-    // val npmTask = it as NpmTask
-    // (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
-}
+// tasks.findByName("webjarInit")?.let {
+//    // val npmTask = it as NpmTask
+//    // (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
+//}

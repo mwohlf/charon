@@ -15,7 +15,6 @@ plugins {
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("com.google.cloud.tools.jib") // TODO: make this work with docker inside WSL2
-    // id("org.openapitools")
     id("org.openapi.generator")
     id("com.palantir.git-version")
     kotlin("jvm") // org.jetbrains.kotlin:kotlin-gradle-plugin
@@ -138,7 +137,7 @@ openApiGenerate {
     outputDir.set("$buildDir/generated")
     // see: https://openapi-generator.tech/docs/generators/kotlin-spring
     configFile.set("${rootProject.projectDir.absolutePath}/etc/api/config/${generatorName.get()}.json")
-    // configOptions.put("useSpringBoot3", "true")
+    configOptions.put("useSpringBoot3", "true")
     // templates are in modules/openapi-generator/src/main/resources/kotlin-spring/api.mustache
     // whole template dir at
     // https://github.com/jayandran-Sampath/openapi-generator/tree/97818d8279c1b94f3961b8b6af01518000cb4656/modules/openapi-generator/src/main/resources/kotlin-spring
@@ -146,16 +145,19 @@ openApiGenerate {
     // https://github.com/jayandran-Sampath/openapi-generator/tree/feat13578_1
 }
 
-val openApiGenerate = tasks.findByName("openApiGenerate")
+val openApiGenerate = tasks.getByPath("openApiGenerate")
+
+val compileKotlin = tasks.getByPath("compileKotlin")
+compileKotlin.dependsOn(openApiGenerate)
+
+// tasks.getByPath("build").let {
+//    it.dependsOn(openApiGenerate)
+//}
+
+// need api for kapt stubs
+// val kaptGenerateStubsKotlin = tasks.withType<org.jetbrains.kotlin.gradle.internal..KaptGenerateStubsKotlin>().
 
 
 // re-create the API classes before ebuilding
-tasks.findByName("build")?.let {
-    it.dependsOn(openApiGenerate)
-}
 
-// need api for kapt stubs
-tasks.findByName("kaptGenerateStubsKotlin")?.let {
-    it.dependsOn(openApiGenerate)
-}
 
