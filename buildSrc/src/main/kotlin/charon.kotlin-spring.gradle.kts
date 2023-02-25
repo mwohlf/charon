@@ -151,11 +151,11 @@ val openApiGenerate = tasks.findByName("openApiGenerate")
 
 // re-create the API classes before ebuilding
 tasks.findByName("build")?.let {
-    it.setDependsOn(listOf(openApiGenerate))
+    it.dependsOn(openApiGenerate)
 }
 
 // need api for kapt stubs
 tasks.findByName("kaptGenerateStubsKotlin")?.let {
-    it.setDependsOn(listOf(openApiGenerate))
+    it.dependsOn(openApiGenerate)
 }
 
