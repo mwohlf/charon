@@ -46,4 +46,4 @@ net:
               - "http://127.0.0.1:4200/charon/assets/silent-renew.html"
               - "http://127.0.0.1:4200/charon/silent-renew.html"
               - "http://127.0.0.1:4200/charon/home"
-
+            post-logout-redirect-uri: http://127.0.0.1:4200/charon/home

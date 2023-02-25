@@ -50,6 +50,8 @@ fun buildClient(clientId: String, clientEntry: ClientEntry): RegisteredClient {
         publicClient.scope(it)
     }
 
+    publicClient.postLogoutRedirectUri(clientEntry.postLogoutRedirectUri)
+
     return publicClient.build()
 }
 

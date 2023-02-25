@@ -21,7 +21,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2TokenType.
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2TokenRevocationAuthenticationToken
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2TokenRevocationEndpointConfigurer
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
@@ -95,6 +94,7 @@ class AuthorizationServerConfig(
         authorizationServerConfigurer
             // OpenID Connect 1.0 is disabled in the default configuration
             .oidc(Customizer.withDefaults())
+            /*
             // customize the revocation endpoint
             .tokenRevocationEndpoint { oAuth2TokenRevocationEndpointConfigurer: OAuth2TokenRevocationEndpointConfigurer
                 ->
@@ -102,7 +102,7 @@ class AuthorizationServerConfig(
                     .authenticationProvider(RevokeAuthenticationProvider(oAuth2AuthorizationService))
                 //.authenticationProvider(JwtAuthenticationProvider(jwtDecoder))
             }
-
+            */
         return authorizationServerConfigurer
     }
 
