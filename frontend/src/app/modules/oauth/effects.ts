@@ -211,7 +211,7 @@ export class Effects {
                 logger.debug('<logoffAndRevokeTokens> finished', JSON.stringify(success));
                 // window.location.href = authority + '/logout';
                 oidcSecurityService.logoffLocal(oAuthFeature.configId);
-                window.location.href = authority + '/logout';
+      //          window.location.href = authority + '/logout';
               },
               error(failure) {
                 logger.error('<logoutAction> could not find the configuration for :', JSON.stringify(failure));

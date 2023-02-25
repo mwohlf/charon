@@ -1,0 +1,21 @@
+post:
+  tags:
+    - logging
+  operationId: postLogRecord
+  description: ''
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - timestamp
+          properties:
+            timestamp:
+              example: "1995-09-07T10:40:52Z"
+              format: date-time
+              type: string
+  responses:
+    200:
+      description: "200 response"
