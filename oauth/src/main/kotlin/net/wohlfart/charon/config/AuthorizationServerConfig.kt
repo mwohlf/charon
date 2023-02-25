@@ -45,7 +45,7 @@ class AuthorizationServerConfig(
     ): SecurityFilterChain {
 
         // externalized configurer
-        val authorizationServerConfigurer = customAuthServerConfig(oAuth2AuthorizationService, jwtDecoder)
+        val authorizationServerConfigurer = customAuthServerConfig(oAuth2AuthorizationService /*, jwtDecoder*/)
         http.apply(authorizationServerConfigurer)
 
         // all endpoints only authenticated
@@ -89,7 +89,7 @@ class AuthorizationServerConfig(
     // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
     private fun customAuthServerConfig(
         oAuth2AuthorizationService: OAuth2AuthorizationService,
-        jwtDecoder: JwtDecoder,
+        // jwtDecoder: JwtDecoder,
     ): OAuth2AuthorizationServerConfigurer {
         val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
         authorizationServerConfigurer

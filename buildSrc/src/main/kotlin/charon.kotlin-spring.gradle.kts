@@ -109,6 +109,7 @@ jib {
     */
     container {
         creationTime = "USE_CURRENT_TIMESTAMP"
+        // creationTime = project.provider { "USE_CURRENT_TIMESTAMP" }
         ports = listOf("8080")
         jvmFlags = listOf(
             "-Djava.security.egd=file:/dev/urandom",
@@ -131,7 +132,8 @@ openApiGenerate {
     val module = project.name
     // see: https://openapi-generator.tech/docs/generators
     generatorName.set("kotlin-spring")
-    templateDir.set("${rootProject.projectDir.absolutePath}/buildSrc/src/main/resources/openapi/kotlin-spring")
+    // just in case we need to patch the templates
+    // templateDir.set("${rootProject.projectDir.absolutePath}/buildSrc/src/main/resources/openapi/kotlin-spring")
     inputSpec.set("${rootProject.projectDir.absolutePath}/etc/api/${module}.yaml")
     outputDir.set("$buildDir/generated")
     // see: https://openapi-generator.tech/docs/generators/kotlin-spring
@@ -144,7 +146,16 @@ openApiGenerate {
     // https://github.com/jayandran-Sampath/openapi-generator/tree/feat13578_1
 }
 
+val openApiGenerate = tasks.findByName("openApiGenerate")
+
+
 // re-create the API classes before ebuilding
 tasks.findByName("build")?.let {
-    it.dependsOn("openApiGenerate")
+    it.setDependsOn(listOf(openApiGenerate))
 }
+
+// need api for kapt stubs
+tasks.findByName("kaptGenerateStubsKotlin")?.let {
+    it.setDependsOn(listOf(openApiGenerate))
+}
+

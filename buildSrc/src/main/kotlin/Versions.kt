@@ -9,7 +9,7 @@ object Versions {
 
 
     // https://docs.spring.io/spring-authorization-server/docs/1.0.0-SNAPSHOT/reference/html/
-    const val SPRING_OAUTH2_SERVER = "1.0.0"
+    const val SPRING_OAUTH2_SERVER = "1.0.1"
 
     const val KOTLIN_LOGGING_JVM = "3.0.4"
     const val SWAGGER = "2.2.6"

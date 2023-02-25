@@ -1,7 +1,7 @@
 import com.github.gradle.node.npm.task.NpmTask
 
 plugins {
-    java  // for the jar task, also includes the build and clean task
+    // java  // for the jar task, also includes the build and clean task
     id("com.coditory.webjar")
     id("org.openapi.generator")
     id("com.github.node-gradle.node")
@@ -65,21 +65,37 @@ tasks.findByName("webjarBuild")?.let {
     it.dependsOn("openApiGenerate")
 }
 
-// attach the webjarBuild to the build task
-tasks.findByName("build")?.let {
-    it.dependsOn("webjarBuild")
+// attach the webjarBuild to the build task, build is from the java plugin
+//tasks.register<DefaultTask>("build").let {
+//    //it.dependsOn("webjarBuild")
+//}
+
+// attach the webjarBuild to the build task, clean is from the java plugin
+// tasks.register<DefaultTask>("clean")?.let {
+//    //it.dependsOn("webjarClean")
+//    // it.destroyables.register("$buildDir/node/")
+//}
+
+val delete = tasks.register<Delete>("delete") {
+    delete = setOf (
+        "build", "dist"
+    )
 }
 
+tasks.findByName("clean")?.let {
+    it.actions.clear()
+    it.setDependsOn(listOf(delete))
+}
 
 // ngrx still depends on angularCore 14
 // we need to add "--legacy-peer-deps"
 
 tasks.findByName("webjarInstall")?.let {
     // val npmTask = it as NpmTask
-    (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
+    // (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
 }
 
 tasks.findByName("webjarInit")?.let {
     // val npmTask = it as NpmTask
-    (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
+    // (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
 }
