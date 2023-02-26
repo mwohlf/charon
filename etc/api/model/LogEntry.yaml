@@ -27,16 +27,16 @@ properties:
     type: string
   level:
     example: 5
-    type: int
+    type: integer
   message:
     example: "<logoutAction> could not find the configuration for :"
     type: string
   lineNumber:
     example: 5
-    type: int
+    type: integer
   columnNumber:
     example: 5
-    type: int
+    type: integer
   additional:
     example: ["{}"]
     type: array

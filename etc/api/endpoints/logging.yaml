@@ -8,14 +8,7 @@ post:
     content:
       application/json:
         schema:
-          type: object
-          required:
-            - timestamp
-          properties:
-            timestamp:
-              example: "1995-09-07T10:40:52Z"
-              format: date-time
-              type: string
+          $ref: "../model/LogEntry.yaml"
   responses:
     200:
       description: "200 response"

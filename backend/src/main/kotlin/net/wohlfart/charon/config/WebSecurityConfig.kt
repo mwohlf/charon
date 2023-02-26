@@ -29,6 +29,9 @@ class WebSecurityConfig {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .sessionAuthenticationStrategy(NullAuthenticatedSessionStrategy())
 
+        // disable for the log post endpoint
+        http.csrf { csrf -> csrf.disable() } // for the h2 console
+
         return http.build()
     }
 }
