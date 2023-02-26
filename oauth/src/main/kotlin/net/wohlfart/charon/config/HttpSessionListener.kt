@@ -9,13 +9,15 @@ import org.springframework.context.annotation.Configuration
 import kotlin.concurrent.thread
 
 
-private val logger = KotlinLogging.logger(AuthorizationServerConfig::class.java.name)
+private val logger = KotlinLogging.logger(HttpSessionConfig::class.java.name)
 
 private val sessions: MutableMap<String, HttpSession> = HashMap()
 
 @Configuration
 class HttpSessionConfig {
 
+    // TODO: keeping track of sessions here doesnt work because sessions change their id during login
+    // session rotation, to protected from session fixation attacks
     init {
         thread {
             while (true) {
@@ -27,6 +29,7 @@ class HttpSessionConfig {
             }
         }
     }
+
 
     @Bean
     fun httpSessionListener(): HttpSessionListener {
