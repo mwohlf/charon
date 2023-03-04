@@ -107,7 +107,7 @@ const featureReducer = createReducer(
             renewTimeBeforeTokenExpiresInSeconds: 30,
             startCheckSession: true,
             logLevel: LogLevel.Debug,
-            autoUserInfo: false,
+            autoUserInfo: false, // authentication for this doesn't work yet
             secureRoutes: [
               '/api',
               // '/oauth2',

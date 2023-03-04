@@ -66,7 +66,8 @@ class AuthorizationServerConfig(
         /*
         http.oauth2ResourceServer { oAuth2ResourceServerConfigurer: OAuth2ResourceServerConfigurer<HttpSecurity>
             ->
-            oAuth2ResourceServerConfigurer.jwt()
+            oAuth2ResourceServerConfigurer
+                .jwt()
         }
         */
 
