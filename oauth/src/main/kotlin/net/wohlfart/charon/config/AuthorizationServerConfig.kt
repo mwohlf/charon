@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
@@ -61,11 +60,16 @@ class AuthorizationServerConfig(
                 )
             )
         }
-        // use access tokens for User Info and/or Client Registration
+
+        // use access tokens for User Info if configured
+        // and/or Client Registration
+        /*
         http.oauth2ResourceServer { oAuth2ResourceServerConfigurer: OAuth2ResourceServerConfigurer<HttpSecurity>
             ->
             oAuth2ResourceServerConfigurer.jwt()
         }
+        */
+
         return http.build()
     }
 

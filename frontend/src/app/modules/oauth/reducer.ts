@@ -105,9 +105,8 @@ const featureReducer = createReducer(
             useRefreshToken: false, // not provided by the spring-boot backend
             silentRenewUrl: baseUrl + 'assets/silent-renew.html',   // not sure if this makes sense here...
             renewTimeBeforeTokenExpiresInSeconds: 30,
-            // startCheckSession: false,
+            startCheckSession: true,
             logLevel: LogLevel.Debug,
-            // autoUserInfo: true,
             autoUserInfo: false,
             secureRoutes: [
               '/api',

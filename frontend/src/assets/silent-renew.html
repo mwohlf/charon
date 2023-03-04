@@ -14,6 +14,7 @@
         const parent = window.parent;
         /* Send the id_token information to the oidc message handler */
         const event = new CustomEvent('oidc-silent-renew-message', { detail: window.location });
+        console.log("silent renew...",  window.location);
         parent.dispatchEvent(event);
     };
 </script>

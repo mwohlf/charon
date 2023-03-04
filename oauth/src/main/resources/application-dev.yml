@@ -10,7 +10,8 @@ logging:
   level:
     root: INFO
     org:
-      springframework: DEBUG
+      springframework:
+        security: TRACE
 
 spring:
   # http://localhost:8081/h2
