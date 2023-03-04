@@ -1,16 +1,14 @@
 package net.wohlfart.charon.config
 
 import net.wohlfart.charon.OAuthProperties
-import net.wohlfart.charon.component.LoginCustomizer
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.Customizer.withDefaults
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.web.SecurityFilterChain
-
-
+import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter
 
 
 @EnableWebSecurity
@@ -22,28 +20,26 @@ class WebSecurityConfig {
     fun defaultSecurityFilterChain(
         http: HttpSecurity,
         oAuthProperties: OAuthProperties,
-        loginCustomizer: LoginCustomizer,
     ): SecurityFilterChain {
-        http
-            .authorizeHttpRequests { authorize: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry
-                ->
-                authorize.anyRequest().authenticated()
+        // serve web resources, and protect anything else
+        http.authorizeHttpRequests { authorize: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry ->
+                authorize
+                    // our web resources should be available without authentication
+                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                    // anything authenticated is fine
+                    .anyRequest().authenticated()
             }
-
-        // never create one but use existing
-        // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
-
+        // use our global cors config
         http.cors { } // picks up our default cors config for the token endpoint
-        http.formLogin(withDefaults())
-        // http.formLogin(loginCustomizer)
-/*
-        http.logout().logoutUrl("/logout")
-            .permitAll().clearAuthentication(true).invalidateHttpSession(true)
-            .logoutSuccessUrl(oAuthProperties.postLogoutRedirect)
-*/
+        // customized form login
+        http.formLogin()
+            .loginPage(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL)
+            .permitAll()
+        // send back to applicaion on logout
+        http.logout().logoutSuccessUrl(oAuthProperties.postLogoutRedirect)
+        // ths is for the H2 console TODO: not for production
         http.csrf { csrf -> csrf.disable() } // for the h2 console
         http.headers().frameOptions().sameOrigin() // which uses frames it seems
-
         return http.build()
     }
 }

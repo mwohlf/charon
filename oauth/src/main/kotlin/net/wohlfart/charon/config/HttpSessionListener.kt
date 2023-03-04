@@ -25,7 +25,7 @@ class HttpSessionConfig {
                 sessions.forEach { (key, value) ->
                     logger.info { "$key = $value" }
                 }
-                Thread.sleep(7_000)
+                Thread.sleep(70_000)
             }
         }
     }

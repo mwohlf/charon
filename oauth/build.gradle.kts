@@ -24,18 +24,16 @@ dependencies {
     implementation("jakarta.annotation:jakarta.annotation-api:${Versions.JAKARTA_ANNOTATION_API}")
     implementation("javax.annotation:javax.annotation-api:${Versions.JAVAX_ANNOTATION_API}")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    // implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    // implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf") // used for login page etc.
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
-    @Suppress("GradlePackageUpdate")
+    // @Suppress("GradlePackageUpdate")
     implementation("org.springframework.security:spring-security-oauth2-authorization-server:${Versions.SPRING_OAUTH2_SERVER}")
-    // implementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
 
     runtimeOnly("com.h2database:h2")
 

@@ -22,8 +22,8 @@ fun buildClient(clientId: String, clientEntry: ClientEntry): RegisteredClient {
     val publicClient = RegisteredClient.withId(UUID.randomUUID().toString())
 
     publicClient.clientId(clientId)
-        .clientAuthenticationMethod(clientEntry.clientAuthenticationMethod.value)
-        .authorizationGrantType(clientEntry.authorizationGrantType.value)
+        .clientAuthenticationMethod(clientEntry.clientAuthenticationMethod.value)  // NONE
+        .authorizationGrantType(clientEntry.authorizationGrantType.value)          // AUTHORIZATION_CODE
     // .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
     // consent to true causes another step during authorization...
 

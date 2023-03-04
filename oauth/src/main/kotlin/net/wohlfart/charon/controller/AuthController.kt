@@ -12,6 +12,11 @@ class AuthController {
         return "login"
     }
 
+    @GetMapping("/logout")
+    fun logout(): String {
+        return "logout"
+    }
+
     @GetMapping("/error")
     fun error(): String {
         return "error"

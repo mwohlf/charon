@@ -3,6 +3,8 @@ server:
   error:
     include-exception: true
     include-stacktrace: always
+    whitelabel:
+      enabled: true
 
 logging:
   level:
@@ -32,7 +34,7 @@ net:
           public-client:
             client-authentication-method: NONE
             authorization-grant-type: AUTHORIZATION_CODE
-            access-token-ttl: 2m
+            access-token-ttl: 1m
             scopes:
               - "openid"
               - "profile"
