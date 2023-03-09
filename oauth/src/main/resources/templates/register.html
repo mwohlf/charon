@@ -1,32 +1,53 @@
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="robots" content="noindex, nofollow">
+    <title>Login</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <script th:href="@{/js/main.js}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
 <body>
-<h1 th:text="#{label.form.title}">form</h1>
-<form action="/" th:object="${user}" method="POST" enctype="utf8">
-    <div>
-        <label th:text="#{label.user.login}">login</label>
-        <input th:field="*{login}"/>
-        <p th:each="error: ${#fields.errors('login')}"
-           th:text="${error}">Validation error</p>
-    </div>
-    <div>
-        <label th:text="#{label.user.email}">email</label>
-        <input type="email" th:field="*{email}"/>
-        <p th:each="error : ${#fields.errors('email')}"
-           th:text="${error}">Validation error</p>
-    </div>
-    <div>
-        <label th:text="#{label.user.password}">password</label>
-        <input type="password" th:field="*{password}"/>
-        <p th:each="error : ${#fields.errors('password')}"
-           th:text="${error}">Validation error</p>
-    </div>
-    <div>
-        <label th:text="#{label.user.confirmPass}">confirm</label>
-        <input type="password" th:field="*{confirmPassword}"/>
-    </div>
-    <button type="submit" th:text="#{label.form.submit}">submit</button>
-</form>
+<script type="text/javascript">
+    window.onload = function() {
+        setTimeout(() => {
+            const usernameField = document.getElementById('username');
+            usernameField.focus();
+        }, 5);
+    };
+</script>
+<div tiles:fragment="content">
+    <form name="f" th:action="@{/register}" th:object="${user}" method="post">
+        <h1 th:text="#{label.forms.register.title}">form</h1>
+        <div class="group">
+            <input id="username" name="username" th:field="*{username}" autocomplete="new-username"/>
+            <label for="username" th:text="#{label.user.username}">username</label>
+            <p th:each="error : ${#fields.errors('username')}"
+               th:text="${error}">Validation error</p>
+        </div>
+        <div class="group">
+            <input id="email" name="email" type="email" th:field="*{email}"/>
+            <label for="email" th:text="#{label.user.email}">email</label>
+            <p th:each="error : ${#fields.errors('email')}"
+               th:text="${error}">Validation error</p>
+        </div>
+        <div class="group">
+            <input id="password" name="password" type="password" th:field="*{password}" autocomplete="new-password"/>
+            <label for="password" th:text="#{label.user.password}">password</label>
+            <p th:each="error : ${#fields.errors('password')}"
+               th:text="${error}">Validation error</p>
+        </div>
+        <div class="group">
+            <input id="confirmPass" name="confirmPass" type="password" th:field="*{confirmPassword}"/>
+            <label for="confirmPass" th:text="#{label.user.confirmPass}">confirm</label>
+        </div>
+        <button type="submit" class="button buttonBlue ripple" th:text="#{label.forms.register.submit}">
+            Register
+        </button>
+    </form>
 
-<a th:href="@{/login.html}" th:text="#{label.form.loginLink}">login</a>
+    <a th:href="@{/login.html}" th:text="#{label.forms.register.submit}">login</a>
+</div>
 </body>
 </html>

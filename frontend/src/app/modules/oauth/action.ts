@@ -31,6 +31,12 @@ export const loginAction = createAction(
   props<{ payload: { configId: string } }>(),
 );
 
+// login with a specific auth issuer
+export const registerAction = createAction(
+  `${GROUP}/registerAction`,
+  props<{ payload: { configId: string } }>(),
+);
+
 export const logoutAction = createAction(
   `${GROUP}/logoutAction`,
 );

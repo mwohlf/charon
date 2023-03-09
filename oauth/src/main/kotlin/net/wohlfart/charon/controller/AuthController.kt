@@ -1,12 +1,17 @@
 package net.wohlfart.charon.controller
 
+import jakarta.servlet.http.HttpServletRequest
+import mu.KotlinLogging
 import net.wohlfart.charon.entity.UserDto
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.context.request.WebRequest
 
+private val logger = KotlinLogging.logger {}
 
 @Controller
 class AuthController {
@@ -29,7 +34,13 @@ class AuthController {
     }
 
     @PostMapping("/register")
-    fun postRegister(request: WebRequest, model: Model): String {
+    fun postRegister(
+        @ModelAttribute("user") userDto: UserDto,
+        request: HttpServletRequest,
+        errors: Errors,
+    ): String {
+        logger.info { "post register called: $userDto" }
+
         return "register"
     }
 

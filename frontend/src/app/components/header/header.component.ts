@@ -1,7 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../app-shell.module';
-import {loginAction, logoutAction} from '../../modules/oauth/action';
+import {
+  loginAction,
+  logoutAction,
+  registerAction,
+} from '../../modules/oauth/action';
 import {Observable} from 'rxjs';
 import {isAuthenticated} from '../../modules/oauth/selector';
 import {readConfigurationDetailsUsingGET} from '../../modules/config/action';
@@ -60,6 +64,10 @@ export class HeaderComponent implements OnInit {
 
   login() {
     this.store.dispatch(loginAction({payload: {configId: SIMPLE_CONFIG}}));
+  }
+
+  register() {
+    this.store.dispatch(registerAction({payload: {configId: SIMPLE_CONFIG}}));
   }
 
   logout() {

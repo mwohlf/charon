@@ -2,7 +2,7 @@ package net.wohlfart.charon.entity
 
 class UserDto(
 
-    var login: String = "",
+    var username: String = "",
 
     var email: String = "",
 

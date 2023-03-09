@@ -15,7 +15,7 @@ import {
   oidcSecurityAction,
   readClientConfigurationListUsingGET,
   readClientConfigurationListUsingGET_failure,
-  readClientConfigurationListUsingGET_success,
+  readClientConfigurationListUsingGET_success, registerAction,
 } from './action';
 import {Action, Store} from '@ngrx/store';
 import {catchError, map, mergeMap, tap} from 'rxjs/operators';
@@ -31,6 +31,9 @@ import {NGXLogger} from 'ngx-logger';
 import {selectOAuthFeature} from './selector';
 import {OAuthState} from './reducer';
 import {Level} from '../notification/reducer';
+import {
+  OpenIdConfiguration
+} from 'angular-auth-oidc-client/lib/config/openid-configuration';
 
 @Injectable()
 export class Effects {
@@ -184,6 +187,24 @@ export class Effects {
         } else {
           // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/public-api
           this.oidcSecurityService.authorize(action.payload.configId); // this performs a browser redirect to the login page
+        }
+      }),
+    );
+  }, {dispatch: false});
+
+  registerAction$: Observable<Action> = createEffect(() => {
+    return this.action$.pipe(
+      ofType(registerAction),
+      tap((action) => {
+        this.logger.debug('<registerAction>', action);
+      }),
+      tap((action) => {
+        // check if the configId is in our set
+        for (let config of this.oidcSecurityService.getConfigurations()) {
+          if (config.configId == action.payload.configId) {
+            this.logger.error('<registerAction> config found for ', config.authority);
+            return;
+          }
         }
       }),
     );
