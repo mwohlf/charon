@@ -69,6 +69,11 @@ class AuthorizationServerConfig(
             oAuth2ResourceServerConfigurer
                 .jwt()
         }
+        http.securityMatcher("/userinfo").oauth2ResourceServer { oAuth2ResourceServerConfigurer: OAuth2ResourceServerConfigurer<HttpSecurity>
+            ->
+            oAuth2ResourceServerConfigurer
+                .jwt()
+        }
         */
 
         return http.build()

@@ -26,6 +26,9 @@ class WebSecurityConfig {
                 authorize
                     // our web resources should be available without authentication
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                    .requestMatchers("/register").permitAll()
+                    .requestMatchers("/error").permitAll()
+                    // .requestMatchers("/h2/**").permitAll()
                     // anything authenticated is fine
                     .anyRequest().authenticated()
             }

@@ -201,29 +201,29 @@ export class Effects {
         const authority = oAuthFeature.openIdConfigurations.find(
           element => element.configId === oAuthFeature.configId,
         )?.authority;
-        if (authority) {
+        if (!authority) {
+          this.logger.error('<logoutAction> could not find the authority for:', JSON.stringify([action, oAuthFeature]));
+          this.oidcSecurityService.logoffLocalMultiple();
+          window.location.href = authority + '/logout';
+        } else {
           const logger = this.logger;
           const oidcSecurityService = this.oidcSecurityService;
           logger.debug('<logoffAndRevokeTokens> starting', JSON.stringify(authority));
           // see: https://nice-hill-002425310.azurestaticapps.net/docs/documentation/login-logout
           this.oidcSecurityService.logoffAndRevokeTokens(oAuthFeature.configId).subscribe({
               next(success) {
-                logger.debug('<logoffAndRevokeTokens> finished', JSON.stringify(success));
+                logger.debug(`<logoffAndRevokeTokens> finished ${success}`);
                 // window.location.href = authority + '/logout';
                 oidcSecurityService.logoffLocal(oAuthFeature.configId);
-      //          window.location.href = authority + '/logout';
+                //          window.location.href = authority + '/logout';
               },
               error(failure) {
-                logger.error('<logoutAction> could not find the configuration for :', JSON.stringify(failure));
+                logger.error(`<logoutAction> failure for logoffAndRevokeTokens ${action} ${oAuthFeature} ${failure}`);
                 oidcSecurityService.logoffLocal(oAuthFeature.configId);
                 window.location.href = authority + '/logout';
-              }
+              },
             },
           );
-        } else {
-          this.logger.error('<logoutAction> could not find the configuration for :', oAuthFeature.configId);
-          this.oidcSecurityService.logoffLocalMultiple();
-          window.location.href = authority + '/logout';
         }
       }),
     );

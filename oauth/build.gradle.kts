@@ -35,7 +35,7 @@ dependencies {
     // @Suppress("GradlePackageUpdate")
     implementation("org.springframework.security:spring-security-oauth2-authorization-server:${Versions.SPRING_OAUTH2_SERVER}")
 
-    runtimeOnly("com.h2database:h2")
+    implementation("com.h2database:h2")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     // to create spring-configuration-metadata.json
