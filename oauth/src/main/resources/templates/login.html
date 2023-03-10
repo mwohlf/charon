@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="robots" content="noindex, nofollow">
-    <title>Login</title>
+    <title th:text="#{label.forms.login.title}">Login</title>
     <link th:href="@{/css/main.css}" rel="stylesheet"/>
     <script th:href="@{/js/main.js}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,11 +14,20 @@
         setTimeout(() => {
             const usernameField = document.getElementById('username');
             usernameField.focus();
+            const inputFields = document.getElementsByTagName("input")
+            for (let i = 0; i < inputFields.length; i++) {
+                if (inputFields[i].value) {
+                    inputFields[i].classList.add('used');
+                } else {
+                    inputFields[i].classList.remove('used');
+                }
+            }
         }, 5);
     };
 </script>
 <div tiles:fragment="content">
     <form name="f" th:action="@{/login}" method="post">
+        <h1 th:text="#{label.forms.login.title}">Login</h1>
         <div th:if="${param.error}" class="alert alert-error group">
             Invalid username and password.
         </div>
@@ -30,19 +39,20 @@
                    onfocus="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}"
                    onblur="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}">
             <span class="highlight"></span><span class="bar"></span>
-            <label for="username">Name</label>
+            <label for="username" th:text="#{label.user.username}">Name</label>
         </div>
         <div class="group">
             <input autocomplete="current-password" type="password" id="password" name="password"
                    onfocus="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}"
                    onblur="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}">
             <span class="highlight"></span><span class="bar"></span>
-            <label for="password">Password</label>
+            <label for="password" th:text="#{label.user.password}">Password</label>
         </div>
         <button type="submit" class="button buttonBlue ripple" th:text="#{label.forms.login.submit}">
             Login
         </button>
     </form>
+
 </div>
 </body>
 </html>

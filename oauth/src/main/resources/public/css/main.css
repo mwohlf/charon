@@ -13,12 +13,17 @@ hgroup {
     margin-top: 4em;
 }
 
-h1, h3 {
+h1, h2, h3 {
     font-weight: 300;
 }
 
 h1 {
     color: #636363;
+    padding-bottom: 1em;
+}
+
+h2 {
+    color: #4a89dc;
 }
 
 h3 {
@@ -32,7 +37,7 @@ td {
 form {
     width: 380px;
     margin: 4em auto;
-    padding: 3em 2em 2em 2em;
+    padding: 2em 2em 2em 2em;
     background: #fafafa;
     border: 1px solid #ebebeb;
     box-shadow: rgba(0, 0, 0, 0.14902) 0px 1px 1px 0px, rgba(0, 0, 0, 0.09804) 0px 1px 2px 0px;
@@ -214,4 +219,19 @@ input:focus ~ .highlight {
     background-color: #6eb9f7;
     background-size: 100%;
     transition: background 0s;
+}
+
+a:visited,
+a:hover,
+a:active,
+a:link {
+    text-decoration: none;
+}
+
+.material-icon {
+    position: absolute;
+    bottom: 4px;
+    right: 5px;
+    cursor: pointer;
+    width: 35px;
 }

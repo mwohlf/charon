@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {Actions, createEffect, ofType, ROOT_EFFECTS_INIT} from '@ngrx/effects';
 import {
   EventTypes,
@@ -26,7 +26,7 @@ import {
   ClientConfiguration,
   ConfigurationDetailsService,
 } from 'build/generated';
-import {LocationStrategy} from '@angular/common';
+import {DOCUMENT, LocationStrategy} from '@angular/common';
 import {NGXLogger} from 'ngx-logger';
 import {selectOAuthFeature} from './selector';
 import {OAuthState} from './reducer';
@@ -45,6 +45,8 @@ export class Effects {
     private configurationDetailsService: ConfigurationDetailsService,
     private oidcSecurityService: OidcSecurityService,
     private eventService: PublicEventsService,
+    @Inject(DOCUMENT) private document: Document,
+
     private store: Store<AppState>,
   ) {
 
@@ -202,10 +204,11 @@ export class Effects {
         // check if the configId is in our set
         for (let config of this.oidcSecurityService.getConfigurations()) {
           if (config.configId == action.payload.configId) {
-            this.logger.error('<registerAction> config found for ', config.authority);
-            return;
+            this.logger.info(`<registerAction> config.authority: ${config.authority}`);
+            this.document.location.href = config.authority + "/register";
           }
         }
+        this.logger.error(`<registerAction> action.payload.configId not found: ${action.payload.configId}`);
       }),
     );
   }, {dispatch: false});

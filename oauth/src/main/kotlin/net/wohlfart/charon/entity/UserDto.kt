@@ -8,6 +8,4 @@ class UserDto(
 
     var password: String = "",
 
-    var confirmPassword: String = "",
-
 )
