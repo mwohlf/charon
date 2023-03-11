@@ -9,6 +9,9 @@
 #  - kubelogin
 #
 
+
+
+
 set -e
 
 CURRENT_DIR="${PWD}"
@@ -33,6 +36,12 @@ export TOKEN_FILE="token.txt"
 export CLUSTER_CONFIG_FILE="cluster.txt"
 export ZONE_NAME_FILE="zone-name.txt"
 export KEYVAULT_INFO="keyvault.txt"
+
+# prices chart: https://azureprice.net/?sortField=linuxPrice&sortOrder=true
+#
+# Standard_B1ms(2GByte), Standard_B1s(1GByte)
+export NODE_VM_SIZE="Standard_B2s"
+
 
 
 function create_keyvault() {
@@ -201,6 +210,7 @@ function create_cluster() {
         echo "cluster ${CLUSTER:-charonCluster} already exists"
         return
     fi
+    # prices chart: https://azureprice.net/?sortField=linuxPrice&sortOrder=true
     echo "creating cluster ${CLUSTER:-charonCluster}..."
     az aks create \
         --enable-addons http_application_routing  \
@@ -210,7 +220,7 @@ function create_cluster() {
         --name ${CLUSTER:-charonCluster} \
         --network-plugin azure \
         --node-count 2 \
-        --node-vm-size "Standard_B2s" \
+        --node-vm-size ${NODE_VM_SIZE:-Standard_B2s} \
         --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
         > "${SCRIPT_DIR}/${CLUSTER_CONFIG_FILE}" \
 

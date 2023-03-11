@@ -30,6 +30,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     // to create spring-configuration-metadata.json

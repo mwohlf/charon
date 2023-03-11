@@ -130,6 +130,7 @@ function create_cert {
 
 function create_secrets {
     SECRETS_YAML="${SCRIPT_DIR}/../helm/charon/templates/secrets.yaml"
+    echo " writing cert keys..."
 
     gpg --quiet --batch --yes \
         --passphrase="${GPG_PASSPHRASE}" \
@@ -162,6 +163,25 @@ EOF
     printf "\n"
 
     } >> "${SECRETS_YAML}"
+
+    echo "...cert keys written, appending secrets..."
+    cat >> "${SECRETS_YAML}" <<EOF
+
+---
+
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: wired-heart-secrets
+  namespace: development
+
+data:
+EOF
+    {
+    printf "  jasypt-encryptor-password: %s\n" "${GPG_PASSPHRASE}"
+    } >> "${SECRETS_YAML}"
+    echo "... finished appending secrets"
 
 }
 
