@@ -54,6 +54,13 @@ fi
 
 # ===== main building blocks
 
+
+#
+# this refreshes the cert keys from letsencrypt and stores them
+# in 2 encrypted files:
+#    fullchain.pem -> tls.crt.bin
+#    privkey.pem   -> tls.key.bin
+#
 function create_cert {
 
     if [[ -z "${CLOUDFLARE_API_TOKEN}" ]]; then
@@ -122,6 +129,7 @@ function create_cert {
 
 
 function create_values {
+    SECRETS_YAML="${SCRIPT_DIR}/../helm/charon/templates/secrets.yaml"
 
     gpg --quiet --batch --yes \
         --passphrase="${GPG_PASSPHRASE}" \
@@ -133,37 +141,28 @@ function create_values {
         --output "${SCRIPT_DIR}/${DOMAIN}-privkey.pem" \
         --decrypt "${SCRIPT_DIR}/${TSL_KEY_FILE}.bin"
 
-    cat >"${SCRIPT_DIR}/secrets.yaml" <<EOF
-#
-# this file should only exist for deployment
-#
+    rm -f "${SECRETS_YAML}"
+    cat > "${SECRETS_YAML}" <<EOF
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/tls
+metadata:
+  name: wired-heart-tls
+  namespace: development
 
-tls:
+data:
 EOF
     {
-    printf "  crt: "
+    printf "  tls.crt: "
     base64 -w 0 < "${SCRIPT_DIR}/${DOMAIN}-fullchain.pem"
     printf "\n"
 
-    printf "  key: "
+    printf "  tls.key: "
     base64 -w 0 < "${SCRIPT_DIR}/${DOMAIN}-privkey.pem"
     printf "\n"
 
-    } >>"${SCRIPT_DIR}/secrets.yaml"
+    } >> "${SECRETS_YAML}"
 
-    cat >>"${SCRIPT_DIR}/secrets.yaml" <<EOF
-oauth:
-  clients:
-    google:
-      id: GOOGLE_CLIENT_ID_TEST
-      secret: GOOGLE_CLIENT_SECRET_TEST
-    github:
-      id: GITHUB_CLIENT_ID_TEST
-      secret: GITHUB_CLIENT_SECRET_TEST
-EOF
-    cp "${SCRIPT_DIR}/secrets.yaml" "${SCRIPT_DIR}/../helm/charon/values.yaml"
-
-    # cat "${SCRIPT_DIR}/../helm/charon/values.yaml"
 }
 
 #################
