@@ -176,7 +176,7 @@ metadata:
   name: wired-heart-secrets
   namespace: development
 
-data:
+stringData:
 EOF
     {
     printf "  jasypt-encryptor-password: %s\n" "${GPG_PASSPHRASE}"
