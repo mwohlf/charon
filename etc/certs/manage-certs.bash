@@ -181,7 +181,7 @@ EOF
     {
     printf "  jasypt-encryptor-password: %s\n" "${GPG_PASSPHRASE}"
     } >> "${SECRETS_YAML}"
-    echo "... finished appending secrets"
+    echo "...finished appending secrets"
 
 }
 

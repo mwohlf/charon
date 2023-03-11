@@ -31,7 +31,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf") // used for login page etc.
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter")
+    implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
 
     // @Suppress("GradlePackageUpdate")
     implementation("org.springframework.security:spring-security-oauth2-authorization-server:${Versions.SPRING_OAUTH2_SERVER}")
