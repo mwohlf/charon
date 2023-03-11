@@ -1,0 +1,55 @@
+
+# https://github.com/hilariocoelho/redis-chart
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: charon-redis-deployment
+  namespace: development
+spec:
+  selector:
+    matchLabels:
+      app: charon-redis
+  replicas: 1
+  serviceName: charon-redis-svc
+  template:
+
+    metadata:
+      labels:
+        app: charon-redis
+
+    spec:
+      containers:
+        - name: charon-redis
+          image: redis:7.0.9
+          env:
+            - name: SERVER_PORT
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wired-heart-secrets
+                  key: redis-password
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+          command:
+            - /bin/bash
+            - -c
+            - redis-server --requirepass ${REDIS_PASSWORD} --masterauth ${REDIS_PASSWORD} --port ${SERVER_PORT}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: charon-redis-svc
+  namespace: development
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: 6379
+      protocol: TCP
+  selector:
+    app: charon-redis

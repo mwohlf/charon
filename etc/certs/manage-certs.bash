@@ -180,6 +180,7 @@ stringData:
 EOF
     {
     printf "  jasypt-encryptor-password: %s\n" "${GPG_PASSPHRASE}"
+    printf "  redis-password: %s\n" "${GPG_PASSPHRASE}"
     } >> "${SECRETS_YAML}"
     echo "...finished appending secrets"
 
