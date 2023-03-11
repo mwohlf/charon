@@ -62,7 +62,7 @@ jobs:
       # Baking the helm chart to generate the manifests to deploy
       - name: Create the helm chart
         id: bake
-        uses: azure/k8s-bake@v2.2
+        uses: azure/k8s-bake@v2.4
         with:
           silent: 'false' # set this to get more verbose helm command logs
           renderEngine: 'helm'
