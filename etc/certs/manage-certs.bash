@@ -9,10 +9,10 @@
 # this script can be called with
 #
 #   create_cert:
-#      to create a new cert from letsencrypt, encrypt them and check them oin
+#      to create a new cert from letsencrypt, encrypt them and push them to github
 #
-#   create_values:
-#      to create secrets for k8s deployment from the encrypted cerst
+#   create_secrets:
+#      to create secrets.yaml for k8s deployment from the encrypted certs
 #
 
 set -e
@@ -128,7 +128,7 @@ function create_cert {
 }
 
 
-function create_values {
+function create_secrets {
     SECRETS_YAML="${SCRIPT_DIR}/../helm/charon/templates/secrets.yaml"
 
     gpg --quiet --batch --yes \
@@ -179,8 +179,8 @@ case ${1} in
     create_cert
     ;;
 
-  "create_values")
-    create_values
+  "create_secrets")
+    create_secrets
     ;;
 
   *)

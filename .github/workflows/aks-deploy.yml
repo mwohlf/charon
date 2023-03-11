@@ -50,9 +50,9 @@ jobs:
           cluster-name: ${{ env.CLUSTER }}
           resource-group: ${{ env.RESOURCE_GROUP }}
 
-      - name: Run the manage-certs script to create the values.yaml file
+      - name: Run the manage-certs.bash script to create the secrets.yaml file
         run: |
-          bash ${{ github.workspace }}/etc/certs/manage-certs.bash create_values
+          bash ${{ github.workspace }}/etc/certs/manage-certs.bash create_secrets
 
 #      # remove the current chart
 #      - run: |
