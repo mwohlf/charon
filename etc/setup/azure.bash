@@ -70,7 +70,8 @@ export KEYVAULT_INFO="keyvault.txt"
 # seems to be the cheapest option according to:
 # https://medium.com/@casperrubaek/how-to-create-a-cheap-kubernetes-cluster-on-azure-for-learning-purposes-ec413a2b33e4
 export NODE_VM_SIZE="Standard_B2s"
-export LOCATION="eastus2"
+# export LOCATION="eastus2"
+export LOCATION="centralindia"
 
 
 # no used
@@ -101,7 +102,8 @@ function get_pods() {
         --command "kubectl get pods -n kube-system"
 }
 
-# this i not needed the service will get an IP
+# this is not needed
+# the service will get an IP for inbound and another IP for outbound traffic
 function create_public_ip_address() {
     NODE_RESOURCE_GROUP=$(az aks show \
         -g ${RESOURCE_GROUP} \
@@ -252,9 +254,13 @@ function create_cluster() {
         --name ${CLUSTER:-charonCluster} \
         --network-plugin azure \
         --node-count 1 \
+        --min-count 1 \
+        --max-count 3 \
         --node-osdisk-size 30 \
         --node-vm-size ${NODE_VM_SIZE:-Standard_B2s} \
         --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
+        --network-plugin kubenet \
+        --enable-cluster-autoscaler \
         > "${SCRIPT_DIR}/${CLUSTER_CONFIG_FILE}" \
 
 
