@@ -22,7 +22,7 @@ set -e
 
 TSL_CRT_FILE="tls.crt"
 TSL_KEY_FILE="tls.key"
-
+SETENV_FILE="setup_env.bash"
 
 DOMAIN="wired-heart.com"
 # KEYVAULT="finalrestingheartrateVlt"
@@ -129,7 +129,10 @@ function create_cert {
     sudo cat "${SCRIPT_DIR}/${TSL_KEY_FILE}.bin"
 }
 
-
+# secret file consists of 2 sections
+# - tls config
+# - secret values
+#
 function create_secrets {
     SECRETS_YAML="${SCRIPT_DIR}/../helm/charon/templates/secrets.yaml"
     echo " writing cert keys..."
@@ -166,7 +169,20 @@ EOF
 
     } >> "${SECRETS_YAML}"
 
-    echo "...cert keys written, appending secrets..."
+    echo "...cert keys written"
+
+    echo "decrypt env file..."
+    gpg --quiet --batch --yes \
+        --passphrase="${GPG_PASSPHRASE}" \
+        --output "${SCRIPT_DIR}/${SETENV_FILE}" \
+        --decrypt "${SCRIPT_DIR}/${SETENV_FILE}.bin"
+
+    echo "source env file..."
+    # shellcheck source=./env.txt
+    source "./${SETENV_FILE}"
+    echo "display env"
+    env
+
     cat >> "${SECRETS_YAML}" <<EOF
 
 ---
@@ -181,8 +197,7 @@ metadata:
 stringData:
 EOF
     {
-    printf "  jasypt-encryptor-password: %s\n" "${GPG_PASSPHRASE}"
-    printf "  redis-password: %s\n" "${GPG_PASSPHRASE}"
+    printf "  redis-password: %s\n" "${REDIS_PASSWORD}"
     } >> "${SECRETS_YAML}"
     echo "...finished appending secrets"
 

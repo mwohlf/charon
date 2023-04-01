@@ -30,3 +30,4 @@ build
 /etc/secrets/wired-heart.com-fullchain.pem
 /etc/secrets/wired-heart.com-privkey.pem
 /charon.db.mv.db
+/etc/secrets/setup_env.bash
