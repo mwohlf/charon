@@ -3,6 +3,7 @@ package net.wohlfart.charon.controller
 import jakarta.servlet.http.HttpServletRequest
 import mu.KotlinLogging
 import net.wohlfart.charon.entity.UserDto
+import net.wohlfart.charon.service.SendmailService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.Errors
@@ -14,7 +15,9 @@ import org.springframework.web.context.request.WebRequest
 private val logger = KotlinLogging.logger {}
 
 @Controller
-class AuthController {
+class AuthController(
+    val sendmailService: SendmailService,
+) {
 
     @GetMapping("/error")
     fun getError(request: WebRequest, model: Model): String {
@@ -40,7 +43,7 @@ class AuthController {
         errors: Errors,
     ): String {
         logger.info { "post register called: $userDto" }
-
+        sendmailService.sendEmail()
         return "register"
     }
 

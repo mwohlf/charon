@@ -22,6 +22,27 @@ logging:
     root: INFO
 
 spring:
+
+  mail:
+    # see: https://springjava.com/spring-boot/sending-mail-using-gmail-smtp-server-in-spring-boot
+    host: ${SPRING_MAIL_HOST:unconfigured-spring-mail-host}
+    port: ${SPRING_MAIL_PORT:unconfigured-spring-mail-port}
+    username: ${SPRING_MAIL_USERNAME:unconfigured-spring-mail-username}
+    password: ${SPRING_MAIL_PASSWORD:unconfigured-spring-mail-password}
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  freemarker:
+    template-loader-path: classpath:/mail
+    charset: UTF-8
+    check-template-location: true
+    cache: true
+
   security:
     oauth2:
       client:
@@ -50,6 +71,7 @@ spring:
     username: sa
     password: sa
     driverClassName: org.h2.Driver
+
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
 
