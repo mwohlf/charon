@@ -53,7 +53,7 @@ jobs:
 
       - name: Run the manage-certs.bash script to create the secrets.yaml file
         run: |
-          bash ${{ github.workspace }}/etc/certs/manage-certs.bash create_secrets
+          bash ${{ github.workspace }}/etc/secrets/manage-certs.bash create_secrets
 
 #      # remove the current chart
 #      - run: |

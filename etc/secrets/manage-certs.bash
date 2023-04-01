@@ -22,6 +22,8 @@ set -e
 
 TSL_CRT_FILE="tls.crt"
 TSL_KEY_FILE="tls.key"
+
+
 DOMAIN="wired-heart.com"
 # KEYVAULT="finalrestingheartrateVlt"
 
@@ -68,7 +70,7 @@ function create_cert {
     fi
 
     # this is where the keys are stored, the dirs are pretty much defined by the certbot
-    mkdir -p "${SCRIPT_DIR}/etc/certs/etc/live"
+    mkdir -p "${SCRIPT_DIR}/etc/secrets/etc/live"
     echo "dns_cloudflare_api_token = ${CLOUDFLARE_API_TOKEN}" >"${SCRIPT_DIR}/etc/credentials"
     # chmod 400 "${SCRIPT_DIR}/etc/credentials"
 

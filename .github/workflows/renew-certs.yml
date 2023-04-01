@@ -38,12 +38,12 @@ jobs:
 
       - name: Run the manage-certs script
         run: |
-          bash ${{ github.workspace }}/etc/certs/manage-certs.bash create_cert
+          bash ${{ github.workspace }}/etc/secrets/manage-certs.bash create_cert
 
       - name: Stage and push the encrypted keys
         run: |
           echo "running on branch ${GITHUB_REF##*/}"
-          git add ${{ github.workspace }}/etc/certs/tls.crt.bin
-          git add ${{ github.workspace }}/etc/certs/tls.key.bin
+          git add ${{ github.workspace }}/etc/secrets/tls.crt.bin
+          git add ${{ github.workspace }}/etc/secrets/tls.key.bin
           git commit -m "added certs"
           git push origin ${GITHUB_REF##*/}

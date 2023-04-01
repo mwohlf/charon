@@ -1,16 +1,45 @@
 #!/usr/bin/env bash
 #
+#
 # this script is for setting up the k8s cluster in azure
 #   https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
 #
-# it needs
-#  - az (sudo yay -S az-cli)
-#  - kubectl (sudo az aks install-cli)
-#  - kubelogin
 #
-
-
-
+#
+# --- set up environment for ubuntu ---
+#
+# - install az cli
+#      sudo curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+#      az --version
+# - install kubectl and kubelogin
+#      sudo az aks install-cli
+# - install helm
+#      curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+#      sudo apt-get install apt-transport-https --yes
+#      echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+#      sudo apt-get update
+#      sudo apt-get install helm
+# - get kubernetes credentials into /home/michael/.kube/config
+#      az aks get-credentials --resource-group ${RESOURCE_GROUP:-charonResourceGroup} --name ${CLUSTER:-charonCluster}
+#
+#
+#
+# --- remove ---
+#
+# # login to azure
+#  ./azure.bash login_azure
+# # run the deletes
+#  ./azure.bash delete_chart
+#  ./azure.bash delete
+#
+#
+#
+# --- install ---
+#
+#  ./azure.bash create_cluster
+#
+#  public IP number will change
+#
 
 set -e
 
@@ -28,7 +57,6 @@ export NAMESPACE="default"
 export RESOURCE_GROUP="charonResourceGroup"
 export CLUSTER="charonCluster"
 # export LOCATION="germanywestcentral"
-export LOCATION="eastus2"
 export KEYVAULT="finalrestingheartrateVlt"
 
 export CREDENTIALS_FILE="credentials.txt"
@@ -39,11 +67,13 @@ export KEYVAULT_INFO="keyvault.txt"
 
 # prices chart: https://azureprice.net/?sortField=linuxPrice&sortOrder=true
 #
-# Standard_B1ms(2GByte), Standard_B1s(1GByte)
+# seems to be the cheapest option according to:
+# https://medium.com/@casperrubaek/how-to-create-a-cheap-kubernetes-cluster-on-azure-for-learning-purposes-ec413a2b33e4
 export NODE_VM_SIZE="Standard_B2s"
+export LOCATION="eastus2"
 
 
-
+# no used
 function create_keyvault() {
     az keyvault create \
         --name ${KEYVAULT:-finalrestingheartrateVlt} \
@@ -157,6 +187,7 @@ function deploy_chart() {
 }
 
 function delete_chart() {
+    # helm ls -a --all-namespaces
     helm delete charon
 }
 
@@ -171,7 +202,7 @@ function create_credentials() {
     export SUBSCRIPTION_ID
     cat >"${SCRIPT_DIR}/${CREDENTIALS_FILE}" <<EOF
 // stored as repository secret with name AZURE_SP_CREDENTIALS
-// GitHub -> Repo -> Secrets -> Actions -> New Repository secret -> insert Name, Value
+// GitHub -> Repo -> Settings -> Actions secrets and variables -> AZURE_SP_CREDENTIALS
 EOF
     az ad sp create-for-rbac \
         --name "charonApp" \
@@ -211,6 +242,7 @@ function create_cluster() {
         return
     fi
     # prices chart: https://azureprice.net/?sortField=linuxPrice&sortOrder=true
+    # howto: https://medium.com/@casperrubaek/how-to-create-a-cheap-kubernetes-cluster-on-azure-for-learning-purposes-ec413a2b33e4
     echo "creating cluster ${CLUSTER:-charonCluster}..."
     az aks create \
         --enable-addons http_application_routing  \
@@ -219,7 +251,8 @@ function create_cluster() {
         --location ${LOCATION:=eastus2} \
         --name ${CLUSTER:-charonCluster} \
         --network-plugin azure \
-        --node-count 2 \
+        --node-count 1 \
+        --node-osdisk-size 30 \
         --node-vm-size ${NODE_VM_SIZE:-Standard_B2s} \
         --resource-group ${RESOURCE_GROUP:-charonResourceGroup} \
         > "${SCRIPT_DIR}/${CLUSTER_CONFIG_FILE}" \
