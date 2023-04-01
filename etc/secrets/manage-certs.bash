@@ -179,7 +179,7 @@ EOF
 
     echo "source env file..."
     # shellcheck source=./env.txt
-    source "./${SETENV_FILE}"
+    source "${SCRIPT_DIR}/${SETENV_FILE}"
     echo "display env"
     env
 
