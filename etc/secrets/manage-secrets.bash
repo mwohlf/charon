@@ -12,7 +12,8 @@
 #      to create a new cert from letsencrypt, encrypt them and push them to github
 #
 #   create_secrets:
-#      to create secrets.yaml for k8s deployment from the encrypted certs
+#      to create secrets.yaml for k8s deployment from the encrypted certs plus some
+#      values from the environment
 #
 
 set -e
@@ -198,6 +199,10 @@ stringData:
 EOF
     {
     printf "  redis-password: %s\n" "${REDIS_PASSWORD}"
+    printf "  spring-mail-host: %s\n" "${SPRING_MAIL_HOST}"
+    printf "  spring-mail-username: %s\n" "${SPRING_MAIL_USERNAME}"
+    printf "  spring-mail-password: %s\n" "${SPRING_MAIL_PASSWORD}"
+    printf "  spring-mail-port: %s\n" "${SPRING_MAIL_PORT}"
     } >> "${SECRETS_YAML}"
     echo "...finished appending secrets"
 

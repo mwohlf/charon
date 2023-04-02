@@ -25,11 +25,6 @@ spec:
           env:
             - name: SERVER_PORT
               value: "6379"
-            - name: REDIS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: wired-heart-secrets
-                  key: redis-password
           imagePullPolicy: Always
           ports:
             - containerPort: 6379
