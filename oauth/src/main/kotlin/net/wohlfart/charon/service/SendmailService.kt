@@ -16,9 +16,9 @@ class SendmailService(
         // mailAttributes like subject, receiver etc. are defined in a template macro and set during templateEngine.render as a side effect
         val mimeMessageHelper = MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name())
         mimeMessageHelper.setSubject("testing")
-        mimeMessageHelper.setFrom("finalrestingheartrate@gmail.com")
+        mimeMessageHelper.setFrom("finalrestingheartrate@wired-heart.com")
         mimeMessageHelper.setText("mailContent", false)
-        mimeMessageHelper.setTo("michael@wohlfart.net")
+        mimeMessageHelper.setTo("mwhlfrt@gmail.com")
         val message: MimeMessage = mimeMessageHelper.mimeMessage
         mailSender.send(message)
     }

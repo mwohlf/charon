@@ -12,8 +12,12 @@ object Versions {
     // const val SPRING_OAUTH2_SERVER = "1.0.1"
     const val SPRING_OAUTH2_SERVER = "1.1.0-M1"
 
-    const val KOTLIN_LOGGING_JVM = "3.0.4"
-    const val SWAGGER = "2.2.6"
+    // https://mvnrepository.com/artifact/io.github.microutils/kotlin-logging-jvm
+    const val KOTLIN_LOGGING_JVM = "3.0.5"
+    // https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
+    const val SWAGGER = "2.2.8"
+    // https://mvnrepository.com/artifact/jakarta.annotation/jakarta.annotation-api
     const val JAKARTA_ANNOTATION_API = "2.1.1"
+    // https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api
     const val JAVAX_ANNOTATION_API = "1.3.2"
 }

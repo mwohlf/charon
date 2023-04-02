@@ -202,13 +202,19 @@ export class Effects {
       }),
       tap((action) => {
         // check if the configId is in our set
+        let redirectUrl;
         for (let config of this.oidcSecurityService.getConfigurations()) {
           if (config.configId == action.payload.configId) {
             this.logger.info(`<registerAction> config.authority: ${config.authority}`);
-            this.document.location.href = config.authority + "/register";
+            redirectUrl = config.authority + "/register";
+            break;
           }
         }
-        this.logger.error(`<registerAction> action.payload.configId not found: ${action.payload.configId}`);
+        if (redirectUrl) {
+          this.document.location.href = redirectUrl;
+        } else {
+          this.logger.error(`<registerAction> action.payload.configId not found for: ${action.payload.configId}`);
+        }
       }),
     );
   }, {dispatch: false});
