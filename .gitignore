@@ -1,34 +1,19 @@
-# Ignore Gradle project-specific cache directory
 .gradle
 .idea
+.run
 
-# Ignore Gradle build output directory
-build
+/charon.db.mv.db
 
-/frontend/node_modules/
+/etc/secrets/setup_env.bash
+/etc/setup/cloudflare-api-token.txt
+/etc/setup/cluster.txt
+/etc/setup/credentials.txt
+/etc/setup/gpg-passphrase.txt
+
 /frontend/.angular/
 /frontend/.node/
 /frontend/dist
+/frontend/node_modules/
 
-
-/etc/setup/credentials.txt
-
-/etc/setup/token.txt
-/frontend/src/generated/
-/etc/setup/zone-name.txt
-/etc/setup/cluster.txt
-/etc/setup/keyvault.txt
-/etc/setup/cloudflare-token.txt
-/etc/secrets/certbot/
-/etc/secrets/etc/
-/etc/secrets/log/
-/etc/secrets/var/
-/etc/secrets/wired-heart.com.pfx
-/etc/secrets/secrets.yaml
-/etc/setup/cloudflare-api-token.txt
-/etc/setup/gpg-passphrase.txt
-/etc/secrets/wired-heart.com-fullchain.pem
-/etc/secrets/wired-heart.com-privkey.pem
-/charon.db.mv.db
-/etc/secrets/setup_env.bash
-/oauth/src/main/resources/application-local.yml
+application-local.yml
+build
