@@ -1,6 +1,8 @@
 package net.wohlfart.charon.service
 
 import jakarta.mail.internet.MimeMessage
+import net.wohlfart.charon.mail.MailBuilder
+import net.wohlfart.charon.mail.MailTemplateRenderer
 import org.springframework.mail.javamail.JavaMailSenderImpl
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
@@ -10,15 +12,19 @@ import java.nio.charset.StandardCharsets
 @Service
 class SendmailService(
     private val mailSender: JavaMailSenderImpl,
+    private val mailTemplateRenderer : MailTemplateRenderer,
 ) {
-    fun sendEmail() {
+    fun sendEmail(mailBuilder: MailBuilder) {
         val mimeMessage: MimeMessage = mailSender.createMimeMessage()
+        val mail = mailBuilder.build()
+        val output = mailTemplateRenderer.render(mail);
+
         // mailAttributes like subject, receiver etc. are defined in a template macro and set during templateEngine.render as a side effect
         val mimeMessageHelper = MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name())
-        mimeMessageHelper.setSubject("testing")
-        mimeMessageHelper.setFrom("finalrestingheartrate@wired-heart.com")
-        mimeMessageHelper.setText("mailContent", false)
-        mimeMessageHelper.setTo("mwhlfrt@gmail.com")
+        mimeMessageHelper.setSubject(mail.mailSubject!!)
+        mimeMessageHelper.setFrom(mail.mailFrom!!)
+        mimeMessageHelper.setTo(mail.mailTo.toTypedArray())
+        mimeMessageHelper.setText(output, true)
         val message: MimeMessage = mimeMessageHelper.mimeMessage
         mailSender.send(message)
     }

@@ -3,6 +3,7 @@ package net.wohlfart.charon.controller
 import jakarta.servlet.http.HttpServletRequest
 import mu.KotlinLogging
 import net.wohlfart.charon.entity.UserDto
+import net.wohlfart.charon.mail.createEnglishRegistration
 import net.wohlfart.charon.service.SendmailService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -43,8 +44,8 @@ class AuthController(
         errors: Errors,
     ): String {
         logger.info { "post register called: $userDto" }
-        sendmailService.sendEmail()
-        return "register"
+        sendmailService.sendEmail(createEnglishRegistration())
+        return "confirm"
     }
 
 }

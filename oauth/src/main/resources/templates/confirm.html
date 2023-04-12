@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="robots" content="noindex, nofollow">
+    <title th:text="#{label.forms.register.title}">Registration</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <script th:href="@{/js/main.js}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+<script type="text/javascript">
+    window.onload = function() {
+        setTimeout(() => {
+            const usernameField = document.getElementById('username');
+            usernameField.focus();
+            const inputFields = document.getElementsByTagName("input")
+            for (let i = 0; i < inputFields.length; i++) {
+                if (inputFields[i].value) {
+                    inputFields[i].classList.add('used');
+                } else {
+                    inputFields[i].classList.remove('used');
+                }
+            }
+        }, 5);
+    }
+    // Change the type of input to password or text
+    function toggle() {
+        console.log("toggle");
+        const passwordField = document.getElementById("password");
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+        } else {
+            passwordField.type = "password";
+        }
+
+        const visibilitySpan = document.getElementById("visibility");
+        console.log("visibilitySpan.textContent: " + visibilitySpan.textContent);
+
+        if (visibilitySpan.textContent === "visibility") {
+            visibilitySpan.textContent = "visibility_off";
+        } else {
+            visibilitySpan.textContent = "visibility";
+        }
+    }
+</script>
+<div tiles:fragment="content">
+    <form name="f" th:action="@{/confirm}" th:object="${user}" method="post">
+        <h1 th:text="#{label.forms.register.title}">Confirmation</h1>
+    </form>
+</div>
+</body>
+</html>
