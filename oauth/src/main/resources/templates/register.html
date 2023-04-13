@@ -4,8 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="robots" content="noindex, nofollow">
     <title th:text="#{label.forms.register.title}">Registration</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0"/>
     <script th:href="@{/js/main.js}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
@@ -15,7 +16,7 @@
         setTimeout(() => {
             const usernameField = document.getElementById('username');
             usernameField.focus();
-            const inputFields = document.getElementsByTagName("input")
+            const inputFields = document.getElementsByTagName('input');
             for (let i = 0; i < inputFields.length; i++) {
                 if (inputFields[i].value) {
                     inputFields[i].classList.add('used');
@@ -24,24 +25,25 @@
                 }
             }
         }, 5);
-    }
+    };
+
     // Change the type of input to password or text
     function toggle() {
-        console.log("toggle");
-        const passwordField = document.getElementById("password");
-        if (passwordField.type === "password") {
-            passwordField.type = "text";
+        console.log('toggle');
+        const passwordField = document.getElementById('password');
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
         } else {
-            passwordField.type = "password";
+            passwordField.type = 'password';
         }
 
-        const visibilitySpan = document.getElementById("visibility");
-        console.log("visibilitySpan.textContent: " + visibilitySpan.textContent);
+        const visibilitySpan = document.getElementById('visibility');
+        console.log('visibilitySpan.textContent: ' + visibilitySpan.textContent);
 
-        if (visibilitySpan.textContent === "visibility") {
-            visibilitySpan.textContent = "visibility_off";
+        if (visibilitySpan.textContent === 'visibility') {
+            visibilitySpan.textContent = 'visibility_off';
         } else {
-            visibilitySpan.textContent = "visibility";
+            visibilitySpan.textContent = 'visibility';
         }
     }
 </script>
@@ -49,9 +51,10 @@
     <form name="f" th:action="@{/register}" th:object="${user}" method="post">
         <h1 th:text="#{label.forms.register.title}">Registration</h1>
         <div class="group">
-            <input id="username" name="username" th:field="*{username}" autocomplete="new-username"
+            <input id="username" name="username" type="text" th:field="*{username}" autocomplete="new-username"
                    onfocus="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}"
-                   onblur="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}" />
+                   onblur="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}"/>
+            <span class="highlight"></span><span class="bar"></span>
             <label for="username" th:text="#{label.user.username}">Username</label>
             <p th:each="error : ${#fields.errors('username')}"
                th:text="${error}">Validation error</p>
@@ -59,7 +62,8 @@
         <div class="group">
             <input id="email" name="email" type="email" th:field="*{email}" autocomplete="new-email"
                    onfocus="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}"
-                   onblur="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}" />
+                   onblur="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}"/>
+            <span class="highlight"></span><span class="bar"></span>
             <label for="email" th:text="#{label.user.email}">Email</label>
             <p th:each="error : ${#fields.errors('email')}"
                th:text="${error}">Validation error</p>
@@ -67,7 +71,8 @@
         <div class="group">
             <input id="password" name="password" type="password" th:field="*{password}" autocomplete="new-password"
                    onfocus="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}"
-                   onblur="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}" />
+                   onblur="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}"/>
+            <span class="highlight"></span><span class="bar"></span>
             <label for="password" th:text="#{label.user.password}">Password</label>
             <span id="visibility" class="material-icon material-symbols-sharp" onclick="toggle();">visibility_off</span>
             <p th:each="error : ${#fields.errors('password')}"
@@ -77,7 +82,10 @@
             Register
         </button>
     </form>
-
+</div>
+<div class="footer">
+    <a href="login" th:text="#{label.forms.login.title}">Login</a>
+    <a href="home" th:text="#{label.forms.home.title}">Home</a>
 </div>
 </body>
 </html>

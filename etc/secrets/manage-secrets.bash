@@ -55,6 +55,9 @@ if [[ -z "${GPG_PASSPHRASE}" ]]; then
     GPG_PASSPHRASE=$(cat "${SCRIPT_DIR}/../setup/gpg-passphrase.txt")
 fi
 
+# the file to create containing our secrets, we can't check that in so we have to create it before deployment
+SECRETS_YAML="${SCRIPT_DIR}/../helm/charon/templates/secrets.yaml"
+
 # ===== main building blocks
 
 
@@ -135,7 +138,12 @@ function create_cert {
 # - secret values
 #
 function create_secrets {
-    SECRETS_YAML="${SCRIPT_DIR}/../helm/charon/templates/secrets.yaml"
+    rm -f "${SECRETS_YAML}"
+    cat > "${SECRETS_YAML}" <<EOF
+EOF
+}
+
+function add_cert_keys {
     echo " writing cert keys..."
 
     gpg --quiet --batch --yes \
@@ -171,8 +179,12 @@ EOF
     } >> "${SECRETS_YAML}"
 
     echo "...cert keys written"
+}
 
+
+function add_env_values {
     echo "decrypt env file..."
+
     gpg --quiet --batch --yes \
         --passphrase="${GPG_PASSPHRASE}" \
         --output "${SCRIPT_DIR}/${SETENV_FILE}" \
@@ -197,7 +209,7 @@ metadata:
 
 stringData:
 EOF
-    {
+    { # we need to quote the strings because yaml returns number for [0-9]+ parameters
     printf "  redis-password: '%s'\n" "${REDIS_PASSWORD}"
     printf "  spring-mail-host: '%s'\n" "${SPRING_MAIL_HOST}"
     printf "  spring-mail-username: '%s'\n" "${SPRING_MAIL_USERNAME}"
@@ -218,17 +230,21 @@ fi
 
 case ${1} in
 
-  "create_cert")
-    create_cert
-    ;;
+    # creating a docker container to create certs from letsencrypt
+    "create_cert")
+        create_cert
+        ;;
 
-  "create_secrets")
-    create_secrets
-    ;;
+    # create the secrets.yaml file
+    "create_secrets")
+        create_secrets
+        add_cert_keys
+        add_env_values
+        ;;
 
-  *)
-    usage_exit
-    ;;
+    *)
+        usage_exit
+        ;;
 esac
 
 exit 0

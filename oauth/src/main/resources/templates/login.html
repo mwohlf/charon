@@ -14,7 +14,7 @@
         setTimeout(() => {
             const usernameField = document.getElementById('username');
             usernameField.focus();
-            const inputFields = document.getElementsByTagName("input")
+            const inputFields = document.getElementsByTagName('input');
             for (let i = 0; i < inputFields.length; i++) {
                 if (inputFields[i].value) {
                     inputFields[i].classList.add('used');
@@ -35,14 +35,14 @@
             You have been logged out.
         </div>
         <div class="group">
-            <input autocomplete="username" type="text" id="username" name="username"
+            <input id="username" name="username" type="text" autocomplete="username"
                    onfocus="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}"
                    onblur="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}">
             <span class="highlight"></span><span class="bar"></span>
             <label for="username" th:text="#{label.user.username}">Name</label>
         </div>
         <div class="group">
-            <input autocomplete="current-password" type="password" id="password" name="password"
+            <input id="password" name="password" autocomplete="current-password" type="password"
                    onfocus="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}"
                    onblur="if(this.value){this.classList.add('used')}else{this.classList.remove('used')}">
             <span class="highlight"></span><span class="bar"></span>
@@ -52,7 +52,10 @@
             Login
         </button>
     </form>
-
+</div>
+<div class="footer">
+    <a href="register" th:text="#{label.forms.register.title}">Register</a>
+    <a href="home" th:text="#{label.forms.home.title}">Home</a>
 </div>
 </body>
 </html>

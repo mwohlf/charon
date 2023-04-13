@@ -73,6 +73,7 @@ input:-webkit-autofill:active {
     padding: 10px 10px 10px 5px;
     transition: all 5000s ease-in-out 0s;
 }
+
 /* Label */
 
 label {
@@ -212,9 +213,11 @@ input:focus ~ .highlight {
     background-position: center;
     transition: background 0.8s;
 }
+
 .ripple:hover {
     background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
 }
+
 .ripple:active {
     background-color: #6eb9f7;
     background-size: 100%;
@@ -234,4 +237,14 @@ a:link {
     right: 5px;
     cursor: pointer;
     width: 35px;
+}
+
+.footer {
+    padding: 5pt;
+    position: absolute;
+    bottom: 0;
+}
+
+.footer a {
+    padding: 5px;
 }
