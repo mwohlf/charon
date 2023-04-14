@@ -1,7 +1,6 @@
-import com.google.cloud.tools.jib.api.Jib
+
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
-import java.util.UUID
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 //

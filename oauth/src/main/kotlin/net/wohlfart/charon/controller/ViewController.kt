@@ -4,21 +4,21 @@ import jakarta.servlet.http.HttpServletRequest
 import mu.KotlinLogging
 import net.wohlfart.charon.OAuthProperties
 import net.wohlfart.charon.entity.UserDto
-import net.wohlfart.charon.mail.createRegistration
-import net.wohlfart.charon.service.SendmailService
+import net.wohlfart.charon.service.UserRegistrationService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.context.request.WebRequest
 
 private val logger = KotlinLogging.logger {}
 
 @Controller
 class ViewController(
-    val sendmailService: SendmailService,
+    val userRegistrationService: UserRegistrationService,
     val oAuthProperties: OAuthProperties,
 ) {
 
@@ -34,7 +34,7 @@ class ViewController(
     fun getLogin(
         request: WebRequest,
         model: Model,
-        ): String {
+    ): String {
         return "login"
     }
 
@@ -42,7 +42,7 @@ class ViewController(
     fun getHome(
         request: WebRequest,
         model: Model,
-        ): String {
+    ): String {
         return "redirect:${oAuthProperties.appHomeUrl}"
     }
 
@@ -50,7 +50,7 @@ class ViewController(
     fun getRegister(
         request: WebRequest,
         model: Model,
-        ): String {
+    ): String {
         val userDto = UserDto()
         model.addAttribute("user", userDto)
         return "register"
@@ -64,18 +64,20 @@ class ViewController(
         model: Model,
     ): String {
         logger.info { "post register called: $userDto" }
-        // generate & send the email
-        sendmailService.sendEmail(
-            createRegistration()
-                .english()
-                .put("username", userDto.username)
-                .put("email", userDto.email)
-                .put("registerTokenUrl", oAuthProperties.registerTokenUrl)
-                .put("tokenValue", "huezelbruezel")
-        )
+        userRegistrationService.startRegistration(userDto)
         model.addAttribute("username", userDto.username)
         model.addAttribute("email", userDto.email)
-        return "confirm"
+        return "registered"
+    }
+
+
+    @GetMapping("/confirm")
+    fun getConfirm(
+        request: WebRequest,
+        @RequestParam("token") tokenValue: String,
+    ): String {
+        userRegistrationService.finishRegistration(tokenValue)
+        return "redirect:${oAuthProperties.appHomeUrl}"
     }
 
 }

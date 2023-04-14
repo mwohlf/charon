@@ -25,6 +25,8 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${jetbrainKotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-allopen:${jetbrainKotlinVersion}")
+    implementation("org.jetbrains.kotlin:kotlin-noarg:${jetbrainKotlinVersion}") // for JPA entities
+
     // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/
     implementation("org.springframework.boot:spring-boot-gradle-plugin:3.0.5")
     // https://plugins.gradle.org/plugin/io.spring.dependency-management

@@ -15,7 +15,7 @@ class OAuthProperties(
 
     val appHomeUrl: String,
 
-    val registerTokenUrl: String,
+    val confirmRegistrationUrl: String,
 
     val issuer: String,
 
