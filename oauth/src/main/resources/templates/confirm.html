@@ -12,12 +12,17 @@
 </head>
 <body>
 <div tiles:fragment="content">
-    <form name="f" th:action="@{/confirm}" th:object="${user}" method="post">
+    <div class="tile" th:object="${user}">
         <h1 th:text="#{label.forms.register.title}">Confirmation</h1>
-        <div th:if="${param.logout}" class="alert alert-success group">
-            Check your email, you should have a received a link with a confirmation Link.
+        <div class="alert alert-success group">
+            Thank you <th:block th:utext="${username}"/>,<br/>
+            please check your email, you should have received an email at <th:block th:utext="${email}"/> with a confirmation Link.<br/>
+            <br/>
+            The link will give you access to the online portal you just registered for.
+            <br/>
+            <br/>
         </div>
-    </form>
+    </div>
 </div>
 <div class="footer">
     <a href="register" th:text="#{label.forms.register.title}">Register</a>

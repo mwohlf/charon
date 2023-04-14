@@ -13,7 +13,9 @@ class OAuthProperties(
 
     val dataDir: String,
 
-    val postLogoutRedirect: String,
+    val appHomeUrl: String,
+
+    val registerTokenUrl: String,
 
     val issuer: String,
 

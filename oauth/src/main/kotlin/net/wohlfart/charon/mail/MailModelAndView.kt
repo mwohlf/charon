@@ -21,12 +21,14 @@ private const val TO_KEY = "to"
 
 private val FUNCTION_KEYS = setOf(SUBJECT_KEY, FROM_KEY, REPLY_TO_KEY, TO_KEY)
 
-class MailModelAndView(val templateName: String, val locale: Locale) : TemplateHashModelEx2 {
+class MailModelAndView(val templateName: String) : TemplateHashModelEx2 {
 
     private val wrapper = DefaultObjectWrapperBuilder(Version("2.3.23")).build()
 
     // values written from the model side
     private val delegate: HashMap<String, TemplateModel> = HashMap()
+
+    var locale: Locale = Locale.ENGLISH
 
     var mailSubject: String? = null
 

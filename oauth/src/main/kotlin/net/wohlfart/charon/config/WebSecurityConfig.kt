@@ -41,7 +41,7 @@ class WebSecurityConfig {
             .loginPage(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL)
             .permitAll()
         // send back to applicaion on logout
-        http.logout().logoutSuccessUrl(oAuthProperties.postLogoutRedirect)
+        http.logout().logoutSuccessUrl(oAuthProperties.appHomeUrl)
         // ths is for the H2 console TODO: not for production
         http.csrf { csrf -> csrf.disable() } // for the h2 console
         http.headers().frameOptions().sameOrigin() // which uses frames it seems
