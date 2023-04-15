@@ -30,6 +30,10 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD:unconfigured-spring-datasource-password}
     driverClassName: org.postgresql.Driver
 
+  jpa:
+    hibernate:
+      ddl-auto: update
+
   mail:
     # see: https://springjava.com/spring-boot/sending-mail-using-gmail-smtp-server-in-spring-boot
     host: ${SPRING_MAIL_HOST:unconfigured-spring-mail-host}
