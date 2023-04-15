@@ -9,8 +9,4 @@ import org.springframework.stereotype.Service
 class AuthorizationService(
     jdbcTemplate: JdbcTemplate,
     registeredClientRepository: RegisteredClientRepository,
-): JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository) {
-
-
-
-}
+): JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository)

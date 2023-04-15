@@ -7,12 +7,12 @@ ${to(email)}
     <title>Registration</title>
 </head>
 <body>
-
+<br/>
 Welcome ${username},<br/>
 <br/>
 in order to complete the registration it would be great if you click on the following link:<br/>
 <br/>
-${registerTokenUrl}?token=${tokenValue}<br/>
+${tokenUrl}?${tokenKey}=${tokenValue}<br/>
 <br/>
 Thanks and have a great day!
 <br/>

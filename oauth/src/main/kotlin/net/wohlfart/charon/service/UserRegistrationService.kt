@@ -2,7 +2,9 @@ package net.wohlfart.charon.service
 
 import mu.KotlinLogging
 import net.wohlfart.charon.OAuthProperties
-import net.wohlfart.charon.entity.UserDto
+import net.wohlfart.charon.controller.REQUEST_PARAM_TOKEN
+import net.wohlfart.charon.controller.REQUEST_PATH_CONFIRM
+import net.wohlfart.charon.dto.UserDto
 import net.wohlfart.charon.mail.createRegistration
 import org.springframework.stereotype.Service
 
@@ -21,7 +23,8 @@ class UserRegistrationService(
                 .english()
                 .put("username", userDto.username)
                 .put("email", userDto.email)
-                .put("registerTokenUrl", oAuthProperties.confirmRegistrationUrl)
+                .put("tokenUrl", "${oAuthProperties.issuer}/$REQUEST_PATH_CONFIRM")
+                .put("tokenKey", REQUEST_PARAM_TOKEN)
                 .put("tokenValue", "testokenvaluehere")
         )
     }

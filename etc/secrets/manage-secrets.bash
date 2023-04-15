@@ -133,15 +133,16 @@ function create_cert {
     sudo cat "${SCRIPT_DIR}/${TSL_KEY_FILE}.bin"
 }
 
+
 # secret file consists of 2 sections
 # - tls config
 # - secret values
-#
 function create_secrets {
     rm -f "${SECRETS_YAML}"
     cat > "${SECRETS_YAML}" <<EOF
 EOF
 }
+
 
 function add_cert_keys {
     echo " writing cert keys..."
@@ -215,10 +216,26 @@ EOF
     printf "  spring-mail-username: '%s'\n" "${SPRING_MAIL_USERNAME}"
     printf "  spring-mail-password: '%s'\n" "${SPRING_MAIL_PASSWORD}"
     printf "  spring-mail-port: '%s'\n" "${SPRING_MAIL_PORT}"
+    printf "  postgres-user: '%s'\n" "${SPRING_MAIL_PORT}"
+    printf "  postgres-password: '%s'\n" "${SPRING_MAIL_PORT}"
     } >> "${SECRETS_YAML}"
     echo "...finished appending secrets"
 
 }
+
+
+function encrypt_env {
+    cd "${SCRIPT_DIR}"
+    echo "encrypting ${SETENV_FILE} -> ${SETENV_FILE}.bin"
+    gpg --quiet --batch --yes \
+            --passphrase="${GPG_PASSPHRASE}" \
+            --output "./${SETENV_FILE}.bin" \
+            --symmetric \
+            "./${SETENV_FILE}"
+    echo "done"
+}
+
+
 
 #################
 #   main
@@ -242,9 +259,17 @@ case ${1} in
         add_env_values
         ;;
 
+    "encrypt_env")
+        encrypt_env
+        ;;
+
     *)
         usage_exit
         ;;
 esac
 
 exit 0
+
+
+#
+#!manage-secrets.bash

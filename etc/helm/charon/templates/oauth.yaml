@@ -42,6 +42,16 @@ spec:
                 secretKeyRef:
                   name: wired-heart-secrets
                   key: spring-mail-port
+            - name: SPRING_DATASOURCE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: wired-heart-secrets
+                  key: postgres-user
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wired-heart-secrets
+                  key: postgres-password
           imagePullPolicy: Always
           ports:
             - name: http

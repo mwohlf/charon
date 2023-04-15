@@ -13,6 +13,25 @@ import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
+//
+// TODO: move oauth entities to JPA:
+//
+
+@Component
+class OAuthClientRepository(
+    jdbcTemplate: JdbcTemplate,
+    oauthProperties: OAuthProperties,
+) : JdbcRegisteredClientRepository(jdbcTemplate) {
+
+    // or after properties set
+    init {
+        // register all configured clients
+        oauthProperties.clients.forEach {
+            this.save(buildClient(it.key, it.value))
+        }
+    }
+
+}
 
 // TODO: read all from config
 fun buildClient(clientId: String, clientEntry: ClientEntry): RegisteredClient {
@@ -53,20 +72,4 @@ fun buildClient(clientId: String, clientEntry: ClientEntry): RegisteredClient {
     publicClient.postLogoutRedirectUri(clientEntry.postLogoutRedirectUri)
 
     return publicClient.build()
-}
-
-@Component
-class OAuthClientRepository(
-    jdbcTemplate: JdbcTemplate,
-    oauthProperties: OAuthProperties,
-) : JdbcRegisteredClientRepository(jdbcTemplate) {
-
-    // or after properties set
-    init {
-
-        oauthProperties.clients.forEach {
-            this.save(buildClient(it.key, it.value))
-        }
-    }
-
 }

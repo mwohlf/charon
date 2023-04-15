@@ -36,7 +36,8 @@ dependencies {
     // @Suppress("GradlePackageUpdate")
     implementation("org.springframework.security:spring-security-oauth2-authorization-server:${Versions.SPRING_OAUTH2_SERVER}")
 
-    implementation("com.h2database:h2")
+    // implementation("com.h2database:h2")
+    implementation("org.postgresql:postgresql") // :42.6.0
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-freemarker")
 

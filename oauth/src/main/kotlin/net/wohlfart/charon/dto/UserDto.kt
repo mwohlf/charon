@@ -1,4 +1,4 @@
-package net.wohlfart.charon.entity
+package net.wohlfart.charon.dto
 
 class UserDto(
 

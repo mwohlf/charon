@@ -1,0 +1,58 @@
+
+# https://github.com/hilariocoelho/redis-chart
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: charon-postgres-deployment
+  namespace: development
+spec:
+  selector:
+    matchLabels:
+      app: charon-postgres
+  replicas: 1
+  serviceName: charon-postgres-svc
+  template:
+
+    metadata:
+      labels:
+        app: charon-postgres
+
+    spec:
+      containers:
+        - name: charon-postgres
+          image: postgres:15.2-alpine
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: wired-heart-secrets
+                  key: postgres-user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wired-heart-secrets
+                  key: postgres-password
+            - name: POSTGRES_DB
+              value: "oauth"
+            - name: PGDATA
+              value: "/data/postgres"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5432
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: charon-postgres-svc
+  namespace: development
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    app: charon-postgres

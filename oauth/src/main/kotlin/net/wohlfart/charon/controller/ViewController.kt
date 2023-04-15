@@ -3,7 +3,7 @@ package net.wohlfart.charon.controller
 import jakarta.servlet.http.HttpServletRequest
 import mu.KotlinLogging
 import net.wohlfart.charon.OAuthProperties
-import net.wohlfart.charon.entity.UserDto
+import net.wohlfart.charon.dto.UserDto
 import net.wohlfart.charon.service.UserRegistrationService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -16,29 +16,39 @@ import org.springframework.web.context.request.WebRequest
 
 private val logger = KotlinLogging.logger {}
 
+const val REQUEST_PARAM_TOKEN = "token"
+
+const val REQUEST_PATH_ERROR = "error"
+const val REQUEST_PATH_LOGIN = "login"
+const val REQUEST_PATH_HOME = "home"
+const val REQUEST_PATH_REGISTER = "register"
+const val REQUEST_PATH_CONFIRM = "confirm"
+
+
+// base path here is the issuer parameter
 @Controller
 class ViewController(
     val userRegistrationService: UserRegistrationService,
     val oAuthProperties: OAuthProperties,
 ) {
 
-    @GetMapping("/error")
+    @GetMapping("/$REQUEST_PATH_ERROR")
     fun getError(
         request: WebRequest,
         model: Model,
     ): String {
-        return "error"
+        return "error" // template name
     }
 
-    @GetMapping("/login")
+    @GetMapping("/$REQUEST_PATH_LOGIN")
     fun getLogin(
         request: WebRequest,
         model: Model,
     ): String {
-        return "login"
+        return "login" // template name
     }
 
-    @GetMapping("/home")
+    @GetMapping("/$REQUEST_PATH_HOME")
     fun getHome(
         request: WebRequest,
         model: Model,
@@ -46,17 +56,17 @@ class ViewController(
         return "redirect:${oAuthProperties.appHomeUrl}"
     }
 
-    @GetMapping("/register")
+    @GetMapping("/$REQUEST_PATH_REGISTER")
     fun getRegister(
         request: WebRequest,
         model: Model,
     ): String {
         val userDto = UserDto()
         model.addAttribute("user", userDto)
-        return "register"
+        return "register" // template name
     }
 
-    @PostMapping("/register")
+    @PostMapping("/$REQUEST_PATH_REGISTER")
     fun postRegister(
         @ModelAttribute("user") userDto: UserDto,
         request: HttpServletRequest,
@@ -67,14 +77,14 @@ class ViewController(
         userRegistrationService.startRegistration(userDto)
         model.addAttribute("username", userDto.username)
         model.addAttribute("email", userDto.email)
-        return "registered"
+        return "registered" // template name
     }
 
 
-    @GetMapping("/confirm")
+    @GetMapping("/$REQUEST_PATH_CONFIRM")
     fun getConfirm(
         request: WebRequest,
-        @RequestParam("token") tokenValue: String,
+        @RequestParam(REQUEST_PARAM_TOKEN) tokenValue: String,
     ): String {
         userRegistrationService.finishRegistration(tokenValue)
         return "redirect:${oAuthProperties.appHomeUrl}"

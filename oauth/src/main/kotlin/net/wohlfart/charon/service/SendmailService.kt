@@ -23,6 +23,7 @@ class SendmailService(
         val mimeMessageHelper = MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name())
         mimeMessageHelper.setSubject(mail.mailSubject!!)
         mimeMessageHelper.setFrom(mail.mailFrom!!)
+        mimeMessageHelper.setReplyTo(mail.mailReplyTo!!)
         mimeMessageHelper.setTo(mail.mailTo.toTypedArray())
         mimeMessageHelper.setText(output, true)
         val message: MimeMessage = mimeMessageHelper.mimeMessage

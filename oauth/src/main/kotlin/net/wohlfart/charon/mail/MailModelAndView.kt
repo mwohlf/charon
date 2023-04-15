@@ -41,6 +41,9 @@ class MailModelAndView(val templateName: String) : TemplateHashModelEx2 {
 
     init {
         // adding functions to the model that can be called inside the template
+        // each key-value is a custom method (see: https://www.baeldung.com/freemarker-operations) implementing the exec method
+        // and can be used inside the template to execute a side effect (storing a value in the model for reading later)
+        // we return a nothing value that will be inserted in the template
 
         delegate[SUBJECT_KEY] = TemplateMethodModelEx { arguments: List<*> ->
             require(arguments.size == 1) { "only one element allowed for call to $SUBJECT_KEY" }

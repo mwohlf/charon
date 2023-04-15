@@ -4,6 +4,21 @@ version: "3.8"
 
 services:
 
+  postgres:
+    image: postgres:15.2-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: sa
+      # if the DB doesn't get created try to delete the image and start again
+      POSTGRES_DB: oauth
+      # usually at /var/lib/postgresql/data
+      # this configures our own directory for data:
+      PGDATA: /data/postgres
+    volumes:
+      - postgres-data:/data/postgres
+
   mongo:
     # image: mongo:4.4.0
     image: mongo:4.0.22
@@ -58,6 +73,7 @@ services:
 #
 
 volumes:
+  postgres-data:
   mongo-data:
   redis-data:
   redis-insight-data:
