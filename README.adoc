@@ -4,14 +4,6 @@
 
 image::https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml/badge.svg?[https://github.com/mwohlf/charon/actions/workflows/gradle-build.yml]
 
-== TL;DR
-
-[source]
-----
-./gradlew jibDockerBuild
-docker run <imageid>
-----
-
 
 == intro
 
@@ -198,22 +190,31 @@ the content of credentials.txt goes into the github secrets as `AZURE_SP_CREDENT
 `kubectl get service --all-namespaces`  +
 shows the current IP which needs to b configured in cloudflare
 
+
+
+
 === update UI componets:
 
+``
+cd frontend
 ncu -u
+``
+
 
 
 === deployment troubleshooting
 
-- kubectl get ingress --all-namespaces
+- `kubectl get ingress --all-namespaces`
 
-- kubectl get pods --all-namespaces
+- `kubectl get pods --all-namespaces`
 
-- kubectl get deployments --all-namespaces
+- `kubectl get deployments --all-namespaces`
 
-- kubectl get deployments --all-namespaces
+- `kubectl get deployments --all-namespaces`
 
-- kubectl logs charon-backend-deployment-6996d676b6-z4zlj --namespace development
+- `kubectl logs charon-backend-deployment-z4zlj --namespace development`
+
+
 
 ==== Spring Auth Server Project:
 
@@ -224,17 +225,8 @@ https://github.com/spring-projects/spring-authorization-server/issues/297 +
 https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-userinfo.html +
 
 
-==== OAuth Client Project:
-
-angular-auth-oidc-client
-
-https://github.com/damienbod/angular-auth-oidc-client +
-
 
 ==== k8s resources
 
-
-
-https://labzilla.io/blog/cloudflare-certbot
-
+https://labzilla.io/blog/cloudflare-certbot +
 https://github.com/spring-projects/spring-authorization-server/pull/335
