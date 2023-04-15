@@ -82,7 +82,7 @@ net:
         data-dir: test
         issuer: "https://oauth.wired-heart.com"
         app-home-url: "https://backend.wired-heart.com/charon/home"
-        register-token-url: "https://backend.wired-heart.com/charon/home"
+        confirm-registration-url: "https://backend.wired-heart.com/charon/home"
         allowed-origins:
           - "https://backend.wired-heart.com"
           - "https://app.wired-heart.com"
