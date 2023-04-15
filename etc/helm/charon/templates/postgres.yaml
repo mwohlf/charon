@@ -1,5 +1,4 @@
 
-# https://github.com/hilariocoelho/redis-chart
 
 apiVersion: apps/v1
 kind: StatefulSet
