@@ -23,5 +23,5 @@ class Registration(
     val password: String,
 
     @Column(nullable = false)
-    val tokenVakue: String,
+    val tokenValue: String,
 )

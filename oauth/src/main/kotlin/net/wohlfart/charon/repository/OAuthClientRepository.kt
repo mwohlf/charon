@@ -61,7 +61,6 @@ class OAuthClientRepository(
     oauthProperties: OAuthProperties,
 ) : JdbcRegisteredClientRepository(jdbcTemplate) {
 
-
     // or after properties set
     init {
 

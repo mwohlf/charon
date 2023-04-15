@@ -54,10 +54,13 @@ springBoot {
 // configure the image creation for spring-boot modules
 //  to run the service in a non-systemd setting: sudo service docker start
 //
-// see https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md for the Docker template
+// see: https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md for the Docker template
+// see: https://thecattlecrew.net/2022/11/07/preparing-for-spring-boot-3-choose-the-right-java-17-base-image/ for the right base image
+// see: https://raw.githubusercontent.com/docker-library/repo-info/master/repos/eclipse-temurin/tag-details.md
 jib {
     from {
-        image = "openjdk:17-alpine"
+        // image = "openjdk:17-alpine"
+        image = "eclipse-temurin:17-jre-alpine"
     }
     to {
         val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
