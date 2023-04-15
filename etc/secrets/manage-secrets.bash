@@ -35,8 +35,11 @@ SCRIPT_DIR="$(
     pwd -P
 )"
 function finally {
-    echo
-    echo "finishing the script, error code is ${?}"
+    EXIT_CODE="${?}"
+    if [[ ${EXIT_CODE} -ne "0" ]]; then
+        echo
+        echo "finishing the script, error code is ${?}"
+    fi
     # back to where we came from
     cd "${CURRENT_DIR}"
 }
@@ -44,7 +47,7 @@ trap finally EXIT
 
 
 function usage_exit {
-    echo "Error: usage ${0} [create_cert|create_secrets]" >&2
+    echo "Error: usage ${0} [create_cert|create_secrets|encrypt_env]" >&2
     exit 2
 }
 
@@ -236,10 +239,42 @@ function encrypt_env {
 }
 
 
+function do_select {
+    select opt in "create certs from letsencrypt (needs docker installed)" \
+                  "create the secrets.yaml file for the helm config" \
+                  "encrypt the environment file config for git checkin"
+    do
+        echo "you selected: ${REPLY} for ${opt}"
+        case ${REPLY} in
+            "1")
+                echo "executing: ${0} create_cert..." && \
+                $0 create_cert && \
+                exit 0
+                ;;
+            "2")
+                echo "executing: ${0} create_secrets..." && \
+                $0 create_secrets && \
+                exit 0
+                ;;
+            "3")
+                echo "executing: ${0} encrypt_env..." && \
+                $0 encrypt_env && \
+                exit 0
+                ;;
+            *)
+                exit 0
+                ;;
+        esac
+    done
+}
 
 #################
 #   main
 #################
+
+if [[ $# -eq 0 ]]; then
+    do_select
+fi
 
 if [[ $# -ne 1 ]]; then
     usage_exit
