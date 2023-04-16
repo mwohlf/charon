@@ -43,20 +43,19 @@ class UserRegistrationService(
                 .put("email", userDto.email)
                 .put("tokenUrl", "${oAuthProperties.issuer}/$REQUEST_PATH_CONFIRM")
                 .put("tokenKey", REQUEST_PARAM_TOKEN)
-                .put("tokenValue", registration.tokenValue.toString())
+                .put("tokenValue", registration.tokenValue)
         )
 
     }
 
     fun finishRegistration(tokenValue: String) {
-        logger.info { "token value returned: $tokenValue" }
         val registration = registrationRepository.findByTokenValue(tokenValue)
-        logger.info { "registration found: $registration" }
         val userDetails = registration.userDetails!!
-        logger.info { "userDetails found: $userDetails" }
         userDetails.enabled = true
         authUserRepository.save(userDetails)
         registrationRepository.deleteById(registration.id!!)
+        logger.info { "finishRegistration: $userDetails" }
+        // TODO: login user
     }
 
 }

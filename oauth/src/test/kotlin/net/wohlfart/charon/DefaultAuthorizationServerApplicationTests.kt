@@ -106,12 +106,12 @@ class DefaultAuthorizationServerApplicationTests {
     @Test
     fun `when login fails then display bad credentials`() {
         // there is redirect to login page happening here
-        val loginPage: HtmlPage = this.webClient.getPage("/");
+        val loginPage: HtmlPage = this.webClient.getPage("/")
 
         val loginErrorPage: Page = doSignIn(loginPage, USERNAME, "wrong-password")
         assertThat(loginPage.isHtmlPage).isTrue
 
-        val alert: HtmlElement = (loginErrorPage as HtmlPage ).querySelector("div[role=\"alert\"]");
+        val alert: HtmlElement = (loginErrorPage as HtmlPage ).querySelector("div[role=\"alert\"]")
         assertThat(alert).isNotNull
         assertThat(alert.textContent).isEqualTo("Bad credentials")
     }

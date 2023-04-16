@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service
 @Service
 class AuthUserDetailsService(
     private val authUserRepository: AuthUserRepository,
-    private val registrationRepository: RegistrationRepository,
-    private val passwordEncoder: PasswordEncoder,
+    registrationRepository: RegistrationRepository,
+    passwordEncoder: PasswordEncoder,
 ) : UserDetailsService {
 
     init {
@@ -40,10 +40,6 @@ class AuthUserDetailsService(
 
     override fun loadUserByUsername(username: String): UserDetails {
         return authUserRepository.findByUsername(username)
-        // return delegate.loadUserByUsername(username)
     }
 
-    fun confirmRegistration(token: String) {
-
-    }
 }

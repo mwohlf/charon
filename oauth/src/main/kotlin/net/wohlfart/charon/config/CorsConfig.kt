@@ -1,4 +1,4 @@
-package net.wohlfart.charon.config;
+package net.wohlfart.charon.config
 
 import net.wohlfart.charon.OAuthProperties
 import org.springframework.context.annotation.Bean

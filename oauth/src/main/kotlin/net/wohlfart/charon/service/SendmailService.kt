@@ -17,7 +17,7 @@ class SendmailService(
     fun sendEmail(mailBuilder: MailBuilder) {
         val mimeMessage: MimeMessage = mailSender.createMimeMessage()
         val mail = mailBuilder.build()
-        val output = mailTemplateRenderer.render(mail);
+        val output = mailTemplateRenderer.render(mail)
 
         // mailAttributes like subject, receiver etc. are defined in a template macro and set during templateEngine.render as a side effect
         val mimeMessageHelper = MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name())
