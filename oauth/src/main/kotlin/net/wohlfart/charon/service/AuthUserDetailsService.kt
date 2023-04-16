@@ -6,7 +6,6 @@ import net.wohlfart.charon.repository.RegistrationRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.stereotype.Service
 
 @Service
@@ -15,8 +14,6 @@ class AuthUserDetailsService(
     private val registrationRepository: RegistrationRepository,
     private val passwordEncoder: PasswordEncoder,
 ) : UserDetailsService {
-
-    private final val delegate = InMemoryUserDetailsManager()
 
     init {
         /*
@@ -34,7 +31,6 @@ class AuthUserDetailsService(
         authUserRepository.save(
             AuthUserDetails(
                 username = "user",
-                // add "{bcrypt}"
                 password = passwordEncoder.encode("pass"),
                 email = "somewhere@host.com",
                 enabled = true

@@ -10,6 +10,7 @@ import net.wohlfart.charon.entity.UserRegistration
 import net.wohlfart.charon.mail.createRegistration
 import net.wohlfart.charon.repository.AuthUserRepository
 import net.wohlfart.charon.repository.RegistrationRepository
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 private val logger = KotlinLogging.logger {}
@@ -20,6 +21,7 @@ class UserRegistrationService(
     val registrationRepository: RegistrationRepository,
     val authUserRepository: AuthUserRepository,
     val oAuthProperties: OAuthProperties,
+    private val passwordEncoder: PasswordEncoder,
 ) {
 
     fun startRegistration(userDto: UserDto) {
@@ -28,7 +30,7 @@ class UserRegistrationService(
             UserRegistration(
                 userDetails = AuthUserDetails(
                     username = userDto.username,
-                    password = userDto.password,
+                    password = passwordEncoder.encode(userDto.password),
                     email = userDto.email,
                 )
             )

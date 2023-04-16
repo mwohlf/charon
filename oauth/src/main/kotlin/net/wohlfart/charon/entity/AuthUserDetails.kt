@@ -41,19 +41,19 @@ data class AuthUserDetails(
     @GeneratedValue
     var id: Int? = null
 
-    @Transient
+    @Transient // lazy init
     var grantedAuthorities: MutableCollection<out GrantedAuthority> = mutableListOf()
 
     override fun isEnabled(): Boolean {
         return enabled
     }
 
-    override fun getUsername(): String? {
-        return username
+    override fun getUsername(): String {
+        return username!!
     }
 
-    override fun getPassword(): String? {
-        return password
+    override fun getPassword(): String {
+        return password!!
     }
 
     override fun isCredentialsNonExpired(): Boolean {
