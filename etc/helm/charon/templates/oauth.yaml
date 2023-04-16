@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: charon-oauth-deployment
   namespace: development
+
 spec:
   selector:
     matchLabels:

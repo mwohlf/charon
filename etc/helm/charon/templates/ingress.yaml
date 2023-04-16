@@ -25,6 +25,7 @@ metadata:
     # kubernetes.io/ingress.class: azure/application-gateway
     # appgw.ingress.kubernetes.io/appgw-ssl-certificate: "wildcard.finalrestingheartrate.com"
     # appgw.ingress.kubernetes.io/ssl-redirect: "true"
+
 spec:
 
   tls:

@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: charon-backend-deployment
   namespace: development
+
 spec:
   selector:
     matchLabels:

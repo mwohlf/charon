@@ -1,10 +1,10 @@
 
-
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: charon-postgres-deployment
   namespace: development
+
 spec:
   selector:
     matchLabels:
@@ -36,10 +36,16 @@ spec:
               value: "oauth"
             - name: PGDATA
               value: "/data/postgres"
+          volumeMounts:
+            - name: postgres-data
+              mountPath: "/data/postgres"
           imagePullPolicy: Always
           ports:
             - containerPort: 5432
-
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc
 ---
 
 apiVersion: v1
@@ -55,3 +61,22 @@ spec:
       protocol: TCP
   selector:
     app: charon-postgres
+
+---
+
+# https://learn.microsoft.com/en-us/azure/aks/azure-csi-disk-storage-provision
+# https://medium.com/codex/kubernetes-persistent-volume-explained-fb27df29c393
+# https://www.section.io/docs/tutorials/data/postgres-on-pvc/
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+
+spec:
+  storageClassName: postgres-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
