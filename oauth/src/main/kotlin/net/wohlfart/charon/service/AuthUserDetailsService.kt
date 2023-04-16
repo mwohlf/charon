@@ -16,14 +16,6 @@ class AuthUserDetailsService(
 ) : UserDetailsService {
 
     init {
-        /*
-        @Suppress("DEPRECATION")
-        delegate.createUser(User.withDefaultPasswordEncoder()
-            .username("user")
-            .password("pass")
-            .roles("USER")
-            .build())
-         */
         // remove first because they might be referenced from users
         registrationRepository.deleteAll()
         // then the users
