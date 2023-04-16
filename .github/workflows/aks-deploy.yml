@@ -11,6 +11,11 @@ on:
       - completed
   workflow_dispatch:
 
+# only run one instance
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 env:
   CLUSTER: charonCluster
   RESOURCE_GROUP: charonResourceGroup

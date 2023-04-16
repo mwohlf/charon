@@ -9,6 +9,11 @@ on:
   #   - 'main'
   workflow_dispatch:
 
+# only run one instance
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
 
   gradle-build:

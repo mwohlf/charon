@@ -8,6 +8,11 @@ on:
   # # manually from the Actions tab
   workflow_dispatch:
 
+# only run one instance
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 env:
   # reading the env from the GitHub action secrets
   # the values are used in the script
