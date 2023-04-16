@@ -54,6 +54,7 @@ class UserRegistrationService(
         logger.info { "userDetails found: $userDetails" }
         userDetails.enabled = true
         authUserRepository.save(userDetails)
+        registrationRepository.deleteById(registration.id!!)
     }
 
 }

@@ -11,7 +11,7 @@ data class UserRegistration(
     @GeneratedValue
     var id: Int? = null,
 
-    @ManyToOne(cascade = [CascadeType.PERSIST])
+    @OneToOne(cascade = [CascadeType.PERSIST])
     var userDetails: AuthUserDetails? = null,
 
     @Column(name = "token", unique = true, nullable = false, length = 64)
