@@ -8,16 +8,14 @@ import org.springframework.security.oauth2.server.authorization.client.JdbcRegis
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings
-import org.springframework.stereotype.Component
 import java.util.*
+
+
+
+// TODO: move oauth entities to JPA
 
 private val logger = KotlinLogging.logger {}
 
-//
-// TODO: move oauth entities to JPA:
-//
-
-@Component
 class OAuthClientRepository(
     jdbcTemplate: JdbcTemplate,
     oauthProperties: OAuthProperties,

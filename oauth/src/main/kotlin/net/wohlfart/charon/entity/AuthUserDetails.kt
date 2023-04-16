@@ -52,12 +52,12 @@ data class AuthUserDetails(
         return username
     }
 
-    override fun isCredentialsNonExpired(): Boolean {
-        return true
-    }
-
     override fun getPassword(): String? {
         return password
+    }
+
+    override fun isCredentialsNonExpired(): Boolean {
+        return true
     }
 
     override fun isAccountNonExpired(): Boolean {

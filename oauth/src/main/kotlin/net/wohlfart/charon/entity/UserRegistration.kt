@@ -15,5 +15,5 @@ data class UserRegistration(
     var userDetails: AuthUserDetails? = null,
 
     @Column(name = "token", unique = true, nullable = false, length = 64)
-    var tokenValue: UUID = UUID.randomUUID(),
+    var tokenValue: String = UUID.randomUUID().toString(),
 )

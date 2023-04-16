@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator
 import javax.sql.DataSource
 
+
 @Configuration
 class DatabaseBootstrap {
 

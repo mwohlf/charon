@@ -8,6 +8,7 @@ import net.wohlfart.charon.dto.UserDto
 import net.wohlfart.charon.entity.AuthUserDetails
 import net.wohlfart.charon.entity.UserRegistration
 import net.wohlfart.charon.mail.createRegistration
+import net.wohlfart.charon.repository.AuthUserRepository
 import net.wohlfart.charon.repository.RegistrationRepository
 import org.springframework.stereotype.Service
 
@@ -17,12 +18,13 @@ private val logger = KotlinLogging.logger {}
 class UserRegistrationService(
     val sendmailService: SendmailService,
     val registrationRepository: RegistrationRepository,
+    val authUserRepository: AuthUserRepository,
     val oAuthProperties: OAuthProperties,
 ) {
 
     fun startRegistration(userDto: UserDto) {
         // store the registration
-        registrationRepository.save(
+        val registration = registrationRepository.save(
             UserRegistration(
                 userDetails = AuthUserDetails(
                     username = userDto.username,
@@ -39,13 +41,19 @@ class UserRegistrationService(
                 .put("email", userDto.email)
                 .put("tokenUrl", "${oAuthProperties.issuer}/$REQUEST_PATH_CONFIRM")
                 .put("tokenKey", REQUEST_PARAM_TOKEN)
-                .put("tokenValue", "testokenvaluehere")
+                .put("tokenValue", registration.tokenValue.toString())
         )
 
     }
 
     fun finishRegistration(tokenValue: String) {
         logger.info { "token value returned: $tokenValue" }
+        val registration = registrationRepository.findByTokenValue(tokenValue)
+        logger.info { "registration found: $registration" }
+        val userDetails = registration.userDetails!!
+        logger.info { "userDetails found: $userDetails" }
+        userDetails.enabled = true
+        authUserRepository.save(userDetails)
     }
 
 }
