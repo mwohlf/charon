@@ -9,7 +9,7 @@
     <div style="flex-grow: 2">
         space
     </div>
-    <div *ngIf="(userData$ | async) as userData">user data: {{userData}}</div>
+    <div *ngIf="(userData$ | async) as userData">user data: {{userData | json }}</div>
     <button mat-icon-button
             aria-label="Refresh"
             matTooltip="Refresh">

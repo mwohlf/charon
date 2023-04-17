@@ -18,7 +18,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {ThemePicker} from '../theme-picker/theme-picker';
 import {MatButtonModule} from '@angular/material/button';
 import {AppThemeModule} from '../../app-theme.module';
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe, NgIf, JsonPipe} from '@angular/common';
 
 @Component({
   imports: [
@@ -27,6 +27,7 @@ import {AsyncPipe, NgIf} from '@angular/common';
     MatButtonModule,
     AppThemeModule,
     AsyncPipe,
+    JsonPipe,
     NgIf,
   ],
   selector: 'app-header',
