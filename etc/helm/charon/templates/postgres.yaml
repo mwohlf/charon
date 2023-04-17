@@ -46,6 +46,7 @@ spec:
         - name: postgres-data
           persistentVolumeClaim:
             claimName: postgres-pvc
+
 ---
 
 apiVersion: v1
@@ -74,9 +75,9 @@ metadata:
   name: postgres-pvc
 
 spec:
-  storageClassName: postgres-storage
   accessModes:
     - ReadWriteOnce
+  storageClassName: managed-csi
   resources:
     requests:
-      storage: 1Gi
+      storage: 5Gi

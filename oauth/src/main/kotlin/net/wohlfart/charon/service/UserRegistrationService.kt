@@ -10,8 +10,12 @@ import net.wohlfart.charon.entity.UserRegistration
 import net.wohlfart.charon.mail.createRegistration
 import net.wohlfart.charon.repository.AuthUserRepository
 import net.wohlfart.charon.repository.RegistrationRepository
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+
 
 private val logger = KotlinLogging.logger {}
 
@@ -45,7 +49,6 @@ class UserRegistrationService(
                 .put("tokenKey", REQUEST_PARAM_TOKEN)
                 .put("tokenValue", registration.tokenValue)
         )
-
     }
 
     fun finishRegistration(tokenValue: String) {
@@ -55,7 +58,12 @@ class UserRegistrationService(
         authUserRepository.save(userDetails)
         registrationRepository.deleteById(registration.id!!)
         logger.info { "finishRegistration: $userDetails" }
-        // TODO: login user
+        authWithoutPassword(userDetails)
+    }
+
+    fun authWithoutPassword(authUserDetails: AuthUserDetails) {
+        val authentication: Authentication = UsernamePasswordAuthenticationToken(authUserDetails, null, authUserDetails.grantedAuthorities)
+        SecurityContextHolder.getContext().authentication = authentication
     }
 
 }
