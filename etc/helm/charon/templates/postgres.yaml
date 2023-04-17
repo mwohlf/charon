@@ -45,7 +45,7 @@ spec:
       volumes:
         - name: postgres-data
           persistentVolumeClaim:
-            claimName: postgres-pvc
+            claimName: postgres-pvc2
 
 ---
 
@@ -72,7 +72,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-pvc
+  name: postgres-pvc2
 
 spec:
   accessModes:

@@ -7,7 +7,7 @@ import {
   registerAction,
 } from '../../modules/oauth/action';
 import {Observable} from 'rxjs';
-import {isAuthenticated} from '../../modules/oauth/selector';
+import {isAuthenticated, selectUserData} from '../../modules/oauth/selector';
 import {readConfigurationDetailsUsingGET} from '../../modules/config/action';
 import {SIMPLE_CONFIG} from '../../modules/oauth/reducer';
 import {setNavState, toggleMenu} from '../../modules/view/action';
@@ -38,6 +38,7 @@ export class HeaderComponent implements OnInit {
   isAuthenticated$: Observable<boolean | undefined>;
   navState$: Observable<NavState>;
   navDrawMode$: Observable<MatDrawerMode>;
+  userData$: Observable<string>;
 
   constructor(
     public store: Store<AppState>,
@@ -45,6 +46,7 @@ export class HeaderComponent implements OnInit {
     this.isAuthenticated$ = this.store.select(isAuthenticated);
     this.navState$ = this.store.select(selectNavState);
     this.navDrawMode$ = this.store.select(selectNavDrawMode);
+    this.userData$ = this.store.select(selectUserData)
   }
 
   ngOnInit(): void {

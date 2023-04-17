@@ -25,6 +25,14 @@ export const isAuthenticated = createSelector(
   },
 );
 
+export const selectUserData = createSelector(
+  selectOAuthFeature,
+  (state: OAuthState) => {
+    return state.userData;
+  },
+);
+
+
 export const selectConfigId = createSelector(
   selectOAuthFeature,
   (state: OAuthState) => {
