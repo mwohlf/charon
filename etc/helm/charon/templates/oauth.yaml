@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: charon-oauth
-  replicas: 1
+  replicas: 0
   template:
 
     metadata:
