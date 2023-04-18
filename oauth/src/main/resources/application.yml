@@ -54,6 +54,9 @@ spring:
     check-template-location: true
     cache: true
 
+  sql:
+    init:
+      continue-on-error: true
 
 net:
   wohlfart:
