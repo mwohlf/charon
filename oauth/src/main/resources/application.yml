@@ -32,7 +32,8 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
+    open-in-view: false
 
   mail:
     # see: https://springjava.com/spring-boot/sending-mail-using-gmail-smtp-server-in-spring-boot
@@ -57,6 +58,7 @@ spring:
   sql:
     init:
       continue-on-error: true
+
 
 net:
   wohlfart:
