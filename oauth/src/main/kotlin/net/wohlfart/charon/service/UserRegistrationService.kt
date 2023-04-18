@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 
 private val logger = KotlinLogging.logger {}
@@ -28,6 +29,7 @@ class UserRegistrationService(
     private val passwordEncoder: PasswordEncoder,
 ) {
 
+    @Transactional
     fun startRegistration(userDto: UserDto) {
         // store the registration
         val registration = registrationRepository.save(
@@ -51,6 +53,7 @@ class UserRegistrationService(
         )
     }
 
+    @Transactional
     fun finishRegistration(tokenValue: String) {
         val registration = registrationRepository.findByTokenValue(tokenValue)
         val userDetails = registration.userDetails!!
