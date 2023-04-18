@@ -51,12 +51,12 @@ spec:
             - containerPort: 5432
           readinessProbe:
             exec:
-              command: ["psql", "-d", "oauth", "-c", "SELECT 1"]
+              command: ["psql", "-U", "oauth", "-d", "oauth", "-c", "SELECT 1"]
             initialDelaySeconds: 15
             timeoutSeconds: 2
           livenessProbe:
             exec:
-              command: ["psql", "-d", "oauth", "-c", "SELECT 1"]
+              command: ["psql", "-U", "oauth", "-d", "oauth", "-c", "SELECT 1"]
             initialDelaySeconds: 45
             timeoutSeconds: 2
 #      volumes:

@@ -219,8 +219,8 @@ EOF
     printf "  spring-mail-username: '%s'\n" "${SPRING_MAIL_USERNAME}"
     printf "  spring-mail-password: '%s'\n" "${SPRING_MAIL_PASSWORD}"
     printf "  spring-mail-port: '%s'\n" "${SPRING_MAIL_PORT}"
-    printf "  postgres-user: '%s'\n" "${SPRING_MAIL_PORT}"
-    printf "  postgres-password: '%s'\n" "${SPRING_MAIL_PORT}"
+    printf "  postgres-user: '%s'\n" "${POSTGRES_USER}"
+    printf "  postgres-password: '%s'\n" "${POSTGRES_PASSWORD}"
     } >> "${SECRETS_YAML}"
     echo "...finished appending secrets"
 
