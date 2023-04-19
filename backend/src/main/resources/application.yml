@@ -22,12 +22,14 @@ net:
         logging: "/logs"          # post endpoint for nxg logging
         oauth: "/oauth"           # oauth resources endpoint
       oauth-clients:  #
-        - config-id: google
-          issuer-uri: https://accounts.google.com
-          client-id: 246987228084-su5371btnpjd9ptjrqosid9lf8crq72p.apps.googleusercontent.com
+        # the first config is picked for auto-login
+        # see: https://angular-auth-oidc-client.com/docs/documentation/auto-login
         - config-id: spring-oauth
           issuer-uri: https://oauth.wired-heart.com
           client-id: public-client
+        - config-id: google
+          issuer-uri: https://accounts.google.com
+          client-id: 246987228084-su5371btnpjd9ptjrqosid9lf8crq72p.apps.googleusercontent.com
 
 #
 #  angular-auth-oidc-client
