@@ -49,6 +49,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 5432
+          volumeMounts:
+            - name: postgres-data
+              mountPath: "/data/postgres"
           readinessProbe:
             exec:
               command: ["psql", "-U", "oauth", "-d", "oauth", "-c", "SELECT 1"]
@@ -59,10 +62,10 @@ spec:
               command: ["psql", "-U", "oauth", "-d", "oauth", "-c", "SELECT 1"]
             initialDelaySeconds: 45
             timeoutSeconds: 2
-#      volumes:
-#        - name: postgres-data
-#          persistentVolumeClaim:
-#            claimName: postgres-pvc2
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc
 
 ---
 
@@ -79,3 +82,23 @@ spec:
       protocol: TCP
   selector:
     app: charon-postgres
+
+
+---
+
+# https://learn.microsoft.com/en-us/azure/aks/azure-csi-disk-storage-provision
+# https://medium.com/codex/kubernetes-persistent-volume-explained-fb27df29c393
+# https://www.section.io/docs/tutorials/data/postgres-on-pvc/
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+
+spec:
+ accessModes:
+   - ReadWriteOnce
+ storageClassName: managed-csi
+ resources:
+   requests:
+     storage: 5Gi
