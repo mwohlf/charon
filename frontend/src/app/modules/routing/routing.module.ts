@@ -5,8 +5,15 @@ import {HomeComponent} from '../../pages/home/home.component';
 import {MainComponent} from '../../pages/main/main.component';
 import {ProtectedComponent} from '../../pages/protected/protected.component';
 import {LoggerHolder} from '../../shared/logger-holder';
+import {LoginComponent} from '../../pages/login/login.component';
+import {AutoLoginPartialRoutesGuard} from 'angular-auth-oidc-client';
 
 const routes: Routes = [
+  {
+    path: LoginComponent.SPEC.route,
+    component: LoginComponent,
+    canActivate: [AutoLoginPartialRoutesGuard],
+  },
   {
     path: ErrorComponent.SPEC.route,
     component: ErrorComponent,
@@ -22,6 +29,7 @@ const routes: Routes = [
   {
     path: ProtectedComponent.SPEC.route,
     component: ProtectedComponent,
+    canActivate: [AutoLoginPartialRoutesGuard],
   },
   {path: '', redirectTo: HomeComponent.SPEC.route, pathMatch: 'full'},
   {path: '**', redirectTo: ErrorComponent.SPEC.route},

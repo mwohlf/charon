@@ -87,7 +87,8 @@ class ViewController(
         @RequestParam(REQUEST_PARAM_TOKEN) tokenValue: String,
     ): String {
         userRegistrationService.finishRegistration(tokenValue)
-        return "redirect:${oAuthProperties.appHomeUrl}"
+        // return "redirect:${oAuthProperties.appHomeUrl}"
+        return "redirect:${oAuthProperties.appLoginUrl}"
     }
 
 }

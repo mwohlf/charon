@@ -4,6 +4,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {ErrorComponent} from './pages/error/error.component';
 import {HomeComponent} from './pages/home/home.component';
+import {LoginComponent} from './pages/login/login.component';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MainComponent} from './pages/main/main.component';
 import {ErrorHandler, NgModule} from '@angular/core';
@@ -104,6 +105,7 @@ const prefersReducedMotion =
     AppComponent,
     ErrorComponent,
     HomeComponent,
+    LoginComponent,
     MainComponent,
     ProtectedComponent,
   ],

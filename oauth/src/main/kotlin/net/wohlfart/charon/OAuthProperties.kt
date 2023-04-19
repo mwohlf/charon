@@ -15,6 +15,8 @@ class OAuthProperties(
 
     val appHomeUrl: String,
 
+    val appLoginUrl: String,
+
     val issuer: String,
 
     @NestedConfigurationProperty
