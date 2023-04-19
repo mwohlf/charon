@@ -28,12 +28,26 @@ spring:
     url: jdbc:postgresql://charon-postgres-svc:5432/oauth
     username: ${SPRING_DATASOURCE_USER:unconfigured-spring-datasource-user}
     password: ${SPRING_DATASOURCE_PASSWORD:unconfigured-spring-datasource-password}
-    driverClassName: org.postgresql.Driver
-
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 0
+      maximum-pool-size: 10
+      connection-timeout: 10000 #10s
+      idle-timeout: 300000 #5m
+      max-lifetime: 600000 #10m
+      initialization-fail-timeout: -1
+      validation-timeout: 1000 #1s
+#
+# doesn't work with the insert scripts:
+#  sql:
+#    init:
+#      continue-on-error: true
+#
   jpa:
     hibernate:
       ddl-auto: create-drop
     open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   mail:
     # see: https://springjava.com/spring-boot/sending-mail-using-gmail-smtp-server-in-spring-boot
@@ -54,10 +68,6 @@ spring:
     charset: UTF-8
     check-template-location: true
     cache: true
-
-  sql:
-    init:
-      continue-on-error: true
 
 
 net:
