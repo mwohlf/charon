@@ -1,4 +1,10 @@
 
+#  kubectl get pods
+#  kubectl apply -f ./postgres.yaml
+#  kubectl get pods
+#  kubectl logs --follow charon-postgres-deployment-0
+#
+
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -45,7 +51,7 @@ spec:
             - name: POSTGRES_DB
               value: "oauth"
             - name: PGDATA
-              value: "/data/postgres"
+              value: "/data/postgres/oauthdb"
           imagePullPolicy: Always
           ports:
             - containerPort: 5432

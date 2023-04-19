@@ -5,6 +5,7 @@
 # kubectl delete pods --all
 # kubectl apply -f ./backend.yaml
 # kubectl apply -f ./ingress.yaml
+# kubectl apply -f ./postgres.yaml
 # kubectl get pods
 # kubectl get deployments
 # kubectl get pods --all-namespaces
