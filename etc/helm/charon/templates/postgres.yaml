@@ -5,7 +5,7 @@
 #
 
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: charon-postgres-deployment
   namespace: development
@@ -15,7 +15,6 @@ spec:
     matchLabels:
       app: charon-postgres
   replicas: 1
-  serviceName: charon-postgres-svc
   template:
 
     metadata:

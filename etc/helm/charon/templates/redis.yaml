@@ -2,7 +2,7 @@
 # https://github.com/hilariocoelho/redis-chart
 
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: charon-redis-deployment
   namespace: development
@@ -12,7 +12,6 @@ spec:
     matchLabels:
       app: charon-redis
   replicas: 1
-  serviceName: charon-redis-svc
   template:
 
     metadata:
@@ -26,6 +25,11 @@ spec:
           env:
             - name: SERVER_PORT
               value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wired-heart-secrets
+                  key: redis-password
           imagePullPolicy: Always
           ports:
             - containerPort: 6379
@@ -33,6 +37,8 @@ spec:
             - /bin/bash
             - -c
             - redis-server --requirepass ${REDIS_PASSWORD} --masterauth ${REDIS_PASSWORD} --port ${SERVER_PORT}
+
+# see: https://gist.github.com/axe-me/f9a4d77dbecac5858494b5addfaac524
 
 ---
 
