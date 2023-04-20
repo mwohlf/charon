@@ -33,10 +33,17 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 6379
+          volumeMounts:
+            - name: redis-data
+              mountPath: "/data/redis"
           command:
             - /bin/bash
             - -c
             - redis-server --requirepass ${REDIS_PASSWORD} --masterauth ${REDIS_PASSWORD} --port ${SERVER_PORT}
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc
 
 # see: https://gist.github.com/axe-me/f9a4d77dbecac5858494b5addfaac524
 
@@ -55,3 +62,23 @@ spec:
       protocol: TCP
   selector:
     app: charon-redis
+
+
+---
+
+# https://learn.microsoft.com/en-us/azure/aks/azure-csi-disk-storage-provision
+# https://medium.com/codex/kubernetes-persistent-volume-explained-fb27df29c393
+# https://www.section.io/docs/tutorials/data/postgres-on-pvc/
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pvc
+
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: managed-csi
+  resources:
+    requests:
+      storage: 5Gi
