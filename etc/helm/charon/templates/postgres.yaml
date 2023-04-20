@@ -101,7 +101,7 @@ metadata:
 
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   storageClassName: managed-csi
   resources:
     requests:

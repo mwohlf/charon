@@ -36,7 +36,6 @@ class ApplicationStartupListener(
 
         logger.info { "mailSender.host: ${mailSender.host}" }
         logger.info { "mailSender.username: ${mailSender.username}" }
-        logger.info { "mailSender.password: ${mailSender.password}" }
 
         logger.info { "--------------------------------------------" }
     }
