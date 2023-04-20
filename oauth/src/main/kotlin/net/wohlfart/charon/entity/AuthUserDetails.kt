@@ -38,7 +38,8 @@ data class AuthUserDetails(
 ) : UserDetails {
 
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "user-details-sequence-gen", sequenceName = "user-details-sequence", initialValue = 1, allocationSize = 10)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "user-details-sequence-gen")
     var id: Int? = null
 
     @Transient // lazy init

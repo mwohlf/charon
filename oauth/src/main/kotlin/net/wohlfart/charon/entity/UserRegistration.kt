@@ -8,7 +8,8 @@ import java.util.*
 data class UserRegistration(
 
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "user-registration-sequence-gen", sequenceName = "user-registration-sequence", initialValue = 1, allocationSize = 10)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "user-registration-sequence-gen")
     var id: Int? = null,
 
     @OneToOne(cascade = [CascadeType.PERSIST])

@@ -12,8 +12,9 @@ data class Authority(
 ) {
 
     @Id
-    @GeneratedValue
-    var id:Int? = null
+    @SequenceGenerator(name = "authority-sequence-gen", sequenceName = "authority-sequence", initialValue = 1, allocationSize = 10)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "authority-sequence-gen")
+    var id: Int? = null
 
     @ManyToMany(mappedBy = "authorities")
     var userDetails = mutableListOf<AuthUserDetails>()
@@ -21,7 +22,7 @@ data class Authority(
 }
 
 
-enum class AuthorityName{
+enum class AuthorityName {
     ROLE_ROOT,
     ROLE_ADMIN,
     ROLE_CUSTOMER,
