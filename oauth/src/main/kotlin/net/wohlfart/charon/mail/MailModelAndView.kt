@@ -8,12 +8,6 @@ import jakarta.mail.internet.InternetAddress
 import java.util.*
 
 
-
-
-
-
-
-
 private const val SUBJECT_KEY = "subject"
 private const val FROM_KEY = "from"
 private const val REPLY_TO_KEY = "replyTo"

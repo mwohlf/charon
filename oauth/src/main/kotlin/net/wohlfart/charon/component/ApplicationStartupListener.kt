@@ -4,6 +4,7 @@ import mu.KotlinLogging
 import net.wohlfart.charon.OAuthProperties
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.ApplicationListener
+import org.springframework.mail.javamail.JavaMailSenderImpl
 import org.springframework.stereotype.Component
 
 private val logger = KotlinLogging.logger {}
@@ -11,7 +12,9 @@ private val logger = KotlinLogging.logger {}
 @Component
 class ApplicationStartupListener(
     val oauthProperties: OAuthProperties,
+    val mailSender: JavaMailSenderImpl,
 ) : ApplicationListener<ApplicationReadyEvent> {
+
 
     override fun onApplicationEvent(event: ApplicationReadyEvent) {
         logger.info { "" }
@@ -30,6 +33,11 @@ class ApplicationStartupListener(
             logger.info { "     redirectUris:  ${it.value.redirectUris.joinToString(""",""")}" }
             logger.info { "     scopes:  ${it.value.scopes.joinToString(""",""")}" }
         }
+
+        logger.info { "mailSender.host: ${mailSender.host}" }
+        logger.info { "mailSender.username: ${mailSender.username}" }
+        logger.info { "mailSender.password: ${mailSender.password}" }
+
         logger.info { "--------------------------------------------" }
     }
 

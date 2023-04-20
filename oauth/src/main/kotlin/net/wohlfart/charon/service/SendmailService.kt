@@ -1,6 +1,7 @@
 package net.wohlfart.charon.service
 
 import jakarta.mail.internet.MimeMessage
+import mu.KotlinLogging
 import net.wohlfart.charon.mail.MailBuilder
 import net.wohlfart.charon.mail.MailTemplateRenderer
 import org.springframework.mail.javamail.JavaMailSenderImpl
@@ -8,6 +9,7 @@ import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
 import java.nio.charset.StandardCharsets
 
+private val logger = KotlinLogging.logger {}
 
 @Service
 class SendmailService(
@@ -27,6 +29,7 @@ class SendmailService(
         mimeMessageHelper.setTo(mail.mailTo.toTypedArray())
         mimeMessageHelper.setText(output, true)
         val message: MimeMessage = mimeMessageHelper.mimeMessage
+        logger.info { "sending $message" }
         mailSender.send(message)
     }
 }
