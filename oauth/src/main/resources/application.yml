@@ -39,10 +39,10 @@ spring:
       validation-timeout: 1000 #1s
 #
 # doesn't work with the insert scripts:
-#  sql:
-#    init:
-#      continue-on-error: true
-#
+  sql:
+    init:
+      continue-on-error: true
+
   jpa:
     hibernate:
       ddl-auto: create-drop
