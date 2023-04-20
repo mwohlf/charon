@@ -13,7 +13,12 @@ private val logger = KotlinLogging.logger(HttpSessionConfig::class.java.name)
 
 private val sessions: MutableMap<String, HttpSession> = HashMap()
 
-@Configuration
+//
+//
+//  session id is changed after login to protect from session fixation attacks
+//  so this bean tracking session ids in a hash is pretty useless
+//
+// @Configuration
 class HttpSessionConfig {
 
     // TODO: keeping track of sessions here doesnt work because sessions change their id during login
@@ -31,7 +36,7 @@ class HttpSessionConfig {
     }
 
 
-    @Bean
+    // @Bean
     fun httpSessionListener(): HttpSessionListener {
         return object : HttpSessionListener {
             override fun sessionCreated(httpSessionEvent: HttpSessionEvent) {
