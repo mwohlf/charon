@@ -59,10 +59,13 @@ class UserRegistrationService(
     fun finishRegistration(tokenValue: String) {
         try {
             val registration = registrationRepository.findByTokenValue(tokenValue)
-            val userDetails = registration.userDetails!!
+            var userDetails = registration.userDetails!!
             userDetails.enabled = true
-            authUserRepository.save(userDetails)
-            registrationRepository.deleteById(registration.id!!)
+            if (!authUserRepository.existsByUsername(userDetails.username)) {
+                userDetails = authUserRepository.save(userDetails)
+            }
+            // TODO just for testing
+            // registrationRepository.deleteById(registration.id!!)
             logger.info { "finishRegistration: $userDetails" }
             authWithoutPassword(userDetails)
         } catch (ex: EmptyResultDataAccessException) {
