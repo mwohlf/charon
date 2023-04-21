@@ -7,9 +7,11 @@ import net.wohlfart.charon.controller.REQUEST_PATH_CONFIRM
 import net.wohlfart.charon.dto.UserDto
 import net.wohlfart.charon.entity.AuthUserDetails
 import net.wohlfart.charon.entity.UserRegistration
+import net.wohlfart.charon.exception.TokenNotFoundException
 import net.wohlfart.charon.mail.createRegistration
 import net.wohlfart.charon.repository.AuthUserRepository
 import net.wohlfart.charon.repository.RegistrationRepository
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
@@ -55,13 +57,17 @@ class UserRegistrationService(
 
     @Transactional
     fun finishRegistration(tokenValue: String) {
-        val registration = registrationRepository.findByTokenValue(tokenValue)
-        val userDetails = registration.userDetails!!
-        userDetails.enabled = true
-        authUserRepository.save(userDetails)
-        registrationRepository.deleteById(registration.id!!)
-        logger.info { "finishRegistration: $userDetails" }
-        authWithoutPassword(userDetails)
+        try {
+            val registration = registrationRepository.findByTokenValue(tokenValue)
+            val userDetails = registration.userDetails!!
+            userDetails.enabled = true
+            authUserRepository.save(userDetails)
+            registrationRepository.deleteById(registration.id!!)
+            logger.info { "finishRegistration: $userDetails" }
+            authWithoutPassword(userDetails)
+        } catch (ex: EmptyResultDataAccessException) {
+            throw TokenNotFoundException(ex)
+        }
     }
 
     fun authWithoutPassword(authUserDetails: AuthUserDetails) {
