@@ -15,6 +15,8 @@ spec:
     matchLabels:
       app: charon-postgres
   replicas: 1
+  strategy:
+    type: Recreate
   template:
 
     metadata:
@@ -101,7 +103,7 @@ metadata:
 
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   storageClassName: managed-csi
   resources:
     requests:

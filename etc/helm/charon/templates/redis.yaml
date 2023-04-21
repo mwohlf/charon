@@ -12,6 +12,8 @@ spec:
     matchLabels:
       app: charon-redis
   replicas: 1
+  strategy:
+    type: Recreate
   template:
 
     metadata:
@@ -77,7 +79,7 @@ metadata:
 
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   storageClassName: managed-csi
   resources:
     requests:
