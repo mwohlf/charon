@@ -60,7 +60,8 @@ spec:
               protocol: TCP
 
           livenessProbe:
-            initialDelaySeconds: 60
+            # we have to wait for the db
+            initialDelaySeconds: 600
             periodSeconds: 60
             timeoutSeconds: 1
             successThreshold: 1
@@ -70,7 +71,8 @@ spec:
               port: 8080
 
           readinessProbe:
-            initialDelaySeconds: 10
+            # we have to wait for the db
+            initialDelaySeconds: 600
             periodSeconds: 60
             timeoutSeconds: 1
             successThreshold: 1
