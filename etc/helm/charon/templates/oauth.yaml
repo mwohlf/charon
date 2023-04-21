@@ -63,7 +63,7 @@ spec:
 
           livenessProbe:
             # we have to wait for the db
-            initialDelaySeconds: 600
+            initialDelaySeconds: 120
             periodSeconds: 60
             timeoutSeconds: 1
             successThreshold: 1
@@ -74,7 +74,7 @@ spec:
 
           readinessProbe:
             # we have to wait for the db
-            initialDelaySeconds: 600
+            initialDelaySeconds: 120
             periodSeconds: 60
             timeoutSeconds: 1
             successThreshold: 1

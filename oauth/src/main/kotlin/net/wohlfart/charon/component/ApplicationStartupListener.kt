@@ -30,8 +30,8 @@ class ApplicationStartupListener(
             logger.info { "  clientId:  ${it.key}" }
             logger.info { "     authorizationGrantType:  ${it.value.authorizationGrantType.value}" }
             logger.info { "     clientAuthenticationMethod:  ${it.value.clientAuthenticationMethod.value}" }
-            logger.info { "     redirectUris:  ${it.value.redirectUris.joinToString(""",""")}" }
-            logger.info { "     scopes:  ${it.value.scopes.joinToString(""",""")}" }
+            logger.info { "     redirectUris:  ${it.value.redirectUris.joinToString(""",${System.lineSeparator()}      """)}" }
+            logger.info { "     scopes:  ${it.value.scopes.joinToString(""",${System.lineSeparator()}      """)}" }
         }
 
         logger.info { "mailSender.host: ${mailSender.host}" }
