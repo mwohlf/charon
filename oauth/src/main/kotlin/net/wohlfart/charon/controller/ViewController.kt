@@ -6,7 +6,6 @@ import net.wohlfart.charon.OAuthProperties
 import net.wohlfart.charon.dto.UserDto
 import net.wohlfart.charon.service.UserRegistrationService
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.Errors
@@ -93,14 +92,7 @@ class ViewController(
         request: HttpServletRequest,
         @RequestParam(REQUEST_PARAM_TOKEN) tokenValue: String,
     ): String {
-        // val sessionId = request.sessionId
-        // logger.info { "sessionId: $sessionId" }
-        userRegistrationService.finishRegistration(tokenValue)
-        // return "redirect:${oAuthProperties.appHomeUrl}"
-        request.session.setAttribute(
-            HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-            SecurityContextHolder.getContext()
-        )
+        userRegistrationService.finishRegistration(request.session, tokenValue)
         return "redirect:${oAuthProperties.appLoginUrl}"
     }
 

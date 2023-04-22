@@ -1,5 +1,6 @@
 package net.wohlfart.charon.service
 
+import jakarta.servlet.http.HttpSession
 import mu.KotlinLogging
 import net.wohlfart.charon.OAuthProperties
 import net.wohlfart.charon.controller.REQUEST_PARAM_TOKEN
@@ -13,9 +14,10 @@ import net.wohlfart.charon.repository.AuthUserRepository
 import net.wohlfart.charon.repository.RegistrationRepository
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.authentication.RememberMeAuthenticationToken
-import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -56,30 +58,26 @@ class UserRegistrationService(
     }
 
     @Transactional
-    fun finishRegistration(tokenValue: String) {
+    fun finishRegistration(session: HttpSession, tokenValue: String) {
         try {
             val registration = registrationRepository.findByTokenValue(tokenValue)
             var userDetails = registration.userDetails!!
             userDetails.enabled = true
-            if (!authUserRepository.existsByUsername(userDetails.username)) {
-                userDetails = authUserRepository.save(userDetails)
-            }
-            // TODO just for testing
-            // registrationRepository.deleteById(registration.id!!)
-            logger.info { "finishRegistration: $userDetails" }
-            authWithoutPassword(tokenValue, userDetails)
+            authUserRepository.save(userDetails)
+            session.setAttribute(
+                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+                securityContextWithAuthentication(tokenValue, userDetails)
+            )
         } catch (ex: EmptyResultDataAccessException) {
             throw TokenNotFoundException(ex)
         }
     }
 
-    fun authWithoutPassword(tokenValue: String, authUserDetails: AuthUserDetails) {
+    fun securityContextWithAuthentication(tokenValue: String, authUserDetails: AuthUserDetails): SecurityContext {
         // RememberMeAuthenticationToken, UsernamePasswordAuthenticationToken
-        val authentication: Authentication = RememberMeAuthenticationToken(tokenValue, authUserDetails, authUserDetails.grantedAuthorities)
         val securityContext = SecurityContextHolder.getContext()
-        logger.info { "found a security context: $securityContext" }
-        securityContext.authentication = authentication
-        logger.info { "setting authentication: $authentication" }
+        securityContext.authentication = RememberMeAuthenticationToken(tokenValue, authUserDetails, authUserDetails.grantedAuthorities)
+        return securityContext
     }
 
 }
