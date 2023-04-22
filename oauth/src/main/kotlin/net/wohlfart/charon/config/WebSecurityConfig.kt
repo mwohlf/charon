@@ -1,6 +1,10 @@
 package net.wohlfart.charon.config
 
 import net.wohlfart.charon.OAuthProperties
+import net.wohlfart.charon.controller.REQUEST_PATH_CONFIRM
+import net.wohlfart.charon.controller.REQUEST_PATH_ERROR
+import net.wohlfart.charon.controller.REQUEST_PATH_HOME
+import net.wohlfart.charon.controller.REQUEST_PATH_REGISTER
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -41,10 +45,10 @@ class WebSecurityConfig {
                 authorize
                     // our web resources should be available without authentication
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                    .requestMatchers("/confirm").permitAll()
-                    .requestMatchers("/error").permitAll()
-                    .requestMatchers("/home").permitAll()
-                    .requestMatchers("/register").permitAll()
+                    .requestMatchers(REQUEST_PATH_CONFIRM).permitAll()
+                    .requestMatchers(REQUEST_PATH_ERROR).permitAll()
+                    .requestMatchers(REQUEST_PATH_HOME).permitAll()
+                    .requestMatchers(REQUEST_PATH_REGISTER).permitAll()
                     // .requestMatchers("/h2/**").permitAll()
                     // anything authenticated is fine
                     .anyRequest().authenticated()

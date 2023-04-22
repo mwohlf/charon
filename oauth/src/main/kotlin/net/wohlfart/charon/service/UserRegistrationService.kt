@@ -12,7 +12,7 @@ import net.wohlfart.charon.mail.createRegistration
 import net.wohlfart.charon.repository.AuthUserRepository
 import net.wohlfart.charon.repository.RegistrationRepository
 import org.springframework.dao.EmptyResultDataAccessException
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.authentication.RememberMeAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -49,7 +49,7 @@ class UserRegistrationService(
                 .english()
                 .put("username", userDto.username)
                 .put("email", userDto.email)
-                .put("tokenUrl", "${oAuthProperties.issuer}/$REQUEST_PATH_CONFIRM")
+                .put("tokenUrl", "${oAuthProperties.issuer}$REQUEST_PATH_CONFIRM")
                 .put("tokenKey", REQUEST_PARAM_TOKEN)
                 .put("tokenValue", registration.tokenValue)
         )
@@ -67,15 +67,19 @@ class UserRegistrationService(
             // TODO just for testing
             // registrationRepository.deleteById(registration.id!!)
             logger.info { "finishRegistration: $userDetails" }
-            authWithoutPassword(userDetails)
+            authWithoutPassword(tokenValue, userDetails)
         } catch (ex: EmptyResultDataAccessException) {
             throw TokenNotFoundException(ex)
         }
     }
 
-    fun authWithoutPassword(authUserDetails: AuthUserDetails) {
-        val authentication: Authentication = UsernamePasswordAuthenticationToken(authUserDetails, null, authUserDetails.grantedAuthorities)
-        SecurityContextHolder.getContext().authentication = authentication
+    fun authWithoutPassword(tokenValue: String, authUserDetails: AuthUserDetails) {
+        // RememberMeAuthenticationToken, UsernamePasswordAuthenticationToken
+        val authentication: Authentication = RememberMeAuthenticationToken(tokenValue, authUserDetails, authUserDetails.grantedAuthorities)
+        val securityContext = SecurityContextHolder.getContext()
+        logger.info { "found a security context: $securityContext" }
+        securityContext.authentication = authentication
+        logger.info { "setting authentication: $authentication" }
     }
 
 }
