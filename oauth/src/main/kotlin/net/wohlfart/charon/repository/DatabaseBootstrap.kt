@@ -30,7 +30,9 @@ class DatabaseBootstrap(
         authorityRepository.saveAll(
             AuthorityName.values().map { authorityName: AuthorityName -> Authority(authorityName) })
         val adminRole = authorityRepository.findByName(AuthorityName.ROLE_ADMIN)
-        authUserRepository.save(bootstrapUser(arrayOf(adminRole)))
+        val userRole = authorityRepository.findByName(AuthorityName.ROLE_USER)
+        val generalRole = authorityRepository.findByName(AuthorityName.ROLE_GENERAL)
+        authUserRepository.save(bootstrapUser(arrayOf(adminRole, userRole, generalRole)))
     }
 
     @Bean
