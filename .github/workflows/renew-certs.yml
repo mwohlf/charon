@@ -41,7 +41,7 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
-      - name: Run the manage-certs script
+      - name: Run the manage-secrets script
         run: |
           bash ${{ github.workspace }}/etc/secrets/manage-secrets.bash create_cert
 
