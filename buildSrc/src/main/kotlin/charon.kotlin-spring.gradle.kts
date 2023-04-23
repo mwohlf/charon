@@ -82,8 +82,8 @@ jib {
         image = "${registry}/${repository}"
         tags = setOf(
             "4h",  // the ttl
-            "${details.gitHash}",
-            "${details.gitHashFull}",
+            details.gitHash,
+            details.gitHashFull,
         )
     }
 

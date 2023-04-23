@@ -53,7 +53,7 @@ tasks.getByName("compileJava").enabled = false
 
 tasks.register<NpmTask>("syncVersion") {
     args.set(listOf("version", this.project.version.toString(), "--silent"))
-    this.ignoreExitValue.set(true);
+    this.ignoreExitValue.set(true)
 }
 // re-create the API classes before building the webjar
 tasks.getByName("openApiGenerate").let {

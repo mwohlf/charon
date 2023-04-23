@@ -4,8 +4,6 @@ import jakarta.servlet.http.HttpSession
 import jakarta.servlet.http.HttpSessionEvent
 import jakarta.servlet.http.HttpSessionListener
 import mu.KotlinLogging
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import kotlin.concurrent.thread
 
 

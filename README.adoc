@@ -16,7 +16,7 @@ This is a POC for implementing an OAuth Server and an Angular UI using it, in mo
  - using OpenAPI for "API-first" code generation for
     ** the backend (controllers)
     ** the frontend (services)
- - using github's actions and build pipeline
+ - using GitHub's actions and build pipeline
  - a fancy deployment in azure
 
 I think this is today's state-of-the-art web application development
@@ -127,7 +127,7 @@ for ubuntu this means:
 
 == .github
 
-the github pipelines or workflows
+the GitHub pipelines or workflows
 
 * aks-deploy.yml +
   trigger a helm chart deploy from the etc/helm directory
@@ -141,10 +141,10 @@ contains API definition, scripts, deployment descriptions, helm charts
 
 '''
 
-For now we are pushing the images to an ephemeral docker image registry at:
+For now, we are pushing the images to an ephemeral docker image registry at:
 https://ttl.sh/mwohlf/charon-backend +
 
-Simple bootup the backend image:
+Simple boot up the backend image:
 
   docker run -p 8080:8080 ttl.sh/mwohlf/charon-backend
   docker run -p 8080:8080 ttl.sh/mwohlf/charon-backend:72716232cce3e4b1bfec01379cae6cbf5f269725
@@ -184,7 +184,7 @@ https://unbroken-dome.github.io/projects/gradle-helm-plugin/latest/userguide/ind
 `./azure.bash create_cluster`
 
 - update service account +
-the content of credentials.txt goes into the github secrets as `AZURE_SP_CREDENTIALS`
+the content of credentials.txt goes into the GitHub secrets as `AZURE_SP_CREDENTIALS`
 
 - update IP +
 `kubectl get service --all-namespaces`  +
