@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import jakarta.persistence.*
+import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.Parameter
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -33,13 +35,22 @@ data class AuthUserDetails(
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_details_authorities",
+        joinColumns = [ JoinColumn(name = "user_details_id") ],
+        inverseJoinColumns = [ JoinColumn(name = "user_authorities_id") ])
     var authorities: MutableList<Authority> = mutableListOf(),
 
 ) : UserDetails {
 
     @Id
-    @SequenceGenerator(name = "user-details-sequence-gen", sequenceName = "user-details-sequence", initialValue = 1, allocationSize = 10)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "user-details-sequence-gen")
+    @GenericGenerator(
+        name = "sequenceGenerator",
+        strategy = "org.hibernate.id.enhanced.TableGenerator",
+        parameters = [
+            Parameter(name = "segment_value", value = "user-details-sequence")
+        ]
+    )
+    @GeneratedValue(generator = "sequenceGenerator")
     var id: Int? = null
 
     @Transient // lazy init

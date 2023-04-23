@@ -1,6 +1,8 @@
 package net.wohlfart.charon.entity
 
 import jakarta.persistence.*
+import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.Parameter
 import java.util.*
 
 @Entity
@@ -8,8 +10,14 @@ import java.util.*
 data class UserRegistration(
 
     @Id
-    @SequenceGenerator(name = "user-registration-sequence-gen", sequenceName = "user-registration-sequence", initialValue = 1, allocationSize = 10)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "user-registration-sequence-gen")
+    @GenericGenerator(
+        name = "sequenceGenerator",
+        strategy = "org.hibernate.id.enhanced.TableGenerator",
+        parameters = [
+            Parameter(name = "segment_value", value = "user-registration-sequence")
+        ]
+    )
+    @GeneratedValue(generator = "sequenceGenerator")
     var id: Int? = null,
 
     @OneToOne(cascade = [CascadeType.PERSIST])

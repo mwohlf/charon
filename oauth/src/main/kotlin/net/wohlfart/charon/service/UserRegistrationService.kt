@@ -61,7 +61,7 @@ class UserRegistrationService(
     fun finishRegistration(session: HttpSession, tokenValue: String) {
         try {
             val registration = registrationRepository.findByTokenValue(tokenValue)
-            var userDetails = registration.userDetails!!
+            val userDetails = registration.userDetails!!
             userDetails.enabled = true
             authUserRepository.save(userDetails)
             session.setAttribute(
