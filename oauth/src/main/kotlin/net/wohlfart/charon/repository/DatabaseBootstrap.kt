@@ -64,7 +64,7 @@ class DatabaseBootstrap(
     }
 
     private final fun bootstrapUser(authorities: Array<Authority>): AuthUserDetails {
-        var result = AuthUserDetails(
+        val result = AuthUserDetails(
             username = "user",
             // checkout https://thorben-janssen.com/hibernate-enum-mappings/
             // for a converter
