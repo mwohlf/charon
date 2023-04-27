@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: charon-redis
-          image: redis:7.0.9
+          image: ttl.sh/mwohlf/charon-redis
           env:
             - name: SERVER_PORT
               value: "6379"

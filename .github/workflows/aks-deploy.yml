@@ -97,4 +97,6 @@ jobs:
           images: |
             ttl.sh/mwohlf/charon-backend:${{ env.GITHUB_SHA }}
             ttl.sh/mwohlf/charon-oauth:${{ env.GITHUB_SHA }}
+            ttl.sh/mwohlf/charon-postgres:${{ env.GITHUB_SHA }}
+            ttl.sh/mwohlf/charon-redis:${{ env.GITHUB_SHA }}
           namespace: ${{ env.NAMESPACE }}
