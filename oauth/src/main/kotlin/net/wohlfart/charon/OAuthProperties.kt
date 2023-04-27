@@ -34,30 +34,31 @@ class ClientEntry (
     val authorizationGrantType: AuthorizationGrantTypeValue,
 
     @NestedConfigurationProperty
-    val scopes: Array<String>,
+    val clientCredentials: String,
 
     @NestedConfigurationProperty
-    val redirectUris: Array<String>,
+    val scopes: Array<String>?,
+
+    @NestedConfigurationProperty
+    val redirectUris: Array<String>?,
 
     @NestedConfigurationProperty
     val postLogoutRedirectUri: String,
 
     @NestedConfigurationProperty
-    val accessTokenTtl: Duration,
+    val accessTokenTtl: Duration?,
 )
 
 // supported for the app config
 @Suppress("unused") // used in the application.yaml file
 enum class ClientAuthenticationMethodValue(val value: ClientAuthenticationMethod) {
-
-    NONE(ClientAuthenticationMethod.NONE)
-
+    NONE(ClientAuthenticationMethod.NONE),
+    BASIC(ClientAuthenticationMethod.CLIENT_SECRET_BASIC),
 }
 
 // supported for the app config
 @Suppress("unused") // used in the application.yaml file
 enum class AuthorizationGrantTypeValue(val value: AuthorizationGrantType) {
-
-    AUTHORIZATION_CODE(AuthorizationGrantType.AUTHORIZATION_CODE)
-
+    AUTHORIZATION_CODE(AuthorizationGrantType.AUTHORIZATION_CODE),
+    CLIENT_CREDENTIALS(AuthorizationGrantType.CLIENT_CREDENTIALS),
 }

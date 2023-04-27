@@ -4,7 +4,7 @@ plugins {
 }
 
 //
-//  some help to get stated
+//  some help to get started
 //
 tasks.register<DefaultTask>("info") {
     println(" *********************************************************** ")

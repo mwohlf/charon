@@ -54,19 +54,21 @@ fun buildClient(clientId: String, clientEntry: ClientEntry): RegisteredClient {
             .build()
     )
 
-    publicClient.tokenSettings(
-        TokenSettings.builder()
-            .accessTokenTimeToLive(clientEntry.accessTokenTtl)
-            .build()
-    )
+    if (clientEntry.accessTokenTtl != null) {
+        publicClient.tokenSettings(
+            TokenSettings.builder()
+                .accessTokenTimeToLive(clientEntry.accessTokenTtl)
+                .build()
+        )
+    }
 
     // allowed redirects after login
-    clientEntry.redirectUris.toList().forEach {
+    clientEntry.redirectUris?.toList()?.forEach {
         publicClient.redirectUri(it)
     }
 
     // scopes
-    clientEntry.scopes.toList().forEach {
+    clientEntry.scopes?.toList()?.forEach {
         publicClient.scope(it)
     }
 

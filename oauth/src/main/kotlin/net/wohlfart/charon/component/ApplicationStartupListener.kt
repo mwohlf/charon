@@ -15,7 +15,9 @@ class ApplicationStartupListener(
     val mailSender: JavaMailSenderImpl,
 ) : ApplicationListener<ApplicationReadyEvent> {
 
-
+    // TODO:
+    // checkout: https://www.appsloveworld.com/springboot/100/2/how-to-start-spring-boot-app-without-depending-on-database
+    //
     override fun onApplicationEvent(event: ApplicationReadyEvent) {
         logger.info { "" }
         logger.info { "Application Config" }
@@ -30,8 +32,9 @@ class ApplicationStartupListener(
             logger.info { "  clientId:  ${it.key}" }
             logger.info { "     authorizationGrantType:  ${it.value.authorizationGrantType.value}" }
             logger.info { "     clientAuthenticationMethod:  ${it.value.clientAuthenticationMethod.value}" }
-            logger.info { "     redirectUris:  ${it.value.redirectUris.joinToString(""",${System.lineSeparator()}      """)}" }
-            logger.info { "     scopes:  ${it.value.scopes.joinToString(""",${System.lineSeparator()}      """)}" }
+            logger.info { "     clientCredentials:  ${it.value.clientCredentials}" }
+            logger.info { "     redirectUris:  ${it.value.redirectUris?.joinToString(""",${System.lineSeparator()}      """)}" }
+            logger.info { "     scopes:  ${it.value.scopes?.joinToString(""",${System.lineSeparator()}      """)}" }
         }
 
         logger.info { "mailSender.host: ${mailSender.host}" }

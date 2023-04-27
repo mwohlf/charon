@@ -29,8 +29,8 @@ jobs:
           distribution: 'adopt'
           cache: gradle
 
-      - name: Run gradle
-        id: run-gradle
+      - name: Run gradle build jib
+        id: run-gradle-build-jib
         uses: gradle/gradle-build-action@v2.3.3
         with:
           gradle-executable: ${{ github.workspace }}/gradlew
@@ -39,3 +39,12 @@ jobs:
             --no-daemon
             --scan
 
+      - name: Run gradle build backends
+        id: run-gradle-build-backends
+        uses: gradle/gradle-build-action@v2.3.3
+        with:
+          gradle-executable: ${{ github.workspace }}/gradlew
+          arguments: |
+            build backends
+            --no-daemon
+            --scan
