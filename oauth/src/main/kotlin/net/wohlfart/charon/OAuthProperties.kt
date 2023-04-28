@@ -43,7 +43,7 @@ class ClientEntry (
     val redirectUris: Array<String>?,
 
     @NestedConfigurationProperty
-    val postLogoutRedirectUri: String,
+    val postLogoutRedirectUri: String?,
 
     @NestedConfigurationProperty
     val accessTokenTtl: Duration?,

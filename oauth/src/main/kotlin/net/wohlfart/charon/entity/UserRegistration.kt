@@ -11,13 +11,13 @@ data class UserRegistration(
 
     @Id
     @GenericGenerator(
-        name = "sequenceGenerator",
+        name = "userRegistrationSequenceGenerator",
         strategy = "org.hibernate.id.enhanced.TableGenerator",
         parameters = [
             Parameter(name = "segment_value", value = "user-registration-sequence")
         ]
     )
-    @GeneratedValue(generator = "sequenceGenerator")
+    @GeneratedValue(generator = "userRegistrationSequenceGenerator")
     var id: Int? = null,
 
     @OneToOne(cascade = [CascadeType.PERSIST])

@@ -32,7 +32,8 @@ spring:
     hikari:
       minimum-idle: 0
       maximum-pool-size: 10
-      connection-timeout: 10000 #10s
+      # initial 3m, we need that long to deploy postgres from scratch
+      connection-timeout: 150000
       idle-timeout: 300000 #5m
       max-lifetime: 600000 #10m
       initialization-fail-timeout: -1
@@ -81,6 +82,8 @@ net:
         allowed-origins:
           - "https://backend.wired-heart.com"
           - "https://app.wired-heart.com"
+        # we need to re-configure all client for each app context
+        # because it's a hash map
         clients:
           public-client:
             client-authentication-method: NONE

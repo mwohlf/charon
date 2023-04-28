@@ -17,13 +17,13 @@ data class Authority(
 
     @Id
     @GenericGenerator(
-        name = "sequenceGenerator",
+        name = "userAuthoritySequenceGenerator",
         strategy = "org.hibernate.id.enhanced.TableGenerator",
         parameters = [
             Parameter(name = "segment_value", value = "user-authority-sequence")
         ]
     )
-    @GeneratedValue(generator = "sequenceGenerator")
+    @GeneratedValue(generator = "userAuthoritySequenceGenerator")
     var id: Int? = null
 
     // @ManyToMany(mappedBy = "authorities")

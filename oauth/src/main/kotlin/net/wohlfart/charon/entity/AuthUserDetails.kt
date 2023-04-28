@@ -44,13 +44,13 @@ data class AuthUserDetails(
 
     @Id
     @GenericGenerator(
-        name = "sequenceGenerator",
+        name = "userDetailsSequenceGenerator",
         strategy = "org.hibernate.id.enhanced.TableGenerator",
         parameters = [
             Parameter(name = "segment_value", value = "user-details-sequence")
         ]
     )
-    @GeneratedValue(generator = "sequenceGenerator")
+    @GeneratedValue(generator = "userDetailsSequenceGenerator")
     var id: Int? = null
 
     @Transient // lazy init
