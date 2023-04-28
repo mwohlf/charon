@@ -34,7 +34,7 @@ class ClientEntry (
     val authorizationGrantType: AuthorizationGrantTypeValue,
 
     @NestedConfigurationProperty
-    val clientCredentials: String,
+    val clientCredentials: String?, // might be null for public clients
 
     @NestedConfigurationProperty
     val scopes: Array<String>?,
