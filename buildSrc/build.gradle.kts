@@ -19,13 +19,13 @@ plugins {
 // it also contains all the base plugins we aggregate into out custom plugins
 dependencies {
     // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-gradle-plugin
-    val jetbrainKotlinVersion = "1.8.10"
+    val jetbrainsKotlinVersion = "1.8.20"
 
     // we need to declare dependencies for all the used plugins in the buildScripts...
 
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${jetbrainKotlinVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-allopen:${jetbrainKotlinVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-noarg:${jetbrainKotlinVersion}") // for JPA entities
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${jetbrainsKotlinVersion}")
+    implementation("org.jetbrains.kotlin:kotlin-allopen:${jetbrainsKotlinVersion}")
+    implementation("org.jetbrains.kotlin:kotlin-noarg:${jetbrainsKotlinVersion}") // for JPA entities
 
     // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/
     implementation("org.springframework.boot:spring-boot-gradle-plugin:3.0.6")
@@ -58,7 +58,7 @@ repositories {
     mavenCentral()
     gradlePluginPortal()
     maven { url = uri("https://plugins.gradle.org/m2/") }
-    maven { url = uri("https://repo.spring.io/milestone") }
     maven { url = uri("https://repo.spring.io/release") }
-    // maven { url = uri("https://repo.spring.io/snapshot") }
+    maven { url = uri("https://repo.spring.io/milestone") }
+    maven { url = uri("https://repo.spring.io/snapshot") }
 }
