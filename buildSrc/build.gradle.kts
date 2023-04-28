@@ -8,7 +8,7 @@
 // plugins for the build src
 plugins {
     // https://plugins.gradle.org/plugin/org.gradle.kotlin.kotlin-dsl
-    val kotlinDslPluginVersion = "4.0.15"
+    val kotlinDslPluginVersion = "4.0.14"
     id("org.gradle.kotlin.kotlin-dsl") version kotlinDslPluginVersion  // `kotlin-dsl`
     id("org.gradle.kotlin.kotlin-dsl.base") version kotlinDslPluginVersion
     id("org.gradle.kotlin.kotlin-dsl.compiler-settings") version kotlinDslPluginVersion
