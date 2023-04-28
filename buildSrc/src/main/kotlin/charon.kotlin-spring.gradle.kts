@@ -13,7 +13,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 plugins {
     id("org.springframework.boot")
     id("io.spring.dependency-management")
-    id("com.google.cloud.tools.jib") // TODO: make this work with docker inside WSL2
+    id("com.google.cloud.tools.jib")
     id("org.openapi.generator")
     id("com.palantir.git-version")
     kotlin("jvm") // org.jetbrains.kotlin:kotlin-gradle-plugin
