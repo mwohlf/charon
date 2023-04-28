@@ -23,18 +23,6 @@ plugins {
     // see: https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html
 }
 
-
-// repos for dependencies of the module in which this plugin is used
-repositories {
-    maven { url = uri("https://repo.spring.io/snapshot") }
-    maven { url = uri("https://repo.spring.io/milestone") }
-    maven { url = uri("https://repo.spring.io/release") }
-    google()
-    mavenLocal()
-    mavenCentral()
-}
-
-
 tasks.withType<KotlinCompilationTask<KotlinJvmCompilerOptions>>().configureEach {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_17)
