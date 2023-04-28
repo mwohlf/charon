@@ -19,7 +19,7 @@ plugins {
 // it also contains all the base plugins we aggregate into out custom plugins
 dependencies {
     // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-gradle-plugin
-    val jetbrainKotlinVersion = "1.8.21"
+    val jetbrainKotlinVersion = "1.8.20"
 
     // we need to declare dependencies for all the used plugins in the buildScripts...
 
