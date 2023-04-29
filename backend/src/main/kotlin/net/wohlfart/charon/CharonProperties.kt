@@ -17,8 +17,7 @@ class CharonProperties(
 
     @NestedConfigurationProperty
     val oauthClients: Array<ClientConfig>,
-
-    )
+)
 
 class ApiConfig(
 
@@ -27,8 +26,7 @@ class ApiConfig(
     val logging: String,
 
     val oauth: String,
-
-    )
+)
 
 class ClientConfig(
 
@@ -39,8 +37,7 @@ class ClientConfig(
     val clientId: String,
 
     val postLogoutRedirectUri: String?,
-
-    )
+)
 
 
 /*

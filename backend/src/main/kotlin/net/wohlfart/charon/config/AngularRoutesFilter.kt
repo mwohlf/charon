@@ -1,5 +1,10 @@
 package net.wohlfart.charon.config
 
+import jakarta.servlet.Filter
+import jakarta.servlet.FilterChain
+import jakarta.servlet.ServletRequest
+import jakarta.servlet.ServletResponse
+import jakarta.servlet.http.HttpServletRequest
 import net.wohlfart.charon.CharonProperties
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -7,22 +12,15 @@ import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RequestMethod
 import java.util.logging.Logger
 
-import jakarta.servlet.Filter
-import jakarta.servlet.FilterChain
-import jakarta.servlet.ServletRequest
-import jakarta.servlet.ServletResponse
-import jakarta.servlet.http.HttpServletRequest
-
+const val API_PATH = "/api"
+const val SWAGGER_CONFIG_PATH = "/v3/api-docs"
+const val ACTUATOR_PATH = "/actuator"
+const val ASSETS_PATH = "/assets"
+const val INDEX_HTML = "/index.html"
 
 @Component
 class AngularRoutesFilter(val charonProperties: CharonProperties) : Filter {
     var logger = Logger.getLogger(this.javaClass.name)!!
-
-    val API_PATH = "/api"
-    val SWAGGER_CONFIG_PATH = "/v3/api-docs"
-    val ACTUATOR_PATH = "/actuator"
-    val ASSETS_PATH = "/assets"
-    val INDEX_HTML = "/index.html"
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, filterchain: FilterChain) {
         if (request !is HttpServletRequest) {
