@@ -3,9 +3,9 @@
         <mat-card>
             <mat-card-content>
                 <div *ngIf="buildProperties$ | async as buildProperties; else loadingBuildProperties">
-                    Name: {{buildProperties["name"]}} <br/>
-                    Version: {{buildProperties["version"]}} <br/>
-                    Timestamp: {{buildProperties["timestamp"]}} <br/>
+                    name: {{buildProperties["name"]}} <br/>
+                    version: {{buildProperties["version"]}} <br/>
+                    timestamp: {{buildProperties["timestamp"]}} <br/>
                 </div>
                 <ng-template #loadingBuildProperties>
                     Waiting for BuildProperties from backend...
@@ -15,14 +15,25 @@
         <br/>
         <mat-card>
             <mat-card-content>
-                <div *ngIf="userData$ | async as userData; else loadingUserData">
-                    userData: {{userData}} <br/>
+                <div *ngIf="isAuthenticated$ | async as isAuthenticated; else loadingIsAuthenticated">
+                    authenticated: {{isAuthenticated}} <br/>
                 </div>
-                <ng-template #loadingUserData>
-                    Userdata not available.
+                <ng-template #loadingIsAuthenticated>
+                    not authenticated
                 </ng-template>
             </mat-card-content>
         </mat-card>
+    <br/>
+    <mat-card>
+        <mat-card-content>
+            <div *ngIf="userName$ | async as userName; else loadingUsername">
+                name: {{userName}} <br/>
+            </div>
+            <ng-template #loadingUsername>
+                not authenticated
+            </ng-template>
+        </mat-card-content>
+    </mat-card>
 
 
 </app-page>

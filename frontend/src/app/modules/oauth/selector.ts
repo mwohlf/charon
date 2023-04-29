@@ -32,11 +32,17 @@ export const selectUserData = createSelector(
   },
 );
 
-
 export const selectConfigId = createSelector(
   selectOAuthFeature,
   (state: OAuthState) => {
     return state.configId
+  },
+);
+
+export const selectUserName = createSelector(
+  selectOAuthFeature,
+  (state: OAuthState) => {
+    return state.userName;
   },
 );
 

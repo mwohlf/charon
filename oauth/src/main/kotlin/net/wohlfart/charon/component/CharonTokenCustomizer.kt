@@ -12,10 +12,10 @@ class CharonTokenCustomizer : OAuth2TokenCustomizer<JwtEncodingContext> {
 
     override fun customize(context: JwtEncodingContext) {
         if (OAuth2TokenType.ACCESS_TOKEN.equals(context.tokenType)) {
-            context.claims.claims { claims -> claims["username"] = "just testing access token" }
+            context.claims.claims { claims -> claims["userName"] = "just testing access token" }
         } else if (OidcParameterNames.ID_TOKEN == context.tokenType.value) {
-            // TODO: fixme
-            context.claims.claims { claims -> claims["username"] = "just testing id token" }
+            // TODO: fixme and check if we can get the actual userName here...
+            context.claims.claims { claims -> claims["userName"] = "just testing id token" }
         }
     }
 

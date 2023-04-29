@@ -6,7 +6,11 @@ import {
 } from 'angular-auth-oidc-client/lib/config/openid-configuration';
 import {HomeComponent} from '../../pages/home/home.component';
 import {LoggerHolder} from '../../shared/logger-holder';
-import {EventTypes, LogLevel} from 'angular-auth-oidc-client';
+import {
+  EventTypes,
+  LogLevel,
+  OidcClientNotification,
+} from 'angular-auth-oidc-client';
 
 
 export const SIMPLE_CONFIG = 'spring-oauth';
@@ -20,6 +24,8 @@ export interface OAuthState {
   openIdConfigurations: Array<OpenIdConfiguration>,
   userData: any;
   errorMessage: string | undefined;
+  userName: string | undefined;
+  roles: string[];
 }
 
 export const initialState: OAuthState = {
@@ -29,11 +35,14 @@ export const initialState: OAuthState = {
   openIdConfigurations: [],
   userData: undefined,
   errorMessage: undefined,
+  userName: undefined,
+  roles: [],
 };
 
 const featureReducer = createReducer(
   initialState,
 
+  // login action triggers the workflow
   on(fromActions.loginAction,
     (state: OAuthState, {payload: {configId: configId}}) => {
       return {
@@ -43,17 +52,18 @@ const featureReducer = createReducer(
     },
   ),
 
+  // something coming from the oauth framework e.g. login success, token refresh etc.
   on(fromActions.oauthEventAction,
-    (state: OAuthState, {payload: payload}) => {
+    (state: OAuthState, {payload: payload }) => {
       // these values are copied and pasted from the last version of EventTypes
       // from the angular-auth-oidc-client lib, make sure to update
       // them when updating the lib!
 
-      let eventString = EventTypes[payload.type];
-      LoggerHolder.logger.debug(`<oauthEventAction> eventString: ${eventString}, payload: `, JSON.stringify(payload));
+      let authState: string = EventTypes[payload.type];
+      LoggerHolder.logger.debug(`<oauthEventAction> authState: ${authState}, payload: `, JSON.stringify(payload));
       let result = {
         ...state,
-        authState: eventString,
+        authState: authState,
       };
       switch (payload.type) {
         case EventTypes.UserDataChanged:
@@ -66,12 +76,14 @@ const featureReducer = createReducer(
         case EventTypes.ConfigLoadingFailed:
         default:
           // not doing anything here
+          LoggerHolder.logger.info(`<oauthEventAction> payload: `, JSON.stringify(payload));
           break;
       }
       return result;
     },
   ),
 
+  //
   on(fromActions.oidcSecurityAction,
     (state: OAuthState, {payload: payload}) => {
       LoggerHolder.logger.info(`<oidcSecurityAction> payload: `, JSON.stringify(payload));
@@ -81,11 +93,12 @@ const featureReducer = createReducer(
         isAuthenticated: payload.isAuthenticated,
         userData: payload.userData,
         errorMessage: payload.errorMessage,
+        userName: payload.userData["userName"],
       };
     },
   ),
 
-
+  // called after fetching the client list
   on(fromActions.readClientConfigurationListUsingGET_success,
     (state: OAuthState, {payload: payload}) => {
       LoggerHolder.logger.trace(`<readClientConfigurationListUsingGET_success> payload: `, JSON.stringify(payload));

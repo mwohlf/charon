@@ -10,7 +10,11 @@ import {page_spec} from '../page.spec';
 import {PageComponent} from '../../components/page/page.component';
 import {MatCardModule} from '@angular/material/card';
 import {AsyncPipe, NgIf} from '@angular/common';
-import {selectUserData} from '../../modules/oauth/selector';
+import {
+  isAuthenticated,
+  selectUserData,
+  selectUserName,
+} from '../../modules/oauth/selector';
 
 @Component({
   imports: [
@@ -34,13 +38,15 @@ export class HomeComponent implements OnInit {
   };
 
   buildProperties$: Observable<ConfigurationDetails | undefined>;
-  userData$: Observable<string>;
+  userName$: Observable<string | undefined>;
+  isAuthenticated$: Observable<boolean>;
 
   constructor(
     private store: Store<AppState>,
   ) {
     this.buildProperties$ = this.store.select(selectConfigurationDetails);
-    this.userData$ = this.store.select(selectUserData);
+    this.isAuthenticated$ = this.store.select(isAuthenticated);
+    this.userName$ = this.store.select(selectUserName);
   }
 
   ngOnInit(): void {
