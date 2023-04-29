@@ -18,9 +18,7 @@
 
 set -e
 
-
-# ===== global variables
-
+# files to encrypt
 TSL_CRT_FILE="tls.crt"
 TSL_KEY_FILE="tls.key"
 SETENV_FILE="setup_env.bash"
@@ -40,8 +38,7 @@ function finally {
         echo
         echo "finishing the script, error code is ${?}"
     fi
-    # back to where we came from
-    cd "${CURRENT_DIR}"
+    cd "${CURRENT_DIR}"  # back to where we came from
 }
 trap finally EXIT
 
@@ -51,9 +48,11 @@ function usage_exit {
     exit 2
 }
 
-# for running local we read content from file,
+# for running locally we read content from file,
 # otherwise it should be in the env already when running as GitHub action
 
+# this is the pass used to encrypt it's either from github secrets
+# or stored in a file
 if [[ -z "${GPG_PASSPHRASE}" ]]; then
     GPG_PASSPHRASE=$(cat "${SCRIPT_DIR}/../setup/gpg-passphrase.txt")
 fi

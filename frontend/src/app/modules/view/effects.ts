@@ -5,17 +5,29 @@ import {StyleManager} from './style-manager';
 import {Observable} from 'rxjs';
 import {setThemeDetails} from './action';
 import {Action} from '@ngrx/store';
-import {tap} from 'rxjs/operators';
-import {initialState} from './reducer';
+import {map, tap} from 'rxjs/operators';
+import {initialState, ThemeVariant} from './reducer';
 
 @Injectable()
 export class Effects {
+
+  private readonly browserThemeVariant: ThemeVariant;
 
   constructor(
     private action$: Actions,
     private logger: NGXLogger,
     private styleManager: StyleManager,
   ) {
+    // Initially check if dark mode is enabled on system
+    const darkModeOn =
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (darkModeOn) {
+      this.browserThemeVariant = 'dark';
+    } else {
+      this.browserThemeVariant = 'light';
+    }
+    this.logger.debug('<view init> browserThemeVariant:', this.browserThemeVariant);
   }
 
   ROOT_EFFECTS_INIT: Observable<Action> = createEffect(() => {
@@ -25,10 +37,19 @@ export class Effects {
         this.logger.debug('<ROOT_EFFECTS_INIT> setting style', action);
       }),
       tap((_) => {
-        this.styleManager.setStyle('theme', `${initialState.name}-${initialState.variant}.css`);
+        // this.styleManager.setStyle('theme', `${initialState.name}-${initialState.variant}.css`);
+      }),
+      map(() => {
+        return setThemeDetails({
+          payload: {
+            name: initialState.name,
+            variant: this.browserThemeVariant,
+            displayName: initialState.displayName,
+          },
+        });
       }),
     );
-  }, {dispatch: false});
+  }, {dispatch: true});
 
   configureTheme$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(

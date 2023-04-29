@@ -1,9 +1,10 @@
 import {createAction, props} from '@ngrx/store';
 import {NavState, ThemeDetails} from './reducer';
-import {oAuthFeature} from '../../shared/const';
+import {viewFeature} from '../../shared/const';
 import {MatDrawerMode} from '@angular/material/sidenav';
 
-const GROUP = '@app/' + oAuthFeature;
+const GROUP = '@app/' + viewFeature;
+
 
 export const setThemeDetails = createAction(
   `${GROUP}/configureTheme`,
