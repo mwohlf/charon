@@ -6,28 +6,13 @@
     $color-config: mat.get-color-config($config-or-theme);
     $background: map.get($color-config, background);
     $foreground: map.get($color-config, foreground);
+
+    // Get the primary color palette from the color-config.
     $primary-palette: map.get($color-config, 'primary');
 
-    .app-menu {
-        background: mat.get-color-from-palette($background, card);
-        color: mat.get-color-from-palette($foreground, text);
-    }
-    .menu-caption {
-        position: absolute;
-        margin-top: 3px;
-        margin-left: 9px;
-    }
-    .mat-mdc-nav-list .is-active {
-        background-color: mat.get-color-from-palette($primary-palette, 200) !important;
-    }
-    .mat-mdc-nav-list .mat-mdc-list-item:hover {
-        background-color: mat.get-color-from-palette($primary-palette, 100) !important;
-    }
-    .mat-mdc-nav-list .mat-mdc-list-item:hover mat-icon {
-        transform: scale(1.7) !important;
-    }
-    .mdc-list-item__content {
-        overflow: visible !important;
+    .app-page {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 }
 
@@ -35,7 +20,7 @@
     // Get the typography config from the theme.
     $typography-config: mat.get-typography-config($theme);
 
-    .app-menu {
+    h1 {
         font-family: mat.font-family($typography-config);
     }
 }

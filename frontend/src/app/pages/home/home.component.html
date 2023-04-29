@@ -1,23 +1,28 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>Home</mat-card-title>
-    </mat-card-header>
+<app-page header="Home">
 
-    <mat-card-content>
+        <mat-card>
+            <mat-card-content>
+                <div *ngIf="buildProperties$ | async as buildProperties; else loadingBuildProperties">
+                    Name: {{buildProperties["name"]}} <br/>
+                    Version: {{buildProperties["version"]}} <br/>
+                    Timestamp: {{buildProperties["timestamp"]}} <br/>
+                </div>
+                <ng-template #loadingBuildProperties>
+                    Waiting for BuildProperties from backend...
+                </ng-template>
+            </mat-card-content>
+        </mat-card>
+        <br/>
+        <mat-card>
+            <mat-card-content>
+                <div *ngIf="userData$ | async as userData; else loadingUserData">
+                    userData: {{userData}} <br/>
+                </div>
+                <ng-template #loadingUserData>
+                    Userdata not available.
+                </ng-template>
+            </mat-card-content>
+        </mat-card>
 
-        <div *ngIf="buildProperties$ | async as buildProperties; else loadingTmpl">
 
-            <mat-list role="list">
-                <mat-list-item role="listitem">{{buildProperties["name"]}}</mat-list-item>
-                <mat-list-item role="listitem">{{buildProperties["version"]}}</mat-list-item>
-                <mat-list-item role="listitem">{{buildProperties["timestamp"]}}</mat-list-item>
-            </mat-list>
-
-        </div>
-
-        <ng-template #loadingTmpl>
-            Loading stuff...
-        </ng-template>
-
-    </mat-card-content>
-</mat-card>
+</app-page>

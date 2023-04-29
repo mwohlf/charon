@@ -4,7 +4,8 @@
        (click)="closeNavigation(matDrawerMode)"
        [routerLinkActive]="['is-active']"
        [routerLink]="[item.route]">
-        <mat-icon>{{item.icon}}</mat-icon>
+        <mat-icon class="material-icons-outlined">
+            {{item.icon}}</mat-icon>
         <span class="menu-caption">{{item.title}}</span>
     </a>
 </mat-nav-list>

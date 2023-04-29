@@ -1,14 +1,14 @@
 <ng-container *ngIf="currentTheme$ | async as currentTheme">
+    <div style="white-space: nowrap;">
+        <button mat-icon-button (click)="toggleDarkMode(currentTheme)" matTooltip="Toggle Theme">
+            <mat-icon fontSet="material-icons-outlined">{{(currentTheme.variant == 'dark') ? 'light_mode' : 'dark_mode'}}</mat-icon>
+        </button>
 
-    <button mat-icon-button (click)="toggleDarkMode(currentTheme)" matTooltip="Toggle Theme">
-        <mat-icon fontSet="material-icons-outlined">{{(currentTheme.variant == 'dark') ? 'light_mode' : 'dark_mode'}}</mat-icon>
-    </button>
-
-    <button mat-icon-button [mat-menu-trigger-for]="themeMenu" aria-label="Select a theme"
-            matTooltip="Select a theme">
-        <mat-icon>format_color_fill</mat-icon>
-    </button>
-
+        <button mat-icon-button [mat-menu-trigger-for]="themeMenu" aria-label="Select a theme"
+                matTooltip="Select a theme">
+            <mat-icon>format_color_fill</mat-icon>
+        </button>
+    </div>
     <mat-menu #themeMenu="matMenu" xPosition="before" class="docs-theme-picker-menu">
         <button mat-menu-item *ngFor="let theme of themes" (click)="selectTheme(currentTheme, theme.name)">
             <ng-container *ngIf="(currentTheme$ | async)?.name != theme.name; else currentThemeRadio">

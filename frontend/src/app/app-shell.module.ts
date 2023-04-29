@@ -32,6 +32,7 @@ import {ViewModule} from './components/theme-picker/view.module';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {HeaderComponent} from './components/header/header.component';
 import {GlobalErrorHandler} from './shared/error-handler';
+import {PageComponent} from './components/page/page.component';
 
 
 export interface AppState {
@@ -100,11 +101,11 @@ const prefersReducedMotion =
     HeaderComponent,
     FooterComponent,
     MenuComponent,
+    PageComponent,
   ],
   declarations: [
     AppComponent,
     ErrorComponent,
-    HomeComponent,
     LoginComponent,
     MainComponent,
     ProtectedComponent,
