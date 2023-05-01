@@ -20,7 +20,7 @@ $_theme: mat.define-light-theme((
 ));
 
 @include mat.all-component-themes($_theme);
-@include app-theme.theme($_theme);
+//@include app-theme.theme($_theme);
 @include app.theme($_theme);
 // components
 @include footer.theme($_theme);
