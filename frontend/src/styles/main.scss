@@ -3,7 +3,7 @@
 // check: https://indepth.dev/tutorials/angular/angular-material-theming-system-complete-guide
 @use '@angular/material' as mat;
 
-@use 'styles/app-theme';
+@use 'src/styles/app-theme';
 
 // local fonts and icons to avoid using a CDN
 @import 'node_modules/material-icons/iconfont/material-icons';
