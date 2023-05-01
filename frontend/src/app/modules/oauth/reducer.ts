@@ -25,7 +25,7 @@ export interface OAuthState {
   userData: any;
   errorMessage: string | undefined;
   userName: string | undefined;
-  roles: string[];
+  roles: string[] | undefined;
 }
 
 export const initialState: OAuthState = {
@@ -36,7 +36,7 @@ export const initialState: OAuthState = {
   userData: undefined,
   errorMessage: undefined,
   userName: undefined,
-  roles: [],
+  roles: undefined,
 };
 
 const featureReducer = createReducer(

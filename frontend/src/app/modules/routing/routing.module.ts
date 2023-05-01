@@ -7,11 +7,22 @@ import {ProtectedComponent} from '../../pages/protected/protected.component';
 import {LoggerHolder} from '../../shared/logger-holder';
 import {LoginComponent} from '../../pages/login/login.component';
 import {AutoLoginPartialRoutesGuard} from 'angular-auth-oidc-client';
+import {SettingsComponent} from '../../pages/settings/settings.component';
 
 const routes: Routes = [
   {
     path: LoginComponent.SPEC.route,
     component: LoginComponent,
+    canActivate: [AutoLoginPartialRoutesGuard],
+  },
+  {
+    path: ProtectedComponent.SPEC.route,
+    component: ProtectedComponent,
+    canActivate: [AutoLoginPartialRoutesGuard],
+  },
+  {
+    path: SettingsComponent.SPEC.route,
+    component: SettingsComponent,
     canActivate: [AutoLoginPartialRoutesGuard],
   },
   {
@@ -26,11 +37,7 @@ const routes: Routes = [
     path: MainComponent.SPEC.route,
     component: MainComponent,
   },
-  {
-    path: ProtectedComponent.SPEC.route,
-    component: ProtectedComponent,
-    canActivate: [AutoLoginPartialRoutesGuard],
-  },
+
   {path: '', redirectTo: HomeComponent.SPEC.route, pathMatch: 'full'},
   {path: '**', redirectTo: ErrorComponent.SPEC.route},
 ];

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {page_spec} from '../page.spec';
+import {PageConfig} from '../page-config';
 
 @Component({
   selector: 'app-main',
@@ -8,10 +8,11 @@ import {page_spec} from '../page.spec';
 })
 export class MainComponent implements OnInit {
 
-  static SPEC: page_spec = {
+  static SPEC: PageConfig = {
     route: 'main',
     icon: 'stars',
     title: 'Main',
+    requiredRoles: [],
     component: MainComponent,
   }
 

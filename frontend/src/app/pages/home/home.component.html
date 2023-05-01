@@ -1,37 +1,34 @@
 <app-page header="Home">
 
-        <mat-card>
-            <mat-card-content>
-                <div *ngIf="buildProperties$ | async as buildProperties; else loadingBuildProperties">
-                    name: {{buildProperties["name"]}} <br/>
-                    version: {{buildProperties["version"]}} <br/>
-                    timestamp: {{buildProperties["timestamp"]}} <br/>
-                </div>
-                <ng-template #loadingBuildProperties>
-                    Waiting for BuildProperties from backend...
-                </ng-template>
-            </mat-card-content>
-        </mat-card>
-        <br/>
-        <mat-card>
-            <mat-card-content>
-                <div *ngIf="isAuthenticated$ | async as isAuthenticated; else loadingIsAuthenticated">
-                    authenticated: {{isAuthenticated}} <br/>
-                </div>
-                <ng-template #loadingIsAuthenticated>
-                    not authenticated
-                </ng-template>
-            </mat-card-content>
-        </mat-card>
+    <mat-card>
+        <mat-card-content>
+            <div *ngIf="buildProperties$ | async as buildProperties; else loadingBuildProperties">
+                name: {{buildProperties["name"]}} <br/>
+                version: {{buildProperties["version"]}} <br/>
+                timestamp: {{buildProperties["timestamp"]}} <br/>
+            </div>
+            <ng-template #loadingBuildProperties>
+                Waiting for BuildProperties from backend...
+            </ng-template>
+        </mat-card-content>
+    </mat-card>
     <br/>
     <mat-card>
         <mat-card-content>
-            <div *ngIf="userName$ | async as userName; else loadingUsername">
-                name: {{userName}} <br/>
+            <div *ngIf="isAuthenticated$ | async as isAuthenticated; else loadingIsAuthenticated">
+                authenticated: {{isAuthenticated}} <br/>
             </div>
-            <ng-template #loadingUsername>
+            <ng-template #loadingIsAuthenticated>
                 not authenticated
             </ng-template>
+        </mat-card-content>
+    </mat-card>
+    <br/>
+    <mat-card *ngIf="userName$ | async as userName;">
+        <mat-card-content>
+            <div>
+                name: {{userName}} <br/>
+            </div>
         </mat-card-content>
     </mat-card>
 

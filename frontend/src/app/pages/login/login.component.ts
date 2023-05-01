@@ -1,12 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ConfigurationDetails} from 'build/generated/model/models';
-import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../app-shell.module';
-import {
-  selectConfigurationDetails,
-} from '../../modules/config/selector';
-import {page_spec} from '../page.spec';
+import {PageConfig} from '../page-config';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +10,13 @@ import {page_spec} from '../page.spec';
 })
 export class LoginComponent implements OnInit {
 
-  static SPEC: page_spec = {
+  static SPEC: PageConfig = {
     route: 'login',
     icon: 'login',
     title: 'login',
+    requiredRoles: [],
     component: LoginComponent,
-  }
+  };
 
   constructor(
     private store: Store<AppState>,

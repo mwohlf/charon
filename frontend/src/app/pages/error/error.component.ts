@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {page_spec} from '../page.spec';
+import {PageConfig} from '../page-config';
 
 @Component({
   selector: 'app-error',
@@ -8,12 +8,13 @@ import {page_spec} from '../page.spec';
 })
 export class ErrorComponent implements OnInit {
 
-  static SPEC: page_spec = {
+  static SPEC: PageConfig = {
     route: 'error',
     icon: 'error',
     title: 'Error',
+    requiredRoles: [],
     component: ErrorComponent,
-  }
+  };
 
   constructor() {
   }

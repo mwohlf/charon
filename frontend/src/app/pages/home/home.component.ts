@@ -3,18 +3,12 @@ import {ConfigurationDetails} from 'build/generated/model/models';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../app-shell.module';
-import {
-  selectConfigurationDetails,
-} from '../../modules/config/selector';
-import {page_spec} from '../page.spec';
+import {selectConfigurationDetails} from '../../modules/config/selector';
+import {PageConfig} from '../page-config';
 import {PageComponent} from '../../components/page/page.component';
 import {MatCardModule} from '@angular/material/card';
 import {AsyncPipe, NgIf} from '@angular/common';
-import {
-  isAuthenticated,
-  selectUserData,
-  selectUserName,
-} from '../../modules/oauth/selector';
+import {isAuthenticated, selectUserName} from '../../modules/oauth/selector';
 
 @Component({
   imports: [
@@ -30,10 +24,11 @@ import {
 })
 export class HomeComponent implements OnInit {
 
-  static SPEC: page_spec = {
+  static SPEC: PageConfig = {
     route: 'home',
     icon: 'home',
     title: 'Home',
+    requiredRoles: [],
     component: HomeComponent,
   };
 

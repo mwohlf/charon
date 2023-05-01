@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {page_spec} from '../page.spec';
+import {PageConfig} from '../page-config';
 
 @Component({
   selector: 'app-protected',
@@ -8,10 +8,11 @@ import {page_spec} from '../page.spec';
 })
 export class ProtectedComponent implements OnInit {
 
-  static SPEC: page_spec = {
+  static SPEC: PageConfig = {
     route: 'protected',
     icon: 'loop',
     title: 'Protected',
+    requiredRoles: [],
     component: ProtectedComponent,
   }
 

@@ -13,7 +13,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {MatListModule} from '@angular/material/list';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
-import {page_spec} from '../../pages/page.spec';
+import {PageConfig} from '../../pages/page-config';
+import {SettingsComponent} from '../../pages/settings/settings.component';
 
 @Component({
   imports: [
@@ -35,17 +36,19 @@ export class MenuComponent implements OnInit {
   matDrawerMode$: Observable<MatDrawerMode>;
 
 
-  public menuItems = [
+  public menuItems: PageConfig[] = [
     HomeComponent.SPEC,
-    ErrorComponent.SPEC,
-    MainComponent.SPEC,
-    ProtectedComponent.SPEC,
-  ].map((spec: page_spec) => {
+    SettingsComponent.SPEC,
+    //  ErrorComponent.SPEC,
+    //   MainComponent.SPEC,
+    //  ProtectedComponent.SPEC,
+  ].map((spec: PageConfig) => {
     return {
       ...spec,
+      // fix the route
       'route': MenuComponent.PREFIX + spec.route,
-    }
-  })
+    };
+  });
 
   // we need a custom implementation of the open/close trigger...
   //  - esc
@@ -58,8 +61,11 @@ export class MenuComponent implements OnInit {
     this.matDrawerMode$ = this.store.select(selectNavDrawMode);
   }
 
-
   ngOnInit(): void {
+  }
+
+  isVisible(item: PageConfig): boolean {
+    return true;
   }
 
   closeNavigation(matDrawerMode: MatDrawerMode) {
