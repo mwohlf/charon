@@ -4,7 +4,7 @@ import {ClientConfiguration} from 'build/generated';
 import {NotificationData} from '../notification/reducer';
 import {oAuthFeature} from '../../shared/const';
 
-const GROUP = '@app/' + oAuthFeature;
+const GROUP: string = '@app/' + oAuthFeature;
 
 export const readClientConfigurationListUsingGET = createAction(
   `${GROUP}/readClientConfigurationListUsingGET`,

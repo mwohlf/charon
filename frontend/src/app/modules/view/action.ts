@@ -3,7 +3,7 @@ import {NavState, ThemeDetails} from './reducer';
 import {viewFeature} from '../../shared/const';
 import {MatDrawerMode} from '@angular/material/sidenav';
 
-const GROUP = '@app/' + viewFeature;
+const GROUP: string = '@app/' + viewFeature;
 
 
 export const setThemeDetails = createAction(

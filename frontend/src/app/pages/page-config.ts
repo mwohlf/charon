@@ -1,3 +1,5 @@
+// properties of a page component
+// required roles, title, icon...
 export type PageConfig = {
   route: string;
   icon: string;

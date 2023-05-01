@@ -105,10 +105,6 @@ const prefersReducedMotion =
   ],
   declarations: [
     AppComponent,
-    ErrorComponent,
-    LoginComponent,
-    MainComponent,
-    ProtectedComponent,
   ],
   providers: [
     {

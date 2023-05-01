@@ -15,6 +15,7 @@ import {MatListModule} from '@angular/material/list';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {PageConfig} from '../../pages/page-config';
 import {SettingsComponent} from '../../pages/settings/settings.component';
+import {AdminComponent} from '../../pages/admin/admin.component';
 
 @Component({
   imports: [
@@ -39,6 +40,7 @@ export class MenuComponent implements OnInit {
   public menuItems: PageConfig[] = [
     HomeComponent.SPEC,
     SettingsComponent.SPEC,
+    AdminComponent.SPEC,
     //  ErrorComponent.SPEC,
     //   MainComponent.SPEC,
     //  ProtectedComponent.SPEC,

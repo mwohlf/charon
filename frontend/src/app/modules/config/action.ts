@@ -3,7 +3,7 @@ import {ConfigurationDetails} from 'build/generated';
 import {NotificationData} from '../notification/reducer';
 import {configFeature} from '../../shared/const';
 
-const GROUP = '@app/' + configFeature;
+const GROUP: string = '@app/' + configFeature;
 
 // this is a handle for action chaining,
 // whatever needs to be done after the config is loaded can happen afterwards...

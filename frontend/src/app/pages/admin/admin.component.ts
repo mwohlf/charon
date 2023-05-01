@@ -12,19 +12,22 @@ import {AsyncPipe, NgIf} from '@angular/common';
     AsyncPipe,
   ],
   standalone: true,
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
+  selector: 'app-main',
+  templateUrl: './admin.component.html',
+  styleUrls: ['./admin.component.scss'],
 })
-export class SettingsComponent implements OnInit {
+export class AdminComponent implements OnInit {
 
   static SPEC: PageConfig = {
-    route: 'settings',
-    icon: 'settings',
-    title: 'Settings',
-    requiredRoles: [],
-    component: SettingsComponent,
+    route: 'main',
+    icon: 'stars',
+    title: 'Main',
+    requiredRoles: ['admin'],
+    component: AdminComponent,
   };
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
