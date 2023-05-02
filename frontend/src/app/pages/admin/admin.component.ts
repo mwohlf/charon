@@ -19,9 +19,9 @@ import {AsyncPipe, NgIf} from '@angular/common';
 export class AdminComponent implements OnInit {
 
   static SPEC: PageConfig = {
-    route: 'main',
+    route: 'admin',
     icon: 'stars',
-    title: 'Main',
+    title: 'Admin',
     requiredRoles: ['admin'],
     component: AdminComponent,
   };

@@ -2,8 +2,12 @@ package net.wohlfart.charon.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.databind.JsonSerializer
+import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import jakarta.persistence.*
+import mu.KotlinLogging
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.Parameter
 import org.springframework.security.core.GrantedAuthority
@@ -13,6 +17,8 @@ import kotlin.jvm.Transient
 
 
 // TODO: JSON serialization
+
+private val logger = KotlinLogging.logger {}
 
 @Entity
 @JsonDeserialize
@@ -33,24 +39,27 @@ data class AuthUserDetails(
     @Column(name = "enabled")
     var enabled: Boolean = false,
 
+    // @JsonSerialize(using = HibernateBagSerializer::class)
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_details_authorities",
-        joinColumns = [ JoinColumn(name = "user_details_id") ],
-        inverseJoinColumns = [ JoinColumn(name = "user_authorities_id") ])
+    @JoinTable(
+        name = "user_details_authorities",
+        joinColumns = [JoinColumn(name = "user_details_id")],
+        inverseJoinColumns = [JoinColumn(name = "user_authorities_id")]
+    )
     var authorities: MutableList<Authority> = mutableListOf(),
 
-) : UserDetails {
+    ) : UserDetails {
 
     @Id
     @GenericGenerator(
-        name = "userDetailsSequenceGenerator",
+        name = "sequenceGenerator",
         strategy = "org.hibernate.id.enhanced.TableGenerator",
         parameters = [
             Parameter(name = "segment_value", value = "user-details-sequence")
         ]
     )
-    @GeneratedValue(generator = "userDetailsSequenceGenerator")
+    @GeneratedValue(generator = "sequenceGenerator")
     var id: Int? = null
 
     @Transient // lazy init
@@ -88,4 +97,16 @@ data class AuthUserDetails(
             grantedAuthorities
         }
     }
+}
+
+
+class HibernateBagSerializer: JsonSerializer<MutableList<Authority>>() {
+
+    override fun serialize(value: MutableList<Authority>,
+                           gen: JsonGenerator,
+                           serializers: SerializerProvider) {
+        // TODO implement me
+        logger.info { "logger called with $value" }
+    }
+
 }
