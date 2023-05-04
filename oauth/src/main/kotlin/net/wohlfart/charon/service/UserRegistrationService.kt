@@ -7,7 +7,7 @@ import net.wohlfart.charon.controller.REQUEST_PARAM_TOKEN
 import net.wohlfart.charon.controller.REQUEST_PATH_CONFIRM
 import net.wohlfart.charon.dto.UserDto
 import net.wohlfart.charon.entity.AuthUserDetails
-import net.wohlfart.charon.entity.AuthorityName
+import net.wohlfart.charon.entity.AuthorityIdentifier
 import net.wohlfart.charon.entity.UserRegistration
 import net.wohlfart.charon.exception.TokenNotFoundException
 import net.wohlfart.charon.mail.createRegistration
@@ -44,8 +44,8 @@ class UserRegistrationService(
             password = passwordEncoder.encode(userDto.password),
             email = userDto.email,
         )
-        userDetails.authorities.add(authorityRepository.findByName(AuthorityName.ROLE_GENERAL))
-        userDetails.authorities.add(authorityRepository.findByName(AuthorityName.ROLE_USER))
+        userDetails.authorities.add(authorityRepository.findByName(AuthorityIdentifier.ROLE_GENERAL))
+        userDetails.authorities.add(authorityRepository.findByName(AuthorityIdentifier.ROLE_USER))
         val registration = registrationRepository.save(
             UserRegistration(userDetails = userDetails)
         )

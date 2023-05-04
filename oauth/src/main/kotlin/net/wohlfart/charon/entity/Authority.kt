@@ -3,6 +3,7 @@ package net.wohlfart.charon.entity
 import jakarta.persistence.*
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.Parameter
+import org.springframework.security.core.GrantedAuthority
 
 
 @Entity
@@ -11,9 +12,9 @@ data class Authority(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "name", unique = true, nullable = false, length = 64)
-    var name: AuthorityName? = null
+    private var identifier: AuthorityIdentifier? = null
 
-) {
+): GrantedAuthority {
 
     @Id
     @GenericGenerator(
@@ -26,13 +27,13 @@ data class Authority(
     @GeneratedValue(generator = "sequenceGenerator")
     var id: Int? = null
 
-    // @ManyToMany(mappedBy = "authorities")
-    // var userDetails = mutableListOf<AuthUserDetails>()
-
+    override fun getAuthority(): String {
+        return this.identifier!!.name
+    }
 }
 
 
-enum class AuthorityName {
+enum class AuthorityIdentifier {
     ROLE_ROOT,
     ROLE_ADMIN,
     ROLE_CUSTOMER,

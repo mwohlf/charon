@@ -2,7 +2,7 @@ package net.wohlfart.charon.repository
 
 import net.wohlfart.charon.entity.AuthUserDetails
 import net.wohlfart.charon.entity.Authority
-import net.wohlfart.charon.entity.AuthorityName
+import net.wohlfart.charon.entity.AuthorityIdentifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ClassPathResource
@@ -28,10 +28,10 @@ class DatabaseBootstrap(
         authorityRepository.deleteAll()
         // then re-create
         authorityRepository.saveAll(
-            AuthorityName.values().map { authorityName: AuthorityName -> Authority(authorityName) })
-        val adminRole = authorityRepository.findByName(AuthorityName.ROLE_ADMIN)
-        val userRole = authorityRepository.findByName(AuthorityName.ROLE_USER)
-        val generalRole = authorityRepository.findByName(AuthorityName.ROLE_GENERAL)
+            AuthorityIdentifier.values().map { authorityIdentifier: AuthorityIdentifier -> Authority(authorityIdentifier) })
+        val adminRole = authorityRepository.findByName(AuthorityIdentifier.ROLE_ADMIN)
+        val userRole = authorityRepository.findByName(AuthorityIdentifier.ROLE_USER)
+        val generalRole = authorityRepository.findByName(AuthorityIdentifier.ROLE_GENERAL)
         authUserRepository.save(bootstrapUser(arrayOf(adminRole, userRole, generalRole)))
     }
 
