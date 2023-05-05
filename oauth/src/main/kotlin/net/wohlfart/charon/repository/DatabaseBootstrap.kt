@@ -29,9 +29,9 @@ class DatabaseBootstrap(
         // then re-create
         authorityRepository.saveAll(
             AuthorityIdentifier.values().map { authorityIdentifier: AuthorityIdentifier -> Authority(authorityIdentifier) })
-        val adminRole = authorityRepository.findByName(AuthorityIdentifier.ROLE_ADMIN)
-        val userRole = authorityRepository.findByName(AuthorityIdentifier.ROLE_USER)
-        val generalRole = authorityRepository.findByName(AuthorityIdentifier.ROLE_GENERAL)
+        val adminRole = authorityRepository.findByIdentifier(AuthorityIdentifier.ROLE_ADMIN)
+        val userRole = authorityRepository.findByIdentifier(AuthorityIdentifier.ROLE_USER)
+        val generalRole = authorityRepository.findByIdentifier(AuthorityIdentifier.ROLE_GENERAL)
         authUserRepository.save(bootstrapUser(arrayOf(adminRole, userRole, generalRole)))
     }
 

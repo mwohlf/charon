@@ -44,8 +44,8 @@ class UserRegistrationService(
             password = passwordEncoder.encode(userDto.password),
             email = userDto.email,
         )
-        userDetails.authorities.add(authorityRepository.findByName(AuthorityIdentifier.ROLE_GENERAL))
-        userDetails.authorities.add(authorityRepository.findByName(AuthorityIdentifier.ROLE_USER))
+        userDetails.authorities.add(authorityRepository.findByIdentifier(AuthorityIdentifier.ROLE_GENERAL))
+        userDetails.authorities.add(authorityRepository.findByIdentifier(AuthorityIdentifier.ROLE_USER))
         val registration = registrationRepository.save(
             UserRegistration(userDetails = userDetails)
         )

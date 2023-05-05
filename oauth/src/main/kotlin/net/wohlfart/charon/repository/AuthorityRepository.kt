@@ -7,6 +7,6 @@ import org.springframework.data.repository.CrudRepository
 
 interface AuthorityRepository: CrudRepository<Authority, Int> {
 
-    fun findByName(authorityIdentifier: AuthorityIdentifier): Authority
+    fun findByIdentifier(authorityIdentifier: AuthorityIdentifier): Authority
 
 }
