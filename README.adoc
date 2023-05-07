@@ -195,10 +195,12 @@ shows the current IP which needs to b configured in cloudflare
 
 === update UI componets:
 
-``
+[source]
+----
 cd frontend
 ncu -u
-``
+npm install --legacy-peer-deps
+----
 
 
 
