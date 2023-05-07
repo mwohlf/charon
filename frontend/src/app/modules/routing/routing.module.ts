@@ -8,6 +8,7 @@ import {LoggerHolder} from '../../shared/logger-holder';
 import {LoginComponent} from '../../pages/login/login.component';
 import {AutoLoginPartialRoutesGuard} from 'angular-auth-oidc-client';
 import {SettingsComponent} from '../../pages/settings/settings.component';
+import {AdminComponent} from '../../pages/admin/admin.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: HomeComponent.SPEC.route,
     component: HomeComponent,
+  },
+  {
+    path: AdminComponent.SPEC.route,
+    component: AdminComponent,
   },
   {
     path: MainComponent.SPEC.route,

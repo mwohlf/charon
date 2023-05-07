@@ -103,7 +103,6 @@ net:
               - "https://backend.wired-heart.com/charon/silent-renew.html"
               - "https://backend.wired-heart.com/charon/home"
               - "https://app.wired-heart.com/charon/home"
-            post-logout-redirect-uri: http://127.0.0.1:4200/charon/home
           readonly-client:
             client-authentication-method: BASIC
             authorization-grant-type: CLIENT_CREDENTIALS

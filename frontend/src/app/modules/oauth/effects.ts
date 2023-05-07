@@ -234,7 +234,7 @@ export class Effects {
         if (!authority) {
           this.logger.error('<logoutAction> could not find the authority for:', JSON.stringify([action, oAuthFeature]));
           this.oidcSecurityService.logoffLocalMultiple();
-          window.location.href = authority + '/logout';
+          // window.location.href = authority + '/logout';
         } else {
           const logger = this.logger;
           const oidcSecurityService = this.oidcSecurityService;
@@ -250,7 +250,7 @@ export class Effects {
               error(failure) {
                 logger.error(`<logoutAction> failure for logoffAndRevokeTokens ${action} ${oAuthFeature} ${failure}`);
                 oidcSecurityService.logoffLocal(oAuthFeature.configId);
-                window.location.href = authority + '/logout';
+                // window.location.href = authority + '/logout';
               },
             },
           );

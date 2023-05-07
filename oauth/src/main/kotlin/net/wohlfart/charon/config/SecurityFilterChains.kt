@@ -27,12 +27,11 @@ import org.springframework.security.web.authentication.ui.DefaultLoginPageGenera
 @Configuration(proxyBeanMethods = false)
 class SecurityFilterChains {
 
-
     // see: https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
     //      https://docs.spring.io/spring-authorization-server/docs/current/reference/html/getting-started.html
     @Bean
     @Throws(Exception::class)
-    @Order(1)
+    @Order(1)  // http://127.0.0.1:8081/.well-known/openid-configuration needs to be available before the login
     fun authorizationServerSecurityFilterChain(
         http: HttpSecurity,
         oAuth2AuthorizationService: OAuth2AuthorizationService,
@@ -64,21 +63,6 @@ class SecurityFilterChains {
             )
         }
 
-        // use access tokens for User Info if configured
-        // and/or Client Registration
-        /*
-        http.oauth2ResourceServer { oAuth2ResourceServerConfigurer: OAuth2ResourceServerConfigurer<HttpSecurity>
-            ->
-            oAuth2ResourceServerConfigurer
-                .jwt()
-        }
-        http.securityMatcher("/userinfo").oauth2ResourceServer { oAuth2ResourceServerConfigurer: OAuth2ResourceServerConfigurer<HttpSecurity>
-            ->
-            oAuth2ResourceServerConfigurer
-                .jwt()
-        }
-        */
-
         return http.build()
     }
 
@@ -108,11 +92,11 @@ class SecurityFilterChains {
         http.formLogin()
             .loginPage(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL)
             .permitAll()
-        // send back to applicaion on logout
+        // send back to application on logout
         http.logout().logoutSuccessUrl(oAuthProperties.appHomeUrl)
-        // ths is for the H2 console TODO: not for production
-        http.csrf { csrf -> csrf.disable() } // for the h2 console
-        http.headers().frameOptions().sameOrigin() // which uses frames it seems
+        // this is for the H2 console TODO: not for production
+        // http.csrf { csrf -> csrf.disable() } // for the h2 console
+        // http.headers().frameOptions().sameOrigin() // which uses frames it seems
         return http.build()
     }
 
@@ -123,6 +107,7 @@ class SecurityFilterChains {
         authorizationServerConfigurer
             // OpenID Connect 1.0 is disabled in the default configuration, we need to enable it
             .oidc(Customizer.withDefaults())
+            .tokenRevocationEndpoint(Customizer.withDefaults())
         return authorizationServerConfigurer
     }
 

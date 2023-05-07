@@ -72,9 +72,5 @@ fun buildClient(clientId: String, clientEntry: ClientEntry): RegisteredClient {
         publicClient.scope(it)
     }
 
-    clientEntry.postLogoutRedirectUri?.apply {
-        publicClient.postLogoutRedirectUri(this)
-    }
-
     return publicClient.build()
 }
