@@ -103,7 +103,7 @@ net:
               - "https://backend.wired-heart.com/charon/silent-renew.html"
               - "https://backend.wired-heart.com/charon/home"
               - "https://app.wired-heart.com/charon/home"
-          readonly-client:
-            client-authentication-method: BASIC
-            authorization-grant-type: CLIENT_CREDENTIALS
-            client-credentials: ${READONLY_CLIENT_CREDENTIALS:unconfigured-readonly-client-credentials}
+ #         readonly-client:
+ #           client-authentication-method: BASIC
+ #           authorization-grant-type: CLIENT_CREDENTIALS
+ #           client-credentials: ${READONLY_CLIENT_CREDENTIALS:unconfigured-readonly-client-credentials}

@@ -81,7 +81,7 @@ class UserRegistrationService(
         // RememberMeAuthenticationToken, UsernamePasswordAuthenticationToken
         val securityContext = SecurityContextHolder.getContext()
         securityContext.authentication =
-            RememberMeAuthenticationToken(tokenValue, authUserDetails, authUserDetails.grantedAuthorities)
+            RememberMeAuthenticationToken(tokenValue, authUserDetails, authUserDetails.authorities)
         return securityContext
     }
 

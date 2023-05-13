@@ -57,6 +57,7 @@ data class AuthUserDetails(
 
     ) : UserDetails {
 
+
     @Id
     @GenericGenerator(
         name = "sequenceGenerator",
@@ -67,9 +68,6 @@ data class AuthUserDetails(
     )
     @GeneratedValue(generator = "sequenceGenerator")
     var id: Int? = null
-
-    @Transient // lazy init
-    var grantedAuthorities: MutableCollection<out GrantedAuthority> = mutableListOf()
 
     override fun isEnabled(): Boolean {
         return enabled
@@ -98,12 +96,7 @@ data class AuthUserDetails(
     @JsonDeserialize(using = AuthoritiesDeserializer::class)
     @JsonSerialize(using = AuthoritiesSerializer::class)
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return grantedAuthorities.ifEmpty {
-            grantedAuthorities = authorities
-                .map { authority -> SimpleGrantedAuthority(authority.authority) }
-                .toMutableList()
-            grantedAuthorities
-        }
+        return authorities
     }
 
 }
