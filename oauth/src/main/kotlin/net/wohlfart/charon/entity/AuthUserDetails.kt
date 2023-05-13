@@ -18,9 +18,7 @@ import mu.KotlinLogging
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.Parameter
 import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import kotlin.jvm.Transient
 
 
 // TODO: JSON serialization
@@ -97,6 +95,20 @@ data class AuthUserDetails(
     @JsonSerialize(using = AuthoritiesSerializer::class)
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return authorities
+    }
+
+    // this is needed for lookup in the sessionInfo hashmap we have different instances there
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as AuthUserDetails
+
+        return id == other.id
+    }
+
+    override fun hashCode(): Int {
+        return id ?: 0
     }
 
 }
