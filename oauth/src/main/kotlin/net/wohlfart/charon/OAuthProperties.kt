@@ -58,4 +58,6 @@ enum class ClientAuthenticationMethodValue(val value: ClientAuthenticationMethod
 enum class AuthorizationGrantTypeValue(val value: AuthorizationGrantType) {
     AUTHORIZATION_CODE(AuthorizationGrantType.AUTHORIZATION_CODE),
     CLIENT_CREDENTIALS(AuthorizationGrantType.CLIENT_CREDENTIALS),
+    REFRESH_TOKEN(AuthorizationGrantType.REFRESH_TOKEN),
+    JWT_BEARER(AuthorizationGrantType.JWT_BEARER),
 }

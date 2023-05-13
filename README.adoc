@@ -232,3 +232,35 @@ https://docs.spring.io/spring-authorization-server/docs/current/reference/html/g
 
 https://labzilla.io/blog/cloudflare-certbot +
 https://github.com/spring-projects/spring-authorization-server/pull/335
+
+
+==== running docker without docker desktop
+
+install with choco:
+
+- docker-cli
+- docker-compose
+- use the WSL context in idea to connect to a docker deamon
+- set the path do docker.exe/docker-compose.exe in idea
+
+
+
+
+==== request path
+
+2023-05-11T23:15:43.954+02:00 DEBUG 8052 --- [nio-8081-exec-2] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://127.0.0.1:8081/oauth2/authorize?client_id=public-client&redirect_uri=http%3A%2F%2F127.0.0.1%3A4200%2Fcharon%2Fhome&response_type=code&scope=openid%20profile%20email%20offline_access&nonce=0d4fd3402e2f87933ea6f6f8dcf91c1853suy7LC3&state=17e3ee7dbadb5cc5f1cd6ebd86dde88559M6zafEe&code_challenge=WVGxVZwl3ShzJNvToKTkTVGrI-1UvgOst-29qPS3Wss&code_challenge_method=S256&continue to session
+2023-05-11T23:15:43.958+02:00 DEBUG 8052 --- [nio-8081-exec-2] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://127.0.0.1:8081/login
+
+2023-05-11T23:18:07.191+02:00 DEBUG 8052 --- [io-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing POST /login
+
+2023-05-11T23:18:07.410+02:00 DEBUG 8052 --- [io-8081-exec-10] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://127.0.0.1:8081/oauth2/authorize?client_id=public-client&redirect_uri=http%3A%2F%2F127.0.0.1%3A4200%2Fcharon%2Fhome&response_type=code&scope=openid%20profile%20email%20offline_access&nonce=0d4fd3402e2f87933ea6f6f8dcf91c1853suy7LC3&state=17e3ee7dbadb5cc5f1cd6ebd86dde88559M6zafEe&code_challenge=WVGxVZwl3ShzJNvToKTkTVGrI-1UvgOst-29qPS3Wss&code_challenge_method=S256&continue
+
+2023-05-11T23:18:07.457+02:00 DEBUG 8052 --- [nio-8081-exec-8] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://127.0.0.1:4200/charon/home?code=cWq2tSVwYZOc8q09jfUeTH6JpaDzrGslKvZPDxn3wPfKf_17HJPP-xB8IqKFNCbNU1MM9OYZl3uOVwyI_OLZ4S2rPxRl14tIdYcQ4IN0hswvyHpgcDtp2Z8nNvy0ZD5o&state=17e3ee7dbadb5cc5f1cd6ebd86dde88559M6zafEe
+
+
+2023-05-11T23:18:08.170+02:00 DEBUG 8052 --- [nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /oauth2/jwks
+
+2023-05-11T23:18:40.247+02:00 DEBUG 8052 --- [nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /oauth2/authorize?client_id=public-client&redirect_uri=http%3A%2F%2F127.0.0.1%3A4200%2Fcharon%2Fassets%2Fsilent-renew.html&response_type=code&scope=openid%20profile%20email%20offline_access&nonce=e23c9d442b091ef894eced41907db015b3J8Fb5DW&state=91b349d8d31b80ac142fe9529b7a5c6e98mbT0v4j&code_challenge=rRhblyCnqAz8vKJCvQsnQfb3KLTgfwn4yZp9zoA6UaA&code_challenge_method=S256&prompt=none
+
+
+2023-05-11T23:18:40.257+02:00 DEBUG 8052 --- [nio-8081-exec-1] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://127.0.0.1:4200/charon/assets/silent-renew.html?code=kopW50iJN0YiI4fWstTQkLe4NibVctrsTN253buzhBpRwrNpNy0dTU6jXyIr3_oGucf5ONEvo8rPRW3DWyiqJYVcUICR5Xyg6bpq6iEbZOnoDWKp53NsQyJsRhw18U1L&state=91b349d8d31b80ac142fe9529b7a5c6e98mbT0v4j
