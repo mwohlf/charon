@@ -75,8 +75,6 @@ class SecurityFilterChains {
         }
         // this picks up our default cors config
         http.cors { }
-        // this is needed for the silent refresh to be able to use an iframe
-        http.headers().frameOptions().disable()
         // redirect to login page for any exception
         http.exceptionHandling { exceptionHandlingConfigurer: ExceptionHandlingConfigurer<HttpSecurity>
             ->

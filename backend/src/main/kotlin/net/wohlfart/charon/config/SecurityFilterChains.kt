@@ -31,7 +31,7 @@ class SecurityFilterChains {
 
         // disable for the log post endpoint
         http.csrf { csrf -> csrf.disable() }
-        // iframe silent refresh
+        // needed for iframe silent refresh
         http.headers().frameOptions().disable()
 
         return http.build()
