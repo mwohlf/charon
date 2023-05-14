@@ -10,12 +10,12 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy
 
 
-private val logger = KotlinLogging.logger(WebSecurityConfig::class.java.name)
+private val logger = KotlinLogging.logger(SecurityFilterChains::class.java.name)
 
 
 @EnableWebSecurity
 @Configuration(proxyBeanMethods = false)
-class WebSecurityConfig {
+class SecurityFilterChains {
 
     @Bean
     @Throws(Exception::class)
@@ -30,7 +30,9 @@ class WebSecurityConfig {
             .sessionAuthenticationStrategy(NullAuthenticatedSessionStrategy())
 
         // disable for the log post endpoint
-        http.csrf { csrf -> csrf.disable() } // for the h2 console
+        http.csrf { csrf -> csrf.disable() }
+        // iframe silent refresh
+        http.headers().frameOptions().disable()
 
         return http.build()
     }
