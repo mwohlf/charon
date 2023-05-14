@@ -75,8 +75,8 @@ class SecurityFilterChains {
         }
         // this picks up our default cors config
         http.cors { }
-        // this is needed for the silent refresh, which is using an iframe
-        http.headers().frameOptions().sameOrigin()
+        // this is needed for the silent refresh to be able to use an iframe
+        http.headers().frameOptions().disable()
         // redirect to login page for any exception
         http.exceptionHandling { exceptionHandlingConfigurer: ExceptionHandlingConfigurer<HttpSecurity>
             ->
@@ -111,15 +111,12 @@ class SecurityFilterChains {
         }
         // use our global cors config
         http.cors { } // picks up our default cors config for the token endpoint
-        // customized form login
+        // a customized form login
         http.formLogin()
             .loginPage(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL)
             .permitAll()
         // send back to application on logout
         http.logout().logoutSuccessUrl(oAuthProperties.appHomeUrl)
-        // this is for the H2 console TODO: not for production
-        // http.csrf { csrf -> csrf.disable() } // for the h2 console
-        // http.headers().frameOptions().sameOrigin() // which uses frames it seems
         return http.build()
     }
 

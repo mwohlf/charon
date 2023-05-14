@@ -34,7 +34,7 @@ class ConfigBeans(
     fun authorizationServerSettings(): AuthorizationServerSettings {
         return AuthorizationServerSettings.builder()
             .issuer(oauthProperties.issuer)
-            // configure endpoints here that will be used in the well-known...
+            // configure more endpoints here that will be used in the well-known...
             .build()
     }
 

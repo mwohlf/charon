@@ -17,6 +17,7 @@ class CharonTokenCustomizer( val sessionRegistry: SessionRegistry) : OAuth2Token
         if (OAuth2TokenType.ACCESS_TOKEN.equals(context.tokenType)) {
             context.claims.claims { claims -> claims["userName"] = "just testing access token" }
         } else if (OidcParameterNames.ID_TOKEN == context.tokenType.value) {
+            // we need the sid in the id token for openid logout to work and delete the session
             val principal: Authentication = context.getPrincipal()
             val sessions = sessionRegistry.getAllSessions(principal.principal, false)
             // TODO: fail if we have more than one

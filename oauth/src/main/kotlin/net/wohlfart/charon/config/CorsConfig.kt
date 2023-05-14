@@ -27,7 +27,7 @@ class CorsConfig(
         configuration.allowedMethods = HttpMethod.values().map { it.name() }.toList()
         // configuration.allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
         configuration.allowCredentials = true
-        configuration.allowedHeaders = listOf("*") // TODO
+        configuration.allowedHeaders = listOf("*") // maybe be more specific here?
         return UrlBasedCorsConfigurationSource().apply {
             registerCorsConfiguration("/**", configuration)
         }
