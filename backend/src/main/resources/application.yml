@@ -23,15 +23,10 @@ net:
       oauth-clients:  #
         # the first config is picked for auto-login
         # see: https://angular-auth-oidc-client.com/docs/documentation/auto-login
-        - config-id: spring-oauth
-          issuer-uri: https://oauth.wired-heart.com
-          client-id: public-client
-          post-logout-redirect-uri: https://backend.wired-heart.com/charon/home
-        - config-id: google
-          issuer-uri: https://accounts.google.com
-          client-id: 246987228084-su5371btnpjd9ptjrqosid9lf8crq72p.apps.googleusercontent.com
-
-#
-#  angular-auth-oidc-client
-#  https://stackoverflow.com/questions/57146558/typeerror-digest-of-undefined-in-development-environment
-#
+        - config-id: "spring-oauth"
+          issuer-uri: "https://oauth.wired-heart.com"
+          client-id: "public-client"
+          post-logout-redirect-uri: "https://backend.wired-heart.com/charon/home"
+        - config-id: "google"
+          issuer-uri: "https://accounts.google.com"
+          client-id: "246987228084-su5371btnpjd9ptjrqosid9lf8crq72p.apps.googleusercontent.com"
