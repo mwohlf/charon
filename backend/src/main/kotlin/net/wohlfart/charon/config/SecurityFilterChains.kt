@@ -24,14 +24,15 @@ class SecurityFilterChains {
     ): SecurityFilterChain {
 
         logger.info { "<defaultSecurityFilterChain> disable sessions" }
-
         http.sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .sessionAuthenticationStrategy(NullAuthenticatedSessionStrategy())
 
         // disable for the log post endpoint
+        logger.info { "<defaultSecurityFilterChain> disable csrf" }
         http.csrf { csrf -> csrf.disable() }
         // needed for iframe silent refresh
+        logger.info { "<defaultSecurityFilterChain> disable frame options for iframe token refresh" }
         http.headers().frameOptions().disable()
 
         return http.build()
