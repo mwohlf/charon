@@ -39,14 +39,14 @@ dependencies {
     // https://plugins.gradle.org/plugin/com.github.node-gradle.node
     implementation("com.github.node-gradle:gradle-node-plugin:4.0.0")
     // https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
-    // https://plugins.gradle.org/m2/com/google/cloud/tools/jib/com.google.cloud.tools.jib.gradle.plugin/3.3.1/
-    implementation("com.google.cloud.tools.jib:com.google.cloud.tools.jib.gradle.plugin:3.3.0")
+    // https://plugins.gradle.org/m2/com/google/cloud/tools/jib/com.google.cloud.tools.jib.gradle.plugin
+    implementation("com.google.cloud.tools.jib:com.google.cloud.tools.jib.gradle.plugin:3.3.0")  // 3.3.2 has a buggy dependency (snakeyaml)
     // https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html
     // https://plugins.gradle.org/plugin/org.openapi.generator
-    implementation("org.openapitools:openapi-generator-gradle-plugin:6.5.0")
+    implementation("org.openapitools:openapi-generator-gradle-plugin:6.6.0")
     // org/openapi/generator/org.openapi.generator.gradle.plugin/
     // https://repo.maven.apache.org/maven2/org/openapitools/openapi-generator-gradle-plugin/
-    implementation("org.openapi.generator:org.openapi.generator.gradle.plugin:6.5.0")
+    implementation("org.openapi.generator:org.openapi.generator.gradle.plugin:6.6.0")
     // https://mvnrepository.com/artifact/com.palantir.gradle.gitversion/gradle-git-version
     // https://github.com/palantir/gradle-git-version/tags
     implementation("com.palantir.gradle.gitversion:gradle-git-version:3.0.0")
