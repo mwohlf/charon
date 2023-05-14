@@ -88,7 +88,7 @@ net:
           public-client:
             client-authentication-method: NONE
             authorization-grant-type: AUTHORIZATION_CODE
-            access-token-ttl: 5m
+            access-token-ttl: 1m
             scopes:
               - "openid"
               - "profile"

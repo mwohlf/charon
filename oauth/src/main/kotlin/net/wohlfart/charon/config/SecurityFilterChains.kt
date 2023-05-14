@@ -58,8 +58,6 @@ class SecurityFilterChains {
                 // https://stackoverflow.com/questions/71568725/spring-authorization-server-0-2-2-how-to-disable-a-default-authentication-provi
             }
 
-
-
         http.apply(authorizationServerConfigurer)
         // all endpoints only authenticated
         http.securityMatcher(authorizationServerConfigurer.endpointsMatcher)
@@ -77,6 +75,8 @@ class SecurityFilterChains {
         }
         // this picks up our default cors config
         http.cors { }
+        // this is needed for the silent refresh, which is using an iframe
+        http.headers().frameOptions().sameOrigin()
         // redirect to login page for any exception
         http.exceptionHandling { exceptionHandlingConfigurer: ExceptionHandlingConfigurer<HttpSecurity>
             ->
@@ -106,7 +106,6 @@ class SecurityFilterChains {
                 .requestMatchers(REQUEST_PATH_ERROR).permitAll()
                 .requestMatchers(REQUEST_PATH_HOME).permitAll()
                 .requestMatchers(REQUEST_PATH_REGISTER).permitAll()
-                // .requestMatchers("/h2/**").permitAll()
                 // anything authenticated is fine
                 .anyRequest().authenticated()
         }
