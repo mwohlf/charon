@@ -8,6 +8,4 @@ interface AuthUserRepository: CrudRepository<AuthUserDetails, Int> {
 
     fun findByUsername(username: String): AuthUserDetails
 
-    fun existsByUsername(username: String): Boolean
-
 }

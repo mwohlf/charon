@@ -1,12 +1,8 @@
-import org.gradle.api.tasks.Delete
-import org.gradle.kotlin.dsl.base
-import org.gradle.kotlin.dsl.register
-
 plugins {
     base
 }
 
-val DELETE_LIST = setOf (
+val deleteList = setOf (
     ".node", ".angular",
     "build", "dist",
     "node_modules",
@@ -30,6 +26,6 @@ tasks.register<Delete>("mrproper") {
             trying to reset the project to the checkout state,
             this task is shared with every module
         """
-    delete = DELETE_LIST
+    delete = deleteList
 }
 

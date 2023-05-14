@@ -20,6 +20,7 @@ private val logger = KotlinLogging.logger {}
 
 const val REQUEST_PARAM_TOKEN = "token"
 
+const val REQUEST_PATH_ROOT= "/"
 const val REQUEST_PATH_ERROR = "/error"
 const val REQUEST_PATH_LOGIN = "/login"
 const val REQUEST_PATH_HOME = "/home"
@@ -33,6 +34,22 @@ class ViewController(
     val userRegistrationService: UserRegistrationService,
     val oAuthProperties: OAuthProperties,
 ) {
+
+    @GetMapping(REQUEST_PATH_ROOT)
+    fun getRoot(
+        webRequest: WebRequest,
+        model: Model,
+    ): String {
+        return "redirect:${oAuthProperties.appHomeUrl}"
+    }
+
+    @GetMapping(REQUEST_PATH_HOME)
+    fun getHome(
+        webRequest: WebRequest,
+        model: Model,
+    ): String {
+        return "redirect:${oAuthProperties.appHomeUrl}"
+    }
 
     @GetMapping(REQUEST_PATH_ERROR)
     fun getError(
@@ -52,14 +69,6 @@ class ViewController(
         val securityContext = SecurityContextHolder.getContext()
         logger.info { "found a security context: $securityContext" }
         return "login" // template name
-    }
-
-    @GetMapping(REQUEST_PATH_HOME)
-    fun getHome(
-        webRequest: WebRequest,
-        model: Model,
-    ): String {
-        return "redirect:${oAuthProperties.appHomeUrl}"
     }
 
     @GetMapping(REQUEST_PATH_REGISTER)

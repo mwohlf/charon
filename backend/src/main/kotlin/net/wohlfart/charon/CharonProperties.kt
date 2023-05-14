@@ -23,7 +23,7 @@ class ApiConfig(
 
     val basePath: String,
 
-    val logging: String,
+    val loggingPath: String,
 )
 
 class ClientConfig(

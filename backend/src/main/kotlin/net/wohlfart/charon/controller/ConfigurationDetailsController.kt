@@ -25,7 +25,7 @@ class ConfigurationDetailsController(
                 name = buildProperties.name,
                 version = buildProperties.version,
                 timestamp = OffsetDateTime.ofInstant(buildProperties.time, ZoneId.systemDefault()),
-                logging = charonProperties.api.logging,
+                logging = charonProperties.api.loggingPath,
             )
         )
     }

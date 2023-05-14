@@ -54,7 +54,7 @@ jib {
         val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
         val details = versionDetails()
 
-        //github registry:
+        //GitHub registry:
         // val registry = "ghcr.io"
         // val repository = "mwohlf/${rootProject.name}-${project.name}"
         // image = "${registry}/${repository}"

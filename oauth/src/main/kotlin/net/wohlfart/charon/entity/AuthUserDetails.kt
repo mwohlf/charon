@@ -21,10 +21,6 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 
-// TODO: JSON serialization
-
-private val logger = KotlinLogging.logger {}
-
 @Entity
 @JsonDeserialize
 @JsonSerialize

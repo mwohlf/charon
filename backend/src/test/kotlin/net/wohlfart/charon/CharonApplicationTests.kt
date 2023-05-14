@@ -8,6 +8,7 @@ class CharonApplicationTests {
 
 	@Test
 	fun contextLoads() {
+        // check we have a successful context load here
 	}
 
 }

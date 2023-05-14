@@ -22,7 +22,7 @@ class CharonTokenCustomizer( val sessionRegistry: SessionRegistry) : OAuth2Token
             // TODO: fail if we have more than one
             if (sessions.size == 1) {
                 // sid is needed in the openid logout endpoint
-                context.claims.claims { claims -> claims["sid"] = sessions.get(0).sessionId }
+                context.claims.claims { claims -> claims["sid"] = sessions[0].sessionId }
             }
         }
     }

@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 
-private val logger = KotlinLogging.logger {}
 
 @Service
 class UserRegistrationService(

@@ -2,7 +2,6 @@ package net.wohlfart.charon.config
 
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
-import mu.KotlinLogging
 import net.wohlfart.charon.OAuthProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -15,8 +14,6 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
 import org.springframework.security.web.session.HttpSessionEventPublisher
 
-
-private val logger = KotlinLogging.logger(ConfigBeans::class.java.name)
 
 @Configuration(proxyBeanMethods = false)
 class ConfigBeans(

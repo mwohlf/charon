@@ -1,4 +1,4 @@
-package net.wohlfart.charon.component;
+package net.wohlfart.charon.component
 
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
@@ -16,7 +16,7 @@ class CharonRevocationAuthenticationProvider() : AuthenticationProvider {
             //My implementation
 
         } catch (ex: Exception) {
-            throw OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
+            throw OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT)
         }
 
         //My implementation
@@ -26,7 +26,7 @@ class CharonRevocationAuthenticationProvider() : AuthenticationProvider {
 
     @Override
     override fun supports(authentication: Class<*>): Boolean {
-        return OAuth2TokenRevocationAuthenticationToken::class.java.isAssignableFrom(authentication);
+        return OAuth2TokenRevocationAuthenticationToken::class.java.isAssignableFrom(authentication)
     }
 
 }

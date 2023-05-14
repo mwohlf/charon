@@ -16,11 +16,16 @@ import org.springframework.web.bind.annotation.RestController
 private val logger = KotlinLogging.logger(LoggingController::class.java.name)
 
 @RestController
-@RequestMapping("\${net.wohlfart.charon.api.base-path}")
+@RequestMapping("\${net.wohlfart.charon.api.logging-path}")
 class LoggingController(
     private val buildProperties: BuildProperties,
     private val charonProperties: CharonProperties,
 ) : LoggingApi {
+
+    init {
+        logger.info { "boot up ${buildProperties.name}, version ${buildProperties.version} waiting for incoming logs from frontend"}
+        logger.info { "logger is listening at ${charonProperties.api.loggingPath}"}
+    }
 
     override fun postLogRecord(@Parameter(description = "", required = true) @Valid @RequestBody logEntry: LogEntry): ResponseEntity<Unit> {
         logger.info { logEntry }
