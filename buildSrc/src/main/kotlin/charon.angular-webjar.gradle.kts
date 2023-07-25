@@ -56,14 +56,10 @@ tasks.register<NpmTask>("syncVersion") {
     this.ignoreExitValue.set(true)
 }
 // re-create the API classes before building the webjar
-tasks.getByName("openApiGenerate").let {
-    it.dependsOn("syncVersion")
-}
+tasks.getByName("openApiGenerate").dependsOn("syncVersion")
 
 // re-create the API classes before building the webjar
-tasks.getByName("webjarBuild").let {
-    it.dependsOn("openApiGenerate")
-}
+tasks.getByName("webjarBuild").dependsOn("openApiGenerate")
 
 // attach the webjarBuild to the build task, build is from the java plugin
 //tasks.register<DefaultTask>("build").let {
