@@ -27,5 +27,7 @@ tasks.register<Delete>("mrproper") {
             this task is shared with every module
         """
     delete = deleteList
+    // https://discuss.gradle.org/t/how-to-define-a-task-without-outputs/6490/5
+    outputs.upToDateWhen { true }
 }
 

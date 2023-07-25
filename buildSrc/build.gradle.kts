@@ -8,7 +8,7 @@
 // plugins for the build src
 plugins {
     // https://plugins.gradle.org/plugin/org.gradle.kotlin.kotlin-dsl
-    val kotlinDslPluginVersion = "4.0.14"
+    val kotlinDslPluginVersion = "4.1.1"
     id("org.gradle.kotlin.kotlin-dsl") version kotlinDslPluginVersion  // `kotlin-dsl`
     id("org.gradle.kotlin.kotlin-dsl.base") version kotlinDslPluginVersion
     id("org.gradle.kotlin.kotlin-dsl.compiler-settings") version kotlinDslPluginVersion
@@ -19,7 +19,7 @@ plugins {
 // it also contains all the base plugins we aggregate into out custom plugins
 dependencies {
     // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-gradle-plugin
-    val jetbrainsKotlinVersion = "1.8.22"
+    val jetbrainsKotlinVersion = "1.9.0"
 
     // we need to declare dependencies for all the used plugins in the buildScripts...
 
@@ -28,9 +28,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-noarg:${jetbrainsKotlinVersion}") // for JPA entities
 
     // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/
-    implementation("org.springframework.boot:spring-boot-gradle-plugin:3.0.6")
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:3.1.2")
     // https://plugins.gradle.org/plugin/io.spring.dependency-management
-    implementation("io.spring.gradle:dependency-management-plugin:1.1.0")
+    implementation("io.spring.gradle:dependency-management-plugin:1.1.2")
     // implementation("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.6.21-1.0.6")
     // webjar and node plugin code for angular modules
 

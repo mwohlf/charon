@@ -1,8 +1,8 @@
 
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
+import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
-
 //
 // this is a meta plugin, combining some tasks from multiple plugins
 //  source is configured in ../build.gradle.kts
@@ -136,19 +136,23 @@ openApiGenerate {
     // https://github.com/jayandran-Sampath/openapi-generator/tree/feat13578_1
 }
 
+
+// https://kotlinlang.org/docs/kapt.html#incremental-annotation-processing
+kapt {
+    useBuildCache = false
+}
+
+
+// generate the interface from the swagger def
 val openApiGenerate = tasks.getByPath("openApiGenerate")
-
 val compileKotlin = tasks.getByPath("compileKotlin")
+
+// https://kotlinlang.org/docs/kapt.html#improving-the-speed-of-builds-that-use-kapt
+tasks.withType<KaptGenerateStubsTask>()
+    .configureEach {
+        this.dependsOn(openApiGenerate)
+        compileKotlin.dependsOn(this)
+    }
+
 compileKotlin.dependsOn(openApiGenerate)
-
-// tasks.getByPath("build").let {
-//    it.dependsOn(openApiGenerate)
-//}
-
-// need api for kapt stubs
-// val kaptGenerateStubsKotlin = tasks.withType<org.jetbrains.kotlin.gradle.internal..KaptGenerateStubsKotlin>().
-
-
-// re-create the API classes before ebuilding
-
 
