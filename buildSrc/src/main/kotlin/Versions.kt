@@ -9,8 +9,8 @@ object Versions {
 
 
     // https://docs.spring.io/spring-authorization-server/docs/1.0.0-SNAPSHOT/reference/html/
-    // const val SPRING_OAUTH2_SERVER = "1.0.1"
-    const val SPRING_OAUTH2_SERVER = "1.1.0-M1"
+    // const val SPRING_OAUTH2_SERVER = "1.1.0-M1"
+    const val SPRING_OAUTH2_SERVER = "1.2.0-SNAPSHOT"
 
     // https://mvnrepository.com/artifact/io.github.microutils/kotlin-logging-jvm
     const val KOTLIN_LOGGING_JVM = "3.0.5"
