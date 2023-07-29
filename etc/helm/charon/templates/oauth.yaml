@@ -55,6 +55,16 @@ spec:
                 secretKeyRef:
                   name: wired-heart-secrets
                   key: postgres-password
+            - name: GOOGLE_OAUTH2_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: wired-heart-secrets
+                  key: google-oauth2-client-id
+            - name: GOOGLE_OAUTH2_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: wired-heart-secrets
+                  key: google-oauth2-client-secret
           imagePullPolicy: Always
           ports:
             - name: http

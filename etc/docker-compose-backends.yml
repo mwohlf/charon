@@ -2,10 +2,14 @@ version: "3.8"
 
 #  this file contains the backend services needed for development
 
+# to set up docker in intellij without docker desktop,
+# install ubuntu with docker in WSL2,
+#  then "File" -> "Settings" -> "Build, Execuion, .." -> "Docker"  -> WSL2 -> "Ubuntu"
+
 services:
 
   postgres:
-    image: postgres:15.2-alpine
+    image: postgres:15.2-alpine # TODO: use 15.3
     ports:
       - "5432:5432"
     environment:

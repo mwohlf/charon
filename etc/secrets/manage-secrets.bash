@@ -220,6 +220,8 @@ EOF
     printf "  spring-mail-port: '%s'\n" "${SPRING_MAIL_PORT}"
     printf "  postgres-user: '%s'\n" "${POSTGRES_USER}"
     printf "  postgres-password: '%s'\n" "${POSTGRES_PASSWORD}"
+    printf "  google-oauth2-client-id: '%s'\n" "${GOOGLE_OAUTH2_CLIENT_ID}"
+    printf "  google-oauth2-client-secret: '%s'\n" "${GOOGLE_OAUTH2_CLIENT_SECRET}"
     } >> "${SECRETS_YAML}"
     echo "...finished appending secrets"
 
