@@ -88,14 +88,13 @@ class SecurityFilterChains {
                 MediaTypeRequestMatcher(MediaType.TEXT_HTML)
             )
         }
-/*
+/*      // this blocks the token refresh call
         // see: https://github.com/spring-projects/spring-authorization-server/blob/main/samples/demo-authorizationserver/src/main/java/sample/config/AuthorizationServerConfig.java
         http.oauth2ResourceServer { oauth2ResourceServer: OAuth2ResourceServerConfigurer<HttpSecurity>
             ->
             oauth2ResourceServer.jwt(Customizer.withDefaults())
         }
 */
-
         return http.build()
     }
 
@@ -117,6 +116,7 @@ class SecurityFilterChains {
                 .requestMatchers(REQUEST_PATH_ERROR).permitAll()
                 .requestMatchers(REQUEST_PATH_HOME).permitAll()
                 .requestMatchers(REQUEST_PATH_REGISTER).permitAll()
+                .requestMatchers(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL).permitAll()
                 // anything authenticated is fine
                 .anyRequest().authenticated()
         }
@@ -125,16 +125,15 @@ class SecurityFilterChains {
         http.formLogin { formLogin ->
             formLogin
                 .loginPage(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL)
-                .permitAll()
         }
-/*
+
         // federation oauth2 client login google etc.
         http.oauth2Login { oauth2Login ->
             oauth2Login
                 .loginPage(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL)
                 .successHandler(authenticationSuccessHandler())
         }
-*/
+
         // send back to application on logout
         http.logout { logout ->
             logout.logoutSuccessUrl(oAuthProperties.appHomeUrl)
