@@ -19,6 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.*
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
@@ -88,13 +89,26 @@ class SecurityFilterChains {
                 MediaTypeRequestMatcher(MediaType.TEXT_HTML)
             )
         }
-/*      // this blocks the token refresh call
-        // see: https://github.com/spring-projects/spring-authorization-server/blob/main/samples/demo-authorizationserver/src/main/java/sample/config/AuthorizationServerConfig.java
-        http.oauth2ResourceServer { oauth2ResourceServer: OAuth2ResourceServerConfigurer<HttpSecurity>
+
+        // disable for production, we need to open a Frame for token refresh
+        // the request is going
+        //   from https://app.wired-heart.com/charon/home
+        //     to https://oauth.wired-heart.com/charon/home
+        http.headers { headersCustomizer: HeadersConfigurer<HttpSecurity>
             ->
-            oauth2ResourceServer.jwt(Customizer.withDefaults())
+            headersCustomizer.frameOptions { frameOptionsConfig: HeadersConfigurer<HttpSecurity>.FrameOptionsConfig
+                ->
+                frameOptionsConfig.disable()
+            }
         }
-*/
+
+        /*      // this blocks the token refresh call
+                // see: https://github.com/spring-projects/spring-authorization-server/blob/main/samples/demo-authorizationserver/src/main/java/sample/config/AuthorizationServerConfig.java
+                http.oauth2ResourceServer { oauth2ResourceServer: OAuth2ResourceServerConfigurer<HttpSecurity>
+                    ->
+                    oauth2ResourceServer.jwt(Customizer.withDefaults())
+                }
+        */
         return http.build()
     }
 
