@@ -19,9 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.*
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
@@ -85,12 +83,18 @@ class SecurityFilterChains {
         // redirect to login page for any exception
         http.exceptionHandling { exceptionHandlingConfigurer: ExceptionHandlingConfigurer<HttpSecurity>
             ->
-            exceptionHandlingConfigurer.authenticationEntryPoint(
-                LoginUrlAuthenticationEntryPoint(
-                    DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL
-                )
+            exceptionHandlingConfigurer.defaultAuthenticationEntryPointFor(
+                LoginUrlAuthenticationEntryPoint(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL),
+                MediaTypeRequestMatcher(MediaType.TEXT_HTML)
             )
         }
+/*
+        // see: https://github.com/spring-projects/spring-authorization-server/blob/main/samples/demo-authorizationserver/src/main/java/sample/config/AuthorizationServerConfig.java
+        http.oauth2ResourceServer { oauth2ResourceServer: OAuth2ResourceServerConfigurer<HttpSecurity>
+            ->
+            oauth2ResourceServer.jwt(Customizer.withDefaults())
+        }
+*/
 
         return http.build()
     }
@@ -123,8 +127,14 @@ class SecurityFilterChains {
                 .loginPage(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL)
                 .permitAll()
         }
-
-
+/*
+        // federation oauth2 client login google etc.
+        http.oauth2Login { oauth2Login ->
+            oauth2Login
+                .loginPage(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL)
+                .successHandler(authenticationSuccessHandler())
+        }
+*/
         // send back to application on logout
         http.logout { logout ->
             logout.logoutSuccessUrl(oAuthProperties.appHomeUrl)
@@ -132,4 +142,7 @@ class SecurityFilterChains {
         return http.build()
     }
 
+    private fun authenticationSuccessHandler(): AuthenticationSuccessHandler {
+        return FederatedIdentityAuthenticationSuccessHandler()
+    }
 }
