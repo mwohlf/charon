@@ -70,6 +70,24 @@ spring:
     check-template-location: true
     cache: true
 
+  security:
+    oauth2:
+      client:
+        # see: https://github.com/spring-projects/spring-authorization-server/blob/main/samples/demo-authorizationserver/src/main/resources/templates/login.html
+        #      https://console.cloud.google.com/apis/credentials
+        #      for the Google client, the domain needs to be verified,
+        #      https://support.google.com/a/answer/7173990?hl=en&ref_topic=4487770#zippy=%2Cim-an-advanced-usergive-me-some-technical-details
+        registration:
+          google-idp:
+            provider: google
+            client-id: ${GOOGLE_OAUTH2_CLIENT_ID:unconfigured-google-oauth2-client-id}
+            client-secret: ${GOOGLE_OAUTH2_CLIENT_SECRET:unconfigured-google-oauth2-client-secret}
+            scope: openid, https://www.googleapis.com/auth/userinfo.profile, https://www.googleapis.com/auth/userinfo.email
+            client-name: Sign in with Google
+        provider:
+          google:
+            user-name-attribute: email
+
 
 net:
   wohlfart:

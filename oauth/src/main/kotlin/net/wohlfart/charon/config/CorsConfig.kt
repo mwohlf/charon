@@ -20,17 +20,17 @@ class CorsConfig(
     @Bean
     @Primary
     fun corsConfigurationSource(): CorsConfigurationSource {
+        val source = UrlBasedCorsConfigurationSource()
         val configuration = CorsConfiguration()
-
+        //see: https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-pkce.html
         configuration.allowedOrigins = oauthProperties.allowedOrigins.toList()
         // configuration.allowedOriginPatterns = listOf("*")
         configuration.allowedMethods = HttpMethod.values().map { it.name() }.toList()
         // configuration.allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-        configuration.allowCredentials = true
         configuration.allowedHeaders = listOf("*") // maybe be more specific here?
-        return UrlBasedCorsConfigurationSource().apply {
-            registerCorsConfiguration("/**", configuration)
-        }
+        configuration.allowCredentials = true
+        source.registerCorsConfiguration("/**", configuration)
+        return source
     }
 
 }
