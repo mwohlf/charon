@@ -6,23 +6,30 @@ import net.wohlfart.charon.controller.REQUEST_PATH_CONFIRM
 import net.wohlfart.charon.controller.REQUEST_PATH_ERROR
 import net.wohlfart.charon.controller.REQUEST_PATH_HOME
 import net.wohlfart.charon.controller.REQUEST_PATH_REGISTER
+import net.wohlfart.charon.federation.FederatedIdentityAuthenticationSuccessHandler
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
+import org.springframework.http.MediaType
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.*
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
 import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter
+import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher
 
 
 @EnableWebSecurity
@@ -40,7 +47,8 @@ class SecurityFilterChains {
         oAuth2AuthorizationService: OAuth2AuthorizationService,
         jwtDecoder: JwtDecoder,
     ): SecurityFilterChain {
-
+        // use our global cors config
+        http.cors { } // picks up our default cors config for the token endpoint
         /* frontend send this to the revoke endpoint:
         client_id: public-client
         token: eyJraWQiOiJmNzc2OGRiYy01Mzk0LTRjNzktOGEzZC1mNzUxMTYwM2FlZjIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiYXVkIjoicHVibGljLWNsaWVudCIsIm5iZiI6MTY4Mzk4NjU3Niwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsIm9mZmxpbmVfYWNjZXNzIiwiZW1haWwiXSwiaXNzIjoiaHR0cDovLzEyNy4wLjAuMTo4MDgxIiwiZXhwIjoxNjgzOTg2NjM2LCJ1c2VyTmFtZSI6Imp1c3QgdGVzdGluZyBhY2Nlc3MgdG9rZW4iLCJpYXQiOjE2ODM5ODY1NzZ9.PUapCVas1zrntfo7S4jWUT3PR409B6Ef8o9MPaj6b6z5vJOW2wplhrmpimKLOquo-MsEAhkCIqDrotqN18S2UVU-np4mtvs1asGxEl5l81citaIQuOq1rCMYGwd2e6VkEebEVjpXQktVzFkKjgtRM3jQGofL34wtmHFIPOX5q43cjgFiuYl77xwUlSz-pr_Q-yPIkXi6YV1NL39wZD2MsRBduoBGMsw7tnv1dC5IP3V0_fGtsTpP1-Pt7OF-p8qG9AJ6Vdrm_POTQIuVdhXEq-4cmJTci4yjDFp4HT5hKcd1VQ4MWWFiuZLM7qt84ZfniIoYwRq-ik0uWyLc9jyxMQ
@@ -73,8 +81,7 @@ class SecurityFilterChains {
             ->
             csrfConfigurer.ignoringRequestMatchers(*arrayOf(authorizationServerConfigurer.endpointsMatcher))
         }
-        // this picks up our default cors config
-        http.cors { }
+
         // redirect to login page for any exception
         http.exceptionHandling { exceptionHandlingConfigurer: ExceptionHandlingConfigurer<HttpSecurity>
             ->
@@ -95,6 +102,8 @@ class SecurityFilterChains {
         http: HttpSecurity,
         oAuthProperties: OAuthProperties,
     ): SecurityFilterChain {
+        // use our global cors config
+        http.cors { } // picks up our default cors config for the token endpoint
         // serve web resources, and protect anything else
         http.authorizeHttpRequests { authorize: AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry ->
             authorize
@@ -107,14 +116,19 @@ class SecurityFilterChains {
                 // anything authenticated is fine
                 .anyRequest().authenticated()
         }
-        // use our global cors config
-        http.cors { } // picks up our default cors config for the token endpoint
+
         // a customized form login
-        http.formLogin()
-            .loginPage(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL)
-            .permitAll()
+        http.formLogin { formLogin ->
+            formLogin
+                .loginPage(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL)
+                .permitAll()
+        }
+
+
         // send back to application on logout
-        http.logout().logoutSuccessUrl(oAuthProperties.appHomeUrl)
+        http.logout { logout ->
+            logout.logoutSuccessUrl(oAuthProperties.appHomeUrl)
+        }
         return http.build()
     }
 
