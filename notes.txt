@@ -1,0 +1,78 @@
+
+
+https://developers.google.com/fit/rest/v1/get-started
+
+https://stackoverflow.com/questions/32632125/google-fit-api-in-java
+
+
+remove token:
+https://myaccount.google.com/u/0/security
+https://myaccount.google.com/u/0/permissions.
+
+configure the client
+https://console.cloud.google.com/apis/credentials/oauthclient/373685304704-llt247vle7bv6blqgk8ioicb7rtdcikg.apps.googleusercontent.com?project=charon-394311
+
+configure the app:
+https://console.cloud.google.com/apis/credentials/consent?project=charon-394311
+
+get info from token:
+https://cloud.google.com/docs/authentication/token-types
+
+
+readme for webapps:
+https://developers.google.com/accounts/docs/OAuth2WebServer#formingtheurl
+
+
+#################
+2023-08-03T22:09:13.810+02:00 DEBUG 29648 --- [nio-8081-exec-5] o.s.security.web.FilterChainProxy        :
+Securing GET /oauth2/authorization/google-idp
+
+
+2023-08-03T22:09:13.812+02:00 TRACE 29648 --- [nio-8081-exec-5] o.s.security.web.FilterChainProxy        :
+Invoking OAuth2AuthorizationRequestRedirectFilter (8/15)
+
+2023-08-03T22:09:13.826+02:00 DEBUG 29648 --- [nio-8081-exec-5] o.s.s.web.DefaultRedirectStrategy        :
+Redirecting to https://accounts.google.com/o/oauth2/v2/auth
+?response_type=code
+&client_id=373685304704-llt247vle7bv6blqgk8ioicb7rtdcikg.apps.googleusercontent.com
+&scope=
+    openid%20https://www.googleapis.com/auth/userinfo.profile%20
+    https://www.googleapis.com/auth/userinfo.email
+&state=jF92W4k8SmBIDT8UTr6cl-aSEuXXRSgzX7GwLZgCWnQ%3D
+&redirect_uri=http://127.0.0.1:8081/login/oauth2/code/google-idp
+&nonce=CAXr7lBDti5dzUS79Z6dWpk6B4A80PhCMeGiKZjqwrg
+
+
+
+#################
+
+2023-08-03T22:09:14.175+02:00 DEBUG 29648 --- [nio-8081-exec-6] o.s.security.web.FilterChainProxy        :
+Securing GET /login/oauth2/code/google-idp
+?state=jF92W4k8SmBIDT8UTr6cl-aSEuXXRSgzX7GwLZgCWnQ%3D
+&code=4%2F0Adeu5BW_o0C_Fw9VmRMYxP4FfPnAgHNMx0Nqg92K7T9OCy8XmZr9R0Ksm_-ydJKl40m_rg
+&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid
+
+&authuser=0
+&prompt=none
+
+
+2023-08-03T22:09:14.177+02:00 TRACE 29648 --- [nio-8081-exec-6] o.s.security.web.FilterChainProxy        :
+Invoking OAuth2AuthorizationRequestRedirectFilter (8/15)
+2023-08-03T22:09:14.177+02:00 TRACE 29648 --- [nio-8081-exec-6] o.s.security.web.FilterChainProxy        :
+Invoking OAuth2LoginAuthenticationFilter (9/15)
+
+
+
+The refresh_token is only provided on the first authorization from the user. Subsequent authorizations, such as the kind you make while testing an OAuth2 integration, will not return the refresh_token again. :)
+
+Go to the page showing Apps with access to your account: https://myaccount.google.com/u/0/permissions.
+Under the Third-party apps menu, choose your app.
+Click Remove access and then click Ok to confirm
+The next OAuth2 request you make will return a refresh_token (providing that it also includes the 'access_type=offline' query parameter.
+
+
+Alternatively, you can add the query parameters prompt=consent&access_type=offline to the OAuth redirect (see Google's OAuth 2.0 for Web Server Applications page).
+
+This will prompt the user to authorize the application again and will always return a refresh_token.
+
+

@@ -6,7 +6,7 @@ import net.wohlfart.charon.controller.REQUEST_PATH_CONFIRM
 import net.wohlfart.charon.controller.REQUEST_PATH_ERROR
 import net.wohlfart.charon.controller.REQUEST_PATH_HOME
 import net.wohlfart.charon.controller.REQUEST_PATH_REGISTER
-import net.wohlfart.charon.federation.FederatedIdentityAuthenticationSuccessHandler
+import net.wohlfart.charon.federation.FederatedAuthenticationSuccessHandler
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -25,7 +25,6 @@ import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
 import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher
@@ -118,6 +117,7 @@ class SecurityFilterChains {
     fun defaultSecurityFilterChain(
         http: HttpSecurity,
         oAuthProperties: OAuthProperties,
+        authenticationSuccessHandler: FederatedAuthenticationSuccessHandler,
     ): SecurityFilterChain {
         // use our global cors config
         http.cors { } // picks up our default cors config for the token endpoint
@@ -145,7 +145,7 @@ class SecurityFilterChains {
         http.oauth2Login { oauth2Login ->
             oauth2Login
                 .loginPage(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL)
-                .successHandler(authenticationSuccessHandler())
+                .successHandler(authenticationSuccessHandler)
         }
 
         // send back to application on logout
@@ -155,7 +155,4 @@ class SecurityFilterChains {
         return http.build()
     }
 
-    private fun authenticationSuccessHandler(): AuthenticationSuccessHandler {
-        return FederatedIdentityAuthenticationSuccessHandler()
-    }
 }

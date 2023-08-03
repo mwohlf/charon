@@ -32,6 +32,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     // implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
 
+    // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
+    implementation("com.google.api-client:google-api-client:2.2.0")
+
+
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     // to create spring-configuration-metadata.json
     kapt("org.springframework.boot:spring-boot-configuration-processor")
