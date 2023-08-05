@@ -82,23 +82,30 @@ spring:
             provider: google
             client-id: ${GOOGLE_OAUTH2_CLIENT_ID:unconfigured-google-oauth2-client-id}
             client-secret: ${GOOGLE_OAUTH2_CLIENT_SECRET:unconfigured-google-oauth2-client-secret}
-            scope: openid, https://www.googleapis.com/auth/userinfo.profile, https://www.googleapis.com/auth/userinfo.email
-            client-name: Sign in with Google
+            scope:
+              - openid
+              - profile
+              - email
+              - https://www.googleapis.com/auth/userinfo.profile
+              - https://www.googleapis.com/auth/userinfo.email
+            client-name: Google
         provider:
           google:
             user-name-attribute: email
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&prompt=consent
 
+home-url: https://backend.wired-heart.com
 
 net:
   wohlfart:
     charon:
       oauth:
-        data-dir: test
+        data-dir: datadir
         issuer: "https://oauth.wired-heart.com"
-        app-home-url: "https://backend.wired-heart.com/charon/home"
-        app-login-url: "https://backend.wired-heart.com/charon/login"
+        app-home-url: "${home-url}/charon/home"
+        app-login-url: "${home-url}/charon/login"
         allowed-origins:
-          - "https://backend.wired-heart.com"
+          - "${home-url}"
           - "https://app.wired-heart.com"
         # we need to re-configure all client for each app context
         # because it's a hash map
@@ -117,9 +124,9 @@ net:
               - "message.read"
               - "message.write"
             redirect-uris:
-              - "https://backend.wired-heart.com/charon/assets/silent-renew.html"
-              - "https://backend.wired-heart.com/charon/silent-renew.html"
-              - "https://backend.wired-heart.com/charon/home"
+              - "${home-url}/charon/assets/silent-renew.html"
+              - "${home-url}/charon/silent-renew.html"
+              - "${home-url}/charon/home"
               - "https://app.wired-heart.com/charon/home"
             post-logout-redirect-uri: "https://app.wired-heart.com/charon/home"
           readonly-client:

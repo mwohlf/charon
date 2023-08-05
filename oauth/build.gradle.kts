@@ -60,3 +60,6 @@ dependencies {
     testImplementation("net.sourceforge.htmlunit:htmlunit")
 
 }
+
+// TODO: check if we can pull this up into buildSrc
+java.sourceSets["main"].java.srcDir("$buildDir/generated/source/openApi/kotlin")

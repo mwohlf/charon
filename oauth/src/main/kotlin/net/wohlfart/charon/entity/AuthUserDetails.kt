@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.jsontype.TypeDeserializer
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer
 import jakarta.persistence.*
-import mu.KotlinLogging
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.Parameter
 import org.springframework.security.core.GrantedAuthority
@@ -32,7 +31,7 @@ data class AuthUserDetails(
     private var username: String? = null,
 
     @JsonIgnore
-    @Column(name = "password", nullable = false, length = 64)
+    @Column(name = "password", nullable = true, length = 64)
     private var password: String? = null,
 
     @Column(name = "email", unique = true, nullable = false, length = 64)
@@ -49,7 +48,7 @@ data class AuthUserDetails(
     )
     var authorities: MutableList<Authority> = mutableListOf(),
 
-    ) : UserDetails {
+) : UserDetails {
 
 
     @Id

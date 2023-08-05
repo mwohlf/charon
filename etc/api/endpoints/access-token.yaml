@@ -1,0 +1,15 @@
+get:
+  tags:
+    - accessToken
+  operationId: readAccessToken
+  description: ''
+  responses:
+    '200':
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "../model/AccessToken.yaml"
+    '405':
+      description: Invalid input
+

@@ -23,6 +23,7 @@ data class UserRegistration(
     @OneToOne(cascade = [CascadeType.PERSIST])
     var userDetails: AuthUserDetails? = null,
 
+    // token for signup/registration
     @Column(name = "token", unique = true, nullable = false, length = 64)
     var tokenValue: String = UUID.randomUUID().toString(),
 )

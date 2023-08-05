@@ -13,3 +13,6 @@ paths:
 
   /configuration-details:
     $ref: "./endpoints/configuration-details.yaml"
+
+  /access-token:
+    $ref: "./endpoints/access-token.yaml"
