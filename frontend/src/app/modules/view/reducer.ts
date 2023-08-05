@@ -20,7 +20,14 @@ export type NavDetails = {
   navState: NavState;  // open or closed when in side mode
 }
 
-export type ViewState = ThemeDetails & NavDetails;
+export type Viewport = {
+  breakpoint: Breakpoint;
+}
+
+// values from Breakpoints.Medium
+export type Breakpoint = 'small' | 'medium' | 'large';
+
+export type ViewState = ThemeDetails & NavDetails & Viewport;
 
 let theme = themes[0];
 export const initialState: ViewState = {
@@ -29,6 +36,7 @@ export const initialState: ViewState = {
   variant: 'light',
   navDrawerMode: 'side',
   navState: 'opened',
+  breakpoint: 'medium',
 };
 
 
@@ -58,6 +66,15 @@ const featureReducer = createReducer(
       return {
         ...state,
         navState: payload.navState,
+      };
+    },
+  ),
+
+  on(fromActions.setBreakpoint,
+    (state: ViewState, {payload: payload}) => {
+      return {
+        ...state,
+        breakpoint: payload.breakpoint,
       };
     },
   ),

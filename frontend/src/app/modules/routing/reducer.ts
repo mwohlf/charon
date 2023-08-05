@@ -8,6 +8,7 @@ export const featureKey = 'routingFeature';
 
 export const selectRouter = createFeatureSelector<fromRouterStore.RouterReducerState<BaseRouterStoreState>>(featureKey);
 
+// noinspection JSUnusedGlobalSymbols
 export const {
   selectCurrentRoute,   // select the current route
   selectFragment,       // select the current route fragment

@@ -3,13 +3,21 @@ import {Store} from '@ngrx/store';
 import {AppState} from './app-shell.module';
 import {isAuthenticated} from './modules/oauth/selector';
 import {selectNavDrawMode, selectNavState} from './modules/view/selector';
-import {Observable, ReplaySubject, takeUntil} from 'rxjs';
+import {distinctUntilChanged, Observable, ReplaySubject, takeUntil} from 'rxjs';
 import {MatDrawerMode} from '@angular/material/sidenav';
 import {NavState} from './modules/view/reducer';
-import {BreakpointObserver} from '@angular/cdk/layout';
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState,
+} from '@angular/cdk/layout';
 import {menuWidth, mobileBreakpoint} from './shared/const';
-import {map} from 'rxjs/operators';
-import {setNavDrawMode, setNavState} from './modules/view/action';
+import {map, tap} from 'rxjs/operators';
+import {
+  setBreakpoint,
+  setNavDrawMode,
+  setNavState,
+} from './modules/view/action';
 import {NGXLogger} from 'ngx-logger';
 
 @Component({
@@ -37,23 +45,19 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.breakpointObserver
-      .observe(`(min-width: ${this.mobileBreakpoint})`)
+      .observe([Breakpoints.Large, Breakpoints.Medium, Breakpoints.Small])
       .pipe(
         takeUntil(this.destroyed$),
-        map(({matches}) => matches),
+        distinctUntilChanged(),
+        tap((value: BreakpointState) => this.logger.debug('<breakpointObserver> value: ', value)),
       )
-      .subscribe((largerThanMin: boolean) => {
-        this.logger.debug('<ngOnInit> largerThanMin: ', largerThanMin);
-        if (largerThanMin) {
-          // enough space, menu and content
-          this.store.dispatch(setNavState({payload: {navState: 'opened'}}));
-          // exist side by side
-          this.store.dispatch(setNavDrawMode({payload: {navDrawMode: 'side'}}));
-        } else {
-          // mobile screen, menu initially closed
-          this.store.dispatch(setNavState({payload: {navState: 'closed'}}));
-          // opening menu hides and disables content, 'push' disables and pusheds content
-          this.store.dispatch(setNavDrawMode({payload: {navDrawMode: 'over'}}));
+      .subscribe((): void => {
+        if(this.breakpointObserver.isMatched(Breakpoints.Small)) {
+          this.store.dispatch(setBreakpoint({payload: {breakpoint: 'small'}}));
+        } else if(this.breakpointObserver.isMatched(Breakpoints.Medium)) {
+          this.store.dispatch(setBreakpoint({payload: {breakpoint: 'medium'}}));
+        } else if(this.breakpointObserver.isMatched(Breakpoints.Large)) {
+          this.store.dispatch(setBreakpoint({payload: {breakpoint: 'large'}}));
         }
       });
   }

@@ -2,8 +2,13 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType, ROOT_EFFECTS_INIT} from '@ngrx/effects';
 import {NGXLogger} from 'ngx-logger';
 import {StyleManager} from './style-manager';
-import {Observable} from 'rxjs';
-import {setThemeDetails} from './action';
+import {Observable, of, switchMap} from 'rxjs';
+import {
+  setBreakpoint,
+  setNavDrawMode,
+  setNavState,
+  setThemeDetails,
+} from './action';
 import {Action} from '@ngrx/store';
 import {map, tap} from 'rxjs/operators';
 import {initialState, ThemeVariant} from './reducer';
@@ -27,9 +32,10 @@ export class Effects {
     } else {
       this.browserThemeVariant = 'light';
     }
-    this.logger.debug('<view init> browserThemeVariant:', this.browserThemeVariant);
+    this.logger.debug('<view_init> browserThemeVariant:', this.browserThemeVariant);
   }
 
+  // noinspection JSUnusedGlobalSymbols
   ROOT_EFFECTS_INIT: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(ROOT_EFFECTS_INIT), // the trigger to start loading config
@@ -51,6 +57,7 @@ export class Effects {
     );
   }, {dispatch: true});
 
+  // noinspection JSUnusedGlobalSymbols
   configureTheme$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(setThemeDetails),
@@ -62,5 +69,31 @@ export class Effects {
       }),
     );
   }, {dispatch: false});
+
+  // noinspection JSUnusedGlobalSymbols
+  configureView$: Observable<Action> = createEffect(() => {
+    return this.action$.pipe(
+      ofType(setBreakpoint),
+      tap((action) => {
+        this.logger.debug('<setBreakpoint> setting breakpoint, triggered by setBreakpoint, action is:', action);
+      }),
+      switchMap((action) => {
+        switch (action.payload.breakpoint) {
+          case 'small':
+            return of(
+              setNavState({payload: {navState: 'closed'}}),
+              setNavDrawMode({payload: {navDrawMode: 'over'}}),
+            );
+          case 'medium':
+          case 'large':
+          default:
+            return of(
+              setNavState({payload: {navState: 'opened'}}),
+              setNavDrawMode({payload: {navDrawMode: 'side'}}),
+            );
+        }
+      }),
+    );
+  }, {dispatch: true});
 
 }

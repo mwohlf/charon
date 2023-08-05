@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {NavState, ThemeDetails} from './reducer';
+import {Breakpoint, NavState, ThemeDetails} from './reducer';
 import {viewFeature} from '../../shared/const';
 import {MatDrawerMode} from '@angular/material/sidenav';
 
@@ -20,6 +20,11 @@ export const setNavDrawMode = createAction(
 export const setNavState = createAction(
   `${GROUP}/setNavState`,
   props<{ payload: { navState: NavState } }>(),
+);
+
+export const setBreakpoint = createAction(
+  `${GROUP}/setBreakpoint`,
+  props<{ payload: { breakpoint: Breakpoint } }>(),
 );
 
 export const toggleMenu = createAction(

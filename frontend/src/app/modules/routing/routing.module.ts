@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Router, RouterModule, Routes} from '@angular/router';
 import {ErrorComponent} from '../../pages/error/error.component';
 import {HomeComponent} from '../../pages/home/home.component';
 import {MainComponent} from '../../pages/main/main.component';
@@ -59,7 +59,7 @@ export function routerErrorHandler(error: Error): void {
         scrollPositionRestoration: 'enabled',
         anchorScrolling: 'enabled',
         enableTracing: false,
-        errorHandler: routerErrorHandler,
+        errorHandler: routerErrorHandler,  //TODO
         paramsInheritanceStrategy: 'always',
       })],
   exports: [RouterModule],

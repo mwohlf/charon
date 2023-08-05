@@ -15,7 +15,8 @@ import {
   oidcSecurityAction,
   readClientConfigurationListUsingGET,
   readClientConfigurationListUsingGET_failure,
-  readClientConfigurationListUsingGET_success, registerAction,
+  readClientConfigurationListUsingGET_success,
+  registerAction,
 } from './action';
 import {Action, Store} from '@ngrx/store';
 import {catchError, map, mergeMap, tap} from 'rxjs/operators';
@@ -31,9 +32,6 @@ import {NGXLogger} from 'ngx-logger';
 import {selectOAuthFeature} from './selector';
 import {OAuthState} from './reducer';
 import {Level} from '../notification/reducer';
-import {
-  OpenIdConfiguration
-} from 'angular-auth-oidc-client/lib/config/openid-configuration';
 
 @Injectable()
 export class Effects {
@@ -46,7 +44,6 @@ export class Effects {
     private oidcSecurityService: OidcSecurityService,
     private eventService: PublicEventsService,
     @Inject(DOCUMENT) private document: Document,
-
     private store: Store<AppState>,
   ) {
 
@@ -206,7 +203,7 @@ export class Effects {
         for (let config of this.oidcSecurityService.getConfigurations()) {
           if (config.configId == action.payload.configId) {
             this.logger.info(`<registerAction> config.authority: ${config.authority}`);
-            redirectUrl = config.authority + "/register";
+            redirectUrl = config.authority + '/register';
             break;
           }
         }
