@@ -24,6 +24,7 @@ export class MainComponent implements OnInit {
     title: 'Main',
     requiredRoles: [],
     component: MainComponent,
+    inMenu: () => {return true;},
   };
 
   constructor() {

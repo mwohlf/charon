@@ -24,6 +24,7 @@ export class ErrorComponent implements OnInit {
     title: 'Error',
     requiredRoles: [],
     component: ErrorComponent,
+    inMenu: () => {return true;},
   };
 
   constructor() {

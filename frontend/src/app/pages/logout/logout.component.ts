@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../app-shell.module';
 import {PageConfig} from '../page-config';
 import {PageComponent} from '../../components/page/page.component';
 import {MatCardModule} from '@angular/material/card';
@@ -12,20 +14,25 @@ import {AsyncPipe, NgIf} from '@angular/common';
     AsyncPipe,
   ],
   standalone: true,
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: [],
 })
-export class SettingsComponent implements OnInit {
+export class LogoutComponent implements OnInit {
 
   static SPEC: PageConfig = {
-    route: 'settings',
-    icon: 'settings',
-    title: 'Settings',
+    route: 'logout',
+    icon: 'logout',
+    title: 'Logout',
     requiredRoles: [],
-    component: SettingsComponent,
+    component: LogoutComponent,
     inMenu: () => {return true;},
   };
+
+  constructor(
+    private store: Store<AppState>,
+  ) {
+  }
 
   ngOnInit(): void {
   }

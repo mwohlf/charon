@@ -24,6 +24,7 @@ export class AdminComponent implements OnInit {
     title: 'Admin',
     requiredRoles: ['admin'],
     component: AdminComponent,
+    inMenu: () => {return true;},
   };
 
   constructor() {

@@ -8,4 +8,5 @@ export type PageConfig = {
   // null doesn't require an authenticated user to show this in the main menu
   requiredRoles: string[] | null;
   component: object;
+  inMenu: () => boolean;
 }

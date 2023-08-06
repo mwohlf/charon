@@ -23,9 +23,10 @@ export class LoginComponent implements OnInit {
   static SPEC: PageConfig = {
     route: 'login',
     icon: 'login',
-    title: 'login',
+    title: 'Login',
     requiredRoles: [],
     component: LoginComponent,
+    inMenu: () => {return true;},
   };
 
   constructor(

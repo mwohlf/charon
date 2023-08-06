@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
     title: 'Home',
     requiredRoles: [],
     component: HomeComponent,
+    inMenu: () => {return true;},
   };
 
   buildProperties$: Observable<ConfigurationDetails | undefined>;

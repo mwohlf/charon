@@ -42,7 +42,7 @@ export class MenuComponent implements OnInit {
     SettingsComponent.SPEC,
     AdminComponent.SPEC,
     //  ErrorComponent.SPEC,
-    //   MainComponent.SPEC,
+    //  MainComponent.SPEC,
     //  ProtectedComponent.SPEC,
   ].map((spec: PageConfig) => {
     return {
@@ -67,7 +67,7 @@ export class MenuComponent implements OnInit {
   }
 
   isVisible(item: PageConfig): boolean {
-    return true;
+    return item.inMenu();
   }
 
   closeNavigation(matDrawerMode: MatDrawerMode) {
