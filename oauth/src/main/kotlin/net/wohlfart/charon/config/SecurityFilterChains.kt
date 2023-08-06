@@ -32,6 +32,7 @@ import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher
 
 @EnableWebSecurity
 @Configuration(proxyBeanMethods = false)
+// @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 class SecurityFilterChains {
 
     // see: https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter

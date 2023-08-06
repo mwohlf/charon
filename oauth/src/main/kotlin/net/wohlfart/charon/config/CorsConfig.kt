@@ -16,7 +16,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 class CorsConfig(
     val oauthProperties: OAuthProperties,
 ) {
-
+    // TODO: move to config beans
     @Bean
     @Primary
     fun corsConfigurationSource(): CorsConfigurationSource {

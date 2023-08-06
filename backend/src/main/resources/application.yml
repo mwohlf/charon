@@ -12,6 +12,13 @@ management:
     readiness-state:
       enabled: true
 
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://oauth.wired-heart.com/issuer
+
 net:
   wohlfart:
     charon:

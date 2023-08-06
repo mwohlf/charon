@@ -30,7 +30,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+
     // implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
+
 
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
     implementation("com.google.api-client:google-api-client:2.2.0")

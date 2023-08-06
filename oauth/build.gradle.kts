@@ -34,8 +34,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf") // used for login page etc.
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    // for using oauth clients https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-social-login.html#register-social-login-provider
+    // for using oauth clients
+    // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-social-login.html#register-social-login-provider
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    // TODO: check if this is needed...
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
     // @Suppress("GradlePackageUpdate")
     implementation("org.springframework.security:spring-security-oauth2-authorization-server:${Versions.SPRING_OAUTH2_SERVER}")

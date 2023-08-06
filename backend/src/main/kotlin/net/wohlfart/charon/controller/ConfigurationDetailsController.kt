@@ -19,6 +19,7 @@ class ConfigurationDetailsController(
     private val charonProperties: CharonProperties,
 ) : ConfigurationDetailsApi {
 
+    // app configs, should be readable for everyone
     override fun readConfigurationDetails(): ResponseEntity<ConfigurationDetails> {
         return ResponseEntity.ok(
             ConfigurationDetails(
@@ -30,6 +31,7 @@ class ConfigurationDetailsController(
         )
     }
 
+    // only for authenticated users
     override fun readClientConfigurationList(): ResponseEntity<List<ClientConfiguration>> {
         return ResponseEntity.ok(charonProperties.oauthClients.map {
             ClientConfiguration(

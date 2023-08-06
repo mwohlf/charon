@@ -6,11 +6,7 @@ import {
 } from 'angular-auth-oidc-client/lib/config/openid-configuration';
 import {HomeComponent} from '../../pages/home/home.component';
 import {LoggerHolder} from '../../shared/logger-holder';
-import {
-  EventTypes,
-  LogLevel,
-  OidcClientNotification,
-} from 'angular-auth-oidc-client';
+import {EventTypes, LogLevel} from 'angular-auth-oidc-client';
 
 
 export const SIMPLE_CONFIG = 'spring-oauth';
@@ -54,7 +50,7 @@ const featureReducer = createReducer(
 
   // something coming from the oauth framework e.g. login success, token refresh etc.
   on(fromActions.oauthEventAction,
-    (state: OAuthState, {payload: payload }) => {
+    (state: OAuthState, {payload: payload}) => {
       // these values are copied and pasted from the last version of EventTypes
       // from the angular-auth-oidc-client lib, make sure to update
       // them when updating the lib!
@@ -93,7 +89,7 @@ const featureReducer = createReducer(
         isAuthenticated: payload.isAuthenticated,
         userData: payload.userData,
         errorMessage: payload.errorMessage,
-        userName: payload.userData["userName"],
+        userName: payload.userData['userName'],
       };
     },
   ),
@@ -122,7 +118,7 @@ const featureReducer = createReducer(
             logLevel: LogLevel.Debug,
             autoUserInfo: false, // authentication for this doesn't work yet
             secureRoutes: [
-              '/api',
+              '/api',   // all the backend endpoints
               // '/oauth2',
               element.issuerUri,
               // element.issuerUri + '/oauth2/revoke',
