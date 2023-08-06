@@ -73,7 +73,7 @@ tasks.getByName("webjarBuild").dependsOn("openApiGenerate")
 //}
 
 val delete = tasks.register<Delete>("delete") {
-    delete = setOf (
+    delete = setOf(
         "build", "dist"
     )
 }
@@ -83,15 +83,15 @@ tasks.getByName("clean").let {
     it.setDependsOn(listOf(delete))
 }
 
-// ngrx still depends on angularCore 14
+// workaround for upstream dependency issues
 // we need to add "--legacy-peer-deps"
 
-// tasks.findByName("webjarInstall")?.let {
-//    // val npmTask = it as NpmTask
-//    // (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
-//}
+tasks.findByName("webjarInstall")?.let {
+    // val npmTask = it as NpmTask
+    (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
+}
 
-// tasks.findByName("webjarInit")?.let {
-//    // val npmTask = it as NpmTask
-//    // (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
-//}
+tasks.findByName("webjarInit")?.let {
+    // val npmTask = it as NpmTask
+    (it as NpmTask).args.set(listOf("install", "--legacy-peer-deps"))
+}
