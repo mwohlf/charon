@@ -202,7 +202,7 @@ ncu -u
 npm install --legacy-peer-deps
 ----
 
-
+if UI build fail on GitHub, try deleting the caches and trigger another build
 
 === deployment troubleshooting
 
