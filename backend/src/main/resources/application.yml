@@ -17,7 +17,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://oauth.wired-heart.com/issuer
+          issuer-uri: https://oauth.wired-heart.com
 
 net:
   wohlfart:
