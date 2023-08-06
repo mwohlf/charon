@@ -3,7 +3,13 @@ import {Store} from '@ngrx/store';
 import {AppState} from './app-shell.module';
 import {isAuthenticated} from './modules/oauth/selector';
 import {selectNavDrawMode, selectNavState} from './modules/view/selector';
-import {distinctUntilChanged, Observable, ReplaySubject, takeUntil} from 'rxjs';
+import {
+  distinctUntilChanged,
+  first,
+  Observable,
+  ReplaySubject, startWith,
+  takeUntil,
+} from 'rxjs';
 import {MatDrawerMode} from '@angular/material/sidenav';
 import {NavState} from './modules/view/reducer';
 import {
@@ -31,7 +37,6 @@ export class AppComponent implements OnInit {
   matDrawerMode$: Observable<MatDrawerMode>;
   navState$: Observable<NavState>;
   menuWidth: string = menuWidth + 'px';
-  mobileBreakpoint: string = mobileBreakpoint + 'px';
 
   constructor(
     public store: Store<AppState>,
@@ -45,18 +50,23 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.breakpointObserver
-      .observe([Breakpoints.Large, Breakpoints.Medium, Breakpoints.Small])
+      .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
       .pipe(
         takeUntil(this.destroyed$),
         distinctUntilChanged(),
-        tap((value: BreakpointState) => this.logger.debug('<breakpointObserver> value: ', value)),
+        tap((value: BreakpointState) => this.logger.debug('<breakpointObserver> ngOnInit tap value: ', value)),
+        // just the event, not the data here
       )
       .subscribe((): void => {
-        if(this.breakpointObserver.isMatched(Breakpoints.Small)) {
+        if (this.breakpointObserver.isMatched(Breakpoints.XSmall)) {
+          this.store.dispatch(setBreakpoint({payload: {breakpoint: 'small'}}));
+        } else if (this.breakpointObserver.isMatched(Breakpoints.Small)) {
           this.store.dispatch(setBreakpoint({payload: {breakpoint: 'small'}}));
         } else if(this.breakpointObserver.isMatched(Breakpoints.Medium)) {
           this.store.dispatch(setBreakpoint({payload: {breakpoint: 'medium'}}));
         } else if(this.breakpointObserver.isMatched(Breakpoints.Large)) {
+          this.store.dispatch(setBreakpoint({payload: {breakpoint: 'large'}}));
+        } else if(this.breakpointObserver.isMatched(Breakpoints.XLarge)) {
           this.store.dispatch(setBreakpoint({payload: {breakpoint: 'large'}}));
         }
       });
