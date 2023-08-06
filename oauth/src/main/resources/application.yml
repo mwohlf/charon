@@ -99,6 +99,8 @@ home-url: https://backend.wired-heart.com
 net:
   wohlfart:
     charon:
+      api:
+        base-path: "/api"
       oauth:
         data-dir: datadir
         issuer: "https://oauth.wired-heart.com"
