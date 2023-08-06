@@ -40,10 +40,10 @@ export class MenuComponent implements OnInit {
   public menuItems: PageConfig[] = [
     HomeComponent.SPEC,
     SettingsComponent.SPEC,
+    ProtectedComponent.SPEC,
     AdminComponent.SPEC,
     //  ErrorComponent.SPEC,
     //  MainComponent.SPEC,
-    //  ProtectedComponent.SPEC,
   ].map((spec: PageConfig) => {
     return {
       ...spec,

@@ -19,6 +19,7 @@ import {ThemePicker} from '../theme-picker/theme-picker';
 import {MatButtonModule} from '@angular/material/button';
 import {AppThemeModule} from '../../app-theme.module';
 import {AsyncPipe, NgIf, JsonPipe} from '@angular/common';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   imports: [
@@ -43,6 +44,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public store: Store<AppState>,
+    private logger: NGXLogger,
   ) {
     this.isAuthenticated$ = this.store.select(isAuthenticated);
     this.navState$ = this.store.select(selectNavState);
@@ -54,6 +56,7 @@ export class HeaderComponent implements OnInit {
   }
 
   reReadConfig() {
+    console.info('reReadConfig')
     this.store.dispatch(readConfigurationDetailsUsingGET());
   }
 

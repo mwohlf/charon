@@ -1,0 +1,15 @@
+get:
+  tags:
+    - randomData
+  operationId: readRandomData
+  description: ''
+  responses:
+    '200':
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "../model/RandomData.yaml"
+    '405':
+      description: Invalid input
+

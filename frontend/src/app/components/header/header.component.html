@@ -12,10 +12,10 @@
     <div *ngIf="(userData$ | async) as userData">user data: {{userData | json }}</div>
     <button mat-icon-button
             aria-label="Refresh"
-            matTooltip="Refresh">
+            matTooltip="Refresh"
+            (click)="reReadConfig();">
         <mat-icon fontSet="material-icons-two-tone"
-                  style="margin-left: auto;"
-                  (click)="reReadConfig();">
+                  style="margin-left: auto;">
             refresh
         </mat-icon>
     </button>

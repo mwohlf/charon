@@ -16,3 +16,6 @@ paths:
 
   /client-configuration-list:
     $ref: "./endpoints/client-configuration-list.yaml"
+
+  /random-data:
+    $ref: "./endpoints/random-data.yaml"

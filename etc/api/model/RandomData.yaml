@@ -1,0 +1,16 @@
+#
+# the AccessToken data type
+#
+type: object
+required:
+  - value
+  - expire
+properties:
+  value:
+    example: "sresegrsg"
+    type: string
+  expire:
+    example: "1995-09-07T10:40:52Z"
+    format: date-time
+    type: string
+
