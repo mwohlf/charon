@@ -9,6 +9,8 @@ info:
 tags:
   - name: config
     description: Configuration Details
+  - name: token
+    description: Access Token
 paths:
 
   /configuration-details:

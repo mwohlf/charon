@@ -22,5 +22,5 @@ paths:
   /random-data:
     $ref: "./endpoints/random-data.yaml"
 
-  /logs:
+  /logs: # used by UI logger
     $ref: "./endpoints/logging.yaml"

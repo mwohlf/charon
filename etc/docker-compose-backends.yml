@@ -4,7 +4,7 @@ version: "3.8"
 
 # to set up docker in intellij without docker desktop,
 # install ubuntu with docker in WSL2,
-#  then "File" -> "Settings" -> "Build, Execuion, .." -> "Docker"  -> WSL2 -> "Ubuntu"
+#  then "File" -> "Settings" -> "Build, Execution, .." -> "Docker"  -> WSL2 -> "Ubuntu"
 
 services:
 

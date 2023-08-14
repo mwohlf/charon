@@ -37,7 +37,7 @@ dependencies {
     // for using oauth clients
     // https://docs.spring.io/spring-authorization-server/docs/current/reference/html/guides/how-to-social-login.html#register-social-login-provider
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
-    // TODO: check if this is needed...
+    // needed when we provide tokens for specific user/clients
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
     // @Suppress("GradlePackageUpdate")
@@ -52,9 +52,8 @@ dependencies {
     // to create spring-configuration-metadata.json
     kapt("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	// Align versions of all Kotlin components
-	// implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+    // align versions of all Kotlin components
+    // implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
     testImplementation("org.springframework.boot:spring-boot-starter-test")

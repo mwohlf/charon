@@ -232,6 +232,7 @@ https://docs.spring.io/spring-authorization-server/docs/current/reference/html/g
 
 https://labzilla.io/blog/cloudflare-certbot +
 https://github.com/spring-projects/spring-authorization-server/pull/335
+https://github.com/marketplace/actions/kubernetes-bake
 
 
 ==== running docker without docker desktop

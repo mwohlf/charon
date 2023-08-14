@@ -3,13 +3,18 @@
 #
 type: object
 required:
-  - value
-  - expire
+  - tokenValue
+  - issuedAt
+  - expiredAt
 properties:
-  value:
+  tokenValue:
     example: "sresegrsg"
     type: string
-  expire:
+  issuedAt:
+    example: "1995-09-07T10:40:52Z"
+    format: date-time
+    type: string
+  expiredAt:
     example: "1995-09-07T10:40:52Z"
     format: date-time
     type: string

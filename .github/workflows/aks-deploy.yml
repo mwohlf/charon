@@ -73,8 +73,6 @@ jobs:
           renderEngine: 'helm'
           helmChart: '${{ github.workspace }}/etc/helm/charon/'
           helm-version: 'latest'
-          # see: https://github.com/marketplace/actions/kubernetes-bake
-          # to override the secrets in the helm charts with an env variable (todo)
 
       # we store images in ttl.sh,
       #  no need for a login, this is not really needed, just in case we want to switch to GitHub's docker registry

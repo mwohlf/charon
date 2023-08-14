@@ -24,9 +24,9 @@ dependencies {
     implementation("jakarta.annotation:jakarta.annotation-api:${Versions.JAKARTA_ANNOTATION_API}")
     implementation("javax.annotation:javax.annotation-api:${Versions.JAVAX_ANNOTATION_API}")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    // implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -45,7 +45,7 @@ dependencies {
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	// align versions of all Kotlin components
-	implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+	// implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     // pickup the webjar
     implementation(project(":frontend"))
 }
