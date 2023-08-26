@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-private val logger = KotlinLogging.logger(LoggingController::class.java.name)
+private val logger = KotlinLogging.logger {}
 
 @RestController
 @RequestMapping("\${net.wohlfart.charon.api.logging-path}")

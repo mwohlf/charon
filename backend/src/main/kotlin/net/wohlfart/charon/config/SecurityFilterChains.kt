@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy
 
 
-private val logger = KotlinLogging.logger(SecurityFilterChains::class.java.name)
+private val logger = KotlinLogging.logger {}
 
 
 @EnableWebSecurity

@@ -36,6 +36,7 @@ dependencies {
     // implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
 
 
+    // https://github.com/googleapis/google-api-java-client
     // https://mvnrepository.com/artifact/com.google.api-client/google-api-client
     implementation("com.google.api-client:google-api-client:2.2.0")
 

@@ -193,7 +193,7 @@ shows the current IP which needs to b configured in cloudflare
 
 
 
-=== update UI componets:
+=== update UI components:
 
 [source]
 ----
@@ -265,3 +265,10 @@ install with choco:
 
 
 2023-05-11T23:18:40.257+02:00 DEBUG 8052 --- [nio-8081-exec-1] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://127.0.0.1:4200/charon/assets/silent-renew.html?code=kopW50iJN0YiI4fWstTQkLe4NibVctrsTN253buzhBpRwrNpNy0dTU6jXyIr3_oGucf5ONEvo8rPRW3DWyiqJYVcUICR5Xyg6bpq6iEbZOnoDWKp53NsQyJsRhw18U1L&state=91b349d8d31b80ac142fe9529b7a5c6e98mbT0v4j
+
+
+
+===== google client scope config
+
+
+configure: https://console.cloud.google.com/apis/credentials/consent/edit?project=charon-394311

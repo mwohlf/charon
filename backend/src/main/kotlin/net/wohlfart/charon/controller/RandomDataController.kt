@@ -3,6 +3,7 @@ package net.wohlfart.charon.controller
 import net.wohlfart.charon.api.RandomDataApi
 import net.wohlfart.charon.model.AccessToken
 import net.wohlfart.charon.model.RandomData
+import net.wohlfart.charon.service.FitnessStore
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.core.context.SecurityContextHolder
@@ -16,10 +17,14 @@ import java.time.OffsetDateTime
 import java.time.ZoneOffset
 
 
+
+// https://developers.google.com/fit/rest/v1/get-started
+
 @RestController
 @RequestMapping("\${net.wohlfart.charon.api.base-path}")
 class RandomDataController(
-    val tokenWebClientBuilder: WebClient.Builder
+    val tokenWebClientBuilder: WebClient.Builder,
+    val fitnessStore: FitnessStore,
 ) : RandomDataApi {
 
     // JwtAuthenticationToken
@@ -42,10 +47,14 @@ class RandomDataController(
             .bodyToMono(AccessToken::class.java)
             .block()
 
+        accessToken?.let {token ->
+            fitnessStore.fetchData(token)
+        }
+
 
         return ResponseEntity.ok(
             RandomData(
-                value = "the string for xid ${principal.claims["xid"]} in principal.claims",
+                value = "the string for xid ${principal.claims["xid"]} in principal.claims token value: ${accessToken?.tokenValue}",
                 expire = expiresAt,
             )
         )

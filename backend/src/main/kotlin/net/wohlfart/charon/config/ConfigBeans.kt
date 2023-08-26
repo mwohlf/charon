@@ -20,7 +20,6 @@ class ConfigBeans(
         return WebClient.builder()
             .baseUrl(charonProperties.externalTokenUri)
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-
     }
 
     @Bean // we need to customize for kotlin: https://github.com/FasterXML/jackson-module-kotlin
