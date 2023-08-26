@@ -4,6 +4,7 @@ import jakarta.persistence.*
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.Parameter
 import java.io.Serializable
+import java.time.Instant
 
 // TODO: update existing instead of re-writing for each login
 data class ExternalTokenId(
@@ -43,14 +44,19 @@ data class ExternalToken(
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_details_id")
-    var authUserDetails: AuthUserDetails,
+    val authUserDetails: AuthUserDetails,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", unique = false, nullable = false, length = 10)
-    var type: TokenType? = null,
+    val type: TokenType,
 
     @Column(name = "value", unique = true, nullable = false, length = 5000)
-    var value: String? = null,
+    val value: String,
 
-    )
+    @Column(name = "issued_at", nullable = true)
+    val issuedAt: Instant?,
+
+    @Column(name = "expired_at", nullable = true)
+    val expiredAt: Instant?,
+)
 

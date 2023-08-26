@@ -3,6 +3,14 @@ get:
     - accessToken
   operationId: readAccessToken
   description: ''
+  summary: Get the access token for the provided xid
+  parameters:
+    - in: path
+      name: xid
+      schema:
+        type: string
+      required: true
+      description: id of the user
   responses:
     '200':
       description: successful operation

@@ -34,9 +34,13 @@ class RandomDataController(
         val request = (RequestContextHolder.getRequestAttributes() as ServletRequestAttributes).request
         val expiresAt: OffsetDateTime = principal.expiresAt?.atOffset(ZoneOffset.UTC)!!
 
+        val xid = principal.claims["xid"]
         val accessToken = tokenWebClientBuilder.build()
             .get()
-            .retrieve().bodyToMono(AccessToken::class.java).block()
+            .uri("/$xid")
+            .retrieve()
+            .bodyToMono(AccessToken::class.java)
+            .block()
 
 
         return ResponseEntity.ok(

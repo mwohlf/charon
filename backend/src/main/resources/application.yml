@@ -25,6 +25,7 @@ net:
     charon:
       data-dir: "test"
       webjar-base: "/charon"
+      external-token-uri: "https://oauth.wired-heart.com/api/access-token"
       api:
         base-path: "/api"         # this is prefix in all controller
         logging-path: "/logs"          # post endpoint for nxg logging

@@ -17,6 +17,7 @@ class AuthUserDetailsService(
     }
 
     fun createFederatedUser(email: String, federatedClient: String, federatedId: String): AuthUserDetails {
+        // TODO: cleanup
         return authUserRepository.findByEmail(email) ?: authUserRepository.save(
             AuthUserDetails(
                 email = email,
@@ -25,6 +26,18 @@ class AuthUserDetailsService(
                 enabled = true,
             )
         )
+    }
+
+    fun findByXid(xid: String): AuthUserDetails? {
+        return authUserRepository.findByXid(xid)
+    }
+
+    fun findByEmail(email: String): AuthUserDetails? {
+        return authUserRepository.findByEmail(email)
+    }
+
+    fun findByFederatedClientAndFederatedId(federatedClient: String, federatedId: String): AuthUserDetails? {
+        return authUserRepository.findByFederatedClientAndFederatedId(federatedClient, federatedId)
     }
 }
 

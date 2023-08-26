@@ -32,7 +32,9 @@ class TokenService(
             ExternalToken(
                 authUserDetails = authUserDetails,
                 type = TokenType.ID,
-                value = idToken.tokenValue
+                value = idToken.tokenValue,
+                issuedAt = idToken.issuedAt,
+                expiredAt = idToken.expiresAt,
             )
         )
 
@@ -40,7 +42,9 @@ class TokenService(
             ExternalToken(
                 authUserDetails = authUserDetails,
                 type = TokenType.ACCESS,
-                value = accessToken.tokenValue
+                value = accessToken.tokenValue,
+                issuedAt = accessToken.issuedAt,
+                expiredAt = accessToken.expiresAt,
             )
         )
 
@@ -49,12 +53,17 @@ class TokenService(
                 ExternalToken(
                     authUserDetails = authUserDetails,
                     type = TokenType.REFRESH,
-                    value = refreshToken.tokenValue
+                    value = refreshToken.tokenValue,
+                    issuedAt = refreshToken.issuedAt,
+                    expiredAt = refreshToken.expiresAt,
                 )
             )
         }
     }
 
+    fun findAccessToken(authUserDetails: AuthUserDetails): Set<ExternalToken> {
+        return externalTokenRepository.findAllByTypeAndAuthUserDetails(TokenType.ACCESS, authUserDetails)
+    }
 
 
 }

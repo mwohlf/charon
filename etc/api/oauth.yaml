@@ -20,5 +20,5 @@ paths:
   /configuration-details:
     $ref: "./endpoints/configuration-details.yaml"
 
-  /access-token:
+  /access-token/{xid}:
     $ref: "./endpoints/access-token.yaml"

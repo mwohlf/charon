@@ -23,24 +23,15 @@ class CharonTokenCustomizer(
 ) : OAuth2TokenCustomizer<JwtEncodingContext> {
 
     override fun customize(context: JwtEncodingContext) {
-
+        appendXidClaim(context)
         if (OAuth2TokenType.ACCESS_TOKEN.equals(context.tokenType)) {
-            customizeAccessToken(context)
+            context.claims.claims { claims -> claims["testclaim"] = "this is an access token" }
         } else if (OidcParameterNames.ID_TOKEN == context.tokenType.value) {
-            customizeIdToken(context)
+            context.claims.claims { claims -> claims["testclaim"] = "this is a id token" }
         }
     }
 
-    private fun customizeAccessToken(context: JwtEncodingContext) {
-        context.claims.claims { claims -> claims["testclaim"] = "this is an access token" }
-
-        val authentication: Authentication = context.getPrincipal()
-        logger.info { "authentication: $authentication" }
-
-    }
-
-    private fun customizeIdToken(context: JwtEncodingContext) {
-        context.claims.claims { claims -> claims["testclaim"] = "this is a id token" }
+    private fun appendXidClaim(context: JwtEncodingContext) {
 
         val authentication: Authentication = context.getPrincipal()
         logger.info { "authentication: $authentication" }
@@ -60,6 +51,11 @@ class CharonTokenCustomizer(
                 val federatedId = user.attributes["sub"] as String
                 val email = user.attributes["email"] as String
                 val authUserDetails = authUserDetailsService.createFederatedUser(email, federatedClient, federatedId)
+                /*
+                val authUserDetails = authUserDetailsService.findByEmail(email)
+                    ?: authUserDetailsService.findByFederatedClientAndFederatedId(federatedClient, federatedId)
+                    ?: throw IllegalStateException("Can't find UserDetails for $email, $federatedClient, $federatedId")
+                */
                 context.claims.claims { claims -> claims["xid"] = authUserDetails.xid }
             }
             // TODO: throw an exception
