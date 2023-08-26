@@ -23,6 +23,7 @@ dependencies {
     implementation("io.swagger.core.v3:swagger-models:${Versions.SWAGGER}")
     implementation("jakarta.annotation:jakarta.annotation-api:${Versions.JAKARTA_ANNOTATION_API}")
     implementation("javax.annotation:javax.annotation-api:${Versions.JAVAX_ANNOTATION_API}")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.JACKSON_MODULE_KOTLIN}")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")

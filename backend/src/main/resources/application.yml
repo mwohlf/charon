@@ -12,6 +12,7 @@ management:
     readiness-state:
       enabled: true
 
+# to configure this application as resource server using the provided oauth service
 spring:
   security:
     oauth2:
@@ -27,7 +28,8 @@ net:
       api:
         base-path: "/api"         # this is prefix in all controller
         logging-path: "/logs"          # post endpoint for nxg logging
-      oauth-clients:  #
+      # these are the clients we offer to the frontend
+      oauth-clients:
         # the first config is picked for auto-login
         # see: https://angular-auth-oidc-client.com/docs/documentation/auto-login
         - config-id: "spring-oauth"

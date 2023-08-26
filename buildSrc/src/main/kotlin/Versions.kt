@@ -20,4 +20,6 @@ object Versions {
     const val JAKARTA_ANNOTATION_API = "2.1.1"
     // https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api
     const val JAVAX_ANNOTATION_API = "1.3.2"
+    // https://github.com/FasterXML/jackson-module-kotlin
+    const val JACKSON_MODULE_KOTLIN = "2.15.1"
 }

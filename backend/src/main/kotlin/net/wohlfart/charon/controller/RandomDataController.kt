@@ -1,6 +1,7 @@
 package net.wohlfart.charon.controller
 
 import net.wohlfart.charon.api.RandomDataApi
+import net.wohlfart.charon.model.AccessToken
 import net.wohlfart.charon.model.RandomData
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
@@ -10,16 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
+import org.springframework.web.reactive.function.client.WebClient
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 
 
-
-
-
 @RestController
 @RequestMapping("\${net.wohlfart.charon.api.base-path}")
-class RandomDataController() : RandomDataApi {
+class RandomDataController(
+    val tokenWebClientBuilder: WebClient.Builder
+) : RandomDataApi {
 
     // JwtAuthenticationToken
     // [Principal=org.springframework.security.oauth2.jwt.Jwt@98838b7d,
@@ -32,9 +33,15 @@ class RandomDataController() : RandomDataApi {
         val principal = SecurityContextHolder.getContext().authentication.principal as Jwt
         val request = (RequestContextHolder.getRequestAttributes() as ServletRequestAttributes).request
         val expiresAt: OffsetDateTime = principal.expiresAt?.atOffset(ZoneOffset.UTC)!!
+
+        val accessToken = tokenWebClientBuilder.build()
+            .get()
+            .retrieve().bodyToMono(AccessToken::class.java).block()
+
+
         return ResponseEntity.ok(
             RandomData(
-                value = "the token string for sub ${principal.claims["sub"]} in ${principal.claims["sub"]}",
+                value = "the string for xid ${principal.claims["xid"]} in principal.claims",
                 expire = expiresAt,
             )
         )

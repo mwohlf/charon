@@ -6,11 +6,15 @@ info:
   license:
     name: Apache-2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+
+
 tags:
   - name: configurationDetails
     description: Configuration Details
   - name: logging
     description: Logging Backend
+
+
 paths:
 
   /configuration-details:
@@ -24,3 +28,8 @@ paths:
 
   /logs: # used by UI logger
     $ref: "./endpoints/logging.yaml"
+
+components:
+  schemas:
+    AccessToken:
+      $ref: "./model/AccessToken.yaml"

@@ -6,11 +6,15 @@ info:
   license:
     name: Apache-2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+
+
 tags:
   - name: config
     description: Configuration Details
   - name: token
     description: Access Token
+
+
 paths:
 
   /configuration-details:

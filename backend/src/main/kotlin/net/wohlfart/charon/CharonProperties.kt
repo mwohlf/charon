@@ -12,6 +12,8 @@ class CharonProperties(
 
     val webjarBase: String,
 
+    val externalTokenUri: String,
+
     @NestedConfigurationProperty
     val api: ApiConfig,
 

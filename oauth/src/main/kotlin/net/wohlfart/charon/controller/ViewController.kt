@@ -20,7 +20,8 @@ private val logger = KotlinLogging.logger {}
 
 const val REQUEST_PARAM_TOKEN = "token"
 
-const val REQUEST_PATH_ROOT= "/"
+const val REQUEST_PATH_ROOT = "/"
+const val REQUEST_PATH_API = "/api/**"
 const val REQUEST_PATH_ERROR = "/error"
 const val REQUEST_PATH_LOGIN = "/login"
 const val REQUEST_PATH_HOME = "/home"

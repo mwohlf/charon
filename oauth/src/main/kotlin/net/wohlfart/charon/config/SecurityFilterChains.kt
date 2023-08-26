@@ -2,10 +2,7 @@ package net.wohlfart.charon.config
 
 import net.wohlfart.charon.OAuthProperties
 import net.wohlfart.charon.component.CharonRevocationAuthenticationProvider
-import net.wohlfart.charon.controller.REQUEST_PATH_CONFIRM
-import net.wohlfart.charon.controller.REQUEST_PATH_ERROR
-import net.wohlfart.charon.controller.REQUEST_PATH_HOME
-import net.wohlfart.charon.controller.REQUEST_PATH_REGISTER
+import net.wohlfart.charon.controller.*
 import net.wohlfart.charon.federation.FederatedAuthenticationSuccessHandler
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
@@ -48,11 +45,6 @@ class SecurityFilterChains {
     ): SecurityFilterChain {
         // use our global cors config
         http.cors { } // picks up our default cors config for the token endpoint
-        /* frontend send this to the revoke endpoint:
-        client_id: public-client
-        token: eyJraWQiOiJmNzc2OGRiYy01Mzk0LTRjNzktOGEzZC1mNzUxMTYwM2FlZjIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiYXVkIjoicHVibGljLWNsaWVudCIsIm5iZiI6MTY4Mzk4NjU3Niwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsIm9mZmxpbmVfYWNjZXNzIiwiZW1haWwiXSwiaXNzIjoiaHR0cDovLzEyNy4wLjAuMTo4MDgxIiwiZXhwIjoxNjgzOTg2NjM2LCJ1c2VyTmFtZSI6Imp1c3QgdGVzdGluZyBhY2Nlc3MgdG9rZW4iLCJpYXQiOjE2ODM5ODY1NzZ9.PUapCVas1zrntfo7S4jWUT3PR409B6Ef8o9MPaj6b6z5vJOW2wplhrmpimKLOquo-MsEAhkCIqDrotqN18S2UVU-np4mtvs1asGxEl5l81citaIQuOq1rCMYGwd2e6VkEebEVjpXQktVzFkKjgtRM3jQGofL34wtmHFIPOX5q43cjgFiuYl77xwUlSz-pr_Q-yPIkXi6YV1NL39wZD2MsRBduoBGMsw7tnv1dC5IP3V0_fGtsTpP1-Pt7OF-p8qG9AJ6Vdrm_POTQIuVdhXEq-4cmJTci4yjDFp4HT5hKcd1VQ4MWWFiuZLM7qt84ZfniIoYwRq-ik0uWyLc9jyxMQ
-        token_type_hint: access_token
-        */
         val authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer()
         authorizationServerConfigurer
             // OpenID Connect 1.0 is disabled in the default configuration, we need to enable it
@@ -132,6 +124,8 @@ class SecurityFilterChains {
                 .requestMatchers(REQUEST_PATH_HOME).permitAll()
                 .requestMatchers(REQUEST_PATH_REGISTER).permitAll()
                 .requestMatchers(DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL).permitAll()
+                // TODO: secure the api endpoints with client grant
+                .requestMatchers(REQUEST_PATH_API).permitAll()
                 // anything authenticated is fine
                 .anyRequest().authenticated()
         }
