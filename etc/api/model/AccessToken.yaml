@@ -4,8 +4,6 @@
 type: object
 required:
   - tokenValue
-  - issuedAt
-  - expiredAt
 properties:
   tokenValue:
     example: "sresegrsg"

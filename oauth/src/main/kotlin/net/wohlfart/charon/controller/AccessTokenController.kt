@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.time.OffsetDateTime
+import java.time.ZoneOffset
 
 private val logger = KotlinLogging.logger {}
 
@@ -26,11 +27,13 @@ class AccessTokenController(
         authUserDetailsService.findByXid(xid)?.let {authUserDetails ->
             tokenService.findAccessToken(authUserDetails).let {externalTokens ->
                 // TODO move the complexity into the query, just return the right token from the repository
+                // check the token is not expired
+                // refresh the token if expired
                 val externalToken = externalTokens.first()
                 return ResponseEntity.ok(AccessToken(
                     tokenValue = externalToken.value,
-                    issuedAt = OffsetDateTime.now(),
-                    expiredAt = OffsetDateTime.now().plusWeeks(3),
+                    issuedAt = externalToken.issuedAt?.atOffset(ZoneOffset.UTC),
+                    expiredAt = externalToken.expiredAt?.atOffset(ZoneOffset.UTC),
                 ))
             }
         }
