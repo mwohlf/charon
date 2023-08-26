@@ -7,7 +7,4 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("\${net.wohlfart.charon.api.base-path}")
-class AccessTokenController() : AccessTokenApi {
-
-
-}
+class AccessTokenController : AccessTokenApi

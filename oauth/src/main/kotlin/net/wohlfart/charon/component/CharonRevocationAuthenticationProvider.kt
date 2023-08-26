@@ -5,7 +5,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2TokenRevocationAuthenticationToken
 
 
-class CharonRevocationAuthenticationProvider() : AuthenticationProvider {
+class CharonRevocationAuthenticationProvider : AuthenticationProvider {
 
     @Override
     override fun authenticate(authentication: Authentication): Authentication {

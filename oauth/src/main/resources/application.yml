@@ -91,7 +91,7 @@ spring:
             client-name: Google
         provider:
           google:
-            user-name-attribute: email
+            user-name-attribute: sub
             authorization-uri: https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&prompt=consent
 
 home-url: https://backend.wired-heart.com

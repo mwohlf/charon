@@ -20,6 +20,10 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 
+
+
+const val SPLIT = ":"
+
 @Entity
 @JsonDeserialize
 @JsonSerialize
@@ -27,7 +31,7 @@ import org.springframework.security.core.userdetails.UserDetails
 @Table(name = "user_details")
 data class AuthUserDetails(
 
-    @Column(name = "username", unique = true, nullable = false, length = 64)
+    @Column(name = "username", unique = true, nullable = true, length = 64)
     private var username: String? = null,
 
     @JsonIgnore
@@ -40,6 +44,14 @@ data class AuthUserDetails(
     @Column(name = "enabled")
     var enabled: Boolean = false,
 
+    // identifier for whoever created the Principal
+    @Column(name = "federated_id", nullable = true, length = 256)
+    var federatedId: String? = null,
+
+    // clientRegistration.registrationId
+    @Column(name = "federated_client", nullable = true, length = 256)
+    var federatedClient: String? = null,
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "user_details_authorities",
@@ -49,7 +61,6 @@ data class AuthUserDetails(
     var authorities: MutableList<Authority> = mutableListOf(),
 
 ) : UserDetails {
-
 
     @Id
     @GenericGenerator(
@@ -62,12 +73,17 @@ data class AuthUserDetails(
     @GeneratedValue(generator = "sequenceGenerator")
     var id: Int? = null
 
+    // the external unified id
+    @field:ExternalIdSequence
+    @Column(name = "xid", unique = true, nullable = false, length = SHORT_SEQ_SIZE)
+    var xid: String? = null
+
     override fun isEnabled(): Boolean {
         return enabled
     }
 
     override fun getUsername(): String {
-        return username!!
+        return username?:"${federatedClient}${SPLIT}${federatedId}"
     }
 
     override fun getPassword(): String {
@@ -151,3 +167,4 @@ class AuthoritiesSerializer : JsonSerializer<MutableCollection<out GrantedAuthor
         serialize(value, jsonGenerator, provider)
     }
 }
+

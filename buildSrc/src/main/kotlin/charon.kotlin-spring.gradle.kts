@@ -18,6 +18,7 @@ plugins {
     id("com.palantir.git-version")
     kotlin("jvm") // org.jetbrains.kotlin:kotlin-gradle-plugin
     kotlin("plugin.spring") // org.jetbrains.kotlin:kotlin-allopen
+    kotlin("plugin.jpa")    // org.jetbrains.kotlin.plugin.jpa
     kotlin("kapt")
     // id("com.google.devtools.ksp")
     // see: https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html

@@ -32,7 +32,9 @@ class DatabaseBootstrap(
         val adminRole = authorityRepository.findByIdentifier(AuthorityIdentifier.ROLE_ADMIN)
         val userRole = authorityRepository.findByIdentifier(AuthorityIdentifier.ROLE_USER)
         val generalRole = authorityRepository.findByIdentifier(AuthorityIdentifier.ROLE_GENERAL)
-        authUserRepository.save(bootstrapUser(arrayOf(adminRole, userRole, generalRole)))
+        authUserRepository.save(bootstrapUser("user", arrayOf(adminRole, userRole, generalRole)))
+        authUserRepository.save(bootstrapUser("user1", arrayOf(adminRole, userRole, generalRole)))
+        authUserRepository.save(bootstrapUser("user2", arrayOf(adminRole, userRole, generalRole)))
     }
 
     @Bean
@@ -65,14 +67,14 @@ class DatabaseBootstrap(
         databasePopulator.execute(dataSource)
     }
 
-    private final fun bootstrapUser(authorities: Array<Authority>): AuthUserDetails {
+    private final fun bootstrapUser(username: String, authorities: Array<Authority>): AuthUserDetails {
         val result = AuthUserDetails(
-            username = "user",
+            username = username,
             // checkout https://thorben-janssen.com/hibernate-enum-mappings/
             // for a converter
             password = passwordEncoder.encode("pass"),
-            email = "somewhere@host.com",
-            enabled = true
+            email = "${username}@host.com",
+            enabled = true,
         )
         authorities.asIterable().forEach {
             result.authorities.add(it)
