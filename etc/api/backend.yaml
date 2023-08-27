@@ -11,8 +11,10 @@ info:
 tags:
   - name: configurationDetails
     description: Configuration Details
-  - name: logging
+  - name: loggingBackend
     description: Logging Backend
+  - name: dataAccess
+    description: Data Backend
 
 
 paths:
@@ -26,10 +28,13 @@ paths:
   /random-data:
     $ref: "./endpoints/random-data.yaml"
 
-  /logs: # used by UI logger
+  /fit-data-sources:
+    $ref: "./endpoints/fit-data-sources.yaml"
+
+  /logs: # used by UI logger, hardcoded
     $ref: "./endpoints/logging.yaml"
 
 components:
   schemas:
-    AccessToken:
+    AccessToken: # data from oauth server resource endpoint, we use a webclient
       $ref: "./model/AccessToken.yaml"

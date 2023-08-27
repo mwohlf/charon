@@ -1,0 +1,7 @@
+#
+# the FitDataSources data type
+# we might need facet searches here...
+#
+type: array
+items:
+  $ref: "../model/FitDataSource.yaml"

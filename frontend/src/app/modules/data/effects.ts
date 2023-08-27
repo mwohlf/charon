@@ -12,7 +12,7 @@ import {
   readRandomDataUsingGET_success,
 } from './action';
 import {showNotification} from '../notification/action';
-import {RandomData, RandomDataService} from 'build/generated';
+import {RandomData, DataAccessService} from 'build/generated';
 import {Level, NotificationData} from '../notification/reducer';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class Effects {
   constructor(
     private action$: Actions,
     private logger: NGXLogger,
-    private randomDataService: RandomDataService,
+    private dataAccessService: DataAccessService,
   ) {
   }
 
@@ -34,7 +34,7 @@ export class Effects {
         this.logger.debug('<readRandomDataUsingGET>', JSON.stringify(action));
       }),
       mergeMap((action: {}) => {
-        return this.randomDataService.readRandomData().pipe(
+        return this.dataAccessService.readRandomData().pipe(
           map((randomData: RandomData) => {
             return readRandomDataUsingGET_success({
               payload: randomData,

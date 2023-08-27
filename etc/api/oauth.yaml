@@ -9,9 +9,9 @@ info:
 
 
 tags:
-  - name: config
+  - name: configurationDetails
     description: Configuration Details
-  - name: token
+  - name: accessToken
     description: Access Token
 
 

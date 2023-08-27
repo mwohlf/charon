@@ -1,6 +1,6 @@
 package net.wohlfart.charon.controller
 
-import net.wohlfart.charon.api.RandomDataApi
+import net.wohlfart.charon.api.DataAccessApi
 import net.wohlfart.charon.model.AccessToken
 import net.wohlfart.charon.model.RandomData
 import net.wohlfart.charon.service.FitnessStore
@@ -22,10 +22,10 @@ import java.time.ZoneOffset
 
 @RestController
 @RequestMapping("\${net.wohlfart.charon.api.base-path}")
-class RandomDataController(
+class DataAccessController(
     val tokenWebClientBuilder: WebClient.Builder,
     val fitnessStore: FitnessStore,
-) : RandomDataApi {
+) : DataAccessApi {
 
     // JwtAuthenticationToken
     // [Principal=org.springframework.security.oauth2.jwt.Jwt@98838b7d,

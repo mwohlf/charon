@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Parameter
 import jakarta.validation.Valid
 import mu.KotlinLogging
 import net.wohlfart.charon.CharonProperties
-import net.wohlfart.charon.api.LoggingApi
+import net.wohlfart.charon.api.LoggingBackendApi
 import net.wohlfart.charon.model.LogEntry
 import org.springframework.boot.info.BuildProperties
 import org.springframework.http.HttpStatus
@@ -17,10 +17,10 @@ private val logger = KotlinLogging.logger {}
 
 @RestController
 @RequestMapping("\${net.wohlfart.charon.api.logging-path}")
-class LoggingController(
+class LoggingBackendController(
     private val buildProperties: BuildProperties,
     private val charonProperties: CharonProperties,
-) : LoggingApi {
+) : LoggingBackendApi {
 
     init {
         logger.info { "boot up ${buildProperties.name}, version ${buildProperties.version} waiting for incoming logs from frontend"}
