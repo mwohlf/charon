@@ -5,8 +5,8 @@ type: object
 required:
   - id
   - name
-  - flavor
   - type
+  - dataTypeName
 properties:
   id:
     example: "derived:com.google.activity.segment:com.fitbit.FitbitMobile:session_activity_segment"
@@ -14,9 +14,9 @@ properties:
   name:
     example: "session_activity_segment"
     type: string
-  flavor:
+  type:
     example: "derived, raw"
     type: string
-  type:
+  dataTypeName:
     example: "session_activity_segment, com.google.activity.segment"
     type: string

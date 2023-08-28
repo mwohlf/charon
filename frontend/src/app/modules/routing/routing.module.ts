@@ -64,5 +64,7 @@ export function routerErrorHandler(error: Error): void {
       })],
   exports: [RouterModule],
 })
+
+// Module imported in main imports
 export class RoutingModule {
 }

@@ -13,5 +13,6 @@ import {dataFeature} from '../../shared/const';
   ],
 })
 
+// Module imported in main imports
 export class DataModule {
 }

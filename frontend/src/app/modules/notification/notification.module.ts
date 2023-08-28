@@ -20,5 +20,6 @@ import {notificationFeature} from '../../shared/const';
   ],
 })
 
+// Module imported in main imports
 export class NotificationModule {
 }

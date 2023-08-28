@@ -68,5 +68,6 @@ export const httpLoaderFactory = (store: Store<AppState>) => {
   ],
 })
 
+// Module imported in main imports
 export class OAuthModule {
 }

@@ -31,6 +31,7 @@ import {HeaderComponent} from './components/header/header.component';
 import {GlobalErrorHandler} from './shared/error-handler';
 import {PageComponent} from './components/page/page.component';
 import {DataModule} from './modules/data/data.module';
+import {FitModule} from './modules/fit/fit.module';
 
 
 export interface AppState {
@@ -59,6 +60,7 @@ const prefersReducedMotion =
     ConfigModule,
     DataModule,
     EffectsRootModule,
+    FitModule,
     HttpClientModule,
     LayoutModule,
     MatSidenavModule,

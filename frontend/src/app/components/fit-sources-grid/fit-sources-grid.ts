@@ -1,14 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../app-shell.module';
 import {NGXLogger} from 'ngx-logger';
-import {selectRandomData} from '../../modules/data/selector';
-import {selectDataSources} from '../../modules/fit/selector';
+import {selectFitDataSources} from '../../modules/fit/selector';
 import {Observable} from 'rxjs';
-import { FitDataSource } from 'build/generated';
-import {AsyncPipe, NgIf} from '@angular/common';
+import {FitDataSource} from 'build/generated';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {MatCardModule} from '@angular/material/card';
-import {readRandomDataUsingGET} from '../../modules/data/action';
 import {readFitDataSourcesUsingGET} from '../../modules/fit/action';
 
 @Component({
@@ -16,6 +14,7 @@ import {readFitDataSourcesUsingGET} from '../../modules/fit/action';
     AsyncPipe,
     MatCardModule,
     NgIf,
+    NgForOf,
   ],
   selector: 'fit-sources-grid',
   standalone: true,
@@ -26,12 +25,11 @@ export class FitSourcesGrid implements OnInit {
   dataSources$: Observable<Array<FitDataSource> | undefined>;
 
 
-
   constructor(
     private store: Store<AppState>,
     private logger: NGXLogger,
   ) {
-    this.dataSources$ = this.store.select(selectDataSources);
+    this.dataSources$ = this.store.select(selectFitDataSources);
   }
 
   ngOnInit(): void {

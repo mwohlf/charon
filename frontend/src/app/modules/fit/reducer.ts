@@ -39,6 +39,7 @@ const featureReducer = createReducer(
 
   on(fromActions.readFitDataSourcesUsingGET_success,
     (state: FitState, {payload: payload}) => {
+      LoggerHolder.logger.debug(`<readFitDataSourcesUsingGET_success> payload: `, JSON.stringify(payload));
       return {
         ...state,
         dataSources:

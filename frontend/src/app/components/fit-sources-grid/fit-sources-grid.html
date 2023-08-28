@@ -1,6 +1,19 @@
-
 <div *ngIf="dataSources$ | async as dataSources;">
 
     <h2>this is where the grid is supposed to be</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Data Type</th>
+        </tr>
+        <tr *ngFor="let row of dataSources">
+            <td style="max-width: 50em; overflow: clip; overflow-clip-margin: border-box">{{row.id}}</td>
+            <td style="max-width: 50em; overflow: clip; overflow-clip-margin: border-box">{{row.name}}</td>
+            <td style="max-width: 50em; overflow: clip; overflow-clip-margin: border-box">{{row.type}}</td>
+            <td style="max-width: 50em; overflow: clip; overflow-clip-margin: border-box">{{row.dataTypeName}}</td>
+        </tr>
+    </table>
 
 </div>

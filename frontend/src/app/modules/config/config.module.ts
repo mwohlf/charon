@@ -6,12 +6,13 @@ import {configFeature} from '../../shared/const';
 
 
 @NgModule({
-  // Effects imported in main
+  // Effects imported in main EffectsModule.forRoot
   imports: [
     CommonModule,
     StoreModule.forFeature(configFeature, reducer),
   ],
 })
 
+// Module imported in main imports
 export class ConfigModule {
 }
