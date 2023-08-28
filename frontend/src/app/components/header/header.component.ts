@@ -18,7 +18,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {ThemePicker} from '../theme-picker/theme-picker';
 import {MatButtonModule} from '@angular/material/button';
 import {AppThemeModule} from '../../app-theme.module';
-import {AsyncPipe, NgIf, JsonPipe} from '@angular/common';
+import {AsyncPipe, JsonPipe, NgIf} from '@angular/common';
 import {NGXLogger} from 'ngx-logger';
 
 @Component({
@@ -49,14 +49,14 @@ export class HeaderComponent implements OnInit {
     this.isAuthenticated$ = this.store.select(isAuthenticated);
     this.navState$ = this.store.select(selectNavState);
     this.navDrawMode$ = this.store.select(selectNavDrawMode);
-    this.userData$ = this.store.select(selectUserData)
+    this.userData$ = this.store.select(selectUserData);
   }
 
   ngOnInit(): void {
   }
 
   reReadConfig() {
-    console.info('reReadConfig')
+    console.info('reReadConfig');
     this.store.dispatch(readConfigurationDetailsUsingGET());
   }
 

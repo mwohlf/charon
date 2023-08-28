@@ -8,9 +8,11 @@ import {AppState} from '../../app-shell.module';
 import {selectRandomData} from '../../modules/data/selector';
 import {Observable} from 'rxjs';
 import {RandomData} from 'build/generated';
-import {logoutAction} from '../../modules/oauth/action';
 import {readRandomDataUsingGET} from '../../modules/data/action';
 import {NGXLogger} from 'ngx-logger';
+import {
+  FitSourcesGrid,
+} from '../../components/fit-sources-grid/fit-sources-grid';
 
 @Component({
   imports: [
@@ -18,6 +20,7 @@ import {NGXLogger} from 'ngx-logger';
     MatCardModule,
     NgIf,
     AsyncPipe,
+    FitSourcesGrid,
   ],
   standalone: true,
   selector: 'app-protected',
@@ -32,7 +35,9 @@ export class ProtectedComponent implements OnInit {
     title: 'Protected',
     requiredRoles: [],
     component: ProtectedComponent,
-    inMenu: () => {return true;},
+    inMenu: () => {
+      return true;
+    },
   };
 
   randomData$: Observable<RandomData | undefined>;
@@ -43,8 +48,9 @@ export class ProtectedComponent implements OnInit {
   ) {
     this.randomData$ = this.store.select(selectRandomData);
   }
+
   ngOnInit(): void {
-    this.logger.info('trigger dispatch to get data')
+    this.logger.info('<ProtectedComponent> trigger dispatch to get data');
     this.store.dispatch(readRandomDataUsingGET());
   }
 

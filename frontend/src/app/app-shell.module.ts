@@ -10,6 +10,7 @@ import * as fromConfig from './modules/config/effects';
 import * as fromOAuth from './modules/oauth/effects';
 import * as fromTheme from './modules/view/effects';
 import * as fromData from './modules/data/effects';
+import * as fromFit from './modules/fit/effects';
 import {AppThemeModule} from './app-theme.module';
 import {FooterComponent} from './components/footer/footer.component';
 import {MenuComponent} from './components/menu/menu.component';
@@ -91,6 +92,7 @@ const prefersReducedMotion =
       fromOAuth.Effects,
       fromTheme.Effects,
       fromData.Effects,
+      fromFit.Effects,
     ]),
     LoggerModule.forRoot({
       serverLoggingUrl: '/api/logs', // fix this after config

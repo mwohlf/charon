@@ -1,6 +1,7 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import {RandomData} from 'build/generated';
 import * as fromActions from './action';
+import {LoggerHolder} from '../../shared/logger-holder';
 
 
 export interface DataState {
@@ -40,6 +41,7 @@ const featureReducer = createReducer(
 
   on(fromActions.readRandomDataUsingGET_failure,
     (state: DataState, {payload: error}) => {
+      LoggerHolder.logger.debug(`<readRandomDataUsingGET_failure> error: ${error}, state: `, JSON.stringify(state));
       return {
         isLoading: false,
         isError: true,

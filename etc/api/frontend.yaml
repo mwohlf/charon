@@ -23,3 +23,6 @@ paths:
 
   /random-data:
     $ref: "./endpoints/random-data.yaml"
+
+  /fit-data-sources:
+    $ref: "./endpoints/fit-data-sources.yaml"

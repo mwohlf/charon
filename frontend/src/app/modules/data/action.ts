@@ -5,6 +5,7 @@ import {dataFeature} from '../../shared/const';
 
 const GROUP: string = '@app/' + dataFeature;
 
+
 export const readRandomDataUsingGET = createAction(
   `${GROUP}/readRandomDataUsingGET`,
 );
@@ -18,3 +19,4 @@ export const readRandomDataUsingGET_failure = createAction(
   `${GROUP}/readRandomDataUsingGET_failure`,
   props<{ payload: NotificationData }>(),
 );
+

@@ -6,7 +6,7 @@ import {configFeature} from '../../shared/const';
 const GROUP: string = '@app/' + configFeature;
 
 // this is a handle for action chaining,
-// whatever needs to be done after the config is loaded can happen afterwards...
+// whatever needs to be done after the config is loaded can happen afterward...
 export const CONFIG_INITIALIZED = `${GROUP}/readConfigurationDetailsUsingGET_success`;
 
 

@@ -7,13 +7,14 @@ import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 import {NGXLogger} from 'ngx-logger';
 
 import {
-  readRandomDataUsingGET,
-  readRandomDataUsingGET_failure,
-  readRandomDataUsingGET_success,
+  readFitDataSourcesUsingGET,
+  readFitDataSourcesUsingGET_failure,
+  readFitDataSourcesUsingGET_success,
 } from './action';
 import {showNotification} from '../notification/action';
-import {DataAccessService, RandomData} from 'build/generated';
+import {DataAccessService} from 'build/generated';
 import {Level, NotificationData} from '../notification/reducer';
+import {FitDataSource} from 'build/generated/model/fit-data-source';
 
 @Injectable()
 export class Effects {
@@ -25,24 +26,23 @@ export class Effects {
   ) {
   }
 
-  // the config loading action
   // noinspection JSUnusedGlobalSymbols
-  readRandomDataUsingGET$: Observable<Action> = createEffect(() => {
+  readFitDataSourcesUsingGET$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
-      ofType(readRandomDataUsingGET),
+      ofType(readFitDataSourcesUsingGET),
       tap((action) => {
-        this.logger.info('readRandomDataUsingGET...');
-        this.logger.debug('<readRandomDataUsingGET>', JSON.stringify(action));
+        this.logger.info('readFitDataSourcesUsingGET...');
+        this.logger.debug('<readFitDataSourcesUsingGET>', JSON.stringify(action));
       }),
       mergeMap((action: {}) => {
-        return this.dataAccessService.readRandomData().pipe(
-          map((randomData: RandomData) => {
-            return readRandomDataUsingGET_success({
-              payload: randomData,
+        return this.dataAccessService.readFitDataSources().pipe(
+          map((fitDataSources: Array<FitDataSource>) => {
+            return readFitDataSourcesUsingGET_success({
+              payload: fitDataSources,
             });
           }),
           catchError((error: any) => {
-            return of(readRandomDataUsingGET_failure({
+            return of(readFitDataSourcesUsingGET_failure({
               payload: {
                 level: Level.Error,
                 title: 'Data missing',
@@ -61,7 +61,7 @@ export class Effects {
   // noinspection JSUnusedGlobalSymbols
   readRandomDataUsingGET_failure$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
-      ofType(readRandomDataUsingGET_failure),
+      ofType(readFitDataSourcesUsingGET_failure),
       tap((action) => {
         this.logger.debug('<readRandomDataUsingGET_failure>', JSON.stringify(action));
       }),

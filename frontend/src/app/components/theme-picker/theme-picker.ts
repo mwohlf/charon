@@ -52,7 +52,7 @@ export class ThemePicker {
       ...theTheme,
     };
     nextTheme.variant = (nextTheme.variant == 'dark') ? 'light' : 'dark';
-    this.logger.info("<toggleDarkMode> toggle theme to ", nextTheme);
+    this.logger.info('<toggleDarkMode> toggle theme to ', nextTheme);
     this.store.dispatch(setThemeDetails({payload: nextTheme}));
   }
 
@@ -67,7 +67,7 @@ export class ThemePicker {
       name: theme.name,
       displayName: theme.displayName,
     };
-    this.logger.info("<selectTheme> switching theme to ", nextTheme);
+    this.logger.info('<selectTheme> switching theme to ', nextTheme);
     this.store.dispatch(setThemeDetails({payload: nextTheme}));
   }
 

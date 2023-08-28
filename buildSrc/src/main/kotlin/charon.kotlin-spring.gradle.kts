@@ -145,8 +145,8 @@ kapt {
 
 
 // generate the interface from the swagger def
-val openApiGenerate = tasks.getByPath("openApiGenerate")
-val compileKotlin = tasks.getByPath("compileKotlin")
+val openApiGenerate: Task = tasks.getByPath("openApiGenerate")
+val compileKotlin: Task = tasks.getByPath("compileKotlin")
 
 // https://kotlinlang.org/docs/kapt.html#improving-the-speed-of-builds-that-use-kapt
 tasks.withType<KaptGenerateStubsTask>()

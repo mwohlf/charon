@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ErrorComponent} from '../../pages/error/error.component';
 import {HomeComponent} from '../../pages/home/home.component';
-import {MainComponent} from '../../pages/main/main.component';
 import {ProtectedComponent} from '../../pages/protected/protected.component';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../app-shell.module';

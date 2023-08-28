@@ -1,6 +1,7 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import { ConfigurationDetails } from 'build/generated';
 import * as fromActions from './action';
+import {LoggerHolder} from '../../shared/logger-holder';
 
 
 export interface ConfigState {
@@ -40,6 +41,7 @@ const featureReducer = createReducer(
 
   on(fromActions.readConfigurationDetailsUsingGET_failure,
     (state: ConfigState, {payload: error}) => {
+      LoggerHolder.logger.debug(`<readConfigurationDetailsUsingGET_failure> error: ${error}, state: `, JSON.stringify(state));
       return {
         isLoading: false,
         isError: true,

@@ -29,6 +29,7 @@ export class Effects {
   ) {
   }
 
+  // noinspection JSUnusedGlobalSymbols
   ROOT_EFFECTS_INIT: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(ROOT_EFFECTS_INIT), // the trigger to start loading config
@@ -47,7 +48,7 @@ export class Effects {
     );
   });
 
-  // the config loading action
+  // noinspection JSUnusedGlobalSymbols
   readConfigurationDetailsUsingGET$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET),
@@ -76,7 +77,7 @@ export class Effects {
     );
   });
 
-  // config is ready and loaded
+  // noinspection JSUnusedGlobalSymbols
   readConfigurationDetailsUsingGET_success$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_success),
@@ -107,7 +108,7 @@ export class Effects {
     );
   });
 
-  // forward as error action...
+  // noinspection JSUnusedGlobalSymbols
   readConfigurationDetailsUsingGET_failure$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(readConfigurationDetailsUsingGET_failure),
