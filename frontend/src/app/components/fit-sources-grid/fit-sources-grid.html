@@ -1,19 +1,42 @@
-<div *ngIf="dataSources$ | async as dataSources;">
+<div>
+    <div class="table-container">
 
-    <h2>this is where the grid is supposed to be</h2>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Data Type</th>
-        </tr>
-        <tr *ngFor="let row of dataSources">
-            <td style="max-width: 50em; overflow: clip; overflow-clip-margin: border-box">{{row.id}}</td>
-            <td style="max-width: 50em; overflow: clip; overflow-clip-margin: border-box">{{row.name}}</td>
-            <td style="max-width: 50em; overflow: clip; overflow-clip-margin: border-box">{{row.type}}</td>
-            <td style="max-width: 50em; overflow: clip; overflow-clip-margin: border-box">{{row.dataTypeName}}</td>
-        </tr>
-    </table>
+        <mat-table [dataSource]="fitSourcesDataSource">
 
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>name</th>
+                <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef>type</th>
+                <td mat-cell *matCellDef="let row">{{ row.type }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="dataTypeName">
+                <th mat-header-cell *matHeaderCellDef>dataTypeName</th>
+                <td mat-cell *matCellDef="let row">{{ row.dataTypeName }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row">
+                    <button mat-icon-button
+                            aria-label="View"
+                            matTooltip="View"
+                            (click)="viewDetails(row.id);">
+                        <mat-icon fontSet="material-icons-outlined"
+                                  style="margin-left: auto;">
+                            visibility
+                        </mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+        </mat-table>
+
+    </div>
 </div>

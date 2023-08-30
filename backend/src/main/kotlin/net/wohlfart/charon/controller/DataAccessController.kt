@@ -1,7 +1,8 @@
 package net.wohlfart.charon.controller
 
 import net.wohlfart.charon.api.DataAccessApi
-import net.wohlfart.charon.model.FitDataSource
+import net.wohlfart.charon.model.FitnessDataItem
+import net.wohlfart.charon.model.FitnessDataListElement
 import net.wohlfart.charon.model.RandomData
 import net.wohlfart.charon.service.FitnessStoreService
 import net.wohlfart.charon.service.OAuthTokenService
@@ -41,10 +42,20 @@ class DataAccessController(
     }
 
     @Secured(value = ["SCOPE_profile"])
-    override fun readFitDataSources(): ResponseEntity<List<FitDataSource>> {
+    override fun readFitnessDataList(): ResponseEntity<List<FitnessDataListElement>> {
         val accessToken = oAuthTokenService.getFitAccessToken(SecurityContextHolder.getContext().authentication) .block()
         accessToken?.let {token ->
-            return ResponseEntity.ok(fitnessStoreService.fetchDataSources(token))
+            return ResponseEntity.ok(fitnessStoreService.readFitnessDataList(token))
+        }
+        return ResponseEntity(HttpStatus.NOT_FOUND)
+    }
+
+
+    @Secured(value = ["SCOPE_profile"])
+    override fun readFitnessDataItem(id: String): ResponseEntity<FitnessDataItem> {
+        val accessToken = oAuthTokenService.getFitAccessToken(SecurityContextHolder.getContext().authentication) .block()
+        accessToken?.let {token ->
+            return ResponseEntity.ok(fitnessStoreService.readFitnessDataItem(token, id))
         }
         return ResponseEntity(HttpStatus.NOT_FOUND)
     }

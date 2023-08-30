@@ -1,7 +1,7 @@
 get:
   tags:
     - dataAccess
-  operationId: readFitDataSources
+  operationId: readFitnessDataList
   description: ''
   responses:
     '200':
@@ -9,6 +9,6 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../model/FitDataSources.yaml"
+            $ref: "../model/FitnessDataList.yaml"
     '405':
       description: Invalid input

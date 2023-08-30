@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import mu.KotlinLogging
 import net.wohlfart.charon.model.AccessToken
-import net.wohlfart.charon.model.FitDataSource
+import net.wohlfart.charon.model.FitnessDataItem
+import net.wohlfart.charon.model.FitnessDataListElement
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
@@ -13,6 +14,8 @@ import org.springframework.web.reactive.function.client.WebClient
 
 
 // https://developers.google.com/fit/rest/v1/get-started
+
+// https://www.googleapis.com/fitness/v1/users/me/dataSources/derived:com.google.step_count.delta:1234567890:Example%20Manufacturer:ExampleTablet:1000001:MyDataSource
 
 private val logger = KotlinLogging.logger {}
 private var mapper = ObjectMapper()
@@ -23,7 +26,7 @@ class FitnessStoreService(
     private val fitStoreClientBuilder: WebClient.Builder
 ) {
 
-    fun fetchDataSources(accessToken: AccessToken): List<FitDataSource> {
+    fun readFitnessDataList(accessToken: AccessToken): List<FitnessDataListElement> {
 
         // https://www.googleapis.com/fitness/v1/resourcePath?parameters
 
@@ -37,13 +40,27 @@ class FitnessStoreService(
         val dataSource = requestResult["dataSource"] as ArrayNode
 
         return dataSource.map {
-            FitDataSource(
+            FitnessDataListElement(
                 id = it["dataStreamId"].asText(),
                 name = it["dataStreamName"].asText(),
                 type = it["type"].asText(),
                 dataTypeName = it["dataType"]["name"].asText(),
             )
         }
+    }
+
+    fun readFitnessDataItem(accessToken: AccessToken, id: String): FitnessDataItem? {
+        val bodyString = fitStoreClientBuilder.build()
+            .method(HttpMethod.GET)
+            .uri("/$id")
+            // .uri("/" + URLEncoder.encode(id, "UTF-8"))
+            .header(HttpHeaders.AUTHORIZATION, "Bearer ${accessToken.tokenValue}")
+            .retrieve()
+            .bodyToMono(String::class.java)
+            .block()
+        val requestResult = mapper.readTree(bodyString) as ObjectNode
+        logger.error { "requestResult: $requestResult" }
+        return FitnessDataItem(id = "id", name = "name")
     }
 
 }

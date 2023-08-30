@@ -24,5 +24,8 @@ paths:
   /random-data:
     $ref: "./endpoints/random-data.yaml"
 
-  /fit-data-sources:
-    $ref: "./endpoints/fit-data-sources.yaml"
+  /fitness-data:
+    $ref: "./endpoints/fitness-data-list.yaml"
+
+  /fitness-data/{id}:
+    $ref: "./endpoints/fitness-data-item.yaml"

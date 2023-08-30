@@ -1,5 +1,5 @@
 import {Action, createReducer, on} from '@ngrx/store';
-import {FitDataSource} from 'build/generated';
+import {FitnessDataListElement} from 'build/generated';
 import * as fromActions from './action';
 import {LoggerHolder} from '../../shared/logger-holder';
 
@@ -8,9 +8,13 @@ export interface FitState {
   dataSources: {
     isLoading: boolean;
     isError: boolean;
-    fitDataSources: Array<FitDataSource> | undefined;
+    fitDataSources: Array<FitnessDataListElement> | undefined;
   };
 }
+
+export interface FitSource {
+}
+
 
 const initialState: FitState = {
   dataSources: {
@@ -23,7 +27,7 @@ const initialState: FitState = {
 const featureReducer = createReducer(
   initialState,
 
-  on(fromActions.readFitDataSourcesUsingGET,
+  on(fromActions.readFitnessDataListUsingGET,
     (state: FitState) => {
       return {
         ...state,
@@ -37,7 +41,7 @@ const featureReducer = createReducer(
     },
   ),
 
-  on(fromActions.readFitDataSourcesUsingGET_success,
+  on(fromActions.readFitnessDataListUsingGET_success,
     (state: FitState, {payload: payload}) => {
       LoggerHolder.logger.debug(`<readFitDataSourcesUsingGET_success> payload: `, JSON.stringify(payload));
       return {
@@ -52,7 +56,7 @@ const featureReducer = createReducer(
     },
   ),
 
-  on(fromActions.readFitDataSourcesUsingGET_failure,
+  on(fromActions.readFitnessDataListUsingGET_failure,
     (state: FitState, {payload: error}) => {
       LoggerHolder.logger.debug(`<readFitDataSourcesUsingGET_failure> error: ${error}, state: `, JSON.stringify(state));
       return {

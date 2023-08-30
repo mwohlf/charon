@@ -4,4 +4,4 @@
 #
 type: array
 items:
-  $ref: "../model/FitDataSource.yaml"
+  $ref: "../model/FitnessDataListElement.yaml"

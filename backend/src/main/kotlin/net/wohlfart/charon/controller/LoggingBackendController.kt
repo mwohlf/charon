@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 private val logger = KotlinLogging.logger {}
 
 @RestController
-@RequestMapping("\${net.wohlfart.charon.api.logging-path}")
+@RequestMapping("\${net.wohlfart.charon.api.base-path}")
 class LoggingBackendController(
     private val buildProperties: BuildProperties,
     private val charonProperties: CharonProperties,

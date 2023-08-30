@@ -1,0 +1,22 @@
+get:
+  tags:
+    - dataAccess
+  operationId: readFitnessDataItem
+  description: ''
+  summary: Get the data item
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: id of the item
+  responses:
+    '200':
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "../model/FitnessDataItem.yaml"
+    '405':
+      description: Invalid input

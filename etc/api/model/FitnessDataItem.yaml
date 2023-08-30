@@ -1,0 +1,14 @@
+#
+# the FitDataSource data type
+#
+type: object
+required:
+  - id
+  - name
+properties:
+  id:
+    example: "derived:com.google.activity.segment:com.fitbit.FitbitMobile:session_activity_segment"
+    type: string
+  name:
+    example: "session_activity_segment"
+    type: string

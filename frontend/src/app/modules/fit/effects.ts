@@ -7,14 +7,17 @@ import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 import {NGXLogger} from 'ngx-logger';
 
 import {
-  readFitDataSourcesUsingGET,
-  readFitDataSourcesUsingGET_failure,
-  readFitDataSourcesUsingGET_success,
+  readFitnessDataItemUsingGET,
+  readFitnessDataItemUsingGET_failure,
+  readFitnessDataItemUsingGET_success,
+  readFitnessDataListUsingGET,
+  readFitnessDataListUsingGET_failure,
+  readFitnessDataListUsingGET_success,
+
 } from './action';
 import {showNotification} from '../notification/action';
-import {DataAccessService} from 'build/generated';
+import {DataAccessService, FitnessDataItem, FitnessDataListElement} from 'build/generated';
 import {Level, NotificationData} from '../notification/reducer';
-import {FitDataSource} from 'build/generated/model/fit-data-source';
 
 @Injectable()
 export class Effects {
@@ -27,22 +30,22 @@ export class Effects {
   }
 
   // noinspection JSUnusedGlobalSymbols
-  readFitDataSourcesUsingGET$: Observable<Action> = createEffect(() => {
+  readFitnessDataListUsingGET$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
-      ofType(readFitDataSourcesUsingGET),
+      ofType(readFitnessDataListUsingGET),
       tap((action) => {
         this.logger.info('readFitDataSourcesUsingGET...');
         this.logger.debug('<readFitDataSourcesUsingGET>', JSON.stringify(action));
       }),
       mergeMap((action: {}) => {
-        return this.dataAccessService.readFitDataSources().pipe(
-          map((fitDataSources: Array<FitDataSource>) => {
-            return readFitDataSourcesUsingGET_success({
+        return this.dataAccessService.readFitnessDataList().pipe(
+          map((fitDataSources: Array<FitnessDataListElement>) => {
+            return readFitnessDataListUsingGET_success({
               payload: fitDataSources,
             });
           }),
           catchError((error: any) => {
-            return of(readFitDataSourcesUsingGET_failure({
+            return of(readFitnessDataListUsingGET_failure({
               payload: {
                 level: Level.Error,
                 title: 'Data missing',
@@ -56,17 +59,47 @@ export class Effects {
     );
   });
 
-
   // forward as error action...
   // noinspection JSUnusedGlobalSymbols
-  readRandomDataUsingGET_failure$: Observable<Action> = createEffect(() => {
+  readFitnessDataListUsingGET_failure$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
-      ofType(readFitDataSourcesUsingGET_failure),
+      ofType(readFitnessDataListUsingGET_failure),
       tap((action) => {
         this.logger.debug('<readRandomDataUsingGET_failure>', JSON.stringify(action));
       }),
       map((action: { payload: NotificationData }) => {
         return showNotification({payload: action.payload});
+      }),
+    );
+  });
+
+
+  // noinspection JSUnusedGlobalSymbols
+  readFitnessDataItemUsingGET$: Observable<Action> = createEffect(() => {
+    return this.action$.pipe(
+      ofType(readFitnessDataItemUsingGET),
+      tap((action) => {
+        this.logger.info('readFitSourceUsingGET...');
+        this.logger.debug('<readFitSourceUsingGET>', JSON.stringify(action));
+      }),
+      mergeMap((action) => {
+        return this.dataAccessService.readFitnessDataItem({ id: action.payload }).pipe( // fixme
+          map((fitnessDataElement: FitnessDataItem) => {
+            return readFitnessDataItemUsingGET_success({
+              payload: fitnessDataElement,
+            });
+          }),
+          catchError((error: any) => {
+            return of(readFitnessDataItemUsingGET_failure({
+              payload: {
+                level: Level.Error,
+                title: 'Data missing',
+                message: 'Data can\'t be loaded.',
+                details: JSON.stringify(error, null, 2),
+              },
+            }));
+          }),
+        );
       }),
     );
   });
