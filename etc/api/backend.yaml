@@ -7,18 +7,6 @@ info:
     name: Apache-2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 
-
-tags:
-  - name: configurationDetails
-    description: Configuration Details
-  - name: loggingBackend
-    description: Logging Backend
-  - name: dataAccess
-    description: Data Backend
-  - name: fitnessStore
-    description: Fitness Store Backend
-
-
 paths:
 
   /configuration-details:
