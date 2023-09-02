@@ -1,6 +1,6 @@
 get:
   tags:
-    - dataAccess
+    - fitnessStore
   operationId: readFitnessDataItem
   description: ''
   summary: Get the data item

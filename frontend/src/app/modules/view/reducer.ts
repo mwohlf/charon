@@ -18,6 +18,7 @@ export type ThemeDetails = {
 export type NavDetails = {
   navDrawerMode: MatDrawerMode;  // 'over' | 'push' | 'side';
   navState: NavState;  // open or closed when in side mode
+  isHeaderEnabled: boolean; //TODO
 }
 
 export type Viewport = {
@@ -37,6 +38,7 @@ export const initialState: ViewState = {
   navDrawerMode: 'side',
   navState: 'opened',
   breakpoint: 'medium',
+  isHeaderEnabled: true,
 };
 
 
@@ -44,7 +46,7 @@ const featureReducer = createReducer(
   initialState,
 
   on(fromActions.setThemeDetails,
-    (state: ViewState, {payload: payload}) => {
+    (state: ViewState, {payload: payload}): ViewState => {
       return {
         ...state,
         ...payload,
@@ -53,7 +55,7 @@ const featureReducer = createReducer(
   ),
 
   on(fromActions.setNavDrawMode,
-    (state: ViewState, {payload: payload}) => {
+    (state: ViewState, {payload: payload}): ViewState => {
       return {
         ...state,
         navDrawerMode: payload.navDrawMode,
@@ -62,7 +64,7 @@ const featureReducer = createReducer(
   ),
 
   on(fromActions.setNavState,
-    (state: ViewState, {payload: payload}) => {
+    (state: ViewState, {payload: payload}): ViewState => {
       return {
         ...state,
         navState: payload.navState,
@@ -71,7 +73,7 @@ const featureReducer = createReducer(
   ),
 
   on(fromActions.setBreakpoint,
-    (state: ViewState, {payload: payload}) => {
+    (state: ViewState, {payload: payload}): ViewState => {
       return {
         ...state,
         breakpoint: payload.breakpoint,
@@ -80,7 +82,7 @@ const featureReducer = createReducer(
   ),
 
   on(fromActions.toggleMenu,
-    (state: ViewState) => {
+    (state: ViewState): ViewState => {
       let nextState: NavState = state.navState == 'opened'? 'closed' : 'opened'
       return {
         ...state,
@@ -90,19 +92,19 @@ const featureReducer = createReducer(
   ),
 
   on(fromActions.enableHeaderFlag,
-    (state: ViewState, {payload: {isHeaderEnabled: isEnabled}}) => {
+    (state: ViewState): ViewState => {
       return {
         ...state, // keep the old state in case we are updating...
-        isHeaderEnabled: isEnabled,
+        isHeaderEnabled: true,
       };
     },
   ),
 
   on(fromActions.disableHeaderFlag,
-    (state: ViewState, {payload: {isHeaderEnabled: isEnabled}}) => {
+    (state: ViewState): ViewState => {
       return {
         ...state, // keep the old state in case we are updating...
-        isHeaderEnabled: isEnabled,
+        isHeaderEnabled: false,
       };
     },
   ),

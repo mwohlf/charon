@@ -16,6 +16,36 @@ import org.springframework.web.reactive.function.client.WebClient
 // https://developers.google.com/fit/rest/v1/get-started
 
 // https://www.googleapis.com/fitness/v1/users/me/dataSources/derived:com.google.step_count.delta:1234567890:Example%20Manufacturer:ExampleTablet:1000001:MyDataSource
+// https://stackoverflow.com/questions/64956764/what-data-source-id-to-use-for-google-fit-rest-heart-rate-query
+// https://developers.google.com/fit/datatypes/aggregate
+// https://developers.google.com/oauthplayground
+
+// raw:com.google.heart_rate.bpm:com.fitbit.FitbitMobile:health_platform
+
+/*
+https://developers.google.com/oauthplayground/
+POST https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate
+
+{
+  "aggregateBy": [{
+    "dataTypeName": "health_platform",
+    "dataSourceId": "raw:com.google.distance.delta:com.fitbit.FitbitMobile:health_platform"
+  }],
+  "bucketByTime": { "durationMillis": 86400000 },
+  "startTimeMillis": 1691000000000,
+  "endTimeMillis": 1693500000000
+}
+
+{
+  "aggregateBy": [{
+    "dataTypeName": "health_platform",
+    "dataSourceId": "raw:com.google.heart_rate.bpm:com.fitbit.FitbitMobile:health_platform"
+  }],
+  "bucketByTime": { "durationMillis": 86400000 },
+  "startTimeMillis": 1691000000000,
+  "endTimeMillis": 1693500000000
+}
+ */
 
 private val logger = KotlinLogging.logger {}
 private var mapper = ObjectMapper()
@@ -59,8 +89,22 @@ class FitnessStoreService(
             .bodyToMono(String::class.java)
             .block()
         val requestResult = mapper.readTree(bodyString) as ObjectNode
-        logger.error { "requestResult: $requestResult" }
-        return FitnessDataItem(id = "id", name = "name")
+        logger.info { "requestResult: $requestResult" }
+        // {
+        // "dataStreamId":"derived:com.google.active_minutes:com.google.android.fit:Google:Pixel 6a:53f7246b:top_level",
+        // "dataStreamName":"top_level",
+        // "type":"derived",
+        // "dataType":{"name":"com.google.active_minutes",
+        // "field":[{"name":"duration","format":"integer"}]},
+        // "device":{"uid":"53f7246b","type":"phone","version":"",
+        // "model":"Pixel 6a",
+        // "manufacturer":"Google"},
+        // "application":{"packageName":"com.google.android.fit"},
+        // "dataQualityStandard":[]}
+        return FitnessDataItem(
+            id = requestResult["dataStreamId"].asText(),
+            name = requestResult["dataStreamName"].asText(),
+        )
     }
 
 }

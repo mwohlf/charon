@@ -34,11 +34,9 @@ export const toggleMenu = createAction(
 // only create in the store
 export const enableHeaderFlag = createAction(
   `${GROUP}/enableHeaderFlag`,
-  props<{ payload: { isHeaderEnabled: boolean } }>(),
 );
 
 // only delete in the store
 export const disableHeaderFlag = createAction(
   `${GROUP}/disableHeaderFlag`,
-  props<{ payload: { isHeaderEnabled: boolean } }>(),
 );

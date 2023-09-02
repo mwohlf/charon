@@ -1,6 +1,6 @@
 get:
   tags:
-    - dataAccess
+    - fitnessStore
   operationId: readFitnessDataList
   description: ''
   responses:

@@ -20,7 +20,7 @@ const featureReducer = createReducer(
   initialState,
 
   on(fromActions.readRandomDataUsingGET,
-    (state: DataState) => {
+    (state: DataState): DataState => {
       return {
         isLoading: true,
         isError: false,
@@ -30,7 +30,7 @@ const featureReducer = createReducer(
   ),
 
   on(fromActions.readRandomDataUsingGET_success,
-    (state: DataState, {payload: payload}) => {
+    (state: DataState, {payload: payload}): DataState => {
       return {
         isLoading: false,
         isError: false,
@@ -40,7 +40,7 @@ const featureReducer = createReducer(
   ),
 
   on(fromActions.readRandomDataUsingGET_failure,
-    (state: DataState, {payload: error}) => {
+    (state: DataState, {payload: error}): DataState => {
       LoggerHolder.logger.debug(`<readRandomDataUsingGET_failure> error: ${error}, state: `, JSON.stringify(state));
       return {
         isLoading: false,

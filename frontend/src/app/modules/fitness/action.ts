@@ -1,7 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {NotificationData} from '../notification/reducer';
 import {fitFeature} from '../../shared/const';
-import {FitSource} from './reducer';
 import {FitnessDataItem, FitnessDataListElement} from 'build/generated';
 
 const GROUP: string = '@app/' + fitFeature;

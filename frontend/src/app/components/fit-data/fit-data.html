@@ -1,0 +1,12 @@
+<div>
+
+    <mat-card *ngIf="selectFitnessDataItem$ | async as selectFitnessDataItem;">
+        <mat-card-content>
+            <div>
+                value: {{selectFitnessDataItem.id}} <br/>
+                value: {{selectFitnessDataItem.name}} <br/>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+</div>

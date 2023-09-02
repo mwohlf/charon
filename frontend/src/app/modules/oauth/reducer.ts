@@ -40,7 +40,7 @@ const featureReducer = createReducer(
 
   // login action triggers the workflow
   on(fromActions.loginAction,
-    (state: OAuthState, {payload: {configId: configId}}) => {
+    (state: OAuthState, {payload: {configId: configId}}): OAuthState => {
       return {
         ...state,
         configId: configId,
@@ -50,7 +50,7 @@ const featureReducer = createReducer(
 
   // something coming from the oauth framework e.g. login success, token refresh etc.
   on(fromActions.oauthEventAction,
-    (state: OAuthState, {payload: payload}) => {
+    (state: OAuthState, {payload: payload}): OAuthState => {
       // these values are copied and pasted from the last version of EventTypes
       // from the angular-auth-oidc-client lib, make sure to update
       // them when updating the lib!
@@ -81,7 +81,7 @@ const featureReducer = createReducer(
 
   //
   on(fromActions.oidcSecurityAction,
-    (state: OAuthState, {payload: payload}) => {
+    (state: OAuthState, {payload: payload}): OAuthState => {
       LoggerHolder.logger.info(`<oidcSecurityAction> payload: `, JSON.stringify(payload));
       return {
         ...state, // keep the old state in case we are updating...
@@ -96,7 +96,7 @@ const featureReducer = createReducer(
 
   // called after fetching the client list
   on(fromActions.readClientConfigurationListUsingGET_success,
-    (state: OAuthState, {payload: payload}) => {
+    (state: OAuthState, {payload: payload}): OAuthState => {
       LoggerHolder.logger.trace(`<readClientConfigurationListUsingGET_success> payload: `, JSON.stringify(payload));
       const baseUrl = payload.baseUrl;
       const openIdConfigurations: Array<OpenIdConfiguration> = payload.clientConfigurationList.map(
@@ -115,7 +115,7 @@ const featureReducer = createReducer(
             silentRenewUrl: baseUrl + 'assets/silent-renew.html',   // not sure if this makes sense here...
             renewTimeBeforeTokenExpiresInSeconds: 30,
             startCheckSession: true,
-            logLevel: LogLevel.Debug,
+            logLevel: LogLevel.Warn,
             autoUserInfo: false, // authentication for this doesn't work yet
             secureRoutes: [
               '/api',   // all the backend endpoints

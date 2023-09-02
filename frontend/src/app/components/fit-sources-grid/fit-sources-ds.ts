@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../app-shell.module';
 import {NGXLogger} from 'ngx-logger';
-import {selectFitDataSources} from '../../modules/fit/selector';
+import {fitnessDataListElements} from '../../modules/fitness/selector';
 import {map} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import { FitnessDataListElement } from 'build/generated';
@@ -20,7 +20,7 @@ export class FitSourcesDataSource extends DataSource<FitnessDataListElement> {
   }
 
   connect(collectionViewer: CollectionViewer): Observable<Array<FitnessDataListElement>> {
-    return this.store.select(selectFitDataSources).pipe(
+    return this.store.select(fitnessDataListElements).pipe(
       // map undefined to empty array
       map(e => (e == undefined ? [] : e)),
     );

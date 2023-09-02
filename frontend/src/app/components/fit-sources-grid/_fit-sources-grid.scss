@@ -1,13 +1,25 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
+.mat-column-id {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 30% !important;
+    width: 30% !important;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
 .mat-column-name {
     word-wrap: break-word !important;
     white-space: unset !important;
     flex: 0 0 30% !important;
     width: 30% !important;
     overflow-wrap: break-word;
-    word-wrap: break-word;
     word-break: break-word;
     -ms-hyphens: auto;
     -moz-hyphens: auto;
@@ -21,7 +33,6 @@
     flex: 0 0 20% !important;
     width: 20% !important;
     overflow-wrap: break-word;
-    word-wrap: break-word;
     word-break: break-word;
     -ms-hyphens: auto;
     -moz-hyphens: auto;
@@ -35,7 +46,6 @@
     flex: 0 0 50% !important;
     width: 50% !important;
     overflow-wrap: break-word;
-    word-wrap: break-word;
     word-break: break-word;
     -ms-hyphens: auto;
     -moz-hyphens: auto;
@@ -49,10 +59,13 @@
     flex: 0 0 5% !important;
     width: 5% !important;
     overflow-wrap: break-word;
-    word-wrap: break-word;
     word-break: break-word;
     -ms-hyphens: auto;
     -moz-hyphens: auto;
     -webkit-hyphens: auto;
     hyphens: auto;
+}
+
+.mat-mdc-table .mat-mdc-row:hover {
+    background-color: red;
 }

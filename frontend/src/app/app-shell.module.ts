@@ -10,7 +10,7 @@ import * as fromConfig from './modules/config/effects';
 import * as fromOAuth from './modules/oauth/effects';
 import * as fromTheme from './modules/view/effects';
 import * as fromData from './modules/data/effects';
-import * as fromFit from './modules/fit/effects';
+import * as fromFit from './modules/fitness/effects';
 import {AppThemeModule} from './app-theme.module';
 import {FooterComponent} from './components/footer/footer.component';
 import {MenuComponent} from './components/menu/menu.component';
@@ -31,7 +31,9 @@ import {HeaderComponent} from './components/header/header.component';
 import {GlobalErrorHandler} from './shared/error-handler';
 import {PageComponent} from './components/page/page.component';
 import {DataModule} from './modules/data/data.module';
-import {FitModule} from './modules/fit/fit.module';
+import {FitnessModule} from './modules/fitness/fitness.module';
+import {FitSourcesGrid} from './components/fit-sources-grid/fit-sources-grid';
+import {FitData} from './components/fit-data/fit-data';
 
 
 export interface AppState {
@@ -60,7 +62,7 @@ const prefersReducedMotion =
     ConfigModule,
     DataModule,
     EffectsRootModule,
-    FitModule,
+    FitnessModule,
     HttpClientModule,
     LayoutModule,
     MatSidenavModule,
@@ -105,6 +107,8 @@ const prefersReducedMotion =
     FooterComponent,
     MenuComponent,
     PageComponent,
+    FitSourcesGrid,
+    FitData,
   ],
   declarations: [
     AppComponent,

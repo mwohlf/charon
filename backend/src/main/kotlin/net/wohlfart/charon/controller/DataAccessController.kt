@@ -1,12 +1,9 @@
 package net.wohlfart.charon.controller
 
 import net.wohlfart.charon.api.DataAccessApi
-import net.wohlfart.charon.model.FitnessDataItem
-import net.wohlfart.charon.model.FitnessDataListElement
 import net.wohlfart.charon.model.RandomData
 import net.wohlfart.charon.service.FitnessStoreService
 import net.wohlfart.charon.service.OAuthTokenService
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.core.context.SecurityContextHolder
@@ -39,25 +36,6 @@ class DataAccessController(
                 expire = accessToken?.expiredAt ?: OffsetDateTime.now(),
             )
         )
-    }
-
-    @Secured(value = ["SCOPE_profile"])
-    override fun readFitnessDataList(): ResponseEntity<List<FitnessDataListElement>> {
-        val accessToken = oAuthTokenService.getFitAccessToken(SecurityContextHolder.getContext().authentication) .block()
-        accessToken?.let {token ->
-            return ResponseEntity.ok(fitnessStoreService.readFitnessDataList(token))
-        }
-        return ResponseEntity(HttpStatus.NOT_FOUND)
-    }
-
-
-    @Secured(value = ["SCOPE_profile"])
-    override fun readFitnessDataItem(id: String): ResponseEntity<FitnessDataItem> {
-        val accessToken = oAuthTokenService.getFitAccessToken(SecurityContextHolder.getContext().authentication) .block()
-        accessToken?.let {token ->
-            return ResponseEntity.ok(fitnessStoreService.readFitnessDataItem(token, id))
-        }
-        return ResponseEntity(HttpStatus.NOT_FOUND)
     }
 
 }

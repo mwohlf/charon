@@ -13,6 +13,7 @@ import {NGXLogger} from 'ngx-logger';
 import {
   FitSourcesGrid,
 } from '../../components/fit-sources-grid/fit-sources-grid';
+import {FitData} from '../../components/fit-data/fit-data';
 
 @Component({
   imports: [
@@ -21,6 +22,7 @@ import {
     NgIf,
     AsyncPipe,
     FitSourcesGrid,
+    FitData,
   ],
   standalone: true,
   selector: 'app-protected',

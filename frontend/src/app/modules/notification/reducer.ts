@@ -29,7 +29,7 @@ const featureReducer = createReducer(
   initialState,
 
   on(fromActions.showNotification,
-    (currentState, {payload: payload}) => {
+    (currentState, {payload: payload}): NotificationQueue => {
     // we need to clone because our state is immutable
       const notificationQueue = _.cloneDeep(currentState.notificationQueue);
       // if we have an incoming error we override any other notification
@@ -44,7 +44,7 @@ const featureReducer = createReducer(
   ),
 
   on(fromActions.confirmNotification,
-    (currentState) => {
+    (currentState): NotificationQueue => {
       const notificationQueue = currentState.notificationQueue.slice(1)
       return {
         notificationQueue: notificationQueue,

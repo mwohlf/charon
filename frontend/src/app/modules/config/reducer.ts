@@ -1,5 +1,5 @@
 import {Action, createReducer, on} from '@ngrx/store';
-import { ConfigurationDetails } from 'build/generated';
+import {ConfigurationDetails} from 'build/generated';
 import * as fromActions from './action';
 import {LoggerHolder} from '../../shared/logger-holder';
 
@@ -20,7 +20,7 @@ const featureReducer = createReducer(
   initialState,
 
   on(fromActions.readConfigurationDetailsUsingGET,
-    (state: ConfigState) => {
+    (state: ConfigState): ConfigState => {
       return {
         isLoading: true,
         isError: false,
@@ -30,7 +30,7 @@ const featureReducer = createReducer(
   ),
 
   on(fromActions.readConfigurationDetailsUsingGET_success,
-    (state: ConfigState, {payload: payload}) => {
+    (state: ConfigState, {payload: payload}): ConfigState => {
       return {
         isLoading: false,
         isError: false,
@@ -40,7 +40,7 @@ const featureReducer = createReducer(
   ),
 
   on(fromActions.readConfigurationDetailsUsingGET_failure,
-    (state: ConfigState, {payload: error}) => {
+    (state: ConfigState, {payload: error}): ConfigState => {
       LoggerHolder.logger.debug(`<readConfigurationDetailsUsingGET_failure> error: ${error}, state: `, JSON.stringify(state));
       return {
         isLoading: false,
@@ -49,7 +49,6 @@ const featureReducer = createReducer(
       };
     },
   ),
-
 );
 
 export function reducer(state: ConfigState | undefined, action: Action): ConfigState {

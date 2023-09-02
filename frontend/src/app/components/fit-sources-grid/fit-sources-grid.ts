@@ -12,7 +12,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {
   readFitnessDataItemUsingGET,
   readFitnessDataListUsingGET,
-} from '../../modules/fit/action';
+} from '../../modules/fitness/action';
+import { FitnessDataListElement } from 'build/generated';
 
 @Component({
   imports: [
@@ -37,8 +38,7 @@ import {
 })
 export class FitSourcesGrid implements OnInit {
 
-
-  displayedColumns = ['name', 'type', 'dataTypeName', 'action'];
+  displayedColumns: string[] = ['id', 'name', 'type', 'dataTypeName', 'action'];
 
   constructor(
     public fitSourcesDataSource: FitSourcesDataSource,
@@ -57,4 +57,8 @@ export class FitSourcesGrid implements OnInit {
     this.store.dispatch(readFitnessDataItemUsingGET({payload: id}));
   }
 
+  selectRow(row: FitnessDataListElement): void {
+    this.logger.info('<selectRow> row: ' + JSON.stringify(row, null, 2));
+    this.store.dispatch(readFitnessDataItemUsingGET({payload: row.id}));
+  }
 }

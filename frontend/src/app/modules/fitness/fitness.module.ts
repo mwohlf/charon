@@ -14,5 +14,5 @@ import {fitFeature} from '../../shared/const';
 })
 
 // Module imported in main imports
-export class FitModule {
+export class FitnessModule {
 }
