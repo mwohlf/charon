@@ -40,8 +40,8 @@ export class Effects {
         this.logger.info('readFitnessDataListUsingGET...');
         this.logger.debug('<readFitnessDataListUsingGET>', JSON.stringify(action, null, 2));
       }),
-      mergeMap((action: {}) => {
-        return this.fitnessStoreService.readFitnessDataList().pipe(
+      mergeMap((action) => {
+        return this.fitnessStoreService.readFitnessDataList({userId: action.payload.userId}).pipe(
           map((fitDataSources: Array<FitnessDataListElement>) => {
             return readFitnessDataListUsingGET_success({
               payload: fitDataSources,
@@ -86,23 +86,28 @@ export class Effects {
         this.logger.debug('<readFitnessDataItemUsingGET>', JSON.stringify(action));
       }),
       mergeMap((action) => {
-        return this.fitnessStoreService.readFitnessDataItem({id: action.payload}).pipe( // fixme
-          map((fitnessDataElement: FitnessDataItem) => {
-            return readFitnessDataItemUsingGET_success({
-              payload: fitnessDataElement,
-            });
-          }),
-          catchError((error: any) => {
-            return of(readFitnessDataItemUsingGET_failure({
-              payload: {
-                level: Level.Error,
-                title: 'Data missing',
-                message: 'Data can\'t be loaded.',
-                details: JSON.stringify(error, null, 2),
-              },
-            }));
-          }),
-        );
+        return this.fitnessStoreService
+          .readFitnessDataItem({
+            userId: action.payload.userId,
+            dataSourceId: action.payload.dataSourceId,
+          })
+          .pipe( // fixme
+            map((fitnessDataElement: FitnessDataItem) => {
+              return readFitnessDataItemUsingGET_success({
+                payload: fitnessDataElement,
+              });
+            }),
+            catchError((error: any) => {
+              return of(readFitnessDataItemUsingGET_failure({
+                payload: {
+                  level: Level.Error,
+                  title: 'Data missing',
+                  message: 'Data can\'t be loaded.',
+                  details: JSON.stringify(error, null, 2),
+                },
+              }));
+            }),
+          );
       }),
     );
   });

@@ -3,9 +3,31 @@
     <mat-card *ngIf="selectFitnessDataItem$ | async as selectFitnessDataItem;">
         <mat-card-content>
             <div>
-                value: {{selectFitnessDataItem.id}} <br/>
-                value: {{selectFitnessDataItem.name}} <br/>
+                id: {{selectFitnessDataItem.id}} <br/>
+                name: {{selectFitnessDataItem.name}} <br/>
+                <br/>
+                <br/>
             </div>
+            <div>
+                <br/>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate placeholder="Start date" (dateChange)="beginChanged($event)" >
+                    <input matEndDate placeholder="End date" (dateChange)="endChanged($event)" >
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </div>
+
+            <p>
+                TODO: convert the timerange into a datasetId :
+                the final request:
+                https://fitness.googleapis.com/fitness/v1/users/me/dataSources/raw:com.google.heart_rate.bpm:com.fitbit.FitbitMobile:health_platform/datasets/1688330144000000000-1693687024000000000
+
+                1688330144000000000 begin is nanosec
+                1693687024000000000 end
+            </p>
+
+
         </mat-card-content>
     </mat-card>
 

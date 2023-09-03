@@ -13,7 +13,7 @@ import {
   readFitnessDataItemUsingGET,
   readFitnessDataListUsingGET,
 } from '../../modules/fitness/action';
-import { FitnessDataListElement } from 'build/generated';
+import {FitnessDataListElement} from 'build/generated';
 
 @Component({
   imports: [
@@ -49,16 +49,16 @@ export class FitSourcesGrid implements OnInit {
 
   ngOnInit(): void {
     this.logger.info('<FitSourcesGrid> trigger dispatch to get data');
-    this.store.dispatch(readFitnessDataListUsingGET());
+    this.store.dispatch(readFitnessDataListUsingGET({payload: {userId: 'me'}}));
   }
 
   viewDetails(id: string) {
     this.logger.info('<viewDetails> id: ' + id);
-    this.store.dispatch(readFitnessDataItemUsingGET({payload: id}));
+    this.store.dispatch(readFitnessDataItemUsingGET({payload: {userId: 'me', dataSourceId: id}}));
   }
 
   selectRow(row: FitnessDataListElement): void {
     this.logger.info('<selectRow> row: ' + JSON.stringify(row, null, 2));
-    this.store.dispatch(readFitnessDataItemUsingGET({payload: row.id}));
+    this.store.dispatch(readFitnessDataItemUsingGET({payload: {userId: 'me', dataSourceId: row.id}}));
   }
 }

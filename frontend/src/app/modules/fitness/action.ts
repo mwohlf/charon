@@ -8,6 +8,7 @@ const GROUP: string = '@app/' + fitFeature;
 
 export const readFitnessDataListUsingGET = createAction(
   `${GROUP}/readFitnessDataListUsingGET`,
+  props<{ payload: { userId: string } }>(),
 );
 
 export const readFitnessDataListUsingGET_success = createAction(
@@ -22,7 +23,7 @@ export const readFitnessDataListUsingGET_failure = createAction(
 
 export const readFitnessDataItemUsingGET = createAction(
   `${GROUP}/readFitnessDataItemUsingGET`,
-  props<{ payload: string }>(),
+  props<{ payload: { userId: string, dataSourceId: string } }>(),
 );
 
 

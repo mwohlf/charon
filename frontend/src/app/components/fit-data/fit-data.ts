@@ -9,6 +9,15 @@ import {FitnessDataItem} from 'build/generated';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {
+  DateRange,
+  ExtractDateTypeFromSelection,
+  MatDatepickerInputEvent,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatNativeDateModule} from '@angular/material/core';
 
 import {selectFitnessDataItem} from '../../modules/fitness/selector';
 import {Observable} from 'rxjs';
@@ -23,6 +32,10 @@ import {Observable} from 'rxjs';
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   selector: 'fit-data',
   standalone: true,
@@ -32,7 +45,7 @@ import {Observable} from 'rxjs';
 })
 export class FitData implements OnInit {
 
-   selectFitnessDataItem$: Observable<FitnessDataItem | undefined>;
+  selectFitnessDataItem$: Observable<FitnessDataItem | undefined>;
 
   constructor(
     private store: Store<AppState>,
@@ -45,5 +58,12 @@ export class FitData implements OnInit {
     this.logger.info('<FitData> ngOnInit called');
   }
 
+  beginChanged($event: MatDatepickerInputEvent<ExtractDateTypeFromSelection<DateRange<Date>>, DateRange<Date>>) {
+    this.logger.info('<beginChanged> value: ' + JSON.stringify($event.value, null, 2));
+  }
+
+  endChanged($event: MatDatepickerInputEvent<ExtractDateTypeFromSelection<DateRange<Date>>, DateRange<Date>>) {
+    this.logger.info('<endChanged> value: ' + JSON.stringify($event.value, null, 2));
+  }
 
 }

@@ -18,14 +18,17 @@ paths:
   /random-data:
     $ref: "./endpoints/random-data.yaml"
 
-  /fitness-data:
-    $ref: "./endpoints/fitness-data-list.yaml"
-
-  /fitness-data/{id}:
-    $ref: "./endpoints/fitness-data-item.yaml"
-
   /logs: # used by UI logger, hardcoded
     $ref: "./endpoints/logging.yaml"
+
+  /fitness-data/{userId}:
+    $ref: "./endpoints/fitness-data-list.yaml"
+
+  /fitness-data/{userId}/dataSources/{dataSourceId}:
+    $ref: "./endpoints/fitness-data-item.yaml"
+
+  /fitness-data/{userId}/dataSources/{dataSourceId}/datasets/{datasetId}:
+    $ref: "./endpoints/fitness-data-set.yaml"
 
 components:
   schemas:

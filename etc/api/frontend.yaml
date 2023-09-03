@@ -18,8 +18,11 @@ paths:
   /random-data:
     $ref: "./endpoints/random-data.yaml"
 
-  /fitness-data:
+  /fitness-data/{userId}:
     $ref: "./endpoints/fitness-data-list.yaml"
 
-  /fitness-data/{id}:
+  /fitness-data/{userId}/dataSources/{dataSourceId}:
     $ref: "./endpoints/fitness-data-item.yaml"
+
+  /fitness-data/{userId}/dataSources/{dataSourceId}/datasets/{datasetId}:
+    $ref: "./endpoints/fitness-data-set.yaml"

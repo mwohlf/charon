@@ -1,7 +1,7 @@
 get:
   tags:
     - fitnessStore
-  operationId: readFitnessDataItem
+  operationId: readFitnessDataSet
   description: ''
   summary: Get the data item
   parameters:
@@ -17,6 +17,12 @@ get:
         type: string
       required: true
       description: id of the data source
+    - in: path
+      name: dataSetId
+      schema:
+        type: string
+      required: true
+      description: id of the data set
   responses:
     '200':
       description: successful operation

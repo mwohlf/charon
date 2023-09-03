@@ -3,6 +3,13 @@ get:
     - fitnessStore
   operationId: readFitnessDataList
   description: ''
+  parameters:
+    - in: path
+      name: userId
+      schema:
+        type: string
+      required: true
+      description: id of the user
   responses:
     '200':
       description: successful operation

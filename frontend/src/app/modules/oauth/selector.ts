@@ -53,4 +53,11 @@ export const selectUserRoles = createSelector(
   },
 );
 
+export const selectXid = createSelector(
+  selectOAuthFeature,
+  (state: OAuthState) => {
+    return state.userData;
+  },
+);
+
 

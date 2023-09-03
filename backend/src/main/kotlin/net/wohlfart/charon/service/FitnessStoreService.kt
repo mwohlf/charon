@@ -56,7 +56,7 @@ class FitnessStoreService(
     private val fitStoreClientBuilder: WebClient.Builder
 ) {
 
-    fun readFitnessDataList(accessToken: AccessToken): List<FitnessDataListElement> {
+    fun readFitnessDataList(accessToken: AccessToken, userId: String): List<FitnessDataListElement> {
 
         // https://www.googleapis.com/fitness/v1/resourcePath?parameters
 
@@ -79,10 +79,10 @@ class FitnessStoreService(
         }
     }
 
-    fun readFitnessDataItem(accessToken: AccessToken, id: String): FitnessDataItem? {
+    fun readFitnessDataItem(accessToken: AccessToken, userId: String, dataSourceId: String): FitnessDataItem? {
         val bodyString = fitStoreClientBuilder.build()
             .method(HttpMethod.GET)
-            .uri("/$id")
+            .uri("/$dataSourceId")
             // .uri("/" + URLEncoder.encode(id, "UTF-8"))
             .header(HttpHeaders.AUTHORIZATION, "Bearer ${accessToken.tokenValue}")
             .retrieve()
@@ -101,6 +101,22 @@ class FitnessStoreService(
         // "manufacturer":"Google"},
         // "application":{"packageName":"com.google.android.fit"},
         // "dataQualityStandard":[]}
+        return FitnessDataItem(
+            id = requestResult["dataStreamId"].asText(),
+            name = requestResult["dataStreamName"].asText(),
+        )
+    }
+
+    fun readFitnessDataSet(accessToken: AccessToken, userId: String, dataSourceId: String, dataSetId: String): FitnessDataItem? {
+        val bodyString = fitStoreClientBuilder.build()
+            .method(HttpMethod.GET)
+            .uri("/$dataSourceId/dataset/$dataSetId")
+            // .uri("/" + URLEncoder.encode(id, "UTF-8"))
+            .header(HttpHeaders.AUTHORIZATION, "Bearer ${accessToken.tokenValue}")
+            .retrieve()
+            .bodyToMono(String::class.java)
+            .block()
+        val requestResult = mapper.readTree(bodyString) as ObjectNode
         return FitnessDataItem(
             id = requestResult["dataStreamId"].asText(),
             name = requestResult["dataStreamName"].asText(),
