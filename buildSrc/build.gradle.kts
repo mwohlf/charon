@@ -8,7 +8,7 @@
 // plugins for the build src
 plugins {
     // https://plugins.gradle.org/plugin/org.gradle.kotlin.kotlin-dsl
-    val kotlinDslPluginVersion = "4.1.1"
+    val kotlinDslPluginVersion = "4.1.2"
     id("org.gradle.kotlin.kotlin-dsl") version kotlinDslPluginVersion  // `kotlin-dsl`
     id("org.gradle.kotlin.kotlin-dsl.base") version kotlinDslPluginVersion
     id("org.gradle.kotlin.kotlin-dsl.compiler-settings") version kotlinDslPluginVersion
@@ -19,7 +19,7 @@ plugins {
 // it also contains all the base plugins we aggregate into out custom plugins
 dependencies {
     // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-gradle-plugin
-    val jetbrainsKotlinVersion = "1.9.0"
+    val jetbrainsKotlinVersion = "1.9.10"
 
     // we need to declare dependencies for all the used plugins in the buildScripts...
 
