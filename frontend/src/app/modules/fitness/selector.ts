@@ -19,3 +19,10 @@ export const selectFitnessDataItem = createSelector(
   },
 );
 
+export const selectFitnessDataItemId = createSelector(
+  selectFitFeature,
+  (state: FitnessState) => {
+    return state.fitnessItem.fitnessDataItem?.id;
+  },
+);
+

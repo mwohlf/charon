@@ -38,14 +38,15 @@ GET https://www.googleapis.com/fitness/v1/users/me/dataSources/derived:com.googl
 
 #  get the data
 GET https://www.googleapis.com/fitness/v1/users/me/dataSources/derived:com.google.distance.delta:com.google.android.gms:asus:Nexus 7:f0e3ca13:/datasets/000000-1420845034000000000
-
-https://fitness.googleapis.com/fitness/v1/users/{userId}/dataSources/{dataSourceId}/datasets/{datasetId}
+    https://fitness.googleapis.com/fitness/v1/users/{userId}/dataSources/{dataSourceId}/datasets/{datasetId}
 
 userId = me
 dataSourceId = raw:com.google.heart_rate.bpm:com.fitbit.FitbitMobile:health_platform
 datasetId = 1688330144000000-1397515179728708316
 ->
+https://    www.googleapis.com/fitness/v1/users/me/dataSources/raw:com.google.heart_rate.bpm:com.fitbit.FitbitMobile:health_platform/datasets/1692136800000000-1693432800000000
 https://fitness.googleapis.com/fitness/v1/users/me/dataSources/raw:com.google.heart_rate.bpm:com.fitbit.FitbitMobile:health_platform/datasets/1688330144000000000-1693687024000000000
+https://    www.googleapis.com/fitness/v1/users/me/dataSources/raw:com.google.heart_rate.bpm:com.fitbit.FitbitMobile:health_platform/datasets/1693605600000000000-1693778400000000000
 1688330144000000000
 1693687024000000000
 
@@ -95,9 +96,9 @@ class FitnessStoreController(
 
     @Secured(value = ["SCOPE_profile"])
     override fun readFitnessDataSet(
-        @Parameter(description = "id of the user", required = true) @PathVariable("userId") userId: kotlin.String,
-        @Parameter(description = "id of the data source", required = true) @PathVariable("dataSourceId") dataSourceId: kotlin.String,
-        @Parameter(description = "id of the data set", required = true) @PathVariable("dataSetId") dataSetId: kotlin.String
+        @Parameter(description = "id of the user", required = true) @PathVariable("userId") userId: String,
+        @Parameter(description = "id of the data source", required = true) @PathVariable("dataSourceId") dataSourceId: String,
+        @Parameter(description = "id of the data set", required = true) @PathVariable("dataSetId") dataSetId: String
     ): ResponseEntity<FitnessDataItem> {
         val accessToken = oAuthTokenService.getFitAccessToken(SecurityContextHolder.getContext().authentication).block()
         accessToken?.let { token ->

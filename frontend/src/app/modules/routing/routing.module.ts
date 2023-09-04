@@ -9,6 +9,7 @@ import {LoginComponent} from '../../pages/login/login.component';
 import {AutoLoginPartialRoutesGuard} from 'angular-auth-oidc-client';
 import {SettingsComponent} from '../../pages/settings/settings.component';
 import {AdminComponent} from '../../pages/admin/admin.component';
+import {ChartComponent} from '../../pages/chart/chart.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,11 @@ const routes: Routes = [
   {
     path: ProtectedComponent.SPEC.route,
     component: ProtectedComponent,
+    canActivate: [AutoLoginPartialRoutesGuard],
+  },
+  {
+    path: ChartComponent.SPEC.route,
+    component: ChartComponent,
     canActivate: [AutoLoginPartialRoutesGuard],
   },
   {

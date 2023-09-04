@@ -36,3 +36,50 @@ export const readFitnessDataItemUsingGET_failure = createAction(
   `${GROUP}/readFitnessDataItemUsingGET_failure`,
   props<{ payload: NotificationData }>(),
 );
+
+
+export const setFitnessTimeSeriesBegin = createAction(
+  `${GROUP}/setFitnessTimeSeriesBegin`,
+  props<{
+    payload: {
+      beginInMillisecond: number | undefined,
+    }
+  }>(),
+);
+
+export const setFitnessTimeSeriesEnd = createAction(
+  `${GROUP}/setFitnessTimeSeriesEnd`,
+  props<{
+    payload: {
+      endInMillisecond: number | undefined,
+    }
+  }>(),
+);
+
+export const updateTimeSeries = createAction(
+  `${GROUP}/updateTimeSeries`,
+);
+
+export const readFitnessDataTimeSeriesUsingGET = createAction(
+  `${GROUP}/readFitnessDataTimeSeriesUsingGET`,
+  props<{
+    payload: {
+      userId: string,
+      beginInMillisecond: number,
+      endInMillisecond: number,
+      dataSourceId: string,
+    }
+  }>(),
+);
+
+export const readFitnessDataTimeSeriesUsingGET_success = createAction(
+  `${GROUP}/readFitnessDataTimeSeriesUsingGET_success`,
+  props<{
+    payload: any
+  }>(),
+);
+
+export const readFitnessDataTimeSeriesUsingGET_failure = createAction(
+  `${GROUP}/readFitnessDataTimeSeriesUsingGET_failure`,
+  props<{ payload: NotificationData }>(),
+);

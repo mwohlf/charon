@@ -14,6 +14,7 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {PageConfig} from '../../pages/page-config';
 import {SettingsComponent} from '../../pages/settings/settings.component';
 import {AdminComponent} from '../../pages/admin/admin.component';
+import {ChartComponent} from '../../pages/chart/chart.component';
 
 @Component({
   imports: [
@@ -39,6 +40,7 @@ export class MenuComponent implements OnInit {
     HomeComponent.SPEC,
     SettingsComponent.SPEC,
     ProtectedComponent.SPEC,
+    ChartComponent.SPEC,
     AdminComponent.SPEC,
     //  ErrorComponent.SPEC,
     //  MainComponent.SPEC,

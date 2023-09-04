@@ -1,27 +1,4 @@
-<app-page header="Protected">
-
-    <br/>
-
-    <mat-card>
-        <mat-card-content>
-
-                protected content
-
-        </mat-card-content>
-    </mat-card>
-
-    <br/>
-
-    <mat-card *ngIf="randomData$ | async as randomData;">
-        <mat-card-content>
-            <div>
-                value: {{randomData.value}} <br/>
-                value: {{randomData.expire}} <br/>
-            </div>
-        </mat-card-content>
-    </mat-card>
-
-    <br/>
+<app-page header="Chart">
 
     <mat-card>
         <mat-card-content>
@@ -29,14 +6,5 @@
         </mat-card-content>
     </mat-card>
 
-    <br/>
-
-    <mat-card>
-        <mat-card-content>
-            <fit-sources-grid/>
-        </mat-card-content>
-    </mat-card>
-
-    <br/>
 
 </app-page>

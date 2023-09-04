@@ -110,12 +110,24 @@ class FitnessStoreService(
     fun readFitnessDataSet(accessToken: AccessToken, userId: String, dataSourceId: String, dataSetId: String): FitnessDataItem? {
         val bodyString = fitStoreClientBuilder.build()
             .method(HttpMethod.GET)
-            .uri("/$dataSourceId/dataset/$dataSetId")
+            .uri("/$dataSourceId/datasets/$dataSetId")
             // .uri("/" + URLEncoder.encode(id, "UTF-8"))
             .header(HttpHeaders.AUTHORIZATION, "Bearer ${accessToken.tokenValue}")
             .retrieve()
             .bodyToMono(String::class.java)
             .block()
+        // {
+        //  "minStartTimeNs": "1693519200000000",
+        //  "maxEndTimeNs": "1693605600000000",
+        //  "dataSourceId": "raw:com.google.heart_rate.bpm:com.fitbit.FitbitMobile:health_platform",
+        //  "point": []
+        //}
+        // {
+        //  "minStartTimeNs": "1693605600000000000",
+        //  "maxEndTimeNs": "1693778400000000000",
+        //  "dataSourceId": "raw:com.google.heart_rate.bpm:com.fitbit.FitbitMobile:health_platform",
+        //  "point": []
+        //}
         val requestResult = mapper.readTree(bodyString) as ObjectNode
         return FitnessDataItem(
             id = requestResult["dataStreamId"].asText(),

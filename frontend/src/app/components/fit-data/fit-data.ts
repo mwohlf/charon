@@ -21,6 +21,11 @@ import {MatNativeDateModule} from '@angular/material/core';
 
 import {selectFitnessDataItem} from '../../modules/fitness/selector';
 import {Observable} from 'rxjs';
+import {FitnessState} from '../../modules/fitness/reducer';
+import {
+  setFitnessTimeSeriesBegin,
+  setFitnessTimeSeriesEnd,
+} from '../../modules/fitness/action';
 
 @Component({
   imports: [
@@ -48,7 +53,7 @@ export class FitData implements OnInit {
   selectFitnessDataItem$: Observable<FitnessDataItem | undefined>;
 
   constructor(
-    private store: Store<AppState>,
+    private store: Store<FitnessState>,
     private logger: NGXLogger,
   ) {
     this.selectFitnessDataItem$ = this.store.select(selectFitnessDataItem);
@@ -60,10 +65,28 @@ export class FitData implements OnInit {
 
   beginChanged($event: MatDatepickerInputEvent<ExtractDateTypeFromSelection<DateRange<Date>>, DateRange<Date>>) {
     this.logger.info('<beginChanged> value: ' + JSON.stringify($event.value, null, 2));
+    this.store.dispatch(setFitnessTimeSeriesEnd({
+        payload: {
+          endInMillisecond: undefined,
+        },
+      },
+    ));
+    this.store.dispatch(setFitnessTimeSeriesBegin({
+        payload: {
+          beginInMillisecond: $event.value?.getTime(),
+        },
+      },
+    ));
   }
 
   endChanged($event: MatDatepickerInputEvent<ExtractDateTypeFromSelection<DateRange<Date>>, DateRange<Date>>) {
     this.logger.info('<endChanged> value: ' + JSON.stringify($event.value, null, 2));
+    this.store.dispatch(setFitnessTimeSeriesEnd({
+        payload: {
+          endInMillisecond: $event.value?.getTime(),
+        },
+      },
+    ));
   }
 
 }

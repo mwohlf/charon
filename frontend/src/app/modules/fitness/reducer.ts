@@ -15,6 +15,12 @@ export interface FitnessState {
     isError: boolean
     fitnessDataItem: FitnessDataItem | undefined
   };
+  fitnessTimeSeries: {
+    isLoading: boolean
+    isError: boolean
+    beginInMillisecond: number | undefined
+    endInMillisecond: number | undefined
+  };
 }
 
 const initialState: FitnessState = {
@@ -27,6 +33,12 @@ const initialState: FitnessState = {
     isLoading: false,
     isError: false,
     fitnessDataItem: undefined,
+  },
+  fitnessTimeSeries: {
+    isLoading: false,
+    isError: false,
+    beginInMillisecond: undefined,
+    endInMillisecond: undefined,
   },
 };
 
@@ -116,6 +128,40 @@ const featureReducer = createReducer(
             isLoading: false,
             isError: true,
             fitnessDataItem: undefined,
+          },
+      };
+    },
+  ),
+
+  on(fromActions.setFitnessTimeSeriesBegin,
+    (state: FitnessState, {payload: payload}): FitnessState => {
+      LoggerHolder.logger.debug(`<setFitnessTimeSeriesBegin> payload: ${payload}, state: `, JSON.stringify(state, null, 2));
+      return {
+        ...state,
+        fitnessTimeSeries:
+          {
+            isLoading: false,
+            isError: false,
+            // keep existing value or override with new value
+            beginInMillisecond: payload.beginInMillisecond,
+            endInMillisecond: state.fitnessTimeSeries.endInMillisecond,
+          },
+      };
+    },
+  ),
+
+  on(fromActions.setFitnessTimeSeriesEnd,
+    (state: FitnessState, {payload: payload}): FitnessState => {
+      LoggerHolder.logger.debug(`<setFitnessTimeSeriesEnd> payload: ${payload}, state: `, JSON.stringify(state, null, 2));
+      return {
+        ...state,
+        fitnessTimeSeries:
+          {
+            isLoading: false,
+            isError: false,
+            // keep existing value or override with new value
+            beginInMillisecond: state.fitnessTimeSeries.beginInMillisecond,
+            endInMillisecond: payload.endInMillisecond,
           },
       };
     },

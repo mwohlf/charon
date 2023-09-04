@@ -27,7 +27,7 @@ paths:
   /fitness-data/{userId}/dataSources/{dataSourceId}:
     $ref: "./endpoints/fitness-data-item.yaml"
 
-  /fitness-data/{userId}/dataSources/{dataSourceId}/datasets/{datasetId}:
+  /fitness-data/{userId}/dataSources/{dataSourceId}/datasets/{dataSetId}:
     $ref: "./endpoints/fitness-data-set.yaml"
 
 components:
