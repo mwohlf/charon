@@ -23,8 +23,8 @@ import {selectFitnessDataItem} from '../../modules/fitness/selector';
 import {Observable} from 'rxjs';
 import {FitnessState} from '../../modules/fitness/reducer';
 import {
-  setFitnessTimeSeriesBegin,
-  setFitnessTimeSeriesEnd,
+  setFitnessTimeseriesBegin,
+  setFitnessTimeseriesEnd,
 } from '../../modules/fitness/action';
 
 @Component({
@@ -65,13 +65,13 @@ export class FitData implements OnInit {
 
   beginChanged($event: MatDatepickerInputEvent<ExtractDateTypeFromSelection<DateRange<Date>>, DateRange<Date>>) {
     this.logger.info('<beginChanged> value: ' + JSON.stringify($event.value, null, 2));
-    this.store.dispatch(setFitnessTimeSeriesEnd({
+    this.store.dispatch(setFitnessTimeseriesEnd({
         payload: {
           endInMillisecond: undefined,
         },
       },
     ));
-    this.store.dispatch(setFitnessTimeSeriesBegin({
+    this.store.dispatch(setFitnessTimeseriesBegin({
         payload: {
           beginInMillisecond: $event.value?.getTime(),
         },
@@ -81,7 +81,7 @@ export class FitData implements OnInit {
 
   endChanged($event: MatDatepickerInputEvent<ExtractDateTypeFromSelection<DateRange<Date>>, DateRange<Date>>) {
     this.logger.info('<endChanged> value: ' + JSON.stringify($event.value, null, 2));
-    this.store.dispatch(setFitnessTimeSeriesEnd({
+    this.store.dispatch(setFitnessTimeseriesEnd({
         payload: {
           endInMillisecond: $event.value?.getTime(),
         },

@@ -38,8 +38,8 @@ export const readFitnessDataItemUsingGET_failure = createAction(
 );
 
 
-export const setFitnessTimeSeriesBegin = createAction(
-  `${GROUP}/setFitnessTimeSeriesBegin`,
+export const setFitnessTimeseriesBegin = createAction(
+  `${GROUP}/setFitnessTimeseriesBegin`,
   props<{
     payload: {
       beginInMillisecond: number | undefined,
@@ -47,8 +47,8 @@ export const setFitnessTimeSeriesBegin = createAction(
   }>(),
 );
 
-export const setFitnessTimeSeriesEnd = createAction(
-  `${GROUP}/setFitnessTimeSeriesEnd`,
+export const setFitnessTimeseriesEnd = createAction(
+  `${GROUP}/setFitnessTimeseriesEnd`,
   props<{
     payload: {
       endInMillisecond: number | undefined,
@@ -56,12 +56,12 @@ export const setFitnessTimeSeriesEnd = createAction(
   }>(),
 );
 
-export const updateTimeSeries = createAction(
-  `${GROUP}/updateTimeSeries`,
+export const updateTimeseries = createAction(
+  `${GROUP}/updateTimeseries`,
 );
 
-export const readFitnessDataTimeSeriesUsingGET = createAction(
-  `${GROUP}/readFitnessDataTimeSeriesUsingGET`,
+export const readFitnessDataTimeseriesUsingGET = createAction(
+  `${GROUP}/readFitnessDataTimeseriesUsingGET`,
   props<{
     payload: {
       userId: string,
@@ -72,14 +72,14 @@ export const readFitnessDataTimeSeriesUsingGET = createAction(
   }>(),
 );
 
-export const readFitnessDataTimeSeriesUsingGET_success = createAction(
-  `${GROUP}/readFitnessDataTimeSeriesUsingGET_success`,
+export const readFitnessDataTimeseriesUsingGET_success = createAction(
+  `${GROUP}/readFitnessDataTimeseriesUsingGET_success`,
   props<{
     payload: any
   }>(),
 );
 
-export const readFitnessDataTimeSeriesUsingGET_failure = createAction(
-  `${GROUP}/readFitnessDataTimeSeriesUsingGET_failure`,
+export const readFitnessDataTimeseriesUsingGET_failure = createAction(
+  `${GROUP}/readFitnessDataTimeseriesUsingGET_failure`,
   props<{ payload: NotificationData }>(),
 );

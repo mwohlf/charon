@@ -13,12 +13,12 @@ import {
   readFitnessDataListUsingGET,
   readFitnessDataListUsingGET_failure,
   readFitnessDataListUsingGET_success,
-  readFitnessDataTimeSeriesUsingGET,
-  readFitnessDataTimeSeriesUsingGET_failure,
-  readFitnessDataTimeSeriesUsingGET_success,
-  setFitnessTimeSeriesBegin,
-  setFitnessTimeSeriesEnd,
-  updateTimeSeries,
+  readFitnessDataTimeseriesUsingGET,
+  readFitnessDataTimeseriesUsingGET_failure,
+  readFitnessDataTimeseriesUsingGET_success,
+  setFitnessTimeseriesBegin,
+  setFitnessTimeseriesEnd,
+  updateTimeseries,
 } from './action';
 import {showNotification} from '../notification/action';
 import {
@@ -139,42 +139,42 @@ export class Effects {
     );
   });
 
-  setFitnessTimeSeriesBegin$: Observable<Action> = createEffect(() => {
+  setFitnessTimeseriesBegin$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
-      ofType(setFitnessTimeSeriesBegin),
+      ofType(setFitnessTimeseriesBegin),
       map((action) => {
-        return updateTimeSeries();
+        return updateTimeseries();
       }),
     );
   });
 
-  setFitnessTimeSeriesEnd$: Observable<Action> = createEffect(() => {
+  setFitnessTimeseriesEnd$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
-      ofType(setFitnessTimeSeriesEnd),
+      ofType(setFitnessTimeseriesEnd),
       map((action) => {
-        return updateTimeSeries();
+        return updateTimeseries();
       }),
     );
   });
 
   updateTimeseries$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
-      ofType(updateTimeSeries),
+      ofType(updateTimeseries),
       withLatestFrom(this.store.select(selectFitFeature)),
       distinct(),
       filter(([action, storeState]) => {
-        var result = !!storeState.fitnessTimeSeries.beginInMillisecond
-          && !!storeState.fitnessTimeSeries.endInMillisecond
+        var result = !!storeState.fitnessTimeseries.beginInMillisecond
+          && !!storeState.fitnessTimeseries.endInMillisecond
           && !!storeState.fitnessItem.fitnessDataItem?.id;
         this.logger.info('result: ', result );
         return result
       }),
       map(([action, storeState]) => {
-        return readFitnessDataTimeSeriesUsingGET({
+        return readFitnessDataTimeseriesUsingGET({
           payload: {
             userId: 'me',
-            beginInMillisecond: storeState.fitnessTimeSeries.beginInMillisecond!!,
-            endInMillisecond: storeState.fitnessTimeSeries.endInMillisecond!!,
+            beginInMillisecond: storeState.fitnessTimeseries.beginInMillisecond!!,
+            endInMillisecond: storeState.fitnessTimeseries.endInMillisecond!!,
             dataSourceId: storeState.fitnessItem.fitnessDataItem!!.id,
           },
         });
@@ -182,18 +182,18 @@ export class Effects {
     ); // end pipe
   });
 
-  readFitnessDataTimeSeriesUsingGET$ : Observable<Action> = createEffect(() => {
+  readFitnessDataTimeseriesUsingGET$ : Observable<Action> = createEffect(() => {
     return this.action$.pipe(
-      ofType(readFitnessDataTimeSeriesUsingGET),
+      ofType(readFitnessDataTimeseriesUsingGET),
       tap((action) => {
-        this.logger.debug('<readFitnessDataTimeSeriesUsingGET$>', JSON.stringify(action));
+        this.logger.debug('<readFitnessDataTimeseriesUsingGET$>', JSON.stringify(action));
       }),
       mergeMap((action) => {
         const dataSetId: string = ''
           + action.payload.beginInMillisecond + "000000"
           + '-'
           + action.payload.endInMillisecond + "000000";
-        this.logger.debug('<readFitnessDataTimeSeriesUsingGET$> dataSetId:', dataSetId);
+        this.logger.debug('<readFitnessDataTimeseriesUsingGET$> dataSetId:', dataSetId);
         return this.fitnessStoreService
           .readFitnessDataSet({
             userId: action.payload.userId,
@@ -202,12 +202,12 @@ export class Effects {
           })
           .pipe( // fixme
             map((result: any) => {
-              return readFitnessDataTimeSeriesUsingGET_success({
+              return readFitnessDataTimeseriesUsingGET_success({
                 payload: result,
               });
             }),
             catchError((error: any) => {
-              return of(readFitnessDataTimeSeriesUsingGET_failure({
+              return of(readFitnessDataTimeseriesUsingGET_failure({
                 payload: {
                   level: Level.Error,
                   title: 'Data missing',

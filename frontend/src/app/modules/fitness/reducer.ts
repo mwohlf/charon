@@ -1,5 +1,5 @@
 import {Action, createReducer, on} from '@ngrx/store';
-import {FitnessDataItem, FitnessDataListElement} from 'build/generated';
+import {FitnessDataItem, FitnessDataListElement, FitnessDataTimeseries} from 'build/generated';
 import * as fromActions from './action';
 import {LoggerHolder} from '../../shared/logger-holder';
 
@@ -15,11 +15,12 @@ export interface FitnessState {
     isError: boolean
     fitnessDataItem: FitnessDataItem | undefined
   };
-  fitnessTimeSeries: {
+  fitnessTimeseries: {
     isLoading: boolean
     isError: boolean
     beginInMillisecond: number | undefined
     endInMillisecond: number | undefined
+    data: FitnessDataTimeseries | undefined,
   };
 }
 
@@ -34,11 +35,12 @@ const initialState: FitnessState = {
     isError: false,
     fitnessDataItem: undefined,
   },
-  fitnessTimeSeries: {
+  fitnessTimeseries: {
     isLoading: false,
     isError: false,
     beginInMillisecond: undefined,
     endInMillisecond: undefined,
+    data: undefined,
   },
 };
 
@@ -133,35 +135,37 @@ const featureReducer = createReducer(
     },
   ),
 
-  on(fromActions.setFitnessTimeSeriesBegin,
+  on(fromActions.setFitnessTimeseriesBegin,
     (state: FitnessState, {payload: payload}): FitnessState => {
-      LoggerHolder.logger.debug(`<setFitnessTimeSeriesBegin> payload: ${payload}, state: `, JSON.stringify(state, null, 2));
+      LoggerHolder.logger.debug(`<setFitnessTimeseriesBegin> payload: ${payload}, state: `, JSON.stringify(state, null, 2));
       return {
         ...state,
-        fitnessTimeSeries:
+        fitnessTimeseries:
           {
             isLoading: false,
             isError: false,
             // keep existing value or override with new value
             beginInMillisecond: payload.beginInMillisecond,
-            endInMillisecond: state.fitnessTimeSeries.endInMillisecond,
+            endInMillisecond: state.fitnessTimeseries.endInMillisecond,
+            data: undefined
           },
       };
     },
   ),
 
-  on(fromActions.setFitnessTimeSeriesEnd,
+  on(fromActions.setFitnessTimeseriesEnd,
     (state: FitnessState, {payload: payload}): FitnessState => {
-      LoggerHolder.logger.debug(`<setFitnessTimeSeriesEnd> payload: ${payload}, state: `, JSON.stringify(state, null, 2));
+      LoggerHolder.logger.debug(`<setFitnessTimeseriesEnd> payload: ${payload}, state: `, JSON.stringify(state, null, 2));
       return {
         ...state,
-        fitnessTimeSeries:
+        fitnessTimeseries:
           {
             isLoading: false,
             isError: false,
             // keep existing value or override with new value
-            beginInMillisecond: state.fitnessTimeSeries.beginInMillisecond,
+            beginInMillisecond: state.fitnessTimeseries.beginInMillisecond,
             endInMillisecond: payload.endInMillisecond,
+            data: undefined
           },
       };
     },
