@@ -14,6 +14,7 @@ import {
   readFitnessDataListUsingGET,
 } from '../../modules/fitness/action';
 import {FitnessDataListElement} from 'build/generated';
+import {Router} from '@angular/router';
 
 @Component({
   imports: [
@@ -42,6 +43,7 @@ export class FitSourcesGrid implements OnInit {
 
   constructor(
     public fitSourcesDataSource: FitSourcesDataSource,
+    private router: Router,
     private store: Store<AppState>,
     private logger: NGXLogger,
   ) {
@@ -54,11 +56,23 @@ export class FitSourcesGrid implements OnInit {
 
   viewDetails(id: string) {
     this.logger.info('<viewDetails> id: ' + id);
-    this.store.dispatch(readFitnessDataItemUsingGET({payload: {userId: 'me', dataSourceId: id}}));
+    this.store.dispatch(readFitnessDataItemUsingGET({
+      payload: {
+        userId: 'me',
+        dataSourceId: id,
+      },
+    }));
+    this.router.navigate(['chart']);
   }
 
   selectRow(row: FitnessDataListElement): void {
     this.logger.info('<selectRow> row: ' + JSON.stringify(row, null, 2));
-    this.store.dispatch(readFitnessDataItemUsingGET({payload: {userId: 'me', dataSourceId: row.id}}));
+    this.store.dispatch(readFitnessDataItemUsingGET({
+      payload: {
+        userId: 'me',
+        dataSourceId: row.id,
+      },
+    }));
+    this.router.navigate(['chart']);
   }
 }

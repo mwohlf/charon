@@ -6,6 +6,7 @@ import net.wohlfart.charon.model.FitnessDataItem
 import net.wohlfart.charon.model.FitnessDataListElement
 import net.wohlfart.charon.service.FitnessStoreService
 import net.wohlfart.charon.service.OAuthTokenService
+import net.wohlfart.charon.service.Predicate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
@@ -76,8 +77,15 @@ class FitnessStoreController(
         @Parameter(description = "id of the user", required = true) @PathVariable("userId") userId: String
     ): ResponseEntity<List<FitnessDataListElement>> {
         val accessToken = oAuthTokenService.getFitAccessToken(SecurityContextHolder.getContext().authentication).block()
+        // val predicate = Predicate.True()
+        // "type": "raw"
+        // "dataStreamId": "raw:com.google.step_count.delta:fitapp.fittofit:FitToFit - step count"
+        val predicate = Predicate.And(
+            Predicate.Equals("type", "raw"),
+            Predicate.Matches("dataStreamId", Regex(".*heart.*"))
+        )
         accessToken?.let { token ->
-            return ResponseEntity.ok(fitnessStoreService.readFitnessDataList(token, userId))
+            return ResponseEntity.ok(fitnessStoreService.readFitnessDataList(token, userId, predicate))
         }
         return ResponseEntity(HttpStatus.NOT_FOUND)
     }
