@@ -25,4 +25,4 @@ paths:
     $ref: "./endpoints/fitness-data-item.yaml"
 
   /fitness-data/{userId}/dataSources/{dataSourceId}/datasets/{dataSetId}:
-    $ref: "./endpoints/fitness-data-set.yaml"
+    $ref: "./endpoints/fitness-data-timeseries.yaml"

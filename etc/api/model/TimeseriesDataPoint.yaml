@@ -1,0 +1,12 @@
+#
+# the Timeseries Element data type
+#
+type: object
+required:
+  - time
+  - value
+properties:
+  time:
+    type: integer
+  value:
+    type: number

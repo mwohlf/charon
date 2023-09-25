@@ -29,6 +29,6 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../model/FitnessDataItem.yaml"
+            $ref: "../model/FitnessDataTimeseries.yaml"
     '405':
       description: Invalid input

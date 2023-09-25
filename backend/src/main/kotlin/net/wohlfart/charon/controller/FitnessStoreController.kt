@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Parameter
 import net.wohlfart.charon.api.FitnessStoreApi
 import net.wohlfart.charon.model.FitnessDataItem
 import net.wohlfart.charon.model.FitnessDataListElement
+import net.wohlfart.charon.model.FitnessDataTimeseries
 import net.wohlfart.charon.service.FitnessStoreService
 import net.wohlfart.charon.service.OAuthTokenService
 import net.wohlfart.charon.service.Predicate
@@ -107,10 +108,10 @@ class FitnessStoreController(
         @Parameter(description = "id of the user", required = true) @PathVariable("userId") userId: String,
         @Parameter(description = "id of the data source", required = true) @PathVariable("dataSourceId") dataSourceId: String,
         @Parameter(description = "id of the data set", required = true) @PathVariable("dataSetId") dataSetId: String
-    ): ResponseEntity<FitnessDataItem> {
+    ): ResponseEntity<FitnessDataTimeseries> {
         val accessToken = oAuthTokenService.getFitAccessToken(SecurityContextHolder.getContext().authentication).block()
         accessToken?.let { token ->
-            return ResponseEntity.ok(fitnessStoreService.readFitnessDataSet(token, userId, dataSourceId, dataSetId))
+            return ResponseEntity.ok(fitnessStoreService.readFitnessDataTimeseries(token, userId, dataSourceId, dataSetId))
         }
         return ResponseEntity(HttpStatus.NOT_FOUND)
     }

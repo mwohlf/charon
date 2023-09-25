@@ -1,0 +1,28 @@
+#
+# this is a timeseries
+#
+type: object
+required:
+  - id
+  - name
+  - beginSec
+  - endSec
+  - dataPoints
+properties:
+  id:
+    example: "derived:com.google.activity.segment:com.fitbit.FitbitMobile:session_activity_segment"
+    type: string
+  name:
+    example: "session_activity_segment"
+    type: string
+  beginSec:
+    type: integer
+    format: int64
+  endSec:
+    type: integer
+    format: int64
+  dataPoints:
+    type: array
+    items:
+      $ref: "../model/TimeseriesDataPoint.yaml"
+

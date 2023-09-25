@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import mu.KotlinLogging
-import net.wohlfart.charon.model.AccessToken
-import net.wohlfart.charon.model.FitnessDataItem
-import net.wohlfart.charon.model.FitnessDataListElement
+import net.wohlfart.charon.model.*
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
@@ -57,7 +55,9 @@ class FitnessStoreService(
     private val fitStoreClientBuilder: WebClient.Builder
 ) {
 
-
+    /**
+     * return the list of available data Sources for the current user
+     */
     fun readFitnessDataList(
         accessToken: AccessToken,
         userId: String,
@@ -87,6 +87,9 @@ class FitnessStoreService(
         }
     }
 
+    /**
+     * return a single specific data source identifies by the dataSourceId for the current user
+     */
     fun readFitnessDataItem(accessToken: AccessToken, userId: String, dataSourceId: String): FitnessDataItem? {
         val bodyString = fitStoreClientBuilder.build()
             .method(HttpMethod.GET)
@@ -115,7 +118,7 @@ class FitnessStoreService(
         )
     }
 
-    fun readFitnessDataSet(accessToken: AccessToken, userId: String, dataSourceId: String, dataSetId: String): FitnessDataItem? {
+    fun readFitnessDataTimeseries(accessToken: AccessToken, userId: String, dataSourceId: String, dataSetId: String): FitnessDataTimeseries {
         val bodyString = fitStoreClientBuilder.build()
             .method(HttpMethod.GET)
             .uri("/$dataSourceId/datasets/$dataSetId")
@@ -137,10 +140,14 @@ class FitnessStoreService(
 
         val minStartTimeSec = BigInteger(minStartTimeNs).divide(BigInteger.valueOf(1000 * 1000)).longValueExact()
         val maxEndTimeSec = BigInteger(minStartTimeNs).divide(BigInteger.valueOf(1000 * 1000)).longValueExact()
+        val dataPoints = listOf<TimeseriesDataPoint>() // List<TimeseriesElement>
 
-        return FitnessDataItem(
+        return FitnessDataTimeseries(
             id = dataSourceIdIncoming,
             name = dataSourceIdIncoming,
+            beginSec = minStartTimeSec,
+            endSec = maxEndTimeSec,
+            dataPoints = dataPoints,
         )
     }
 
