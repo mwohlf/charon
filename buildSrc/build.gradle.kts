@@ -28,7 +28,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-noarg:${jetbrainsKotlinVersion}") // for JPA entities
 
     // https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/
-    implementation("org.springframework.boot:spring-boot-gradle-plugin:3.1.3")
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:3.1.4")
     // https://plugins.gradle.org/plugin/io.spring.dependency-management
     implementation("io.spring.gradle:dependency-management-plugin:1.1.3")
     // implementation("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.6.21-1.0.6")
@@ -40,13 +40,13 @@ dependencies {
     implementation("com.github.node-gradle:gradle-node-plugin:7.0.0")
     // https://plugins.gradle.org/plugin/com.google.cloud.tools.jib
     // https://plugins.gradle.org/m2/com/google/cloud/tools/jib/com.google.cloud.tools.jib.gradle.plugin
-    implementation("com.google.cloud.tools.jib:com.google.cloud.tools.jib.gradle.plugin:3.3.0")  // 3.3.2 has a buggy dependency (snakeyaml)
+    implementation("com.google.cloud.tools.jib:com.google.cloud.tools.jib.gradle.plugin:3.4.0")  // 3.3.2 has a buggy dependency (snakeyaml)
     // https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html
     // https://plugins.gradle.org/plugin/org.openapi.generator
-    implementation("org.openapitools:openapi-generator-gradle-plugin:7.0.0")
+    implementation("org.openapitools:openapi-generator-gradle-plugin:7.0.1")
     // org/openapi/generator/org.openapi.generator.gradle.plugin/
     // https://repo.maven.apache.org/maven2/org/openapitools/openapi-generator-gradle-plugin/
-    implementation("org.openapi.generator:org.openapi.generator.gradle.plugin:7.0.0")
+    implementation("org.openapi.generator:org.openapi.generator.gradle.plugin:7.0.1")
     // https://mvnrepository.com/artifact/com.palantir.gradle.gitversion/gradle-git-version
     // https://github.com/palantir/gradle-git-version/tags
     implementation("com.palantir.gradle.gitversion:gradle-git-version:3.0.0")
