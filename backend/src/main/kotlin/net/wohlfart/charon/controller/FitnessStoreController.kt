@@ -20,6 +20,40 @@ import org.springframework.web.bind.annotation.RestController
 
 /*
 
+
+Available operations
+Fitness API v1
+
+⊟ DataSources UsersQueries for user's data point changes for a particular data source.
+Request: GET https://fitness.googleapis.com/fitness/v1/users/{userId}/dataSources/{dataSourceId}/dataPointChanges
+Mandatory HTTP Headers:
+
+⊟ DataSources UsersReturns a dataset containing all data points whose start and end times overlap with the specified range of the dataset minimum start time and maximum end time. Specifically, any data point whose start time is less than or equal to the dataset end time and whose end time is greater than or equal to the dataset start time.
+Request: GET https://fitness.googleapis.com/fitness/v1/users/{userId}/dataSources/{dataSourceId}/datasets/{datasetId}
+Mandatory HTTP Headers:
+
+⊟ DataSources UsersReturns the specified data source.
+Request: GET https://fitness.googleapis.com/fitness/v1/users/{userId}/dataSources/{dataSourceId}
+Mandatory HTTP Headers:
+
+⊟ DataSources UsersLists all data sources that are visible to the developer, using the OAuth scopes provided. The list is not exhaustive; the user may have private data sources that are only visible to other developers, or calls using other scopes.
+Request: GET https://fitness.googleapis.com/fitness/v1/users/{userId}/dataSources
+Mandatory HTTP Headers:
+
+⊟ Dataset UsersAggregates data of a certain type or stream into buckets divided by a given type of boundary.
+Multiple data sets of multiple types and from multiple sources can be aggregated into exactly one bucket type per request.
+Request: POST https://fitness.googleapis.com/fitness/v1/users/{userId}/dataset:aggregate
+Mandatory HTTP Headers:
+
+⊟ Sessions UsersLists sessions previously created.
+Request: GET https://fitness.googleapis.com/fitness/v1/users/{userId}/sessions
+Mandatory HTTP Headers:
+Close
+
+
+
+--------------
+
 relevant google endpoints
 see:
 https://developers.google.com/oauthplayground/?code=4/0Adeu5BU8Kpbk2EhWHU1fRVUBys3PTR_jfVH2M8fbJmjSssY_4C_OI1QWTCRQ3SJpQ1TxUA&scope=https://www.googleapis.com/auth/fitness.activity.read%20https://www.googleapis.com/auth/fitness.blood_glucose.read%20https://www.googleapis.com/auth/fitness.blood_pressure.read%20https://www.googleapis.com/auth/fitness.body.read%20https://www.googleapis.com/auth/fitness.body_temperature.read%20https://www.googleapis.com/auth/fitness.heart_rate.read%20https://www.googleapis.com/auth/fitness.location.read%20https://www.googleapis.com/auth/fitness.nutrition.read%20https://www.googleapis.com/auth/fitness.oxygen_saturation.read%20https://www.googleapis.com/auth/fitness.reproductive_health.read%20https://www.googleapis.com/auth/fitness.sleep.read
@@ -64,6 +98,15 @@ POST https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate
   "endTimeMillis": 1693500000000
 }
 
+
+
+TODO: convert the timerange into a datasetId : the final request:
+
+
+ https://fitness.googleapis.com/fitness/v1/users/me/dataSources/raw:com.google.heart_rate.bpm:com.fitbit.FitbitMobile:health_platform/datasets/1688330144000000000-1693687024000000000 https://www.googleapis.com/fitness/v1/users/me/dataSources/raw:com.google.heart_rate.bpm:com.fitbit.FitbitMobile:health_platform/datasets/1695506400000000000-1695592800000000000 1688330144000000000 begin is nanosec 1693687024000000000 end
+
+
+
 */
 
 @RestController
@@ -82,7 +125,7 @@ class FitnessStoreController(
         // "type": "raw"
         // "dataStreamId": "raw:com.google.step_count.delta:fitapp.fittofit:FitToFit - step count"
         val predicate = Predicate.And(
-            Predicate.Equals("type", "raw"),
+            // Predicate.Equals("type", "raw"),
             Predicate.Matches("dataStreamId", Regex(".*heart.*"))
         )
         accessToken?.let { token ->

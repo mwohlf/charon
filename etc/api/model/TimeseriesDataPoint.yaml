@@ -1,5 +1,6 @@
 #
 # the Timeseries Element data type
+# https://swagger.io/docs/specification/data-models/data-types/
 #
 type: object
 required:
@@ -8,5 +9,7 @@ required:
 properties:
   time:
     type: integer
+    format: int64
   value:
     type: number
+    format: float

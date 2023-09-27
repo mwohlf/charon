@@ -62,7 +62,7 @@ class FitnessStoreService(
         accessToken: AccessToken,
         userId: String,
         predicate: Predicate,
-        ): List<FitnessDataListElement> {
+    ): List<FitnessDataListElement> {
 
         // https://www.googleapis.com/fitness/v1/resourcePath?parameters
 
@@ -78,13 +78,13 @@ class FitnessStoreService(
         return dataSource
             .filter(predicate)
             .map {
-            FitnessDataListElement(
-                id = it["dataStreamId"].asText(),
-                name = it["dataStreamName"].asText(),
-                type = it["type"].asText(),
-                dataTypeName = it["dataType"]["name"].asText(),
-            )
-        }
+                FitnessDataListElement(
+                    id = it["dataStreamId"].asText(),
+                    name = it["dataStreamName"].asText(),
+                    type = it["type"].asText(),
+                    dataTypeName = it["dataType"]["name"].asText(),
+                )
+            }
     }
 
     /**
@@ -128,19 +128,32 @@ class FitnessStoreService(
             .bodyToMono(String::class.java)
             .block()
 
+        // logger.error { "bodyString: $bodyString" }
+
         val requestResult = mapper.readTree(bodyString) as ObjectNode
         val minStartTimeNs = requestResult["minStartTimeNs"]?.asText()
         val maxEndTimeNs = requestResult["maxEndTimeNs"]?.asText()
         val dataSourceIdIncoming = requestResult["dataSourceId"]?.asText()
-        val point = requestResult["point"]?.asText()
+        val points = requestResult["point"] as ArrayNode
 
-        if (minStartTimeNs == null || maxEndTimeNs == null || dataSourceIdIncoming == null || point == null) {
+        logger.error { "found ${points.size()} elements" }
+
+        if (minStartTimeNs == null || maxEndTimeNs == null || dataSourceIdIncoming == null || points == null) {
             throw ServiceException("Can't find data for $dataSourceId")
         }
 
+
         val minStartTimeSec = BigInteger(minStartTimeNs).divide(BigInteger.valueOf(1000 * 1000)).longValueExact()
         val maxEndTimeSec = BigInteger(minStartTimeNs).divide(BigInteger.valueOf(1000 * 1000)).longValueExact()
-        val dataPoints = listOf<TimeseriesDataPoint>() // List<TimeseriesElement>
+        val dataPoints = points.map {
+            val start = it["startTimeNanos"].asText()
+            val firstValue = it["value"][0]
+            val fpVal = firstValue["fpVal"].asDouble()
+            TimeseriesDataPoint(
+                BigInteger(start).divide(BigInteger.valueOf(1000 * 1000)).longValueExact(),
+                fpVal.toFloat()
+            )
+        }
 
         return FitnessDataTimeseries(
             id = dataSourceIdIncoming,
