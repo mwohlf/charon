@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store';
 import {NotificationData} from '../notification/reducer';
 import {fitFeature} from '../../shared/const';
-import {FitnessDataItem, FitnessDataListElement} from 'build/generated';
+import {FitnessDataItem, FitnessDataListElement, FitnessDataTimeseries} from 'build/generated';
 
 const GROUP: string = '@app/' + fitFeature;
 
@@ -75,7 +75,7 @@ export const readFitnessDataTimeseriesUsingGET = createAction(
 export const readFitnessDataTimeseriesUsingGET_success = createAction(
   `${GROUP}/readFitnessDataTimeseriesUsingGET_success`,
   props<{
-    payload: any
+    payload: FitnessDataTimeseries
   }>(),
 );
 

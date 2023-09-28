@@ -7,6 +7,8 @@ required:
   - name
   - beginSec
   - endSec
+  - minValue
+  - maxValue
   - dataPoints
 properties:
   id:
@@ -21,6 +23,12 @@ properties:
   endSec:
     type: integer
     format: int64
+  minValue:
+    type: number
+    format: float
+  maxValue:
+    type: number
+    format: float
   dataPoints:
     type: array
     items:

@@ -144,11 +144,15 @@ class FitnessStoreService(
 
 
         val minStartTimeSec = BigInteger(minStartTimeNs).divide(BigInteger.valueOf(1000 * 1000)).longValueExact()
-        val maxEndTimeSec = BigInteger(minStartTimeNs).divide(BigInteger.valueOf(1000 * 1000)).longValueExact()
+        val maxEndTimeSec = BigInteger(maxEndTimeNs).divide(BigInteger.valueOf(1000 * 1000)).longValueExact()
+        var minValue = Float.MAX_VALUE
+        var maxValue = Float.MIN_VALUE
         val dataPoints = points.map {
             val start = it["startTimeNanos"].asText()
             val firstValue = it["value"][0]
             val fpVal = firstValue["fpVal"].asDouble()
+            minValue = minValue.coerceAtMost(fpVal.toFloat())
+            maxValue = maxValue.coerceAtLeast(fpVal.toFloat())
             TimeseriesDataPoint(
                 BigInteger(start).divide(BigInteger.valueOf(1000 * 1000)).longValueExact(),
                 fpVal.toFloat()
@@ -160,6 +164,8 @@ class FitnessStoreService(
             name = dataSourceIdIncoming,
             beginSec = minStartTimeSec,
             endSec = maxEndTimeSec,
+            minValue = minValue,
+            maxValue = maxValue,
             dataPoints = dataPoints,
         )
     }

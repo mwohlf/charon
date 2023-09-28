@@ -24,6 +24,7 @@ import {showNotification} from '../notification/action';
 import {
   FitnessDataItem,
   FitnessDataListElement,
+  FitnessDataTimeseries,
   FitnessStoreService,
 } from 'build/generated';
 import {Level, NotificationData} from '../notification/reducer';
@@ -160,6 +161,7 @@ export class Effects {
   updateTimeseries$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(updateTimeseries),
+      // picking a value from the state store
       withLatestFrom(this.store.select(selectFitFeature)),
       distinct(),
       filter(([action, storeState]) => {
@@ -170,6 +172,7 @@ export class Effects {
         return result
       }),
       map(([action, storeState]) => {
+        this.logger.info('requesting timeseries for state: ', JSON.stringify(storeState) );
         return readFitnessDataTimeseriesUsingGET({
           payload: {
             userId: 'me',
@@ -195,13 +198,13 @@ export class Effects {
           + action.payload.endInMillisecond + "000000";
         this.logger.debug('<readFitnessDataTimeseriesUsingGET$> dataSetId:', dataSetId);
         return this.fitnessStoreService
-          .readFitnessDataSet({
+          .readFitnessDataTimeseries({
             userId: action.payload.userId,
             dataSourceId: action.payload.dataSourceId,
             dataSetId: dataSetId,
           })
           .pipe( // fixme
-            map((result: any) => {
+            map((result: FitnessDataTimeseries) => {
               return readFitnessDataTimeseriesUsingGET_success({
                 payload: result,
               });
@@ -220,6 +223,17 @@ export class Effects {
       }),
     ); // end pipe
   });
+
+  // forward as error action...
+  // noinspection JSUnusedGlobalSymbols
+  readFitnessDataTimeseriesUsingGET_success$: Observable<Action> = createEffect(() => {
+    return this.action$.pipe(
+      ofType(readFitnessDataTimeseriesUsingGET_success),
+      tap((action) => {
+        this.logger.debug('<readFitnessDataTimeseriesUsingGET_success>', JSON.stringify(action));
+      }),
+    );
+  }, {dispatch: false});
 
 // , {dispatch: false});
 }

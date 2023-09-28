@@ -1,7 +1,7 @@
 get:
   tags:
     - fitnessStore
-  operationId: readFitnessDataSet
+  operationId: readFitnessDataTimeseries
   description: ''
   summary: Get the data item
   parameters:

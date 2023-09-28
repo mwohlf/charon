@@ -147,7 +147,7 @@ class FitnessStoreController(
     }
 
     @Secured(value = ["SCOPE_profile"])
-    override fun readFitnessDataSet(
+    override fun readFitnessDataTimeseries(
         @Parameter(description = "id of the user", required = true) @PathVariable("userId") userId: String,
         @Parameter(description = "id of the data source", required = true) @PathVariable("dataSourceId") dataSourceId: String,
         @Parameter(description = "id of the data set", required = true) @PathVariable("dataSetId") dataSetId: String

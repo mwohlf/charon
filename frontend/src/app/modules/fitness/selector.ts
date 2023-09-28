@@ -26,3 +26,11 @@ export const selectFitnessDataItemId = createSelector(
   },
 );
 
+export const selectFitnessDataTimeseries = createSelector(
+  selectFitFeature,
+  (state: FitnessState) => {
+    return state.fitnessTimeseries.data;
+  },
+);
+
+

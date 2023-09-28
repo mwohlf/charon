@@ -53,7 +53,7 @@ export class ChartComponent implements OnInit {
 
   // see: https://d3-graph-gallery.com/line.html
   createRectangle() {
-    let svg = d3.select('svg');
+    let svg = d3.select('svg#chart1');
 
     svg.append('rect')
       .attr('width', '250')

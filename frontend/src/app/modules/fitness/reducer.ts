@@ -2,6 +2,7 @@ import {Action, createReducer, on} from '@ngrx/store';
 import {FitnessDataItem, FitnessDataListElement, FitnessDataTimeseries} from 'build/generated';
 import * as fromActions from './action';
 import {LoggerHolder} from '../../shared/logger-holder';
+import {readFitnessDataTimeseriesUsingGET_success} from './action';
 
 
 export interface FitnessState {
@@ -137,7 +138,7 @@ const featureReducer = createReducer(
 
   on(fromActions.setFitnessTimeseriesBegin,
     (state: FitnessState, {payload: payload}): FitnessState => {
-      LoggerHolder.logger.debug(`<setFitnessTimeseriesBegin> payload: ${payload}, state: `, JSON.stringify(state, null, 2));
+      LoggerHolder.logger.debug(`<setFitnessTimeseriesBegin> payload: `, JSON.stringify(payload, null, 2));
       return {
         ...state,
         fitnessTimeseries:
@@ -155,7 +156,7 @@ const featureReducer = createReducer(
 
   on(fromActions.setFitnessTimeseriesEnd,
     (state: FitnessState, {payload: payload}): FitnessState => {
-      LoggerHolder.logger.debug(`<setFitnessTimeseriesEnd> payload: ${payload}, state: `, JSON.stringify(state, null, 2));
+      LoggerHolder.logger.debug(`<setFitnessTimeseriesEnd> payload: `, JSON.stringify(payload, null, 2));
       return {
         ...state,
         fitnessTimeseries:
@@ -171,6 +172,24 @@ const featureReducer = createReducer(
     },
   ),
 
+
+  on(fromActions.readFitnessDataTimeseriesUsingGET_success,
+    (state: FitnessState, {payload: payload}): FitnessState => {
+      LoggerHolder.logger.debug(`<readFitnessDataTimeseriesUsingGET_success> payload: `, JSON.stringify(payload, null, 2));
+      return {
+        ...state,
+        fitnessTimeseries:
+          {
+            isLoading: false,
+            isError: false,
+            // keep existing value or override with new value
+            beginInMillisecond: state.fitnessTimeseries.beginInMillisecond,
+            endInMillisecond: state.fitnessTimeseries.endInMillisecond,
+            data: payload
+          },
+      };
+    },
+  ),
 
 
 );
