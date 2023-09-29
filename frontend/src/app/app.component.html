@@ -17,8 +17,8 @@
                  [style.width]="menuWidth">
             </app-menu>
         </mat-sidenav>
-        <mat-sidenav-content>
-            <div style="display: block;">
+        <mat-sidenav-content style="display: flex; flex-direction: column; flex-grow: 1;">
+            <div style="display: flex; flex-direction: column; flex-grow: 1;">
                 <router-outlet></router-outlet>
             </div>
         </mat-sidenav-content>

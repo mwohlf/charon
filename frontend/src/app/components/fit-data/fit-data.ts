@@ -55,8 +55,7 @@ import {Selection} from 'd3-selection';
   selector: 'fit-data',
   standalone: true,
   templateUrl: './fit-data.html',
-
-
+  styleUrls: ['./fit-data.scss'],
 })
 export class FitData implements OnInit {
 

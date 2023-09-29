@@ -39,7 +39,6 @@ export class ChartComponent implements OnInit {
     },
   };
 
-
   constructor(
     private store: Store<AppState>,
     private logger: NGXLogger,
@@ -48,51 +47,6 @@ export class ChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.logger.info('<ChartComponent> ');
-    this.createRectangle();
-  }
-
-  // see: https://d3-graph-gallery.com/line.html
-  createRectangle() {
-    let svg = d3.select('svg#chart1');
-
-    svg.append('rect')
-      .attr('width', '250')
-      .attr('height', '100')
-      .attr('x', '200')
-      .attr('y', '100')
-      .attr('fill', 'violet');
-
-    var dataset1 = [
-      [1, 1], [12, 20], [24, 36],
-      [32, 50], [40, 70], [50, 100],
-      [55, 106], [65, 123], [73, 130],
-      [78, 134], [83, 136], [89, 138],
-      [100, 140],
-    ];
-
-    // TODO:
-    //  - fix backend to return a timeseries
-    //  - scale and render there
-
-    var xScale = d3.scaleLinear<number>().domain([0, 100]).range([0, 700]);
-    var yScale = d3.scaleLinear<number>().domain([0, 200]).range([500, 0]);
-
-    // https://www.educative.io/answers/how-to-create-a-line-chart-using-d3
-    // https://stackoverflow.com/questions/42308115/d3v4-typescript-angular2-error-using-d3-line-xd-function
-    var line: d3.Line<number[]> = d3.line<number[]>()
-      .x(function(d: number[]) { return xScale(d[0]); })
-      .y(function(d: number[]) { return yScale(d[1]); })
-      .curve(d3.curveMonotoneX);
-
-    svg.append("path")
-      .datum(dataset1)
-      .attr("class", "line")
-      .attr("transform", "translate(" + 100 + "," + 100 + ")")
-      .attr("d", line)
-      .style("fill", "none")
-      .style("stroke", "#CC0000")
-      .style("stroke-width", "2");
-
   }
 
 }
