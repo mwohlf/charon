@@ -21,13 +21,12 @@ import {
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatNativeDateModule} from '@angular/material/core';
-import {combineLatest, debounce, Subscription, timer, zip} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
 
 import {
   selectFitnessDataItem,
   selectFitnessDataTimeseries,
 } from '../../modules/fitness/selector';
-import {BehaviorSubject, Observable} from 'rxjs';
 import {FitnessState} from '../../modules/fitness/reducer';
 import {
   setFitnessTimeseriesBegin,
@@ -36,7 +35,7 @@ import {
 import * as d3 from 'd3';
 import {ScaleLinear} from 'd3';
 import {filter, tap} from 'rxjs/operators';
-import {BaseType, Selection} from 'd3-selection';
+import {Selection} from 'd3-selection';
 import {AngularResizeEventModule, ResizedEvent} from 'angular-resize-event';
 
 @Component({
@@ -77,25 +76,25 @@ export class FitData implements OnInit, OnDestroy {
     this.selectFitnessDataItem$ = this.store.select(selectFitnessDataItem);
     this.selectFitnessDataTimeseries$ = this.store.select(selectFitnessDataTimeseries);
 
-    // zip([this.rectReadOnly$, this.selectFitnessDataTimeseries$]).pipe(
-    this.timeseriesSubscription = this.selectFitnessDataTimeseries$.pipe(
-      filter((timeseries: FitnessDataTimeseries | undefined) => {
+    this.timeseriesSubscription = combineLatest([this.selectFitnessDataTimeseries$, this.rectReadOnly$]).pipe(
+      // this.timeseriesSubscription = this.selectFitnessDataTimeseries$.pipe(
+      filter(([timeseries, rect]) => {
         this.logger.info('########### <filter> ', timeseries);
-        return  timeseries != undefined;
+        return timeseries != undefined && rect != undefined;
       }),
       // debounce(() => timer(1000)),
-      tap((timeseries) => {
+      tap(([timeseries, rect]) => {
 
-        if ( timeseries != undefined) {
+        if (timeseries != undefined && rect != undefined) {
           this.logger.info('<timeseries.beginSec>', timeseries.beginSec);
           this.logger.info('<timeseries.endSec>', timeseries.endSec);
 
           const xScale = d3.scaleLinear<number>()
             .domain([timeseries.beginSec, timeseries.endSec])
-            .range([0, 500]);
+            .range([0, rect.width]);
           const yScale = d3.scaleLinear<number>()
             .domain([timeseries.minValue, timeseries.maxValue])
-            .range([500, 0]);
+            .range([rect.height, 0]);
           this.renderChart(xScale, yScale, timeseries?.dataPoints);
         }
       }),
@@ -109,6 +108,11 @@ export class FitData implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.timeseriesSubscription.unsubscribe();
+  }
+
+  clearChart() {
+    let svg: Selection<d3.BaseType, unknown, HTMLElement, any> = d3.select('svg#chart2');
+    svg.selectAll('*').remove();
   }
 
   renderChart(
@@ -149,8 +153,7 @@ export class FitData implements OnInit, OnDestroy {
 
   beginChanged($event: MatDatepickerInputEvent<ExtractDateTypeFromSelection<DateRange<Date>>, DateRange<Date>>) {
     this.logger.info('<beginChanged> value: ' + JSON.stringify($event.value, null, 2));
-    let svg: Selection<d3.BaseType, unknown, HTMLElement, any> = d3.select('svg#chart2');
-    svg.selectAll("*").remove();
+    this.clearChart();
     this.store.dispatch(setFitnessTimeseriesEnd({
         payload: {
           endInMillisecond: undefined,
@@ -176,6 +179,7 @@ export class FitData implements OnInit, OnDestroy {
   }
 
   onResized($event: ResizedEvent) {
+    this.clearChart();
     this.logger.info('<onResized>');
     this.rectReadOnlySubject.next($event.newRect);
   }
