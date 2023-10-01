@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 import {PageConfig} from '../page-config';
 import {PageComponent} from '../../components/page/page.component';
 import {MatCardModule} from '@angular/material/card';
@@ -27,9 +27,10 @@ import {FitData} from '../../components/fit-data/fit-data';
   standalone: true,
   selector: 'app-protected',
   templateUrl: './protected.component.html',
-  styleUrls: ['./protected.component.scss'],
 })
 export class ProtectedComponent implements OnInit {
+
+  @HostBinding('class') class = 'main-content';
 
   static SPEC: PageConfig = {
     route: 'protected',

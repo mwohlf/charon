@@ -142,6 +142,11 @@ class FitnessStoreService(
             throw ServiceException("Can't find data for $dataSourceId")
         }
 
+        if (points.size() == 0) {
+            logger.error { "requestResult: $requestResult" }
+            logger.error { "uri: /$dataSourceId/datasets/$dataSetId" }
+        }
+
 
         val minStartTimeSec = BigInteger(minStartTimeNs).divide(BigInteger.valueOf(1000 * 1000)).longValueExact()
         val maxEndTimeSec = BigInteger(maxEndTimeNs).divide(BigInteger.valueOf(1000 * 1000)).longValueExact()

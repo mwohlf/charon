@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 import {PageConfig} from '../page-config';
 import {PageComponent} from '../../components/page/page.component';
 import {MatCardModule} from '@angular/material/card';
@@ -24,9 +24,10 @@ import * as d3 from 'd3';
   standalone: true,
   selector: 'app-chart',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.scss'],
 })
 export class ChartComponent implements OnInit {
+
+  @HostBinding('class') class = 'main-content';
 
   static SPEC: PageConfig = {
     route: 'chart',

@@ -39,7 +39,10 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-
-#target:hover {
-    transform: scale(1.5);
+// for nesting the main content into a flex container
+// all the way from nav-content to the card-content
+.main-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }

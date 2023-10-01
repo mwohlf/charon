@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 import {PageConfig} from '../page-config';
 import {PageComponent} from '../../components/page/page.component';
 import {MatCardModule} from '@angular/material/card';
@@ -14,9 +14,10 @@ import {AsyncPipe, NgIf} from '@angular/common';
   standalone: true,
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
+
+  @HostBinding('class') class = 'main-content';
 
   static SPEC: PageConfig = {
     route: 'main',

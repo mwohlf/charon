@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../app-shell.module';
 import {PageConfig} from '../page-config';
@@ -16,9 +16,10 @@ import {AsyncPipe, NgIf} from '@angular/common';
   standalone: true,
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: [],
 })
 export class LoginComponent implements OnInit {
+
+  @HostBinding('class') class = 'main-content';
 
   static SPEC: PageConfig = {
     route: 'login',

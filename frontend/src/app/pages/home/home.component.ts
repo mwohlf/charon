@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostBinding, OnInit} from '@angular/core';
 import {ConfigurationDetails} from 'build/generated/model/models';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
@@ -20,9 +20,10 @@ import {isAuthenticated, selectUserName} from '../../modules/oauth/selector';
   standalone: true,
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+
+  @HostBinding('class') class = 'main-content';
 
   static SPEC: PageConfig = {
     route: 'home',

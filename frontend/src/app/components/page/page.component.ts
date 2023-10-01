@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, HostBinding, Input, OnInit} from '@angular/core';
 
 @Component({
   imports: [],
@@ -7,6 +7,8 @@ import {Component, Input, OnInit} from '@angular/core';
   templateUrl: './page.component.html',
 })
 export class PageComponent implements OnInit {
+
+  @HostBinding('class') class = 'main-content';
 
   @Input() header: string = '';
 
