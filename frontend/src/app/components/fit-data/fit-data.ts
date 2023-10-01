@@ -92,16 +92,7 @@ export class FitData implements OnInit, OnDestroy {
       tap(([timeseries, rect]) => {
 
         if (timeseries != undefined && rect != undefined) {
-          this.logger.info('<timeseries.beginSec>', timeseries.beginSec);
-          this.logger.info('<timeseries.endSec>', timeseries.endSec);
-
-          const xScale = d3.scaleLinear<number>()
-            .domain([timeseries.beginSec, timeseries.endSec])
-            .range([0, rect.width]);
-          const yScale = d3.scaleLinear<number>()
-            .domain([timeseries.minValue, timeseries.maxValue])
-            .range([rect.height, 0]);
-          this.renderChart(xScale, yScale, timeseries?.dataPoints);
+          this.renderChart(rect, timeseries);
         }
       }),
     ).subscribe();
@@ -121,11 +112,15 @@ export class FitData implements OnInit, OnDestroy {
     svg.selectAll('*').remove();
   }
 
-  renderChart(
-    xScale: ScaleLinear<number, number, never>,
-    yScale: ScaleLinear<number, number, never>,
-    timeseries: Array<TimeseriesDataPoint>) {
+  renderChart(rect: DOMRectReadOnly, timeseries: FitnessDataTimeseries) {
 
+    const xScale = d3.scaleLinear<number>()
+      .domain([timeseries.beginSec, timeseries.endSec])
+      .range([0, rect.width]);
+
+    const yScale = d3.scaleLinear<number>()
+      .domain([timeseries.minValue, timeseries.maxValue])
+      .range([rect.height, 0]);
 
     this.logger.info('<renderChart> timeseries: ', timeseries);
 
@@ -148,13 +143,33 @@ export class FitData implements OnInit, OnDestroy {
     this.path = svg.append('path');
     this.logger.info('<appending to> svg: ', svg);
 
-    this.path.datum(timeseries)
+    this.path.datum(timeseries.dataPoints)
       .attr('class', 'line')
       .attr('transform', 'translate(' + 5 + ',' + 5 + ')')
       .attr('d', line)
       .style('fill', 'none')
       .style('stroke', '#CC0000')
       .style('stroke-width', '2');
+
+    const markerLine = svg
+      .append('line')
+      .attr('x1', 0)
+      .attr('x2', 0)
+      .attr('y1', 0)
+      .attr('y2', rect.height)
+      .attr('stroke-width', 3)
+      .attr('stroke', 'darkviolet')
+      .attr('opacity', 0)
+
+    svg.on('mousemove', (e) => {
+      const pointerCoords = d3.pointer(e)
+      const [posX, posY] = pointerCoords
+
+      markerLine
+        .attr('x1', posX)
+        .attr('x2', posX)
+        .attr('opacity', 1)
+    })
   }
 
   beginChanged($event: MatDatepickerInputEvent<ExtractDateTypeFromSelection<DateRange<Date>>, DateRange<Date>>) {
