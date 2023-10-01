@@ -21,7 +21,13 @@ import {
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatNativeDateModule} from '@angular/material/core';
-import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  Subscription,
+  timer,
+} from 'rxjs';
 
 import {
   selectFitnessDataItem,
@@ -34,7 +40,7 @@ import {
 } from '../../modules/fitness/action';
 import * as d3 from 'd3';
 import {ScaleLinear} from 'd3';
-import {filter, tap} from 'rxjs/operators';
+import {debounce, filter, tap} from 'rxjs/operators';
 import {Selection} from 'd3-selection';
 import {AngularResizeEventModule, ResizedEvent} from 'angular-resize-event';
 
@@ -82,7 +88,7 @@ export class FitData implements OnInit, OnDestroy {
         this.logger.info('########### <filter> ', timeseries);
         return timeseries != undefined && rect != undefined;
       }),
-      // debounce(() => timer(1000)),
+      debounce(() => timer(500)),
       tap(([timeseries, rect]) => {
 
         if (timeseries != undefined && rect != undefined) {
