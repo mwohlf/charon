@@ -80,7 +80,7 @@ export class FitData implements OnInit, OnDestroy {
     // zip([this.rectReadOnly$, this.selectFitnessDataTimeseries$]).pipe(
     this.timeseriesSubscription = this.selectFitnessDataTimeseries$.pipe(
       filter((timeseries: FitnessDataTimeseries | undefined) => {
-        this.logger.info('<filter> ', timeseries);
+        this.logger.info('########### <filter> ', timeseries);
         return  timeseries != undefined;
       }),
       // debounce(() => timer(1000)),
@@ -116,7 +116,6 @@ export class FitData implements OnInit, OnDestroy {
     yScale: ScaleLinear<number, number, never>,
     timeseries: Array<TimeseriesDataPoint>) {
 
-    let svg: Selection<d3.BaseType, unknown, HTMLElement, any> = d3.select('svg#chart2');
 
     this.logger.info('<renderChart> timeseries: ', timeseries);
 
@@ -131,13 +130,14 @@ export class FitData implements OnInit, OnDestroy {
       })
       .curve(d3.curveMonotoneX);
 
+
+    //if (this.path != undefined) {
+    //  this.path.parentNode.removeChild(this.path);
+    //}
+    let svg: Selection<d3.BaseType, unknown, HTMLElement, any> = d3.select('svg#chart2');
+    this.path = svg.append('path');
     this.logger.info('<appending to> svg: ', svg);
 
-    if (this.path != undefined) {
-      this.path.parentNode.removeChild(this.path);
-    }
-
-    this.path = svg.append('path');
     this.path.datum(timeseries)
       .attr('class', 'line')
       .attr('transform', 'translate(' + 5 + ',' + 5 + ')')
@@ -149,6 +149,8 @@ export class FitData implements OnInit, OnDestroy {
 
   beginChanged($event: MatDatepickerInputEvent<ExtractDateTypeFromSelection<DateRange<Date>>, DateRange<Date>>) {
     this.logger.info('<beginChanged> value: ' + JSON.stringify($event.value, null, 2));
+    let svg: Selection<d3.BaseType, unknown, HTMLElement, any> = d3.select('svg#chart2');
+    svg.selectAll("*").remove();
     this.store.dispatch(setFitnessTimeseriesEnd({
         payload: {
           endInMillisecond: undefined,

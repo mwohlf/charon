@@ -165,10 +165,9 @@ export class Effects {
       withLatestFrom(this.store.select(selectFitFeature)),
       distinct(),
       filter(([action, storeState]) => {
-        var result = !!storeState.fitnessTimeseries.beginInMillisecond
+        const result = !!storeState.fitnessTimeseries.beginInMillisecond
           && !!storeState.fitnessTimeseries.endInMillisecond
           && !!storeState.fitnessItem.fitnessDataItem?.id;
-        this.logger.info('result: ', result );
         return result
       }),
       map(([action, storeState]) => {

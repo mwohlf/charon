@@ -171,6 +171,22 @@ const featureReducer = createReducer(
     },
   ),
 
+  on(fromActions.readFitnessDataTimeseriesUsingGET,
+    (state: FitnessState): FitnessState => {
+      return {
+        ...state,
+        fitnessTimeseries:
+          {
+            isLoading: false,
+            isError: false,
+            // keep existing value or override with new value
+            beginInMillisecond: state.fitnessTimeseries.beginInMillisecond,
+            endInMillisecond: state.fitnessTimeseries.endInMillisecond,
+            data: undefined
+          },
+      };
+    },
+  ),
 
   on(fromActions.readFitnessDataTimeseriesUsingGET_success,
     (state: FitnessState, {payload: payload}): FitnessState => {
