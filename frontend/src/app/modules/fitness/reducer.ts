@@ -2,7 +2,6 @@ import {Action, createReducer, on} from '@ngrx/store';
 import {FitnessDataItem, FitnessDataListElement, FitnessDataTimeseries} from 'build/generated';
 import * as fromActions from './action';
 import {LoggerHolder} from '../../shared/logger-holder';
-import {readFitnessDataTimeseriesUsingGET_success} from './action';
 
 
 export interface FitnessState {
@@ -175,7 +174,7 @@ const featureReducer = createReducer(
 
   on(fromActions.readFitnessDataTimeseriesUsingGET_success,
     (state: FitnessState, {payload: payload}): FitnessState => {
-      LoggerHolder.logger.debug(`<readFitnessDataTimeseriesUsingGET_success> payload: `, JSON.stringify(payload, null, 2));
+      LoggerHolder.logger.debug(`<readFitnessDataTimeseriesUsingGET_success>`);
       return {
         ...state,
         fitnessTimeseries:

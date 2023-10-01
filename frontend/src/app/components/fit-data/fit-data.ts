@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {NGXLogger} from 'ngx-logger';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
@@ -21,12 +21,13 @@ import {
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatNativeDateModule} from '@angular/material/core';
+import {combineLatest, debounce, Subscription, timer, zip} from 'rxjs';
 
 import {
   selectFitnessDataItem,
   selectFitnessDataTimeseries,
 } from '../../modules/fitness/selector';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {FitnessState} from '../../modules/fitness/reducer';
 import {
   setFitnessTimeseriesBegin,
@@ -35,7 +36,8 @@ import {
 import * as d3 from 'd3';
 import {ScaleLinear} from 'd3';
 import {filter, tap} from 'rxjs/operators';
-import {Selection} from 'd3-selection';
+import {BaseType, Selection} from 'd3-selection';
+import {AngularResizeEventModule, ResizedEvent} from 'angular-resize-event';
 
 @Component({
   imports: [
@@ -51,16 +53,22 @@ import {Selection} from 'd3-selection';
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    AngularResizeEventModule,
   ],
   selector: 'fit-data',
   standalone: true,
   templateUrl: './fit-data.html',
   styleUrls: ['./fit-data.scss'],
 })
-export class FitData implements OnInit {
+export class FitData implements OnInit, OnDestroy {
 
   selectFitnessDataItem$: Observable<FitnessDataItem | undefined>;
   selectFitnessDataTimeseries$: Observable<FitnessDataTimeseries | undefined>;
+  rectReadOnlySubject: BehaviorSubject<DOMRectReadOnly | undefined> = new BehaviorSubject<DOMRectReadOnly | undefined>(undefined);
+  rectReadOnly$: Observable<DOMRectReadOnly | undefined> = this.rectReadOnlySubject.asObservable();
+
+  private path: any | undefined = undefined;
+  private timeseriesSubscription: Subscription;
 
   constructor(
     private store: Store<FitnessState>,
@@ -68,25 +76,23 @@ export class FitData implements OnInit {
   ) {
     this.selectFitnessDataItem$ = this.store.select(selectFitnessDataItem);
     this.selectFitnessDataTimeseries$ = this.store.select(selectFitnessDataTimeseries);
-  }
 
-  ngOnInit(): void {
-    this.logger.info('<FitData> ngOnInit called');
-
-    this.selectFitnessDataTimeseries$.pipe(
-      filter((timeseries) => {
-        return timeseries != undefined;
+    // zip([this.rectReadOnly$, this.selectFitnessDataTimeseries$]).pipe(
+    this.timeseriesSubscription = this.selectFitnessDataTimeseries$.pipe(
+      filter((timeseries: FitnessDataTimeseries | undefined) => {
+        this.logger.info('<filter> ', timeseries);
+        return  timeseries != undefined;
       }),
+      // debounce(() => timer(1000)),
       tap((timeseries) => {
 
-
-        if (timeseries != undefined) {
+        if ( timeseries != undefined) {
           this.logger.info('<timeseries.beginSec>', timeseries.beginSec);
           this.logger.info('<timeseries.endSec>', timeseries.endSec);
 
           const xScale = d3.scaleLinear<number>()
             .domain([timeseries.beginSec, timeseries.endSec])
-            .range([0, 700]);
+            .range([0, 500]);
           const yScale = d3.scaleLinear<number>()
             .domain([timeseries.minValue, timeseries.maxValue])
             .range([500, 0]);
@@ -94,7 +100,15 @@ export class FitData implements OnInit {
         }
       }),
     ).subscribe();
+  }
 
+  ngOnInit(): void {
+    this.logger.info('<FitData> ngOnInit called');
+
+  }
+
+  ngOnDestroy() {
+    this.timeseriesSubscription.unsubscribe();
   }
 
   renderChart(
@@ -117,11 +131,14 @@ export class FitData implements OnInit {
       })
       .curve(d3.curveMonotoneX);
 
-
     this.logger.info('<appending to> svg: ', svg);
 
-    svg.append('path')
-      .datum(timeseries)
+    if (this.path != undefined) {
+      this.path.parentNode.removeChild(this.path);
+    }
+
+    this.path = svg.append('path');
+    this.path.datum(timeseries)
       .attr('class', 'line')
       .attr('transform', 'translate(' + 5 + ',' + 5 + ')')
       .attr('d', line)
@@ -156,4 +173,8 @@ export class FitData implements OnInit {
     ));
   }
 
+  onResized($event: ResizedEvent) {
+    this.logger.info('<onResized>');
+    this.rectReadOnlySubject.next($event.newRect);
+  }
 }

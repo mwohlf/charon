@@ -224,7 +224,6 @@ export class Effects {
     ); // end pipe
   });
 
-  // forward as error action...
   // noinspection JSUnusedGlobalSymbols
   readFitnessDataTimeseriesUsingGET_success$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(

@@ -34,6 +34,7 @@ import {DataModule} from './modules/data/data.module';
 import {FitnessModule} from './modules/fitness/fitness.module';
 import {FitSourcesGrid} from './components/fit-sources-grid/fit-sources-grid';
 import {FitData} from './components/fit-data/fit-data';
+import {AngularResizeEventModule} from 'angular-resize-event';
 
 
 export interface AppState {
@@ -55,7 +56,12 @@ const prefersReducedMotion =
   typeof matchMedia === 'function' ? matchMedia('(prefers-reduced-motion)').matches : false;
 
 @NgModule({
+  bootstrap: [AppComponent],
+  declarations: [
+    AppComponent,
+  ],
   imports: [
+    AngularResizeEventModule,
     AppThemeModule,
     BrowserAnimationsModule.withConfig({disableAnimations: prefersReducedMotion}),
     BrowserModule,
@@ -110,9 +116,6 @@ const prefersReducedMotion =
     FitSourcesGrid,
     FitData,
   ],
-  declarations: [
-    AppComponent,
-  ],
   providers: [
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
@@ -123,7 +126,6 @@ const prefersReducedMotion =
       useClass: GlobalErrorHandler,
     },
   ],
-  bootstrap: [AppComponent],
 })
 export class AppShellModule {
 }

@@ -17,7 +17,7 @@
             <mat-date-range-picker #picker></mat-date-range-picker>
         </div>
 
-        <svg  class="flex-element" id="chart2" ></svg>
+        <svg id="chart2" (resized)="onResized($event)"></svg>
 
     </mat-card-content>
 </mat-card>
