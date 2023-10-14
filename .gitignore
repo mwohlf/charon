@@ -20,3 +20,4 @@ build
 /etc/http-client.private.env.json
 /hs_err_*
 /frontend/package-lock.json
+/etc/archi/docker-compose.yml

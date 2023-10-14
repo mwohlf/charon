@@ -20,12 +20,13 @@ management:
 logging:
   level:
     root: INFO
+    web: DEBUG
 
 spring:
 
   datasource:
     # url: jdbc:postgresql://postgres:5432/oauth
-    url: jdbc:postgresql://charon-postgres-svc:5432/oauth
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://charon-postgres-svc:5432/oauth}
     username: ${SPRING_DATASOURCE_USER:unconfigured-spring-datasource-user}
     password: ${SPRING_DATASOURCE_PASSWORD:unconfigured-spring-datasource-password}
     driver-class-name: org.postgresql.Driver

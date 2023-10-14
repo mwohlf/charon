@@ -272,3 +272,19 @@ install with choco:
 
 
 configure: https://console.cloud.google.com/apis/credentials/consent/edit?project=charon-394311
+
+
+
+== GKE
+
+see: https://github.com/murphye/cheap-gke-cluster
+
+
+== Hetzner
+
+see:
+https://linuxhandbook.com/nginx-reverse-proxy-docker/
+https://hub.docker.com/r/nginxproxy/acme-companion
+https://linuxhandbook.com/nginx-reverse-proxy-docker/
+https://github.com/nginx-proxy/nginx-proxy
+https://stackoverflow.com/questions/66102225/jrcs-letsencrypt-nginx-proxy-companion-docker-image-too-many-certificates-alr

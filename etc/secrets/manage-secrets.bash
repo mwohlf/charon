@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# script to re-generate the cert for wired-heart.com
+# script to re-generate the cert for wired-heart.com and create the secrets file to helm deployment
 #  The idea is we update the cloudflare dns config to prove to letsencrypt
 #  that we own the domain in order to get the cert.
 #
