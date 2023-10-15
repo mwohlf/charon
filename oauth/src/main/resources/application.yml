@@ -126,6 +126,7 @@ net:
         app-home-url: "${home-url}/charon/home"
         app-login-url: "${home-url}/charon/login"
         allowed-origins:
+          - "https://oauth.wired-heart.com"
           - "${home-url}"
           - "https://app.wired-heart.com"
         # we need to re-configure all client for each app context
