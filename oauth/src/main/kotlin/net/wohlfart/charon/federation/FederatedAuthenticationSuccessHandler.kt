@@ -26,7 +26,10 @@ class FederatedAuthenticationSuccessHandler(
     private val delegate: AuthenticationSuccessHandler = SavedRequestAwareAuthenticationSuccessHandler()
 
     override fun onAuthenticationSuccess(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
+        logger.info { "<onAuthenticationSuccess> for request: $request" }
         if (authentication is OAuth2AuthenticationToken) {
+
+            logger.info { "<onAuthenticationSuccess> found OAuth2AuthenticationToken: $authentication" }
 
             val client: OAuth2AuthorizedClient = clientService.loadAuthorizedClient(
                 authentication.authorizedClientRegistrationId,
