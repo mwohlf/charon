@@ -108,6 +108,7 @@ spring:
             # https://www.googleapis.com/auth/fitness.blood_glucose.read"
             #  "token_type": "Bearer",
             client-name: Google
+            redirect-uri: https://oauth.wired-heart.com/login/oauth2/code/google-idp
         provider:
           google:
             user-name-attribute: sub
