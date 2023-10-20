@@ -48,8 +48,8 @@ springBoot {
 // see: https://raw.githubusercontent.com/docker-library/repo-info/master/repos/eclipse-temurin/tag-details.md
 jib {
     from {
-        // image = "openjdk:17-alpine"
-        image = "eclipse-temurin:17-jre-alpine"
+        image = "openjdk:17-alpine"
+        // image = "eclipse-temurin:17-jre-alpine"
     }
     to {
         val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
