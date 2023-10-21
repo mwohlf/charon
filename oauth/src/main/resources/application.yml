@@ -1,10 +1,9 @@
 server:
   port: 8080
   error:
-    include-exception: false
-    include-stacktrace: never
-    whitelabel:
-      enabled: false
+    include-exception: true
+    include-stacktrace: always
+  forward-headers-strategy: framework
 
 management:
   endpoint:
@@ -19,8 +18,13 @@ management:
 
 logging:
   level:
-    root: INFO
+    root: DEBUG
     web: DEBUG
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate: DEBUG
 
 spring:
 
@@ -109,6 +113,7 @@ spring:
             #  "token_type": "Bearer",
             client-name: Google
             redirect-uri: https://oauth.wired-heart.com/login/oauth2/code/google-idp
+#            redirect-uri: http://127.0.0.1:8081/login/oauth2/code/google-idp
         provider:
           google:
             user-name-attribute: sub
