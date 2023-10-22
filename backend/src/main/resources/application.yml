@@ -1,5 +1,9 @@
 server:
   port: 8080
+  error:
+    include-exception: true
+    include-stacktrace: always
+  forward-headers-strategy: framework
 
 management:
   endpoint:
@@ -11,6 +15,11 @@ management:
       enabled: true
     readiness-state:
       enabled: true
+
+logging:
+  level:
+    root: DEBUG
+    web: DEBUG
 
 # to configure this application as resource server using the provided oauth service
 spring:
