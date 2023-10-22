@@ -136,7 +136,7 @@ class FitnessStoreService(
         val dataSourceIdIncoming = requestResult["dataSourceId"]?.asText()
         val points = requestResult["point"] as ArrayNode
 
-        logger.error { "found ${points.size()} elements" }
+        logger.info { "found ${points.size()} elements" }
 
         if (minStartTimeNs == null || maxEndTimeNs == null || dataSourceIdIncoming == null || points == null) {
             throw ServiceException("Can't find data for $dataSourceId")

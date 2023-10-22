@@ -33,7 +33,7 @@ import {PageComponent} from './components/page/page.component';
 import {DataModule} from './modules/data/data.module';
 import {FitnessModule} from './modules/fitness/fitness.module';
 import {FitSourcesGrid} from './components/fit-sources-grid/fit-sources-grid';
-import {FitData} from './components/fit-data/fit-data';
+import {FitDataChart} from './components/fit-data-chart/fit-data-chart';
 import {AngularResizeEventModule} from 'angular-resize-event';
 
 
@@ -114,7 +114,7 @@ const prefersReducedMotion =
     MenuComponent,
     PageComponent,
     FitSourcesGrid,
-    FitData,
+    FitDataChart,
   ],
   providers: [
     {

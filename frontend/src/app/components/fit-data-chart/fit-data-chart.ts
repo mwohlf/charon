@@ -39,7 +39,6 @@ import {
   setFitnessTimeseriesEnd,
 } from '../../modules/fitness/action';
 import * as d3 from 'd3';
-import {ScaleLinear} from 'd3';
 import {debounce, filter, tap} from 'rxjs/operators';
 import {Selection} from 'd3-selection';
 import {AngularResizeEventModule, ResizedEvent} from 'angular-resize-event';
@@ -60,19 +59,19 @@ import {AngularResizeEventModule, ResizedEvent} from 'angular-resize-event';
     MatNativeDateModule,
     AngularResizeEventModule,
   ],
-  selector: 'fit-data',
+  selector: 'fit-data-chart',
   standalone: true,
-  templateUrl: './fit-data.html',
-  styleUrls: ['./fit-data.scss'],
+  templateUrl: './fit-data-chart.html',
+  styleUrls: ['./fit-data-chart.scss'],
 })
-export class FitData implements OnInit, OnDestroy {
+export class FitDataChart implements OnInit, OnDestroy {
 
   selectFitnessDataItem$: Observable<FitnessDataItem | undefined>;
   selectFitnessDataTimeseries$: Observable<FitnessDataTimeseries | undefined>;
   rectReadOnlySubject: BehaviorSubject<DOMRectReadOnly | undefined> = new BehaviorSubject<DOMRectReadOnly | undefined>(undefined);
   rectReadOnly$: Observable<DOMRectReadOnly | undefined> = this.rectReadOnlySubject.asObservable();
 
-  private path: any | undefined = undefined;
+  private chartLine: any | undefined = undefined;
   private timeseriesSubscription: Subscription;
 
   constructor(
@@ -99,8 +98,8 @@ export class FitData implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.logger.info('<FitData> ngOnInit called');
-
+    this.logger.info('<FitDataChart> ngOnInit called');
+    
   }
 
   ngOnDestroy() {
@@ -126,7 +125,7 @@ export class FitData implements OnInit, OnDestroy {
 
     // https://www.educative.io/answers/how-to-create-a-line-chart-using-d3
     // https://stackoverflow.com/questions/42308115/d3v4-typescript-angular2-error-using-d3-line-xd-function
-    var line: d3.Line<TimeseriesDataPoint> = d3.line<TimeseriesDataPoint>()
+    const line: d3.Line<TimeseriesDataPoint> = d3.line<TimeseriesDataPoint>()
       .x(function(p: TimeseriesDataPoint) {
         return xScale(p.time);
       })
@@ -140,10 +139,10 @@ export class FitData implements OnInit, OnDestroy {
     //  this.path.parentNode.removeChild(this.path);
     //}
     let svg: Selection<d3.BaseType, unknown, HTMLElement, any> = d3.select('svg#chart2');
-    this.path = svg.append('path');
+    this.chartLine = svg.append('path');
     this.logger.info('<appending to> svg: ', svg);
 
-    this.path.datum(timeseries.dataPoints)
+    this.chartLine.datum(timeseries.dataPoints)
       .attr('class', 'line')
       .attr('transform', 'translate(' + 5 + ',' + 5 + ')')
       .attr('d', line)
@@ -161,16 +160,24 @@ export class FitData implements OnInit, OnDestroy {
       .attr('stroke', 'darkviolet')
       .attr('opacity', 0)
 
-    svg.on('mousemove', (e) => {
-      const pointerCoords = d3.pointer(e)
-      const [posX, posY] = pointerCoords
+    svg.on('mousemove', (e): void => {
+      const pointerCoords: [number, number] = d3.pointer(e)
+      const [posX, _ ] = pointerCoords
 
       markerLine
         .attr('x1', posX)
         .attr('x2', posX)
         .attr('opacity', 1)
     })
-  }
+
+    const xAxis = d3.axisBottom(xScale);
+    const yAxis = d3.axisLeft(yScale);
+
+    svg.append('g')
+      .call(xAxis)
+      .call(yAxis);
+
+  } // end render chart
 
   beginChanged($event: MatDatepickerInputEvent<ExtractDateTypeFromSelection<DateRange<Date>>, DateRange<Date>>) {
     this.logger.info('<beginChanged> value: ' + JSON.stringify($event.value, null, 2));

@@ -165,7 +165,8 @@ export class Effects {
       withLatestFrom(this.store.select(selectFitFeature)),
       distinct(),
       filter(([action, storeState]) => {
-        const result = !!storeState.fitnessTimeseries.beginInMillisecond
+        // noinspection UnnecessaryLocalVariableJS
+        const result: boolean = !!storeState.fitnessTimeseries.beginInMillisecond
           && !!storeState.fitnessTimeseries.endInMillisecond
           && !!storeState.fitnessItem.fitnessDataItem?.id;
         return result
