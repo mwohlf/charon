@@ -1,12 +1,12 @@
 /*
 IMPORTANT:
-    If using PostgreSQL, update ALL columns defined with 'blob' to 'text',
-    as PostgreSQL does not support the 'blob' data type.
+    If using Postgres, update ALL columns defined with 'blob' to 'text',
+    as Postgres does not support the 'blob' data type.
 */
 /*
 IMPORTANT:
-    If using PostgreSQL, update ALL columns defined with 'blob' to 'text',
-    as PostgreSQL does not support the 'blob' data type.
+    If using Postgres, update ALL columns defined with 'blob' to 'text',
+    as Postgres does not support the 'blob' data type.
 */
 CREATE TABLE oauth2_authorization
 (

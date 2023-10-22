@@ -43,8 +43,8 @@ spring:
       max-lifetime: 600000 #10m
       initialization-fail-timeout: -1
       validation-timeout: 1000 #1s
-#
-# doesn't work with the insert scripts:
+  #
+  # doesn't work with the insert scripts:
   sql:
     init:
       continue-on-error: true
@@ -113,7 +113,7 @@ spring:
             #  "token_type": "Bearer",
             client-name: Google
             redirect-uri: https://oauth.wired-heart.com/login/oauth2/code/google-idp
-#            redirect-uri: http://127.0.0.1:8081/login/oauth2/code/google-idp
+        #            redirect-uri: http://127.0.0.1:8081/login/oauth2/code/google-idp
         provider:
           google:
             user-name-attribute: sub

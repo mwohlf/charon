@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 
-
 // TODO: move oauth entities to JPA
 
 private val logger = KotlinLogging.logger {}

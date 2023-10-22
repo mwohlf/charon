@@ -46,7 +46,7 @@ class FederatedAuthenticationSuccessHandler(
 
             tokenService.archive(
                 authUserDetails = federatedUser,
-                idToken = (authentication.principal as OidcUser) .idToken,
+                idToken = (authentication.principal as OidcUser).idToken,
                 accessToken = client.accessToken,
                 refreshToken = client.refreshToken,
             )

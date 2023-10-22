@@ -20,7 +20,6 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.web.util.UriComponentsBuilder
 
 
-
 private const val USERNAME = "user"
 private const val PASSWORD = "pass"
 
@@ -62,7 +61,7 @@ fun assertLoginPage(page: HtmlPage) {
 }
 
 
-fun <P : Page> doSignIn(page: HtmlPage, username: String, password: String):  P {
+fun <P : Page> doSignIn(page: HtmlPage, username: String, password: String): P {
     val usernameInput: HtmlInput = page.querySelector("input[name=\"username\"]")
     val passwordInput: HtmlInput = page.querySelector("input[name=\"password\"]")
     val signInButton: HtmlButton = page.querySelector("button")
@@ -111,7 +110,7 @@ class DefaultAuthorizationServerApplicationTests {
         val loginErrorPage: Page = doSignIn(loginPage, USERNAME, "wrong-password")
         assertThat(loginPage.isHtmlPage).isTrue
 
-        val alert: HtmlElement = (loginErrorPage as HtmlPage ).querySelector("div[role=\"alert\"]")
+        val alert: HtmlElement = (loginErrorPage as HtmlPage).querySelector("div[role=\"alert\"]")
         assertThat(alert).isNotNull
         assertThat(alert.textContent).isEqualTo("Bad credentials")
     }
@@ -186,7 +185,7 @@ class DefaultAuthorizationServerApplicationTests {
 
         // Request token as any proper oauth client would do
         // this might require a consent page
-        val requestPage: Page = this.webClient.getPage( AUTHORIZATION_REQUEST)
+        val requestPage: Page = this.webClient.getPage(AUTHORIZATION_REQUEST)
         assertThat(requestPage.webResponse.statusCode).isEqualTo(HttpStatus.MOVED_PERMANENTLY.value())
         val location: String = requestPage.webResponse.getResponseHeaderValue("Location")
         // assertThat(location).startsWith(REDIRECT_URI)

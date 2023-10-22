@@ -25,9 +25,9 @@ class CharonTokenCustomizer(
     override fun customize(context: JwtEncodingContext) {
         appendXidClaim(context)
         if (OAuth2TokenType.ACCESS_TOKEN.equals(context.tokenType)) {
-            context.claims.claims { claims -> claims["testclaim"] = "this is an access token" }
+            context.claims.claims { claims -> claims["test-claim"] = "this is an access token" }
         } else if (OidcParameterNames.ID_TOKEN == context.tokenType.value) {
-            context.claims.claims { claims -> claims["testclaim"] = "this is a id token" }
+            context.claims.claims { claims -> claims["test-claim"] = "this is a id token" }
         }
     }
 

@@ -1,7 +1,6 @@
 package net.wohlfart.charon.service
 
 import jakarta.servlet.http.HttpSession
-import mu.KotlinLogging
 import net.wohlfart.charon.OAuthProperties
 import net.wohlfart.charon.controller.REQUEST_PARAM_TOKEN
 import net.wohlfart.charon.controller.REQUEST_PATH_CONFIRM
@@ -22,7 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-
 
 
 @Service

@@ -5,7 +5,7 @@ import net.wohlfart.charon.entity.AuthorityIdentifier
 import org.springframework.data.repository.CrudRepository
 
 
-interface AuthorityRepository: CrudRepository<Authority, Int> {
+interface AuthorityRepository : CrudRepository<Authority, Int> {
 
     fun findByIdentifier(authorityIdentifier: AuthorityIdentifier): Authority
 

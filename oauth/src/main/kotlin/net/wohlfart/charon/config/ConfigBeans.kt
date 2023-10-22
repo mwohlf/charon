@@ -1,5 +1,6 @@
 package net.wohlfart.charon.config
 
+import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
 import mu.KotlinLogging
@@ -7,6 +8,7 @@ import net.wohlfart.charon.OAuthProperties
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -54,12 +56,17 @@ class ConfigBeans(
     }
 
     @Bean
-    fun restTemplate(restTemplateBuilder: RestTemplateBuilder): RestTemplate
-    {
+    fun restTemplate(restTemplateBuilder: RestTemplateBuilder): RestTemplate {
         logger.info { "<restTemplate> creating RestTemplate" }
         return restTemplateBuilder
             .setConnectTimeout(Duration.ofSeconds(1))
             .setReadTimeout(Duration.ofSeconds(1))
             .build()
+    }
+
+    @Bean // we need to customize for kotlin: https://github.com/FasterXML/jackson-module-kotlin
+    fun jackson2ObjectMapperBuilder(): Jackson2ObjectMapperBuilder {
+        return Jackson2ObjectMapperBuilder()
+            .modulesToInstall(kotlinModule())
     }
 }

@@ -14,7 +14,7 @@ private val logger = KotlinLogging.logger {}
 @Service
 class SendmailService(
     private val mailSender: JavaMailSenderImpl,
-    private val mailTemplateRenderer : MailTemplateRenderer,
+    private val mailTemplateRenderer: MailTemplateRenderer,
 ) {
     fun sendEmail(mailBuilder: MailBuilder) {
         val mimeMessage: MimeMessage = mailSender.createMimeMessage()

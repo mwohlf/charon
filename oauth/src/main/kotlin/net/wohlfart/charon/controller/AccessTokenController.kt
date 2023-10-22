@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.time.OffsetDateTime
 import java.time.ZoneOffset
 
 private val logger = KotlinLogging.logger {}
@@ -24,17 +23,19 @@ class AccessTokenController(
 
     override fun readAccessToken(@Parameter(description = "id of the user", required = true) @PathVariable("xid") xid: String): ResponseEntity<AccessToken> {
         logger.info { "returning access token" }
-        authUserDetailsService.findByXid(xid)?.let {authUserDetails ->
-            tokenService.findAccessToken(authUserDetails).let {externalTokens ->
+        authUserDetailsService.findByXid(xid)?.let { authUserDetails ->
+            tokenService.findAccessToken(authUserDetails).let { externalTokens ->
                 // TODO move the complexity into the query, just return the right token from the repository
                 // check the token is not expired
                 // refresh the token if expired
                 val externalToken = externalTokens.first()
-                return ResponseEntity.ok(AccessToken(
-                    tokenValue = externalToken.value,
-                    issuedAt = externalToken.issuedAt?.atOffset(ZoneOffset.UTC),
-                    expiredAt = externalToken.expiredAt?.atOffset(ZoneOffset.UTC),
-                ))
+                return ResponseEntity.ok(
+                    AccessToken(
+                        tokenValue = externalToken.value,
+                        issuedAt = externalToken.issuedAt?.atOffset(ZoneOffset.UTC),
+                        expiredAt = externalToken.expiredAt?.atOffset(ZoneOffset.UTC),
+                    )
+                )
             }
         }
         throw IllegalStateException("can't find token")

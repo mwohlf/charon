@@ -4,9 +4,9 @@ import net.wohlfart.charon.entity.UserRegistration
 import org.springframework.data.repository.CrudRepository
 
 
-interface RegistrationRepository: CrudRepository<UserRegistration, Int> {
+interface RegistrationRepository : CrudRepository<UserRegistration, Int> {
 
-     fun findByTokenValue(tokenValue: String): UserRegistration
+    fun findByTokenValue(tokenValue: String): UserRegistration
 
 }
 

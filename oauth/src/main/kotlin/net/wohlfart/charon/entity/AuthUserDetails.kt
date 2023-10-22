@@ -9,8 +9,6 @@ import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.jsontype.TypeDeserializer
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer
 import jakarta.persistence.*
@@ -20,13 +18,11 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 
-
-
 const val SPLIT = ":"
 
 @Entity
-@JsonDeserialize
-@JsonSerialize
+// @JsonDeserialize
+// @JsonSerialize
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "user_details")
 data class AuthUserDetails(
@@ -60,7 +56,7 @@ data class AuthUserDetails(
     )
     var authorities: MutableList<Authority> = mutableListOf(),
 
-) : UserDetails {
+    ) : UserDetails {
 
     @Id
     @GenericGenerator(
@@ -83,7 +79,7 @@ data class AuthUserDetails(
     }
 
     override fun getUsername(): String {
-        return username?:"${federatedClient}${SPLIT}${federatedId}"
+        return username ?: "${federatedClient}${SPLIT}${federatedId}"
     }
 
     override fun getPassword(): String {
@@ -102,8 +98,8 @@ data class AuthUserDetails(
         return true
     }
 
-    @JsonDeserialize(using = AuthoritiesDeserializer::class)
-    @JsonSerialize(using = AuthoritiesSerializer::class)
+    // @JsonDeserialize(using = AuthoritiesDeserializer::class)
+    // @JsonSerialize(using = AuthoritiesSerializer::class)
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return authorities
     }

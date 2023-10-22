@@ -63,8 +63,8 @@ class DatabaseBootstrap(
 
     private fun runSqlScript(dataSource: DataSource, scriptPath: String) {
         val resource = ClassPathResource(scriptPath)
-        val databasePopulator = ResourceDatabasePopulator(resource)
-        databasePopulator.execute(dataSource)
+        val resourceDatabasePopulator = ResourceDatabasePopulator(resource)
+        resourceDatabasePopulator.execute(dataSource)
     }
 
     private final fun bootstrapUser(username: String, authorities: Array<Authority>): AuthUserDetails {

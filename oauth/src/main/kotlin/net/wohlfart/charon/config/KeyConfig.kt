@@ -43,9 +43,9 @@ fun generateRsa(): RSAKey {
     val publicKey: RSAPublicKey = keyPair.public as RSAPublicKey
     val privateKey: RSAPrivateKey = keyPair.private as RSAPrivateKey
     return RSAKey.Builder(publicKey)
-                 .privateKey(privateKey)
-                 .keyID(UUID.randomUUID().toString())
-                 .build()
+        .privateKey(privateKey)
+        .keyID(UUID.randomUUID().toString())
+        .build()
 }
 
 fun generateEc(): ECKey {
@@ -53,15 +53,15 @@ fun generateEc(): ECKey {
     val publicKey = keyPair.public as ECPublicKey
     val privateKey = keyPair.private as ECPrivateKey
     return ECKey.Builder(Curve.forECParameterSpec(publicKey.params), publicKey)
-                .privateKey(privateKey)
-                .keyID(UUID.randomUUID().toString())
-                .build()
+        .privateKey(privateKey)
+        .keyID(UUID.randomUUID().toString())
+        .build()
 }
 
 fun generateSecret(): OctetSequenceKey {
     return OctetSequenceKey.Builder(generateSecretKey())
-                           .keyID(UUID.randomUUID().toString())
-                           .build()
+        .keyID(UUID.randomUUID().toString())
+        .build()
 }
 
 fun generateSecretKey(): SecretKey {

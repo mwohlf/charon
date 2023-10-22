@@ -25,7 +25,7 @@ class OAuthProperties(
     val clients: Map<String, ClientEntry> = HashMap(),
 )
 
-class ClientEntry (
+class ClientEntry(
 
     @NestedConfigurationProperty
     val clientAuthenticationMethod: ClientAuthenticationMethodValue,

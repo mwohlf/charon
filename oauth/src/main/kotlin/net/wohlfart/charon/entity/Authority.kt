@@ -1,8 +1,6 @@
 package net.wohlfart.charon.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import jakarta.persistence.*
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.Parameter
@@ -10,8 +8,6 @@ import org.springframework.security.core.GrantedAuthority
 
 
 @Entity
-@JsonDeserialize
-@JsonSerialize
 @Table(name = "user_authority")
 data class Authority(
 
@@ -19,7 +15,7 @@ data class Authority(
     @Column(name = "name", unique = true, nullable = false, length = 64)
     private var identifier: AuthorityIdentifier? = null
 
-): GrantedAuthority {
+) : GrantedAuthority {
 
     @Id
     @GenericGenerator(

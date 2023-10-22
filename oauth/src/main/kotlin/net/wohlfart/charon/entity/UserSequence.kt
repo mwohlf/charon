@@ -24,6 +24,7 @@ class ShortSequenceGenerator : Generator, BeforeExecutionGenerator {
         return EVENTS
     }
 
+    @Suppress("SpellCheckingInspection")
     override fun generate(session: SharedSessionContractImplementor, owner: Any?, currentValue: Any?, eventType: EventType?): String {
         var currentId = session.createNamedSelectionQuery(FETCH_QUERY, Int::class.java).uniqueResult()
         if (currentId == null) {
@@ -44,6 +45,7 @@ class ShortSequenceGenerator : Generator, BeforeExecutionGenerator {
 @Target(AnnotationTarget.FIELD)
 @ValueGenerationType(generatedBy = ShortSequenceGenerator::class)
 annotation class ExternalIdSequence
+
 const val EXTERNAL_ID_SEQUENCE = "external-id-sequence"
 
 
