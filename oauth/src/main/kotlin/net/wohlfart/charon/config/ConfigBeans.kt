@@ -5,6 +5,9 @@ import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
 import mu.KotlinLogging
 import net.wohlfart.charon.OAuthProperties
+import net.wohlfart.charon.entity.AuthoritiesDeserializer
+import net.wohlfart.charon.entity.AuthoritiesSerializer
+import org.hibernate.collection.spi.PersistentBag
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -21,6 +24,8 @@ import org.springframework.web.client.RestTemplate
 import java.time.Duration
 
 private val logger = KotlinLogging.logger {}
+
+
 
 @Configuration(proxyBeanMethods = false)
 class ConfigBeans(
@@ -64,9 +69,12 @@ class ConfigBeans(
             .build()
     }
 
+    // https://www.tabnine.com/code/java/methods/org.hibernate.collection.internal.PersistentBag/wasInitialized
     @Bean // we need to customize for kotlin: https://github.com/FasterXML/jackson-module-kotlin
     fun jackson2ObjectMapperBuilder(): Jackson2ObjectMapperBuilder {
         return Jackson2ObjectMapperBuilder()
             .modulesToInstall(kotlinModule())
+            .serializerByType(PersistentBag::class.java, AuthoritiesSerializer())
+            .deserializerByType(PersistentBag::class.java, AuthoritiesDeserializer())
     }
 }

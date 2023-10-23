@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.jsontype.TypeDeserializer
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer
 import jakarta.persistence.*
@@ -98,8 +100,8 @@ data class AuthUserDetails(
         return true
     }
 
-    // @JsonDeserialize(using = AuthoritiesDeserializer::class)
-    // @JsonSerialize(using = AuthoritiesSerializer::class)
+    @JsonDeserialize(using = AuthoritiesDeserializer::class)
+    @JsonSerialize(using = AuthoritiesSerializer::class)
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return authorities
     }
