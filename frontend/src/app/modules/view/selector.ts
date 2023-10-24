@@ -19,3 +19,8 @@ export const selectNavState = createSelector(
   (state: ViewState) => state.navState,
 );
 
+export const selectBreakpoint = createSelector(
+  selectViewFeature,
+  (state: ViewState) => state.breakpoint,
+);
+

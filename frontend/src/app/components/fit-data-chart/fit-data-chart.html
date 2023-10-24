@@ -1,13 +1,13 @@
 
 <mat-card *ngIf="selectFitnessDataItem$ | async as selectFitnessDataItem;">
     <mat-card-content>
-        <div class="flex-element">
+        <div>
             id: {{selectFitnessDataItem.id}} <br/>
             name: {{selectFitnessDataItem.name}} <br/>
             <br/>
             <br/>
         </div>
-        <div class="flex-element">
+        <div>
             <br/>
             <mat-date-range-input [rangePicker]="picker">
                 <input matStartDate placeholder="Start date" (dateChange)="beginChanged($event)" >

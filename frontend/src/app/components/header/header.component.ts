@@ -11,7 +11,11 @@ import {isAuthenticated, selectUserData} from '../../modules/oauth/selector';
 import {readConfigurationDetailsUsingGET} from '../../modules/config/action';
 import {SIMPLE_CONFIG} from '../../modules/oauth/reducer';
 import {setNavState, toggleMenu} from '../../modules/view/action';
-import {selectNavDrawMode, selectNavState} from '../../modules/view/selector';
+import {
+  selectBreakpoint,
+  selectNavDrawMode,
+  selectNavState,
+} from '../../modules/view/selector';
 import {MatDrawerMode} from '@angular/material/sidenav';
 import {NavState} from '../../modules/view/reducer';
 import {MatIconModule} from '@angular/material/icon';
@@ -20,6 +24,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {AppThemeModule} from '../../app-theme.module';
 import {AsyncPipe, JsonPipe, NgIf} from '@angular/common';
 import {NGXLogger} from 'ngx-logger';
+import {map} from 'rxjs/operators';
 
 @Component({
   imports: [
@@ -41,6 +46,7 @@ export class HeaderComponent implements OnInit {
   navState$: Observable<NavState>;
   navDrawMode$: Observable<MatDrawerMode>;
   userData$: Observable<string>;
+  minimize$: Observable<boolean>;
 
   constructor(
     public store: Store<AppState>,
@@ -50,6 +56,12 @@ export class HeaderComponent implements OnInit {
     this.navState$ = this.store.select(selectNavState);
     this.navDrawMode$ = this.store.select(selectNavDrawMode);
     this.userData$ = this.store.select(selectUserData);
+    this.minimize$ = this.store.select(selectBreakpoint).pipe(
+      map( breakpoint => {
+        logger.info("breakpoint: ", breakpoint);
+        return breakpoint == 'small';
+      })
+    );
   }
 
   ngOnInit(): void {

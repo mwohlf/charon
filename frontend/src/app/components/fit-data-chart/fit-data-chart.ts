@@ -74,6 +74,9 @@ export class FitDataChart implements OnInit, OnDestroy {
   private chartLine: any | undefined = undefined;
   private timeseriesSubscription: Subscription;
 
+  static leftAxisPadding = 25;
+  static bottomAxisPadding = 25;
+
   constructor(
     private store: Store<FitnessState>,
     private logger: NGXLogger,
@@ -99,7 +102,7 @@ export class FitDataChart implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.logger.info('<FitDataChart> ngOnInit called');
-    
+
   }
 
   ngOnDestroy() {
@@ -115,11 +118,15 @@ export class FitDataChart implements OnInit, OnDestroy {
 
     const xScale = d3.scaleLinear<number>()
       .domain([timeseries.beginSec, timeseries.endSec])
-      .range([0, rect.width]);
+      .range([FitDataChart.leftAxisPadding, rect.width]);
+
+    const timeScale = d3.scaleTime<number>()
+      .domain([timeseries.beginSec, timeseries.endSec])
+      .range([FitDataChart.leftAxisPadding, rect.width]);
 
     const yScale = d3.scaleLinear<number>()
       .domain([timeseries.minValue, timeseries.maxValue])
-      .range([rect.height, 0]);
+      .range([rect.height - FitDataChart.bottomAxisPadding, 0]);
 
     this.logger.info('<renderChart> timeseries: ', timeseries);
 
@@ -170,11 +177,15 @@ export class FitDataChart implements OnInit, OnDestroy {
         .attr('opacity', 1)
     })
 
-    const xAxis = d3.axisBottom(xScale);
+    const xAxis = d3.axisBottom(timeScale);
     const yAxis = d3.axisLeft(yScale);
 
     svg.append('g')
-      .call(xAxis)
+       .attr("transform", `translate(0,${rect.height - FitDataChart.bottomAxisPadding})`)      // This controls the vertical position of the Axis
+       .call(xAxis);
+
+    svg.append('g')
+      .attr("transform", `translate(${FitDataChart.leftAxisPadding},0)`)      // This controls the vertical position of the Axis
       .call(yAxis);
 
   } // end render chart

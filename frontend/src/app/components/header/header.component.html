@@ -3,13 +3,11 @@
         <mat-icon *ngIf="(navState$ | async) == 'opened'">close</mat-icon>
         <mat-icon *ngIf="(navState$ | async) == 'closed'">menu</mat-icon>
     </button>
-    <div>
-        testing
-    </div>
     <div style="flex-grow: 2">
-        space
+        <div *ngIf="!(minimize$ | async)">
+            <div *ngIf="(userData$ | async) as userData">user data: {{userData | json }}</div>
+        </div>
     </div>
-    <div *ngIf="(userData$ | async) as userData">user data: {{userData | json }}</div>
     <button mat-icon-button
             aria-label="Refresh"
             matTooltip="Refresh"
