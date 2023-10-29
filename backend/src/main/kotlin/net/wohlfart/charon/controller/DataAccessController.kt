@@ -1,6 +1,7 @@
 package net.wohlfart.charon.controller
 
 import net.wohlfart.charon.api.DataAccessApi
+import net.wohlfart.charon.model.AccessToken
 import net.wohlfart.charon.model.RandomData
 import net.wohlfart.charon.service.FitnessStoreService
 import net.wohlfart.charon.service.OAuthTokenService
@@ -29,7 +30,12 @@ class DataAccessController(
     // Granted Authorities=[SCOPE_openid, SCOPE_profile, SCOPE_offline_access, SCOPE_email]]
     @Secured(value = ["SCOPE_profile"])
     override fun readRandomData(): ResponseEntity<RandomData> {
-        val accessToken = oAuthTokenService.getFitAccessToken(SecurityContextHolder.getContext().authentication) .block()
+        // get the access token
+        val accessToken : AccessToken? = oAuthTokenService
+            .getFitAccessToken(SecurityContextHolder.getContext().authentication)
+            .block()
+
+
         return ResponseEntity.ok(
             RandomData(
                 value = "the token value: ${accessToken?.tokenValue}",
