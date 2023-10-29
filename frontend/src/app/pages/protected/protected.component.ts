@@ -5,15 +5,19 @@ import {MatCardModule} from '@angular/material/card';
 import {AsyncPipe, NgIf} from '@angular/common';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../app-shell.module';
-import {selectRandomData} from '../../modules/data/selector';
+import {
+  selectDataFeature,
+  selectProtectedData,
+} from '../../modules/data/selector';
 import {Observable} from 'rxjs';
-import {RandomData} from 'build/generated';
-import {readRandomDataUsingGET} from '../../modules/data/action';
+import {ProtectedData} from 'build/generated';
+import {readProtectedDataUsingGET} from '../../modules/data/action';
 import {NGXLogger} from 'ngx-logger';
 import {
   FitSourcesGrid,
 } from '../../components/fit-sources-grid/fit-sources-grid';
 import {FitDataChart} from '../../components/fit-data-chart/fit-data-chart';
+import {DataState} from '../../modules/data/reducer';
 
 @Component({
   imports: [
@@ -43,18 +47,18 @@ export class ProtectedComponent implements OnInit {
     },
   };
 
-  randomData$: Observable<RandomData | undefined>;
+  data$: Observable<DataState>;
 
   constructor(
     private store: Store<AppState>,
     private logger: NGXLogger,
   ) {
-    this.randomData$ = this.store.select(selectRandomData);
+    this.data$ = this.store.select(selectDataFeature);
   }
 
   ngOnInit(): void {
     this.logger.info('<ProtectedComponent> trigger dispatch to get data');
-    this.store.dispatch(readRandomDataUsingGET());
+    this.store.dispatch(readProtectedDataUsingGET());
   }
 
 }

@@ -4,10 +4,10 @@ import {dataFeature} from '../../shared/const';
 
 export const selectDataFeature = createFeatureSelector<DataState>(dataFeature);
 
-export const selectRandomData = createSelector(
+export const selectProtectedData = createSelector(
   selectDataFeature,
   (state: DataState) => {
-    return state.randomData;
+    return state.protectedData;
   },
 );
 

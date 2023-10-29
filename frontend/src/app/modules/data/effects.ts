@@ -7,12 +7,12 @@ import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 import {NGXLogger} from 'ngx-logger';
 
 import {
-  readRandomDataUsingGET,
-  readRandomDataUsingGET_failure,
-  readRandomDataUsingGET_success,
+  readProtectedDataUsingGET,
+  readProtectedDataUsingGET_failure,
+  readProtectedDataUsingGET_success,
 } from './action';
 import {showNotification} from '../notification/action';
-import {DataAccessService, RandomData} from 'build/generated';
+import {DataAccessService, ProtectedData} from 'build/generated';
 import {Level, NotificationData} from '../notification/reducer';
 
 @Injectable()
@@ -27,22 +27,22 @@ export class Effects {
 
   // the config loading action
   // noinspection JSUnusedGlobalSymbols
-  readRandomDataUsingGET$: Observable<Action> = createEffect(() => {
+  readProtectedDataUsingGET$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
-      ofType(readRandomDataUsingGET),
+      ofType(readProtectedDataUsingGET),
       tap((action) => {
-        this.logger.info('readRandomDataUsingGET...');
-        this.logger.debug('<readRandomDataUsingGET>', JSON.stringify(action));
+        this.logger.info('readProtectedDataUsingGET...');
+        this.logger.debug('<readProtectedDataUsingGET>', JSON.stringify(action));
       }),
       mergeMap((action: {}) => {
-        return this.dataAccessService.readRandomData().pipe(
-          map((randomData: RandomData) => {
-            return readRandomDataUsingGET_success({
-              payload: randomData,
+        return this.dataAccessService.readProtectedData().pipe(
+          map((protectedData: ProtectedData) => {
+            return readProtectedDataUsingGET_success({
+              payload: protectedData,
             });
           }),
           catchError((error: any) => {
-            return of(readRandomDataUsingGET_failure({
+            return of(readProtectedDataUsingGET_failure({
               payload: {
                 level: Level.Error,
                 title: 'Data missing',
@@ -59,11 +59,11 @@ export class Effects {
 
   // forward as error action...
   // noinspection JSUnusedGlobalSymbols
-  readRandomDataUsingGET_failure$: Observable<Action> = createEffect(() => {
+  readProtectedDataUsingGET_failure$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
-      ofType(readRandomDataUsingGET_failure),
+      ofType(readProtectedDataUsingGET_failure),
       tap((action) => {
-        this.logger.debug('<readRandomDataUsingGET_failure>', JSON.stringify(action));
+        this.logger.debug('<readProtectedDataUsingGET_failure>', JSON.stringify(action));
       }),
       map((action: { payload: NotificationData }) => {
         return showNotification({payload: action.payload});

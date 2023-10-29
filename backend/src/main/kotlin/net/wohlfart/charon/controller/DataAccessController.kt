@@ -2,7 +2,7 @@ package net.wohlfart.charon.controller
 
 import net.wohlfart.charon.api.DataAccessApi
 import net.wohlfart.charon.model.AccessToken
-import net.wohlfart.charon.model.RandomData
+import net.wohlfart.charon.model.ProtectedData
 import net.wohlfart.charon.service.FitnessStoreService
 import net.wohlfart.charon.service.OAuthTokenService
 import org.springframework.http.ResponseEntity
@@ -29,7 +29,7 @@ class DataAccessController(
     // Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=null],
     // Granted Authorities=[SCOPE_openid, SCOPE_profile, SCOPE_offline_access, SCOPE_email]]
     @Secured(value = ["SCOPE_profile"])
-    override fun readRandomData(): ResponseEntity<RandomData> {
+    override fun readProtectedData(): ResponseEntity<ProtectedData> {
         // get the access token
         val accessToken : AccessToken? = oAuthTokenService
             .getFitAccessToken(SecurityContextHolder.getContext().authentication)
@@ -37,7 +37,7 @@ class DataAccessController(
 
 
         return ResponseEntity.ok(
-            RandomData(
+            ProtectedData(
                 value = "the token value: ${accessToken?.tokenValue}",
                 expire = accessToken?.expiredAt ?: OffsetDateTime.now(),
             )

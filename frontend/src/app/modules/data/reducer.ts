@@ -1,5 +1,5 @@
 import {Action, createReducer, on} from '@ngrx/store';
-import {RandomData} from 'build/generated';
+import {ProtectedData} from 'build/generated';
 import * as fromActions from './action';
 import {LoggerHolder} from '../../shared/logger-holder';
 
@@ -7,45 +7,44 @@ import {LoggerHolder} from '../../shared/logger-holder';
 export interface DataState {
   isLoading: boolean;
   isError: boolean;
-  randomData: RandomData | undefined;
+  protectedData: ProtectedData | undefined;
 }
 
 const initialState: DataState = {
   isLoading: false,
   isError: false,
-  randomData: undefined,
+  protectedData: undefined,
 };
 
 const featureReducer = createReducer(
   initialState,
 
-  on(fromActions.readRandomDataUsingGET,
+  on(fromActions.readProtectedDataUsingGET,
     (state: DataState): DataState => {
       return {
         isLoading: true,
         isError: false,
-        randomData: undefined,
+        protectedData: undefined,
       };
     },
   ),
 
-  on(fromActions.readRandomDataUsingGET_success,
+  on(fromActions.readProtectedDataUsingGET_success,
     (state: DataState, {payload: payload}): DataState => {
       return {
         isLoading: false,
         isError: false,
-        randomData: payload,
+        protectedData: payload,
       };
     },
   ),
 
-  on(fromActions.readRandomDataUsingGET_failure,
+  on(fromActions.readProtectedDataUsingGET_failure,
     (state: DataState, {payload: error}): DataState => {
-      LoggerHolder.logger.debug(`<readRandomDataUsingGET_failure> error: ${error}, state: `, JSON.stringify(state));
       return {
         isLoading: false,
         isError: true,
-        randomData: undefined,
+        protectedData: undefined,
       };
     },
   ),

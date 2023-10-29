@@ -1,5 +1,5 @@
 #
-# the AccessToken data type
+# some protected data from the backend
 #
 type: object
 required:

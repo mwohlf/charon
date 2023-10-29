@@ -22,12 +22,12 @@ class AccessTokenController(
 ) : AccessTokenApi {
 
     override fun readAccessToken(@Parameter(description = "id of the user", required = true) @PathVariable("xid") xid: String): ResponseEntity<AccessToken> {
-        logger.info { "returning access token" }
+        logger.info { "<readAccessToken> for xid='${xid}'" }
         authUserDetailsService.findByXid(xid)?.let { authUserDetails ->
             tokenService.findAccessToken(authUserDetails).let { externalTokens ->
                 when (externalTokens.size) {
                     0 -> {
-                        logger.warn { "no token found in backend for xid='${xid}', returning 404 " }
+                        logger.warn { "no token found for xid='${xid}', returning 404 " }
                         return ResponseEntity.notFound().build()
                     }
 
@@ -44,8 +44,8 @@ class AccessTokenController(
                     }
 
                     else -> {
-                        // need to cleanup the database
-                        logger.error { "multiple token found in backend for xid='${xid}', returning 404, found: $externalTokens" }
+                        // need to clean up the database
+                        logger.error { "multiple token found for xid='${xid}', returning 404, found: $externalTokens" }
                         return ResponseEntity.internalServerError().build()
                     }
                 }

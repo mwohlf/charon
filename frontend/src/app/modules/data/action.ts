@@ -1,22 +1,22 @@
 import {createAction, props} from '@ngrx/store';
-import {RandomData} from 'build/generated';
+import {ProtectedData} from 'build/generated';
 import {NotificationData} from '../notification/reducer';
 import {dataFeature} from '../../shared/const';
 
 const GROUP: string = '@app/' + dataFeature;
 
 
-export const readRandomDataUsingGET = createAction(
-  `${GROUP}/readRandomDataUsingGET`,
+export const readProtectedDataUsingGET = createAction(
+  `${GROUP}/readProtectedDataUsingGET`,
 );
 
-export const readRandomDataUsingGET_success = createAction(
-  `${GROUP}/readRandomDataUsingGET_success`,
-  props<{ payload: RandomData }>(),
+export const readProtectedDataUsingGET_success = createAction(
+  `${GROUP}/readProtectedDataUsingGET_success`,
+  props<{ payload: ProtectedData }>(),
 );
 
-export const readRandomDataUsingGET_failure = createAction(
-  `${GROUP}/readRandomDataUsingGET_failure`,
+export const readProtectedDataUsingGET_failure = createAction(
+  `${GROUP}/readProtectedDataUsingGET_failure`,
   props<{ payload: NotificationData }>(),
 );
 

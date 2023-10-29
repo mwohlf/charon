@@ -2,21 +2,17 @@
 
     <br/>
 
-    <mat-card>
+    <mat-card *ngIf="data$ | async as data;">
         <mat-card-content>
-
-                protected content
-
-        </mat-card-content>
-    </mat-card>
-
-    <br/>
-
-    <mat-card *ngIf="randomData$ | async as randomData;">
-        <mat-card-content>
-            <div>
-                value: {{randomData.value}} <br/>
-                value: {{randomData.expire}} <br/>
+            <div *ngIf="data.isLoading">
+                loading...
+            </div>
+            <div *ngIf="data.isError">
+                failed to load data
+            </div>
+            <div *ngIf="!data.isError && !data.isLoading && !!(data.protectedData)">
+                value: {{data.protectedData.value}} <br/>
+                expire: {{data.protectedData.expire}} <br/>
             </div>
         </mat-card-content>
     </mat-card>

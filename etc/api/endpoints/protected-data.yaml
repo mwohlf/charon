@@ -1,7 +1,7 @@
 get:
   tags:
     - dataAccess
-  operationId: readRandomData
+  operationId: readProtectedData
   description: ''
   responses:
     '200':
@@ -9,7 +9,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../model/RandomData.yaml"
+            $ref: "../model/ProtectedData.yaml"
     '405':
       description: Invalid input
 
