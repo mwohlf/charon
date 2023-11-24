@@ -7,6 +7,10 @@ import {
 import {HomeComponent} from '../../pages/home/home.component';
 import {LoggerHolder} from '../../shared/logger-holder';
 import {EventTypes, LogLevel} from 'angular-auth-oidc-client';
+import {produce} from "immer";
+
+// Reducers in NgRx are responsible for handling transitions from one state to the next state in your application.
+// Reducer functions handle these transitions by determining which actions to handle based on the action's type.
 
 
 export const SIMPLE_CONFIG = 'spring-oauth';
@@ -39,13 +43,10 @@ const featureReducer = createReducer(
   initialState,
 
   // login action triggers the workflow
-  on(fromActions.loginAction,
-    (state: OAuthState, {payload: {configId: configId}}): OAuthState => {
-      return {
-        ...state,
-        configId: configId,
-      };
-    },
+  on(fromActions.loginAction,(state: OAuthState, {payload: {configId: configId}}): OAuthState =>
+      produce(state, draft => {
+        draft.configId = configId;
+      }),
   ),
 
   // something coming from the oauth framework e.g. login success, token refresh etc.
@@ -98,7 +99,7 @@ const featureReducer = createReducer(
   on(fromActions.readClientConfigurationListUsingGET_success,
     (state: OAuthState, {payload: payload}): OAuthState => {
       LoggerHolder.logger.trace(`<readClientConfigurationListUsingGET_success> payload: `, JSON.stringify(payload));
-      const baseUrl = payload.baseUrl;
+      const baseUrl: string = payload.baseUrl;
       const openIdConfigurations: Array<OpenIdConfiguration> = payload.clientConfigurationList.map(
         (element: ClientConfiguration) => {
           return {

@@ -14,6 +14,11 @@ concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
 
+env:
+  HPASSWORD : ${{ secrets.HPASSWORD }}
+
+
+
 jobs:
 
   gradle-build:
@@ -36,15 +41,5 @@ jobs:
           gradle-executable: ${{ github.workspace }}/gradlew
           arguments: |
             build jib
-            --no-daemon
-            --scan
-
-      - name: Run gradle build backends
-        id: run-gradle-build-backends
-        uses: gradle/gradle-build-action@v2.3.3
-        with:
-          gradle-executable: ${{ github.workspace }}/gradlew
-          arguments: |
-            build backends
             --no-daemon
             --scan
