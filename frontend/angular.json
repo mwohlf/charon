@@ -112,10 +112,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "charon:build:production"
+              "buildTarget": "charon:build:production"
             },
             "development": {
-              "browserTarget": "charon:build:development",
+              "buildTarget": "charon:build:development",
               "proxyConfig": "src/proxy.conf.json"
             }
           },
@@ -124,7 +124,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "charon:build"
+            "buildTarget": "charon:build"
           }
         },
         "test": {
