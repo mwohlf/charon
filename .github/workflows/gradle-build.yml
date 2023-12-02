@@ -15,7 +15,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  HPASSWORD : ${{ secrets.HPASSWORD }}
   WEBHOOK_URL : ${{ secrets.WEBHOOK_URL }}
   WEBHOOK_SECRET : ${{ secrets.WEBHOOK_SECRET }}
 
@@ -48,8 +47,8 @@ jobs:
 
       - name: Invoke deployment hook
         id: trigger-deployment
-        uses: distributhor/workflow-webhook@v2
+        uses: distributhor/workflow-webhook@v3.0.7
         with:
-          webhook_url: ${{ secrets.WEBHOOK_URL }}
-          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+          webhook_url: ${{ WEBHOOK_URL }}
+          webhook_secret: ${{ WEBHOOK_SECRET }}
           data: '{ "action": "redeploy" }'
