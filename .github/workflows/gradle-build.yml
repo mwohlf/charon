@@ -45,6 +45,18 @@ jobs:
             --no-daemon
             --scan
 
+      # needed for the postgres image
+      - name: Run gradle build backends
+        id: run-gradle-build-backends
+        uses: gradle/gradle-build-action@v2.3.3
+        with:
+          gradle-executable: ${{ github.workspace }}/gradlew
+          arguments: |
+            build backends
+            --no-daemon
+            --scan
+
+      # call the deployment scrip
       - name: Invoke deployment hook
         id: trigger-deployment
         uses: distributhor/workflow-webhook@v3.0.7
@@ -52,3 +64,5 @@ jobs:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
           webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
           data: '{ "action": "redeploy" }'
+          verbose: true
+          max_time: 3
