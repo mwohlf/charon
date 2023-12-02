@@ -49,6 +49,6 @@ jobs:
         id: trigger-deployment
         uses: distributhor/workflow-webhook@v3.0.7
         with:
-          webhook_url: ${{ WEBHOOK_URL }}
-          webhook_secret: ${{ WEBHOOK_SECRET }}
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
           data: '{ "action": "redeploy" }'
