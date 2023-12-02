@@ -247,7 +247,7 @@ input:focus ~ .highlight {
     -webkit-font-smoothing: antialiased;
     text-align: center;
     letter-spacing: 1px;
-    background: transparent url('/img/google_g_icon.png') no-repeat;
+    background: transparent url('/images/google_g_icon.png') no-repeat;
     background-size: contain;
     border-radius: 6px;
     border: 1px #333 solid;
