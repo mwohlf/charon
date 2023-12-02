@@ -43,3 +43,11 @@ jobs:
             build jib
             --no-daemon
             --scan
+
+      - name: Invoke deployment hook
+        id: trigger-deployment
+        uses: distributhor/workflow-webhook@v2
+        with:
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+          data: '{ "action": "redeploy" }'
