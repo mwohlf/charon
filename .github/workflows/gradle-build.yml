@@ -16,6 +16,8 @@ concurrency:
 
 env:
   HPASSWORD : ${{ secrets.HPASSWORD }}
+  WEBHOOK_URL : ${{ secrets.WEBHOOK_URL }}
+  WEBHOOK_SECRET : ${{ secrets.WEBHOOK_SECRET }}
 
 
 
