@@ -1,6 +1,38 @@
 <div>
     <div class="table-container">
 
+        <mat-grid-list cols="13" rowHeight="2em" *ngIf="dataList$ | async as dataList;" >
+
+            <mat-grid-tile [colspan]="4" [rowspan]="1" style="width: 600px;"><span>name</span></mat-grid-tile>
+            <mat-grid-tile [colspan]="4" [rowspan]="1"><span>type</span></mat-grid-tile>
+            <mat-grid-tile [colspan]="4" [rowspan]="1"><span>dataTypeName</span></mat-grid-tile>
+            <mat-grid-tile [colspan]="1" [rowspan]="1" style="max-width: 20px;"></mat-grid-tile>
+
+            <mat-grid-tile [colspan]="12" [rowspan]="1"></mat-grid-tile>
+
+
+            @for (row of dataList; track row.id) {
+                <mat-grid-tile [colspan]="12" [rowspan]="1"><span>{{row.id}}</span></mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="2">
+                    <button mat-icon-button aria-label="View" matTooltip="View" (click)="viewDetails(row.id);">
+                        <mat-icon fontSet="material-icons-outlined" style="margin-left: auto;">
+                            visibility
+                        </mat-icon>
+                    </button>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="4" [rowspan]="1"><span>{{row.name}}</span></mat-grid-tile>
+                <mat-grid-tile [colspan]="4" [rowspan]="1"><span>{{row.type}}</span></mat-grid-tile>
+                <mat-grid-tile [colspan]="4" [rowspan]="1"><span>{{row.dataTypeName}}</span></mat-grid-tile>
+
+                <mat-grid-tile [colspan]="13" [rowspan]="1"></mat-grid-tile>
+            }
+        </mat-grid-list>
+
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
         <mat-table [dataSource]="fitSourcesDataSource">
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

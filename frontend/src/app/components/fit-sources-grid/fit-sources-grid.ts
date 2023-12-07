@@ -15,6 +15,10 @@ import {
 } from '../../modules/fitness/action';
 import {FitnessDataListElement} from 'build/generated';
 import {Router} from '@angular/router';
+import {fitnessDataListElements} from '../../modules/fitness/selector';
+import {map} from 'rxjs/operators';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {Observable} from 'rxjs';
 
 @Component({
   imports: [
@@ -26,6 +30,7 @@ import {Router} from '@angular/router';
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
+    MatGridListModule,
   ],
   selector: 'fit-sources-grid',
   standalone: true,
@@ -40,6 +45,7 @@ import {Router} from '@angular/router';
 export class FitSourcesGrid implements OnInit {
 
   displayedColumns: string[] = ['id', 'name', 'type', 'dataTypeName', 'action'];
+  dataList$: Observable<FitnessDataListElement[]>;
 
   constructor(
     public fitSourcesDataSource: FitSourcesDataSource,
@@ -47,6 +53,10 @@ export class FitSourcesGrid implements OnInit {
     private store: Store<AppState>,
     private logger: NGXLogger,
   ) {
+    this.dataList$ = this.store.select(fitnessDataListElements).pipe(
+      // map undefined to empty array
+      map(e => (e == undefined ? [] : e)),
+    );
   }
 
   ngOnInit(): void {

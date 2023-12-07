@@ -1,6 +1,13 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
+
+mat-grid-tile span {
+    position: absolute;
+    left: 5px;
+}
+
+
 .mat-column-id {
     word-wrap: break-word !important;
     white-space: unset !important;

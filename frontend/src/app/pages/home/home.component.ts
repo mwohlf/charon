@@ -9,6 +9,7 @@ import {PageComponent} from '../../components/page/page.component';
 import {MatCardModule} from '@angular/material/card';
 import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
 import {isAuthenticated, selectUserName} from '../../modules/oauth/selector';
+import {multiply} from 'lodash-es';
 
 @Component({
   imports: [
@@ -52,4 +53,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  protected readonly multiply = multiply;
+
+  protected readonly parseFloat = parseFloat;
 }
