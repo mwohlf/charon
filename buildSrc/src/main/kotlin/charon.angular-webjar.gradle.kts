@@ -23,7 +23,7 @@ webjar {
 
 //////////////////////
 //
-// configure the api generation for a spring-boot application
+// configure the api generation for a typescript-angular application
 // lookup for the api definition is hardcoded to .../etc/api/<module-name>/api-docs.yml
 // some more config at .../etc/api/api-config.json
 openApiGenerate {

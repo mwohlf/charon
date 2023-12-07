@@ -8,8 +8,6 @@ import org.springframework.boot.info.BuildProperties
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.time.OffsetDateTime
-import java.time.ZoneId
 
 
 @RestController
@@ -25,7 +23,7 @@ class ConfigurationDetailsController(
             ConfigurationDetails(
                 name = buildProperties.name,
                 version = buildProperties.version,
-                timestamp = OffsetDateTime.ofInstant(buildProperties.time, ZoneId.systemDefault()),
+                timestamp = buildProperties.time,
                 logging = charonProperties.api.loggingPath,
             )
         )

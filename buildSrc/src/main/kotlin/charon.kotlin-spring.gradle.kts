@@ -135,6 +135,9 @@ openApiGenerate {
     // https://github.com/jayandran-Sampath/openapi-generator/tree/97818d8279c1b94f3961b8b6af01518000cb4656/modules/openapi-generator/src/main/resources/kotlin-spring
     // openapi-generator/modules/openapi-generator/src/main/resources/kotlin-spring/
     // https://github.com/jayandran-Sampath/openapi-generator/tree/feat13578_1
+    // format: date-time will be mapped to Instant
+    typeMappings.put("DateTime", "Instant")
+    importMappings.put("Instant", "java.time.Instant")
 }
 
 

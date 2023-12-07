@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.time.ZoneOffset
 
 private val logger = KotlinLogging.logger {}
 
@@ -37,8 +36,8 @@ class AccessTokenController(
                         return ResponseEntity.ok(
                             AccessToken(
                                 tokenValue = externalToken.value,
-                                issuedAt = externalToken.issuedAt?.atOffset(ZoneOffset.UTC),
-                                expiredAt = externalToken.expiredAt?.atOffset(ZoneOffset.UTC),
+                                issuedAt = externalToken.issuedAt,
+                                expiredAt = externalToken.expiredAt,
                             )
                         )
                     }

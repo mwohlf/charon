@@ -10,7 +10,7 @@ import org.springframework.security.access.annotation.Secured
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.time.OffsetDateTime
+import java.time.Instant
 
 
 // https://developers.google.com/fit/rest/v1/get-started
@@ -39,7 +39,7 @@ class DataAccessController(
         return ResponseEntity.ok(
             ProtectedData(
                 value = "the token value: ${accessToken?.tokenValue}",
-                expire = accessToken?.expiredAt ?: OffsetDateTime.now(),
+                expire = accessToken?.expiredAt ?: Instant.now(),
             )
         )
     }

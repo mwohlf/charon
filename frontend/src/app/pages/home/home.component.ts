@@ -7,7 +7,7 @@ import {selectConfigurationDetails} from '../../modules/config/selector';
 import {PageConfig} from '../page-config';
 import {PageComponent} from '../../components/page/page.component';
 import {MatCardModule} from '@angular/material/card';
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
 import {isAuthenticated, selectUserName} from '../../modules/oauth/selector';
 
 @Component({
@@ -16,6 +16,7 @@ import {isAuthenticated, selectUserName} from '../../modules/oauth/selector';
     MatCardModule,
     NgIf,
     AsyncPipe,
+    DatePipe,
   ],
   standalone: true,
   selector: 'app-home',
@@ -44,6 +45,8 @@ export class HomeComponent implements OnInit {
     this.buildProperties$ = this.store.select(selectConfigurationDetails);
     this.isAuthenticated$ = this.store.select(isAuthenticated);
     this.userName$ = this.store.select(selectUserName);
+
+    // new Date(unixTimestamp * 1000)
   }
 
   ngOnInit(): void {

@@ -5,7 +5,7 @@
             <div *ngIf="buildProperties$ | async as buildProperties; else loadingBuildProperties">
                 name: {{buildProperties["name"]}} <br/>
                 version: {{buildProperties["version"]}} <br/>
-                timestamp: {{buildProperties["timestamp"]}} <br/>
+                timestamp: {{buildProperties["timestamp"] | date:'dd/MM/yyyy' }} <br/>
             </div>
             <ng-template #loadingBuildProperties>
                 Waiting for BuildProperties from backend...
