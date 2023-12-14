@@ -1,17 +1,16 @@
 <div>
     <div class="table-container">
 
-        <mat-grid-list cols="13" rowHeight="2em" *ngIf="dataList$ | async as dataList;" >
-
+        <mat-grid-list gutterSize="0" cols="13" rowHeight="2em" *ngIf="dataList$ | async as dataList;" >
             <mat-grid-tile [colspan]="4" [rowspan]="1" style="width: 600px;"><span>name</span></mat-grid-tile>
             <mat-grid-tile [colspan]="4" [rowspan]="1"><span>type</span></mat-grid-tile>
             <mat-grid-tile [colspan]="4" [rowspan]="1"><span>dataTypeName</span></mat-grid-tile>
             <mat-grid-tile [colspan]="1" [rowspan]="1" style="max-width: 20px;"></mat-grid-tile>
 
-            <mat-grid-tile [colspan]="12" [rowspan]="1"></mat-grid-tile>
-
+            <mat-grid-tile [colspan]="13" [rowspan]="1"></mat-grid-tile>
 
             @for (row of dataList; track row.id) {
+                <div class="list-cell">
                 <mat-grid-tile [colspan]="12" [rowspan]="1"><span>{{row.id}}</span></mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="2">
                     <button mat-icon-button aria-label="View" matTooltip="View" (click)="viewDetails(row.id);">
@@ -24,56 +23,10 @@
                 <mat-grid-tile [colspan]="4" [rowspan]="1"><span>{{row.type}}</span></mat-grid-tile>
                 <mat-grid-tile [colspan]="4" [rowspan]="1"><span>{{row.dataTypeName}}</span></mat-grid-tile>
 
+                </div>
                 <mat-grid-tile [colspan]="13" [rowspan]="1"></mat-grid-tile>
             }
         </mat-grid-list>
-
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-
-        <mat-table [dataSource]="fitSourcesDataSource">
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)"></tr>
-
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef>id</th>
-                <td mat-cell *matCellDef="let row">{{ row.id }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>name</th>
-                <td mat-cell *matCellDef="let row">{{ row.name }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="type">
-                <th mat-header-cell *matHeaderCellDef>type</th>
-                <td mat-cell *matCellDef="let row">{{ row.type }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="dataTypeName">
-                <th mat-header-cell *matHeaderCellDef>dataTypeName</th>
-                <td mat-cell *matCellDef="let row">{{ row.dataTypeName }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let row">
-                    <button mat-icon-button
-                            aria-label="View"
-                            matTooltip="View"
-                            (click)="viewDetails(row.id);">
-                        <mat-icon fontSet="material-icons-outlined"
-                                  style="margin-left: auto;">
-                            visibility
-                        </mat-icon>
-                    </button>
-                </td>
-            </ng-container>
-
-        </mat-table>
 
     </div>
 </div>

@@ -76,3 +76,12 @@ mat-grid-tile span {
 .mat-mdc-table .mat-mdc-row:hover {
     background-color: red;
 }
+
+.list-cell:hover {
+    font-weight: bold;
+    background: red;
+    mat-grid-tile {
+        background: red;
+        border: 0;
+    }
+}
