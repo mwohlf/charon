@@ -122,7 +122,6 @@ class FitnessStoreService(
         val bodyString = fitStoreClientBuilder.build()
             .method(HttpMethod.GET)
             .uri("/$dataSourceId/datasets/$dataSetId")
-            // .uri("/" + URLEncoder.encode(id, "UTF-8"))
             .header(HttpHeaders.AUTHORIZATION, "Bearer ${accessToken.tokenValue}")
             .retrieve()
             .bodyToMono(String::class.java)
@@ -138,7 +137,7 @@ class FitnessStoreService(
 
         logger.info { "found ${points.size()} elements" }
 
-        if (minStartTimeNs == null || maxEndTimeNs == null || dataSourceIdIncoming == null || points == null) {
+        if (minStartTimeNs == null || maxEndTimeNs == null || dataSourceIdIncoming == null) {
             throw ServiceException("Can't find data for $dataSourceId")
         }
 

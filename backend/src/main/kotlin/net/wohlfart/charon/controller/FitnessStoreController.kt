@@ -126,7 +126,7 @@ class FitnessStoreController(
         // "dataStreamId": "raw:com.google.step_count.delta:fitapp.fittofit:FitToFit - step count"
         val predicate = Predicate.And(
             // Predicate.Equals("type", "raw"),
-            Predicate.Matches("dataStreamId", Regex(".*heart.*"))
+            // Predicate.Matches("dataStreamId", Regex(".*heart.*"))
         )
         accessToken?.let { token ->
             return ResponseEntity.ok(fitnessStoreService.readFitnessDataList(token, userId, predicate))

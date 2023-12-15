@@ -29,11 +29,10 @@ logging:
 spring:
 
   datasource:
-    # url: jdbc:postgresql://postgres:5432/oauth
+    driver-class-name: org.postgresql.Driver
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://charon-postgres-svc:5432/oauth}
     username: ${SPRING_DATASOURCE_USER:unconfigured-spring-datasource-user}
     password: ${SPRING_DATASOURCE_PASSWORD:unconfigured-spring-datasource-password}
-    driver-class-name: org.postgresql.Driver
     hikari:
       minimum-idle: 0
       maximum-pool-size: 10
@@ -42,7 +41,7 @@ spring:
       idle-timeout: 300000 #5m
       max-lifetime: 600000 #10m
       initialization-fail-timeout: -1
-      validation-timeout: 1000 #1s
+      £validation-timeout: 1000 #1s
   #
   # doesn't work with the insert scripts:
   sql:

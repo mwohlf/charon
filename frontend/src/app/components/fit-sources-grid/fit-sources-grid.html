@@ -10,7 +10,7 @@
             <mat-grid-tile [colspan]="13" [rowspan]="1"></mat-grid-tile>
 
             @for (row of dataList; track row.id) {
-                <div class="list-cell">
+                <div class="list-cell" (click)="selectRow(row)">
                 <mat-grid-tile [colspan]="12" [rowspan]="1"><span>{{row.id}}</span></mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="2">
                     <button mat-icon-button aria-label="View" matTooltip="View" (click)="viewDetails(row.id);">
@@ -22,9 +22,10 @@
                 <mat-grid-tile [colspan]="4" [rowspan]="1"><span>{{row.name}}</span></mat-grid-tile>
                 <mat-grid-tile [colspan]="4" [rowspan]="1"><span>{{row.type}}</span></mat-grid-tile>
                 <mat-grid-tile [colspan]="4" [rowspan]="1"><span>{{row.dataTypeName}}</span></mat-grid-tile>
-
                 </div>
                 <mat-grid-tile [colspan]="13" [rowspan]="1"></mat-grid-tile>
+            } @empty {
+                <div>loading... </div>
             }
         </mat-grid-list>
 

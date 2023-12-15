@@ -35,9 +35,6 @@ import {Observable} from 'rxjs';
   selector: 'fit-sources-grid',
   standalone: true,
   templateUrl: './fit-sources-grid.html',
-  styleUrls: [
-    './_fit-sources-grid.scss',
-  ],
   providers: [
     FitSourcesDataSource,
   ],

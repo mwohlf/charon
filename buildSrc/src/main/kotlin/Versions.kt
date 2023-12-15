@@ -15,11 +15,11 @@ object Versions {
     // https://mvnrepository.com/artifact/io.github.microutils/kotlin-logging-jvm
     const val KOTLIN_LOGGING_JVM = "3.0.5"
     // https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
-    const val SWAGGER = "2.2.16"
+    const val SWAGGER = "2.2.19"
     // https://mvnrepository.com/artifact/jakarta.annotation/jakarta.annotation-api
     const val JAKARTA_ANNOTATION_API = "2.1.1"
     // https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api
     const val JAVAX_ANNOTATION_API = "1.3.2"
     // https://github.com/FasterXML/jackson-module-kotlin
-    const val JACKSON_MODULE_KOTLIN = "2.15.2"
+    const val JACKSON_MODULE_KOTLIN = "2.16.0"
 }

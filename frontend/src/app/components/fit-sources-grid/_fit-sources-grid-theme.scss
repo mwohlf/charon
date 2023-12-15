@@ -1,0 +1,46 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($config-or-theme) {
+    $color-config: mat.get-color-config($config-or-theme);
+    $background: map.get($color-config, background);
+    $foreground: map.get($color-config, foreground);
+    $primary-palette: map.get($color-config, 'primary');
+
+    mat-grid-list div .list-cell:hover {
+        font-weight: bold;
+        background-color: mat.get-color-from-palette($primary-palette, 100) !important;
+        mat-grid-tile {
+            font-weight: bold;
+            background-color: mat.get-color-from-palette($primary-palette, 100) !important;
+            border: 0;
+        }
+    }
+
+}
+
+@mixin typography($theme) {
+    // Get the typography config from the theme.
+    $typography-config: mat.get-typography-config($theme);
+
+}
+
+@mixin theme($theme) {
+    $color-config: mat.get-color-config($theme);
+    @if $color-config != null {
+        @include color($theme);
+    }
+
+    $typography-config: mat.get-typography-config($theme);
+    @if $typography-config != null {
+        @include typography($theme);
+    }
+}
+
+
+mat-grid-tile span {
+    position: absolute;
+    left: 5px;
+}
+
+
