@@ -63,6 +63,6 @@ jobs:
         with:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
           webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
-          data: '{ "action": "redeploy" }'
+          data: '{ "action": "redeploy_charon" }'
           verbose: true
           max_time: 3
