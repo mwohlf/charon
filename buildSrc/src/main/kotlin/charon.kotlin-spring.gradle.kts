@@ -26,7 +26,8 @@ plugins {
 
 tasks.withType<KotlinCompilationTask<KotlinJvmCompilerOptions>>().configureEach {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
+        jvmTarget.set(JvmTarget.JVM_21)
+        // jvmTarget.set(JvmTarget.JVM_17)
         // allWarningsAsErrors.set(true)
     }
 }
@@ -49,7 +50,8 @@ springBoot {
 jib {
     from {
         // image = "openjdk:17-alpine"
-        image = "eclipse-temurin:17-jre-alpine"
+        // image = "eclipse-temurin:17-jre-alpine"
+        image = "eclipse-temurin:21-jre-jammy"
     }
     to {
         val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
